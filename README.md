@@ -52,7 +52,6 @@ You should be able to access the application in [http://localhost:3000](http://l
 - Diego Martínez Menéndez - UO270457
 - Diego Villa García - UO277188
 - Pedro Zahonero Mangas - UO276840
-- 
 
 ## More information
 You can get more information about the respository in the other README files:
