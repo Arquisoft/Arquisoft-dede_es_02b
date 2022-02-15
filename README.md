@@ -1,4 +1,4 @@
-# dede_0
+# dede_es2b
 
 [![Actions Status](https://github.com/arquisoft/dede_0/workflows/CI%20for%20ASW2122/badge.svg)](https://github.com/arquisoft/dede_0/actions)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=Arquisoft_dede_0&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=Arquisoft_dede_0)
@@ -45,10 +45,13 @@ npm start
 You should be able to access the application in [http://localhost:3000](http://localhost:3000).
 
 ## Team member
-Álex Caso Díaz - UO269855
-Adrián Fernández Alonso - UO264268
-Pedro Zahonero Mangas - UO276840
-Diego Villa García - UO277188
+
+- Adrián Fernández Alonso - UO264268
+- Alberto Fernández Azcoaga - UO179637
+- Álex Caso Díaz - UO269855
+- Diego Martínez Menéndez - UO270457
+- Diego Villa García - UO277188
+- Pedro Zahonero Mangas - UO276840
 
 ## More information
 You can get more information about the respository in the other README files:
