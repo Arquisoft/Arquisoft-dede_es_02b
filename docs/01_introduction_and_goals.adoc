@@ -1,6 +1,13 @@
 [[section-introduction-and-goals]]
 == Introduction and Goals
 
+Dede es una aplicación descentralizada de compra, que almacena los datos de los usuarios que acceden a esta en pods. Estos pods están creados 
+para que no sea el propio sistema el que almacene la información privada de cada cliente, sino que cada cliente tenga su información y de
+permisos para acceder a ella cuando se den permisos.
+
+El principal objetivo de la aplicación es mantener la privacidad de los clientes que quieran realizar compras en nuestra tienda, por lo que en
+los pods previamente explicados, solo se almacenará información imprescindible para cada usuario.
+
 [role="arc42help"]
 ****
 Describes the relevant requirements and the driving forces that software architects and development team must consider. These include
@@ -11,6 +18,13 @@ Describes the relevant requirements and the driving forces that software archite
 ****
 
 === Requirements Overview
+****
+* Los usuarios podrán iniciar sesión en la aplicación antes de acceder a ella.
+* Los usuarios podrán acceder a su perfil privado, donde consultar sus datos y sus pedidos a la tienda.
+* Los usuarios podrán ver todos los productos de la tienda que puedan comprarse.
+* Los usuarios podrán filtrar los productos de la tienda por categorías u origen.
+* Los usuarios podrán comprar productos de la tienda y realizar pedidos.
+****
 
 [role="arc42help"]
 ****
@@ -32,6 +46,15 @@ Keep these excerpts as short as possible. Balance readability of this document w
 
 === Quality Goals
 
+|===
+|Prioridad|Objetivo|Descripción
+| 1 | Privacidad | Al usar la tecnología de SOLID y ser una aplicación descentralizada, cada usuario tendrá su espacio personal, por lo que sus datos no se verán comprometidos.
+| 2 | Usabilidad | La aplicación tiene que ser intuitiva de cara al usuario, para que no sea una mala experiencia el uso de nuestra tienda. Cosas como hacer pedidos o ver los datos personales debe ser accesible.
+| 3 | Funcionalidad | Ya que la aplicación es una tienda, interesa que los clientes estén satisfechos con las funcionalidades que ofrece, no solo para que ellos sigan usando nuestra tienda sino también que la recomienden a otros posibles clientes.
+| 4 | Rendimiento | Una aplicación de tienda no puede tener muchos tiempos de espera entre las diferentes acciones que ofrece, ya que haría que los usuarios dejen de usarla.
+| 5 | Testeabilidad | La aplicación se debe de poder probar usando pruebas unitarias.
+|===
+
 [role="arc42help"]
 ****
 .Contents
@@ -42,7 +65,7 @@ You should know the quality goals of your most important stakeholders, since the
 If you as an architect do not know how the quality of your work will be judged …
 
 .Form
-A table with quality goals and concrete scenarios, ordered by priorities
+A table with quality goals and concrete scenarios, ordered by priorities 
 ****
 
 === Stakeholders
@@ -69,7 +92,8 @@ Table with role names, person names, and their expectations with respect to the 
 
 [options="header",cols="1,2,2"]
 |===
-|Role/Name|Contact|Expectations
-| _<Role-1>_ | _<Contact-1>_ | _<Expectation-1>_
-| _<Role-2>_ | _<Contact-2>_ | _<Expectation-2>_
+|Rol/Nombre|Descripción|Expectativas
+| Equipo de desarrollo | Equipo de desarrollo que hará el proyecto. | Encargados de realizar la aplicación intentando cumplir los requisitos. Es importante la comunicación y el compromiso con el proyecto.
+| Usuarios | Usuarios finales de la aplicación | Usarán nuestra aplicación y poder realizar todas las acciones que se les ha prometido. Además es importante que el funcionamiento de la aplicación sea fluído para que estos usuarios estén contentos.
+| Profesorado | Profesores de la asignatura ASW | Encargados de supervisar el desarrollo de nuesta tienda.
 |===
