@@ -1,17 +1,42 @@
 [[section-technical-risks]]
 == Risks and Technical Debts
 
+.Risks
+|===
+|Risks |Explanation |Solution
 
-[role="arc42help"]
-****
-.Contents
-A list of identified technical risks or technical debts, ordered by priority
+|Use of Solid
+|Almost all team members have never worked with Solid ever before.
+|We must waste some time researching about how to use Solid and use the Solid Forum.
 
-.Motivation
-“Risk management is project management for grown-ups” (Tim Lister, Atlantic Systems Guild.) 
+|Use of React
+|React is a new framework for us, so we must learn how to work with it.
+|Work on understood some of the examples given to us and research on the web.
 
-This should be your motto for systematic detection and evaluation of risks and technical debts in the architecture, which will be needed by management stakeholders (e.g. project managers, product owners) as part of the overall risk analysis and measurement planning.
+|Use of Typescript
+|Our knowledge of JavaScript is not huge and we have not used Typescript before.
+|As the previous, the solution is working on it, researching on the web.
 
-.Form
-List of risks and/or technical debts, probably including suggested measures to minimize, mitigate or avoid risks or reduce technical debts.
-****
+|GitHub
+|Although GitHub is a great tool and it is not our first time using it, some merges and conflicts may be hard to solve.
+|We must be careful when we merge two branches, specially with the master one.
+
+|Group Work
+|Working on group with a big number of members is hard when you don't know each other. This may cause some communication and organization problems.
+|Have as much team meetings as needed.
+
+|Time
+|The course deadlines can be a problem if we do not organize ourselves well as a team. This may mean that we have to take certain technical debts.
+|Good organization and work since the first day.
+
+|===
+
+.Technical Debts
+|===
+|Technical Debts | Explanation
+
+|
+|
+|
+
+|===

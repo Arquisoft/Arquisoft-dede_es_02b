@@ -24,6 +24,7 @@ The requirements will be represented in a tree diagram, __10.1 Quality Tree__, a
 === Quality Scenarios
 
 [%header, cols=3]
+.Quality requirement
 |===
 |Quality requirement
 |Quality scenario
