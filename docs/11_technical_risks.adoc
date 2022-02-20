@@ -3,37 +3,37 @@
 
 .Risks
 |===
-|Risks |Explanation |Solution
+|Riesgo |Explicación |Solución
 
-|Use of Solid
-|Almost all team members have never worked with Solid ever before.
-|We must waste some time researching about how to use Solid and use the Solid Forum.
+|Uso de Solid
+|Casi todos los miembros del equipo nunca antes habiamos trabajado con Solid.
+|Debemos utilizar parte de nuestro tiempo en investigar cómo funciona Solid y utilizar el foro de Solid para resolver nuestras dudas.
 
-|Use of React
-|React is a new framework for us, so we must learn how to work with it.
-|Work on understood some of the examples given to us and research on the web.
+|Uso de React
+|React es un framework nuevo para nosotros, por lo que debemos aprender a trabajar con él.
+|Trabajar en entender algunos de los ejemplos que nos dan e investigar en la web.
 
-|Use of Typescript
-|Our knowledge of JavaScript is not huge and we have not used Typescript before.
-|As the previous, the solution is working on it, researching on the web.
+|Uso de Typescript
+|Nuestro conocimiento de JavaScript es limitado y no hemos usado nunca Typescript.
+|Al igual que los puntos anteriores, la solución es trabajar en ello investigando en la web.
 
-|GitHub
-|Although GitHub is a great tool and it is not our first time using it, some merges and conflicts may be hard to solve.
-|We must be careful when we merge two branches, specially with the master one.
+|Uso de GitHub
+|Aunque GitHub es una gran herramienta y no es la primera vez que la usamos, algunos merges pueden generar conflictos que puedan ser difíciles de resolver.
+|Debemos tener cuidado cuando hagamos un merge de dos ramas, especialmente con master.
 
-|Group Work
-|Working on group with a big number of members is hard when you don't know each other. This may cause some communication and organization problems.
-|Have as much team meetings as needed.
+|Trabajo en equipo
+|Trabajar en un grupo con un gran número de miembros es difícil sobretodo cuando no nos conocemos. Esto puede causar algunos problemas de comunicación y organización.
+|Tener tantas reuniones de equipo como sean necesarias.
 
-|Time
-|The course deadlines can be a problem if we do not organize ourselves well as a team. This may mean that we have to take certain technical debts.
-|Good organization and work since the first day.
+|Tiempo
+|Los plazos del curso pueden ser un problema si no nos organizamos bien como equipo. Esto puede significar que tengamos que asumir ciertas deudas técnicas.
+|Buena organización y trabajar desde el primer día.
 
 |===
 
 .Technical Debts
 |===
-|Technical Debts | Explanation
+|Deuda Técnica | Explicación
 
 |
 |
