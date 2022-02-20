@@ -1,63 +1,62 @@
 [[section-quality-scenarios]]
 == Quality Requirements
 
-
-[role="arc42help"]
-****
-
-.Content
-This section contains all quality requirements as quality tree with scenarios. The most important ones have already been described in section 1.2. (quality goals)
-
-Here you can also capture quality requirements with lesser priority,
-which will not create high risks when they are not fully achieved.
-
-.Motivation
-Since quality requirements will have a lot of influence on architectural
-decisions you should know for every stakeholder what is really important to them,
-concrete and measurable.
-****
+This section extends the point __1.2 Quality Goals__, describing the quality requirements of our application.
+The requirements will be represented in a tree diagram, __10.1 Quality Tree__, and explained in a table, __10.2 Quality Scenarios__. 
 
 === Quality Tree
 
-[role="arc42help"]
-****
-.Content
-The quality tree (as defined in ATAM – Architecture Tradeoff Analysis Method) with quality/evaluation scenarios as leafs.
+[plantuml,calidad,png]
+----
+@startmindmap
 
-.Motivation
-The tree structure with priorities provides an overview for a sometimes large number of quality requirements.
+* Quality Requirements
+** Privacy
+** Security
+** Maintainability
+** Usability
+** Compatibility
+** Availability
+** Portability
 
-.Form
-The quality tree is a high-level overview of the quality goals and requirements:
-
-* tree-like refinement of the term "quality". Use "quality" or "usefulness" as a root
-* a mind map with quality categories as main branches
-
-In any case the tree should include links to the scenarios of the following section.
-****
-
+@endmindmap
+----
 === Quality Scenarios
 
-[role="arc42help"]
-****
-.Contents
-Concretization of (sometimes vague or implicit) quality requirements using (quality) scenarios.
+[%header, cols=3]
+.Quality requirement
+|===
+|Quality requirement
+|Quality scenario
+|Priority
 
-These scenarios describe what should happen when a stimulus arrives at the system.
+|Privacy
+|Users' private data should be protected. For that, our application would only use the necessary data, and in a decentralized way.
+|High
 
-For architects, two kinds of scenarios are important:
+|Usability
+|The users must be able to navigate through our application in a easy way.
+|High
 
-* Usage scenarios (also called application scenarios or use case scenarios) describe the system’s runtime reaction to a certain stimulus. This also includes scenarios that describe the system’s efficiency or performance. Example: The system reacts to a user’s request within one second.
-* Change scenarios describe a modification of the system or of its immediate environment. Example: Additional functionality is implemented or requirements for a quality attribute change.
+|Security
+|The application has to be as secure as possible. User's data should not be lent to a third party.
+|High
 
-.Motivation
-Scenarios make quality requirements concrete and allow to
-more easily measure or decide whether they are fulfilled.
+|Availability
+|Users need to be able to access to the system whenever they want to.
+|Medium-High
 
-Especially when you want to assess your architecture using methods like
-ATAM you need to describe your quality goals (from section 1.2)
-more precisely down to a level of scenarios that can be discussed and evaluated.
+|Maintainability
+|The application code should be written in a way that it can be modified and reused in a easy way. Also, is important that the system's errors can be solved easily.
+|Medium
 
-.Form
-Tabular or free form text.
-****
+|Compatibility
+|Our system should be able to work with the same users' decentralized data that can be used on other applications.
+|Medium
+
+|Portability
+|The application must be correctly deployed regardless of whether it is running on a computer, mobile phone or tablet.
+|Low
+
+|===
+
