@@ -59,16 +59,10 @@ En el mejor de los casos te saldrás con la tuya con ejemplos o firmas sencillas
 
 === Vista general
 
-[role="arc42help"]
-****
-
 image:images/05_diagrama_general.png["Diagrama general"]
-
-****
 
 === Nivel 1
 
-[role="arc42help"]
 ****
 
 image:images/05_diagrama_nivel_1.png["Diagrama nivel 1"]
@@ -86,7 +80,7 @@ Desarrollo de cajas negras del nivel 1:
 |===
 
 ****
-
+****
 === Nivel 2
 
 image:images/05_diagrama_nivel_2.png["Diagrama nivel 2"]
