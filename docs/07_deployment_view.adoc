@@ -6,25 +6,26 @@
 
 [plantuml, deployment_view1, svg]
 ----
-database "SOLID" {
+database "POD SOLID" {
   [Direcciones de usuarios]
 }
 
 node "DeDe" {
   package "WebApp" {
-      [WebApp]
+      [Aplicación Web]
   }
   package "RestApi" {
-      [RestApi]
+      [Rest]
   }
   database "MongoDB" {
       [Productos]
   }
-  [RestApi] <-> [Productos]
+  [Rest] <-> [Productos]
+  [Rest] <-> [Aplicación Web]
 }
 
-Usuario  <-> WebApp
-[WebApp] <-> [Direcciones de usuarios]
+Usuario  <-> [Aplicación Web]
+[Aplicación Web] <-> [Direcciones de usuarios]
 ----
 
 El usuario se conectará a la aplicación web, donde iniciará sesión en su POD (alojado en un servidor de PODs externo) y permitirá a la aplicación acceder a él para obtener la dirección de envío. Los demás datos que no forman parte de la identidad del cliente (productos, compras realizadas) se almacenan en una base de datos MongoDB.
