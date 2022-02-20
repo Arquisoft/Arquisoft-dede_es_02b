@@ -57,150 +57,96 @@ Dado que hay tantas formas de especificar interfaces, ¿por qué no proporcionar
 En el mejor de los casos te saldrás con la tuya con ejemplos o firmas sencillas.
 ****
 
-_**<Diagrama general >**_
-
-Motivación::
-
-_<Explicación de texto>_
-
-
-Bloques de construcción contenidos::
-_<Descripción del bloque de construcción contenido (cajas negras)>_
-
-Interfaces importantes::
-_<Descripción de interfaces importantes>_
+=== Vista general
 
 [role="arc42help"]
 ****
-Inserte sus explicaciones de las cajas negras del nivel 1:
 
-Si usa la forma tabular, solo describirá sus cajas negras con nombre y
-responsabilidad de acuerdo con el siguiente esquema:
+image:images/05_diagrama_general.png["Diagrama general"]
+
+****
+
+=== Nivel 1
+
+[role="arc42help"]
+****
+
+image:images/05_diagrama_nivel_1.png["Diagrama nivel 1"]
+
+Bloques contenidos::
+* Dede: bloque que representa la aplicación.
+
+****
+Desarrollo de cajas negras del nivel 1:
 
 [cols="1,2" options="header"]
 |===
 | **Nombre** | **Responsabilidad**
-| _<black box 1>_ | _<Texto>_
-| _<black box 2>_ | _<Texto>_
+| _Dede_ | _Gestiona toda la aplicación_
 |===
 
-
-
-Si utiliza una lista de descripciones de cuadro negro, debe completar una plantilla de cuadro negro separada para cada bloque de construcción importante.
-Su titular es el nombre de la caja negra.
 ****
-
-
-==== <Name black box 1>
-
-[role="arc42help"]
-****
-Aquí lo describe <black box 1>
-de acuerdo con la siguiente plantilla de caja negra:
-
-* Propósito/Responsabilidad
-* Interfaz(s), cuando no se extraen como párrafos separados. Estas interfaces pueden incluir cualidades y características de rendimiento.
-* (Opcional) Características de calidad/rendimiento de la caja negra, por ejemplo, disponibilidad, comportamiento en tiempo de ejecución, ....
-* (Opcional) ubicación del directorio/archivo
-* (Opcional) Requisitos cumplidos (si necesita trazabilidad a los requisitos).
-* (Opcional) Temas/problemas/riesgos abiertos
-
-****
-
-_<Propósito/Responsabilidad>_
-
-_<Interfaz(es)>_
-
-_<Características de calidad/rendimiento (opcionales)>_
-
-_<(Opcional) Directorio/Ubicación de archivo>_
-
-_<(Opcional) Requisitos cumplidos>_
-
-_<(opcional) Temas abiertos/Problemas/Riesgos>_
-
-
-
-
-==== <Name black box 2>
-
-_<black box template>_
-
-==== <Name black box n>
-
-_<black box template>_
-
-
-==== <Name interface 1>
-
-...
-
-==== <Name interface m>
-
-
 
 === Nivel 2
 
-[role="arc42help"]
+image:images/05_diagrama_nivel_2.png["Diagrama nivel 2"]
+
+==== Dede
 ****
-Aquí puede especificar la estructura interna de (algunos) bloques de construcción del nivel 1 como cajas blancas.
+Desarrollo de cajas negras del nivel 2:
 
-Tiene que decidir qué bloques de construcción de su sistema son lo suficientemente importantes como para justificar una descripción tan detallada.
-Por favor, prefiera la relevancia sobre la exhaustividad. Especifique bloques de construcción importantes, sorprendentes, riesgosos, complejos o volátiles.
-Omita las partes normales, simples, aburridas o estandarizadas de su sistema
+[cols="1,2" options="header"]
+|===
+| **Nombre** | **Responsabilidad**
+| _GUI_ | _Gestionan la comunicación visual con el usuario_
+| _Capa negocio_ | _Trata los datos obtenidos de la GUI_
+| _Persistente_ | _Trata los datos que han de mantenerse en el servidor_
+| _No persistente_ | _Trata los datos que serán utilizados únicamente mientras la sesión esté iniciada_
+|===
+
 ****
-
-==== White Box _<building block 1>_
-
-[role="arc42help"]
-****
-...describe la estructura interna del _ bloque de construcción 1_.
-****
-
-_<white box template>_
-
-==== White Box _<building block 2>_
-
-
-_<white box template>_
-
-...
-
-==== White Box _<building block m>_
-
-
-_<white box template>_
-
-
 
 === Nivel 3
 
-[role="arc42help"]
+image:images/05_diagrama_nivel_3.png["Diagrama nivel 3"]
+
+==== GUI
 ****
-Aquí puede especificar la estructura interna de (algunos) bloques de construcción del nivel 2 como cajas blancas.
+Desarrollo de cajas negras del nivel 3:
 
-Cuando necesite niveles más detallados de su arquitectura, copie esto
-parte de arc42 para niveles adicionales.
+[cols="1,2" options="header"]
+|===
+| **Nombre** | **Responsabilidad**
+| _Login_ | _Muestra al usuario una pantalla para que ingrese sus credenciales_
+| _Perfil_ | _Muestra al usuario una pantalla para que observe sus datos personales y poder editarlos_
+| _Cesta_ | _Muestra al usuario una pantalla para que observe los productos que quiere comprar_
+| _Catálogo_ | _Muestra al usuario una pantalla para que observe los productos que se pueden comprar de la tienda_
+|===
+
 ****
 
-
-==== White Box <_building block x.1_>
-
-[role="arc42help"]
+==== Capa negocio
 ****
-Especifica la estructura interna del _bloque de construcción x.1_.
+Desarrollo de cajas negras del nivel 3:
+
+[cols="1,2" options="header"]
+|===
+| **Nombre** | **Responsabilidad**
+| _Gestor Login_ | _Trata las credenciales introducidas por el usuario_
+| _Gestor Perfil_ | _Trata los datos del usuario para poder ser editados o simplemente observados_
+| _Gestor Cesta_ | _Trata los productos que quiere comprar un usuario durante sesión_
+| _Gestor Catálogo_ | _Trata los productos que están disponibles para ser comprados_
+|===
+
 ****
 
+==== Persistente
+****
+Contiene librerías SOLID.
+****
 
-_<white box template>_
+==== No persistente
+****
+Contiene librerías SOLID.
 
-
-==== White Box <_building block x.2_>
-
-_<white box template>_
-
-
-
-==== White Box <_building block y.1_>
-
-_<white box template>_
+****
