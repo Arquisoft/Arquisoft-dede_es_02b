@@ -24,7 +24,7 @@ Esto le permite comunicarse con su parte interesada en un nivel abstracto sin re
 La vista de bloque de creación es una colección jerárquica de cuadros negros y cuadros blancos.
 (ver figura abajo) y sus descripciones.
 
-images:05_building_blocks-EN.png["Jerarquía de bloques de construcción"]
+image:images/05_building_blocks-EN.png["Jerarquía de bloques de construcción"]
 
 *Nivel 1* es la descripción del cuadro blanco del sistema general junto con el cuadro negro
 descripciones de cuadro de todos los bloques de construcción contenidos.
