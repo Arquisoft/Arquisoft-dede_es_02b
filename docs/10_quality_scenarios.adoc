@@ -1,63 +1,62 @@
 [[section-quality-scenarios]]
-== Quality Requirements
+== Requisitos de calidad
 
+Esta sección amplía el punto __1.2 Objetivos de calidad__, describiendo los requisitos de calidad de nuestra aplicación.
+Los requisitos se representarán en un diagrama de árbol, __10.1 Árbol de calidad__, y se explicarán en una tabla, __10.2 Escenarios de calidad__.
 
-[role="arc42help"]
-****
+=== Árbol de calidad
 
-.Content
-This section contains all quality requirements as quality tree with scenarios. The most important ones have already been described in section 1.2. (quality goals)
+[plantuml,calidad,png]
+----
+@startmindmap
 
-Here you can also capture quality requirements with lesser priority,
-which will not create high risks when they are not fully achieved.
+* Requisitos de calidad
+** Privacidad
+** Securidad
+** Mantenibilidad
+** Usabilidad
+** Compatibilidad
+** Dispinibilidad
+** Portabilidad
 
-.Motivation
-Since quality requirements will have a lot of influence on architectural
-decisions you should know for every stakeholder what is really important to them,
-concrete and measurable.
-****
+@endmindmap
+----
+=== Escenarios de calidad
 
-=== Quality Tree
+[%header, cols=3]
+.Requisitos de calidad
+|===
+|Requisito de calidad
+|Escenario de calidad
+|Prioridad
 
-[role="arc42help"]
-****
-.Content
-The quality tree (as defined in ATAM – Architecture Tradeoff Analysis Method) with quality/evaluation scenarios as leafs.
+|Privacidad
+|Los datos privados de los usuarios deben estar protegidos. Para eso, nuestra aplicación solo usaría los datos necesarios, y de forma descentralizada.
+|Alta
 
-.Motivation
-The tree structure with priorities provides an overview for a sometimes large number of quality requirements.
+|Usabilidad
+|Los usuarios deben poder navegar a través de nuestra aplicación de una manera fácil.
+|High
 
-.Form
-The quality tree is a high-level overview of the quality goals and requirements:
+|Seguridad
+|La aplicación tiene que ser lo más segura posible. Los datos del usuario no deben ser prestados a un tercero.
+|Alta
 
-* tree-like refinement of the term "quality". Use "quality" or "usefulness" as a root
-* a mind map with quality categories as main branches
+|Disponibilidad
+|Los usuarios deben poder acceder al sistema cuando lo deseen.
+|Media-Alta
 
-In any case the tree should include links to the scenarios of the following section.
-****
+|Mantenibilidad
+|El código de la aplicación debe escribirse de manera que pueda modificarse y reutilizarse fácilmente. Además, es importante que los errores del sistema se puedan solucionar fácilmente.
+|Media
 
-=== Quality Scenarios
+|Compatibilidad
+|Nuestro sistema debería poder trabajar con los mismos datos descentralizados de los usuarios que se pueden usar en otras aplicaciones.
+|Media
 
-[role="arc42help"]
-****
-.Contents
-Concretization of (sometimes vague or implicit) quality requirements using (quality) scenarios.
+|Portabilidad
+|La aplicación debe desplegarse correctamente independientemente de si se ejecuta en una computadora, teléfono móvil o tableta.
+|Baja
 
-These scenarios describe what should happen when a stimulus arrives at the system.
+|===
 
-For architects, two kinds of scenarios are important:
-
-* Usage scenarios (also called application scenarios or use case scenarios) describe the system’s runtime reaction to a certain stimulus. This also includes scenarios that describe the system’s efficiency or performance. Example: The system reacts to a user’s request within one second.
-* Change scenarios describe a modification of the system or of its immediate environment. Example: Additional functionality is implemented or requirements for a quality attribute change.
-
-.Motivation
-Scenarios make quality requirements concrete and allow to
-more easily measure or decide whether they are fulfilled.
-
-Especially when you want to assess your architecture using methods like
-ATAM you need to describe your quality goals (from section 1.2)
-more precisely down to a level of scenarios that can be discussed and evaluated.
-
-.Form
-Tabular or free form text.
-****
