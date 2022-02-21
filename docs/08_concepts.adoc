@@ -1,67 +1,51 @@
 [[section-concepts]]
-== Cross-cutting Concepts
+== Conceptos Transversales
+
+=== _<Conceptos de dominio>_
+
+_<*Usuario:* Persona que utilizará la aplicación web. Será necesario guardar sus datos, especialmente 
+la dirección a la que realizar los envíos
+
+*Administrador:* Persona que administrará la web, especialmente el manejo y edición de productos de la tienda.
+
+*Producto:* Elemento básico de la tienda, el usuario podrá navegar por todos los productos de a tienda y elegir
+el que más desee.
+
+*Carro:* Los productos que vaya eligiendo el usuario irán añadiéndose a un carro, donde se agruparán para
+proceder al pago de los mismos.>_
 
 
-[role="arc42help"]
-****
-.Content
-This section describes overall, principal regulations and solution ideas that are
-relevant in multiple parts (= cross-cutting) of your system.
-Such concepts are often related to multiple building blocks.
-They can include many different topics, such as
+=== _<Experiencia de usuario>_
 
-* domain models
-* architecture patterns or design patterns
-* rules for using specific technology
-* principal, often technical decisions of overall decisions
-* implementation rules
-
-.Motivation
-Concepts form the basis for _conceptual integrity_ (consistency, homogeneity)
-of the architecture. Thus, they are an important contribution to achieve inner qualities of your system.
-
-Some of these concepts cannot be assigned to individual building blocks
-(e.g. security or safety). This is the place in the template that we provided for a
-cohesive specification of such concepts.
-
-.Form
-The form can be varied:
-
-* concept papers with any kind of structure
-* cross-cutting model excerpts or scenarios using notations of the architecture views
-* sample implementations, especially for technical concepts
-* reference to typical usage of standard frameworks (e.g. using Hibernate for object/relational mapping)
-
-.Structure
-A potential (but not mandatory) structure for this section could be:
-
-* Domain concepts
-* User Experience concepts (UX)
-* Safety and security concepts
-* Architecture and design patterns
-* "Under-the-hood"
-* development concepts
-* operational concepts
-
-Note: it might be difficult to assign individual concepts to one specific topic
-on this list.
-
-image:08-Crosscutting-Concepts-Structure-EN.png["Possible topics for crosscutting concepts"]
-****
+_<La interfaz de usuario deberá ser intuitiva, limpia y sencilla para facilitar al usuario el uso de la web,
+y que solo se preocupe en buscar los productos que quiera y pagarlos.
+La web estará, en principio, en castellano; ya que la tienda venderá productos dentro de España>_
 
 
-=== Domain model
+=== _<Seguridad>_
 
-image:UmlDiagram.png["Example UML Diagram"]
+_<La seguridad a la hora de almacenar datos privados de usuarios viene dada por el uso de SOLID, que ayuda
+a compartimentarlos y que sean almacenados de forma segura.
+Habrá que estudiar la seguridad de la web, por ejemplo con el uso de https.>_
 
 
+=== _<Arquitectura y patrones de diseño>_
 
-=== _<Concept 2>_
+_<En rprincipio se utilizará un patrón MVC (Modelo Vista Controlador), distinguiendo las capas de negocio
+y lógica de la aplicación; y ayudando especialmente a la hora del desarrollo de la misma.>_
 
-_<explanation>_
 
-...
+=== _<Implementación>_
 
-=== _<Concept n>_
+_<La aplicación web deberá ser persistente, guardanto tanto los datos de los productos como los de los
+usuarios para que se pueda acceder a ellos en cualquier momento. Para ello será clave el uso de SOLID.
+Se contará con un control de acceso, los usuarios deberán estar registrados para poder comprar. Toda la 
+parte visual de la web se hará con el framework REACT.>_
 
-_<explanation>_
+=== _<Conceptos operacionales>_
+
+_<Dos tipos de usuarios conformarán el ecosistema de la aplicación, administradores y usuarios normales
+(clientes). Los administradores podrán gestionar la lista de usuarios, pero especialmente la de productos;
+pudiendo añadir, editar o eliminar productos cuando sea necesario.
+Los clientes no podrán bajo ningún concepto acceder a las funcionalidades de la parte del administrador.>_
+
