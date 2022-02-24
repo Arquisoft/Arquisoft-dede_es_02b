@@ -36,7 +36,7 @@ Los requisitos se representarán en un diagrama de árbol, __10.1 Árbol de cali
 
 |Usabilidad
 |Los usuarios deben poder navegar a través de nuestra aplicación de una manera fácil.
-|High
+|Alta
 
 |Seguridad
 |La aplicación tiene que ser lo más segura posible. Los datos del usuario no deben ser prestados a un tercero.
