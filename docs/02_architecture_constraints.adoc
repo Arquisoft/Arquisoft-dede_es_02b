@@ -8,7 +8,7 @@
 |Uso de Arc42 para la documentación. | Usando la plantilla AsciiDoctor junto al modelo Arc42 para crear la documentación del proyecto.
 |===
 
-== Restricciones de Implementación
+=== Restricciones de Implementación
 [options="header",cols="1,2"]
 |===
 |Restricción  |     Explicación
@@ -16,7 +16,7 @@
 |Separación de datos.       |         Todos los datos de todos los usuarios tienen que estar en un servicio distinto a los datos de la aplicación.
 |===
 
-== Restricciones de Organización
+=== Restricciones de Organización
 [options="header",cols="1,2"]
 |===
 |Restricción            |             Explicación
