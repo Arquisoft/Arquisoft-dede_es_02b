@@ -1,206 +1,146 @@
 [[section-building-block-view]]
 
 
-== Building Block View
+== Vista de bloque de creación
 
 [role="arc42help"]
 ****
-.Content
-The building block view shows the static decomposition of the system into building blocks (modules, components, subsystems, classes,
-interfaces, packages, libraries, frameworks, layers, partitions, tiers, functions, macros, operations,
-datas structures, ...) as well as their dependencies (relationships, associations, ...)
+.Contenido
+La vista de bloques de construcción muestra la descomposición estática del sistema en bloques de construcción (módulos, componentes, subsistemas, clases,
+interfaces, paquetes, bibliotecas, marcos, capas, particiones, niveles, funciones, macros, operaciones,
+estructuras de datos, ...) así como sus dependencias (relaciones, asociaciones, ...)
 
-This view is mandatory for every architecture documentation.
-In analogy to a house this is the _floor plan_.
 
-.Motivation
-Maintain an overview of your source code by making its structure understandable through
-abstraction.
+Esta vista es obligatoria para toda documentación de arquitectura.
+En analogía con una casa, este es el _plano_.
 
-This allows you to communicate with your stakeholder on an abstract level without disclosing implementation details.
+.Motivación
+Mantenga una visión general de su código fuente haciendo que su estructura sea comprensible a través de
+abstracción.
 
-.Form
-The building block view is a hierarchical collection of black boxes and white boxes
-(see figure below) and their descriptions.
+Esto le permite comunicarse con su parte interesada en un nivel abstracto sin revelar detalles de implementación.
 
-image:05_building_blocks-EN.png["Hierarchy of building blocks"]
+.Formulario
+La vista de bloque de creación es una colección jerárquica de cuadros negros y cuadros blancos.
+(ver figura abajo) y sus descripciones.
 
-*Level 1* is the white box description of the overall system together with black
-box descriptions of all contained building blocks.
+image:images/05_building_blocks-EN.png["Jerarquía de bloques de construcción"]
 
-*Level 2* zooms into some building blocks of level 1.
-Thus it contains the white box description of selected building blocks of level 1, together with black box descriptions of their internal building blocks.
+*Nivel 1* es la descripción del cuadro blanco del sistema general junto con el cuadro negro
+descripciones de cuadro de todos los bloques de construcción contenidos.
 
-*Level 3* zooms into selected building blocks of level 2, and so on.
+*Nivel 2* hace zoom en algunos bloques de construcción del nivel 1.
+Por lo tanto, contiene la descripción del cuadro blanco de los bloques de construcción seleccionados del nivel 1, junto con las descripciones del cuadro negro de sus bloques de construcción internos.
+
+*Nivel 3* amplía los bloques de construcción seleccionados del nivel 2, y así sucesivamente.
 ****
 
-=== Whitebox Overall System
+=== Sistema general de caja blanca 
 
 [role="arc42help"]
 ****
-Here you describe the decomposition of the overall system using the following white box template. It contains
+Aquí describe la descomposición del sistema general utilizando la siguiente plantilla de caja blanca. Contiene
 
- * an overview diagram
- * a motivation for the decomposition
- * black box descriptions of the contained building blocks. For these we offer you alternatives:
+ * un diagrama general
+ * una motivación para la descomposición
+ * descripciones de caja negra de los bloques de construcción contenidos. Para estos te ofrecemos alternativas:
 
-   ** use _one_ table for a short and pragmatic overview of all contained building blocks and their interfaces
-   ** use a list of black box descriptions of the building blocks according to the black box template (see below).
-   Depending on your choice of tool this list could be sub-chapters (in text files), sub-pages (in a Wiki) or nested elements (in a modeling tool).
+   ** use la tabla _one_ para obtener una descripción general breve y pragmática de todos los componentes básicos contenidos y sus interfaces
+   ** use una lista de descripciones de caja negra de los bloques de construcción de acuerdo con la plantilla de caja negra (ver más abajo).
+   Dependiendo de la herramienta que elija, esta lista podría ser subcapítulos (en archivos de texto), subpáginas (en un wiki) o elementos anidados (en una herramienta de modelado).
 
 
- * (optional:) important interfaces, that are not explained in the black box templates of a building block, but are very important for understanding the white box.
-Since there are so many ways to specify interfaces why do not provide a specific template for them.
- In the worst case you have to specify and describe syntax, semantics, protocols, error handling,
- restrictions, versions, qualities, necessary compatibilities and many things more.
-In the best case you will get away with examples or simple signatures.
+ * (opcional :) interfaces importantes, que no se explican en las plantillas de cuadro negro de un bloque de construcción, pero son muy importantes para comprender el cuadro blanco.
+Dado que hay tantas formas de especificar interfaces, ¿por qué no proporcionar una plantilla específica para ellas?
+ En el peor de los casos, debe especificar y describir la sintaxis, la semántica, los protocolos, el manejo de errores,
+ restricciones, versiones, calidades, compatibilidades necesarias y muchas cosas más.
+En el mejor de los casos te saldrás con la tuya con ejemplos o firmas sencillas.
+****
+
+=== Vista general
+
+image:images/05_diagrama_general.png["Diagrama general"]
+
+=== Nivel 1
 
 ****
 
-_**<Overview Diagram>**_
+image:images/05_diagrama_nivel_1.png["Diagrama nivel 1"]
 
-Motivation::
+Bloques contenidos::
+* Dede: bloque que representa la aplicación.
 
-_<text explanation>_
-
-
-Contained Building Blocks::
-_<Description of contained building block (black boxes)>_
-
-Important Interfaces::
-_<Description of important interfaces>_
-
-[role="arc42help"]
 ****
-Insert your explanations of black boxes from level 1:
-
-If you use tabular form you will only describe your black boxes with name and
-responsibility according to the following schema:
+Desarrollo de cajas negras del nivel 1:
 
 [cols="1,2" options="header"]
 |===
-| **Name** | **Responsibility**
-| _<black box 1>_ | _<Text>_
-| _<black box 2>_ | _<Text>_
+| **Nombre** | **Responsabilidad**
+| _Dede_ | _Gestiona toda la aplicación_
 |===
 
+****
+****
+=== Nivel 2
 
+image:images/05_diagrama_nivel_2.png["Diagrama nivel 2"]
 
-If you use a list of black box descriptions then you fill in a separate black box template for every important building block .
-Its headline is the name of the black box.
+==== Dede
+****
+Desarrollo de cajas negras del nivel 2:
+
+[cols="1,2" options="header"]
+|===
+| **Nombre** | **Responsabilidad**
+| _GUI_ | _Gestionan la comunicación visual con el usuario_
+| _Capa negocio_ | _Trata los datos obtenidos de la GUI_
+| _Persistente_ | _Trata los datos que han de mantenerse en el servidor_
+| _No persistente_ | _Trata los datos que serán utilizados únicamente mientras la sesión esté iniciada_
+|===
+
 ****
 
+=== Nivel 3
 
-==== <Name black box 1>
+image:images/05_diagrama_nivel_3.png["Diagrama nivel 3"]
 
-[role="arc42help"]
+==== GUI
 ****
-Here you describe <black box 1>
-according the the following black box template:
+Desarrollo de cajas negras del nivel 3:
 
-* Purpose/Responsibility
-* Interface(s), when they are not extracted as separate paragraphs. This interfaces may include qualities and performance characteristics.
-* (Optional) Quality-/Performance characteristics of the black box, e.g.availability, run time behavior, ....
-* (Optional) directory/file location
-* (Optional) Fulfilled requirements (if you need traceability to requirements).
-* (Optional) Open issues/problems/risks
+[cols="1,2" options="header"]
+|===
+| **Nombre** | **Responsabilidad**
+| _Login_ | _Muestra al usuario una pantalla para que ingrese sus credenciales_
+| _Perfil_ | _Muestra al usuario una pantalla para que observe sus datos personales y poder editarlos_
+| _Cesta_ | _Muestra al usuario una pantalla para que observe los productos que quiere comprar_
+| _Catálogo_ | _Muestra al usuario una pantalla para que observe los productos que se pueden comprar de la tienda_
+|===
 
-****
-
-_<Purpose/Responsibility>_
-
-_<Interface(s)>_
-
-_<(Optional) Quality/Performance Characteristics>_
-
-_<(Optional) Directory/File Location>_
-
-_<(Optional) Fulfilled Requirements>_
-
-_<(optional) Open Issues/Problems/Risks>_
-
-
-
-
-==== <Name black box 2>
-
-_<black box template>_
-
-==== <Name black box n>
-
-_<black box template>_
-
-
-==== <Name interface 1>
-
-...
-
-==== <Name interface m>
-
-
-
-=== Level 2
-
-[role="arc42help"]
-****
-Here you can specify the inner structure of (some) building blocks from level 1 as white boxes.
-
-You have to decide which building blocks of your system are important enough to justify such a detailed description.
-Please prefer relevance over completeness. Specify important, surprising, risky, complex or volatile building blocks.
-Leave out normal, simple, boring or standardized parts of your system
 ****
 
-==== White Box _<building block 1>_
-
-[role="arc42help"]
+==== Capa negocio
 ****
-...describes the internal structure of _building block 1_.
-****
+Desarrollo de cajas negras del nivel 3:
 
-_<white box template>_
+[cols="1,2" options="header"]
+|===
+| **Nombre** | **Responsabilidad**
+| _Gestor Login_ | _Trata las credenciales introducidas por el usuario_
+| _Gestor Perfil_ | _Trata los datos del usuario para poder ser editados o simplemente observados_
+| _Gestor Cesta_ | _Trata los productos que quiere comprar un usuario durante sesión_
+| _Gestor Catálogo_ | _Trata los productos que están disponibles para ser comprados_
+|===
 
-==== White Box _<building block 2>_
-
-
-_<white box template>_
-
-...
-
-==== White Box _<building block m>_
-
-
-_<white box template>_
-
-
-
-=== Level 3
-
-[role="arc42help"]
-****
-Here you can specify the inner structure of (some) building blocks from level 2 as white boxes.
-
-When you need more detailed levels of your architecture please copy this
-part of arc42 for additional levels.
 ****
 
-
-==== White Box <_building block x.1_>
-
-[role="arc42help"]
+==== Persistente
 ****
-Specifies the internal structure of _building block x.1_.
+Contiene librerías SOLID.
 ****
 
+==== No persistente
+****
+Contiene librerías SOLID.
 
-_<white box template>_
-
-
-==== White Box <_building block x.2_>
-
-_<white box template>_
-
-
-
-==== White Box <_building block y.1_>
-
-_<white box template>_
+****

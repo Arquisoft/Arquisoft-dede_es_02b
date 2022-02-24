@@ -1,62 +1,62 @@
 [[section-quality-scenarios]]
-== Quality Requirements
+== Requisitos de calidad
 
-This section extends the point __1.2 Quality Goals__, describing the quality requirements of our application.
-The requirements will be represented in a tree diagram, __10.1 Quality Tree__, and explained in a table, __10.2 Quality Scenarios__. 
+Esta sección amplía el punto __1.2 Objetivos de calidad__, describiendo los requisitos de calidad de nuestra aplicación.
+Los requisitos se representarán en un diagrama de árbol, __10.1 Árbol de calidad__, y se explicarán en una tabla, __10.2 Escenarios de calidad__.
 
-=== Quality Tree
+=== Árbol de calidad
 
 [plantuml,calidad,png]
 ----
 @startmindmap
 
-* Quality Requirements
-** Privacy
-** Security
-** Maintainability
-** Usability
-** Compatibility
-** Availability
-** Portability
+* Requisitos de calidad
+** Privacidad
+** Securidad
+** Mantenibilidad
+** Usabilidad
+** Compatibilidad
+** Dispinibilidad
+** Portabilidad
 
 @endmindmap
 ----
-=== Quality Scenarios
+=== Escenarios de calidad
 
 [%header, cols=3]
-.Quality requirement
+.Requisitos de calidad
 |===
-|Quality requirement
-|Quality scenario
-|Priority
+|Requisito de calidad
+|Escenario de calidad
+|Prioridad
 
-|Privacy
-|Users' private data should be protected. For that, our application would only use the necessary data, and in a decentralized way.
+|Privacidad
+|Los datos privados de los usuarios deben estar protegidos. Para eso, nuestra aplicación solo usaría los datos necesarios, y de forma descentralizada.
+|Alta
+
+|Usabilidad
+|Los usuarios deben poder navegar a través de nuestra aplicación de una manera fácil.
 |High
 
-|Usability
-|The users must be able to navigate through our application in a easy way.
-|High
+|Seguridad
+|La aplicación tiene que ser lo más segura posible. Los datos del usuario no deben ser prestados a un tercero.
+|Alta
 
-|Security
-|The application has to be as secure as possible. User's data should not be lent to a third party.
-|High
+|Disponibilidad
+|Los usuarios deben poder acceder al sistema cuando lo deseen.
+|Media-Alta
 
-|Availability
-|Users need to be able to access to the system whenever they want to.
-|Medium-High
+|Mantenibilidad
+|El código de la aplicación debe escribirse de manera que pueda modificarse y reutilizarse fácilmente. Además, es importante que los errores del sistema se puedan solucionar fácilmente.
+|Media
 
-|Maintainability
-|The application code should be written in a way that it can be modified and reused in a easy way. Also, is important that the system's errors can be solved easily.
-|Medium
+|Compatibilidad
+|Nuestro sistema debería poder trabajar con los mismos datos descentralizados de los usuarios que se pueden usar en otras aplicaciones.
+|Media
 
-|Compatibility
-|Our system should be able to work with the same users' decentralized data that can be used on other applications.
-|Medium
-
-|Portability
-|The application must be correctly deployed regardless of whether it is running on a computer, mobile phone or tablet.
-|Low
+|Portabilidad
+|La aplicación debe desplegarse correctamente independientemente de si se ejecuta en una computadora, teléfono móvil o tableta.
+|Baja
 
 |===
 
