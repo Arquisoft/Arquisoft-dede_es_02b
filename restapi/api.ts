@@ -1,5 +1,8 @@
 import express, { Request, Response, Router } from 'express';
 import {check} from 'express-validator';
+import mongoose from 'mongoose';
+
+mongoose.connect("mongodb+srv://admin:Xv66rrHLF5argEOb@dedees2b.e6i7s.mongodb.net/myFirstDatabase?retryWrites=true&w=majority")
 
 const api:Router = express.Router()
 
@@ -47,7 +50,7 @@ api.post(
   async (req: Request, res: Response): Promise<Response> => {
     let name = "Pera";
     let id;
-    if(products.length == 0){
+    if(products.length == 0){ 
      id = 1;
     }else{
       id = products[products.length-1].id+1;
