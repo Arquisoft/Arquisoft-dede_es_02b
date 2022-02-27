@@ -1,6 +1,29 @@
 [[section-architecture-constraints]]
-== Architecture Constraints
+== Restricciones de Software
 
+|===
+|Restricción           |          Explicación
+|Uso de la tecnología SOLID.   |  Debemos crear una aplicación que cuente con un sistema de persistencia descentralizado, por lo que usaremos SOLID.
+|Uso de GIT para el control de versiones.  |  Ya que este será un proyecto incremental en el que trabajaremos varias personas, usaremos Git para el control de versiones.
+|Uso de Arc42 para la documentación. | Usando la plantilla AsciiDoctor junto al modelo Arc42 para crear la documentación del proyecto.
+|===
+
+=== Restricciones de Implementación
+[options="header",cols="1,2"]
+|===
+|Restricción  |     Explicación
+|Descentralización del sistema.  |    Ya que cada usuario de la tienda puede crearse una cuenta para navegar en la tienda, sus datos estarán almacenados en servidores independientes (Pods).
+|Separación de datos.       |         Todos los datos de todos los usuarios tienen que estar en un servicio distinto a los datos de la aplicación.
+|===
+
+=== Restricciones de Organización
+[options="header",cols="1,2"]
+|===
+|Restricción            |             Explicación
+|Documentación de la App incremental. |   Ya que la aplicación puede cambiar durante el desarrollo, la documentación debe de ir incrementando a la vez que esta.
+|Entregar Implementación de manera periódica. | Ya que la aplicación irá añadiendo funcionalidades a lo largo de su desarrollo, debemos comprobar que este software es funcional.
+|Redacción de actas semanales.     |      Todas las semanas se realizará un acta indicando qué se ha hecho desde la última reunión y qué se hará hasta la siguiente.
+|===
 
 [role="arc42help"]
 ****

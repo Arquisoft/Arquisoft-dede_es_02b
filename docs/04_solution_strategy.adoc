@@ -1,24 +1,27 @@
 [[section-solution-strategy]]
-== Solution Strategy
+== Estrategia de solución
 
+=== Tecnologías
+Para el desarrollo de la aplicación se hará uso de las siguientes tecnologías:
+[cols="1,5"]
+|===
+|Tecnología |Objetivo y utilidad
 
-[role="arc42help"]
-****
-.Contents
-A short summary and explanation of the fundamental decisions and solution strategies, that shape the system's architecture. These include
+|https://es.reactjs.org[*React*^]
+|Librería para facilitar la construcción de interfaces de usuario. Además es una de las restricciones del proyecto.
 
-* technology decisions
-* decisions about the top-level decomposition of the system, e.g. usage of an architectural pattern or design pattern
-* decisions on how to achieve key quality goals
-* relevant organizational decisions, e.g. selecting a development process or delegating certain tasks to third parties.
+|https://www.typescriptlang.org[*TypeScript*^]
+|Lenguaje de programación que se usará para el proyecto, y otra de las restricciones. Extiende JavaScript permitiendo tipos estáticos.
 
-.Motivation
-These decisions form the cornerstones for your architecture. They are the basis for many other detailed decisions or implementation rules.
+|https://github.com[*Github*^]
+|Plataforma de desarrollo colaborativo basada en control de versiones Git.
 
-.Form
-Keep the explanation of these key decisions short.
+|https://solidproject.org[*SOLID*^]
+|Especificación que permite a los usuarios guardar sus datos en _pods_ personales de manera descentralizada en lugar de en los servidores de aplicaciones tradicionales. Los clientes podrán guardar su dirección en sus _pods_ y podrán dar permiso a DeDe para acceder a ella.
 
-Motivate what you have decided and why you decided that way,
-based upon your problem statement, the quality goals and key constraints.
-Refer to details in the following sections.
-****
+|https://www.mongodb.com/es[*MongoDB*^]
+|Sistema de bases de datos NoSQL. Nos es especialmente útil dado que permite almacenar datos en ficheros JSON, que facilita su manipulación en React.
+
+|https://nodejs.org/en/[*Node.js*^]
+|Entorno en tiempo de ejecución para la capa de servidor. Permite gestionar las conexiones a la aplicación a partir de eventos.
+|===

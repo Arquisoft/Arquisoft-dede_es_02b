@@ -39,7 +39,7 @@ Alternatively (or additionally) you can use a table.
 The title of the table is the name of your system, the three columns contain the name of the communication partner, the inputs, and the outputs.
 ****
 
-**<Diagram or Table>**
+
 image:Diagrama3.png["Business context diagram"]
 
 [options="header"]
@@ -51,7 +51,6 @@ image:Diagrama3.png["Business context diagram"]
 | Base de datos   | La base de datos recibirá los datos que la app necesité tener almacenado. | La base de datos envía la información a la aplicación cuando este lo necesite
 |===
 
-**<optionally: Explanation of external domain interfaces>**
 
 === Technical Context
 
@@ -68,11 +67,10 @@ E.g. UML deployment diagram describing channels to neighboring systems,
 together with a mapping table showing the relationships between channels and input/output.
 
 ****
-La aplicación sera programada en TypeScript un lenguaje parecido a JavaScript que añade tipos y objetos basados en clases. 
-Además de TypeScript usaremos React que nos ayudará a la programación de la aplicación y haremos uso de Solid 
-que nos permitirá tener una web descentralizada guardando datos en pods.
 
-**<Diagram or Table>**
+DeDe es un sistema descentralizado que sigue la arquitectura SOLID, es decir, cada usuario posee de sus propios datos.
+Cada usuario tendrá vinculado un SOLID pod el cual sirve para guarda sus datos personales, los demás datos son guardados en la base de datos.
+El sistema será escrito en TypeScript con React, una biblioteca que facilitará la programación de la interfaz.
 
 [options="header"]
 |===
@@ -83,6 +81,7 @@ que nos permitirá tener una web descentralizada guardando datos en pods.
 | Pod                  | Unidad de almaceniamiento de datos personales bajo la arquitectura Solid
 |===
 
-**<optionally: Explanation of technical interfaces>**
 
-**<Mapping Input/Output to Channels>**
+
+
+
