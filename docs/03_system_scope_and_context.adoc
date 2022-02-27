@@ -67,6 +67,7 @@ E.g. UML deployment diagram describing channels to neighboring systems,
 together with a mapping table showing the relationships between channels and input/output.
 
 ****
+
 DeDe es un sistema descentralizado que sigue la arquitectura SOLID, es decir, cada usuario posee de sus propios datos.
 Cada usuario tendrá vinculado un SOLID pod el cual sirve para guarda sus datos personales, los demás datos son guardados en la base de datos.
 El sistema será escrito en TypeScript con React, una biblioteca que facilitará la programación de la interfaz.
@@ -79,5 +80,8 @@ El sistema será escrito en TypeScript con React, una biblioteca que facilitará
 | React                | Librería usada para facilitar la programación.
 | Pod                  | Unidad de almaceniamiento de datos personales bajo la arquitectura Solid
 |===
+
+
+
 
 
