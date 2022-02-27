@@ -1,17 +1,45 @@
 [[section-technical-risks]]
 == Risks and Technical Debts
 
+.Risks
+|===
+|Riesgo |Explicación |Solución
 
-[role="arc42help"]
-****
-.Contents
-A list of identified technical risks or technical debts, ordered by priority
+|Uso de Solid
+|Casi todos los miembros del equipo nunca antes habiamos trabajado con Solid.
+|Debemos utilizar parte de nuestro tiempo en investigar cómo funciona Solid y utilizar el foro de Solid para resolver nuestras dudas.
 
-.Motivation
-“Risk management is project management for grown-ups” (Tim Lister, Atlantic Systems Guild.) 
+|Uso de React
+|React es un framework nuevo para nosotros, por lo que debemos aprender a trabajar con él.
+|Trabajar en entender algunos de los ejemplos que nos dan e investigar en la web.
 
-This should be your motto for systematic detection and evaluation of risks and technical debts in the architecture, which will be needed by management stakeholders (e.g. project managers, product owners) as part of the overall risk analysis and measurement planning.
+|Uso de Typescript
+|Nuestro conocimiento de JavaScript es limitado y no hemos usado nunca Typescript.
+|Al igual que los puntos anteriores, la solución es trabajar en ello investigando en la web.
 
-.Form
-List of risks and/or technical debts, probably including suggested measures to minimize, mitigate or avoid risks or reduce technical debts.
-****
+|Uso de GitHub
+|Aunque GitHub es una gran herramienta y no es la primera vez que la usamos, algunos merges pueden generar conflictos que puedan ser difíciles de resolver.
+|Debemos tener cuidado cuando hagamos un merge de dos ramas, especialmente con master.
+
+|Trabajo en equipo
+|Trabajar en un grupo con un gran número de miembros es difícil sobretodo cuando no nos conocemos. Esto puede causar algunos problemas de comunicación y organización.
+|Tener tantas reuniones de equipo como sean necesarias.
+
+|Tiempo
+|Los plazos del curso pueden ser un problema si no nos organizamos bien como equipo. Esto puede significar que tengamos que asumir ciertas deudas técnicas.
+|Buena organización y trabajar desde el primer día.
+
+|===
+
+.Technical Debts
+|===
+|Deuda Técnica | Explicación
+
+|La documentación no se despliega en gh-pages.
+|No se ha conseguido, para la primera versión de la documentación, ser capaces de desplegar la documentación en gh-pages, algo que debe ser arreglado imperativamente.
+
+|Diagramas de tiempo de ejecución no realizados.
+|Los diagramas deberían de haberse realizado para la primera versión de la documentación.
+
+
+|===
