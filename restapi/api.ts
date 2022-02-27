@@ -3,14 +3,20 @@ import {check} from 'express-validator';
 
 const api:Router = express.Router()
 
-interface User {
-    name: string;
-    email: string;
+interface Product {
+  id : number;
+  name: string;
+  quantity: number;
 }
 
+interface User {
+  name: string;
+  email: string;
+}
 //This is not a restapi as it mantains state but it is here for
 //simplicity. A database should be used instead.
 let users: Array<User> = [];
+let products: Array<Product> = [];
 
 api.get(
     "/users/list",
@@ -30,6 +36,33 @@ api.post(
     let user: User = {name:name,email:email}
     users.push(user);
     return res.sendStatus(200);
+  }
+);
+
+api.post(
+  "/products/add",[
+    check('name').isLength({ min: 1 }).trim().escape(),
+    check('quantity').isNumeric()
+  ],
+  async (req: Request, res: Response): Promise<Response> => {
+    let name = "Pera";
+    let id;
+    if(products.length == 0){
+     id = 1;
+    }else{
+      id = products[products.length-1].id+1;
+    }
+    
+    let product: Product = {id:id, name:name, quantity:0}
+    products.push(product);
+    return res.sendStatus(200);
+  }
+);
+
+api.get(
+  "/products/list",
+  async (req: Request, res: Response): Promise<Response> => {
+      return res.status(200).send(products);
   }
 );
 
