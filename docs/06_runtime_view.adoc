@@ -58,3 +58,15 @@ Cliente -> Carrito: Eliminar el producto seleccionado
 note across: Tras hacer esto, la lista del carrito dejará de mostrar dicho producto
 Carrito -> Cliente: Se actualiza el carrito
 ----
+
+=== Inicio de sesión
+
+[plantuml,"Diagrama Inicio de sesión",png]
+----
+actor Cliente
+participant DeDe
+participant SOLID
+Cliente -> DeDe: Inicio de sesión
+DeDe -> SOLID: Autenticacion
+SOLID -> DeDe: Aceptación del inicio de sesión
+----
