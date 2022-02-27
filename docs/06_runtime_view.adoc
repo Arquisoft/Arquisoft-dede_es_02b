@@ -32,7 +32,7 @@ There are many notations for describing scenarios, e.g.
 
 === Añadir producto al carrito
 
-[plantuml,"Sequence diagram",png]
+[plantuml,"Diagrama Añadir producto",png]
 ----
 actor Cliente
 participant Carrito
@@ -48,7 +48,7 @@ Carrito -> Cliente: Visualizar carrito
 
 === Eliminar producto del carrito.
 
-[plantuml,"Sequence diagram",png]
+[plantuml,"Diagrama Eliminar Producto",png]
 ----
 actor Cliente
 participant Carrito
