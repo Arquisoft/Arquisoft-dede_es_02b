@@ -1,4 +1,5 @@
 [[section-runtime-view]]
+=======
 == Runtime View
 
 
@@ -70,3 +71,17 @@ Cliente -> DeDe: Inicio de sesión
 DeDe -> SOLID: Autenticacion
 SOLID -> DeDe: Aceptación del inicio de sesión
 ----
+
+=== Ver pedidos del usuario
+
+[plantuml,"Ver pedidos",png]
+----
+actor Cliente
+participant "Interfaz de Usuario"
+database "POD"
+Cliente -> "Interfaz de Usuario": Ver pedidos
+"Interfaz de Usuario" -> "POD": Obtener pedidos
+"POD" -> "Interfaz de Usuario": Devolver pedidos
+"Interfaz de Usuario" -> "Interfaz de Usuario": Mostrar pedidos
+----
+
