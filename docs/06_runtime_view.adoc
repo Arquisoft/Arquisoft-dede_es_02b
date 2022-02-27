@@ -50,7 +50,19 @@ Alice  --> Pod: Store route
 Alice -> Bob: Another authentication Request
 Alice <-- Bob: another authentication Response
 ----
-=== <Runtime Scenario 2>
+
+=== Eliminar producto del carrito.
+
+[plantuml,"Sequence diagram",png]
+----
+actor Cliente
+participant Carrito
+Cliente -> Carrito: Entrar al carrito
+Carrito -> Cliente: Mostrar carrito
+Cliente -> Carrito: Eliminar el producto seleccionado
+note across: Tras hacer esto, la lista del carrito dejará de mostrar dicho producto
+Carrito -> Cliente: Se actualiza el carrito
+----
 
 === ...
 
