@@ -30,28 +30,57 @@ There are many notations for describing scenarios, e.g.
 
 ****
 
-=== <Runtime Scenario 1>
+=== Añadir producto al carrito
 
-
-* _<insert runtime diagram or textual description of the scenario>_
-* _<insert description of the notable aspects of the interactions between the
-building block instances depicted in this diagram.>_
-
-It is possible to use a sequence diagram:
-
-[plantuml,"Sequence diagram",png]
+[plantuml,"Diagrama Añadir producto",png]
 ----
-actor Alice
-actor Bob
-database Pod as "Bob's Pod"
-Alice -> Bob: Authentication Request
-Bob --> Alice: Authentication Response
-Alice  --> Pod: Store route
-Alice -> Bob: Another authentication Request
-Alice <-- Bob: another authentication Response
+actor Cliente
+participant Carrito
+database MongoDB
+Cliente -> Carrito: Petición de autenticación
+Carrito -> Cliente: Respuesta de autenticación
+Cliente -> Carrito: Añadir productos al carrito
+Carrito -> MongoDB: Guardar productos del cliente
+note across: Tras hacer esto, la lista del carrito tendrá guardado dicho producto
+Cliente -> Carrito: Entrar al carrito
+Carrito -> Cliente: Visualizar carrito
 ----
-=== <Runtime Scenario 2>
 
-=== ...
+=== Eliminar producto del carrito.
 
-=== <Runtime Scenario n>
+[plantuml,"Diagrama Eliminar Producto",png]
+----
+actor Cliente
+participant Carrito
+Cliente -> Carrito: Entrar al carrito
+Carrito -> Cliente: Mostrar carrito
+Cliente -> Carrito: Eliminar el producto seleccionado
+note across: Tras hacer esto, la lista del carrito dejará de mostrar dicho producto
+Carrito -> Cliente: Se actualiza el carrito
+----
+
+=== Inicio de sesión
+
+[plantuml,"Diagrama Inicio de sesión",png]
+----
+actor Cliente
+participant DeDe
+participant SOLID
+Cliente -> DeDe: Inicio de sesión
+DeDe -> SOLID: Autenticacion
+SOLID -> DeDe: Aceptación del inicio de sesión
+----
+
+=== Ver pedidos del usuario
+
+[plantuml,"Ver pedidos",png]
+----
+actor Cliente
+participant "Interfaz de Usuario"
+database "POD"
+Cliente -> "Interfaz de Usuario": Ver pedidos
+"Interfaz de Usuario" -> "POD": Obtener pedidos
+"POD" -> "Interfaz de Usuario": Devolver pedidos
+"Interfaz de Usuario" -> "Interfaz de Usuario": Mostrar pedidos
+----
+

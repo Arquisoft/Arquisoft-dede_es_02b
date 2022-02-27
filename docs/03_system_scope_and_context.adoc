@@ -46,7 +46,7 @@ image:Diagrama3.png["Business context diagram"]
 |===
 | Entidad         | Entrada      | Salida
 | Usuario         | El usuario recibirá como entrada el servicio de la aplicación, la comunicación se establecerá con una web adaptable para distintos dispositivos.   |  El usuario proporcionará la mayor parte de la entrada de la aplicación.
-| Pod del usuario | El pod recibirá información personal del usuario y lo guardará. Esta información le llegará tanto del usuario como de la aplicación | La información le enviará a la aplicación la información requerida.
+| Pod del usuario | El pod recibirá información personal del usuario y lo guardará. Esta información le llegará tanto del usuario como de la aplicación | El pod le enviará a la aplicación la información requerida.
 | App             | La app recibirá información del pod del usuario tomando importancia la localización. | La salida será el servicio de la aplicación y los cambios en la base de datos.
 | Base de datos   | La base de datos recibirá los datos que la app necesité tener almacenado. | La base de datos envía la información a la aplicación cuando este lo necesite
 |===
@@ -67,6 +67,7 @@ E.g. UML deployment diagram describing channels to neighboring systems,
 together with a mapping table showing the relationships between channels and input/output.
 
 ****
+
 DeDe es un sistema descentralizado que sigue la arquitectura SOLID, es decir, cada usuario posee de sus propios datos.
 Cada usuario tendrá vinculado un SOLID pod el cual sirve para guarda sus datos personales, los demás datos son guardados en la base de datos.
 El sistema será escrito en TypeScript con React, una biblioteca que facilitará la programación de la interfaz.
@@ -79,5 +80,8 @@ El sistema será escrito en TypeScript con React, una biblioteca que facilitará
 | React                | Librería usada para facilitar la programación.
 | Pod                  | Unidad de almaceniamiento de datos personales bajo la arquitectura Solid
 |===
+
+
+
 
 
