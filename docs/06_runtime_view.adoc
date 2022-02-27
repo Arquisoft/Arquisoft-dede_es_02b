@@ -84,3 +84,16 @@ Cliente -> "Interfaz de Usuario": Ver pedidos
 "Interfaz de Usuario" -> "Interfaz de Usuario": Mostrar pedidos
 ----
 
+=== Ver ventas realizadas
+
+[plantuml,"Ver ventas realizadas",png]
+----
+actor Administrador
+participant "DeDe"
+database "MongoDB"
+Administrador -> "DeDe": Ver ventas realizadas
+"DeDe" -> "MongoDB": Obtener ventas
+"MongoDB" -> "DeDe": Devolver ventas
+"DeDe" -> "Administrador": Mostrar pedidos
+----
+
