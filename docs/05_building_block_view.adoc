@@ -24,7 +24,7 @@ Esto le permite comunicarse con su parte interesada en un nivel abstracto sin re
 La vista de bloque de creación es una colección jerárquica de cuadros negros y cuadros blancos.
 (ver figura abajo) y sus descripciones.
 
-image:images/05_building_blocks-EN.png["Jerarquía de bloques de construcción"]
+image:05_building_blocks-EN.png["Jerarquía de bloques de construcción"]
 
 *Nivel 1* es la descripción del cuadro blanco del sistema general junto con el cuadro negro
 descripciones de cuadro de todos los bloques de construcción contenidos.
@@ -57,15 +57,12 @@ Dado que hay tantas formas de especificar interfaces, ¿por qué no proporcionar
 En el mejor de los casos te saldrás con la tuya con ejemplos o firmas sencillas.
 ****
 
-=== Vista general
+image:05_diagrama_general.png["Diagrama general"]
 
-image:images/05_diagrama_general.png["Diagrama general"]
 
 === Nivel 1
 
-****
-
-image:images/05_diagrama_nivel_1.png["Diagrama nivel 1"]
+image:05_diagrama_nivel_1.png["Diagrama nivel 1"]
 
 Bloques contenidos::
 * Dede: bloque que representa la aplicación.
@@ -78,12 +75,11 @@ Desarrollo de cajas negras del nivel 1:
 | **Nombre** | **Responsabilidad**
 | _Dede_ | _Gestiona toda la aplicación_
 |===
+****
 
-****
-****
 === Nivel 2
 
-image:images/05_diagrama_nivel_2.png["Diagrama nivel 2"]
+image:05_diagrama_nivel_2.png["Diagrama nivel 2"]
 
 ==== Dede
 ****
@@ -97,12 +93,11 @@ Desarrollo de cajas negras del nivel 2:
 | _Persistente_ | _Trata los datos que han de mantenerse en el servidor_
 | _No persistente_ | _Trata los datos que serán utilizados únicamente mientras la sesión esté iniciada_
 |===
-
 ****
 
 === Nivel 3
 
-image:images/05_diagrama_nivel_3.png["Diagrama nivel 3"]
+image:05_diagrama_nivel_3.png["Diagrama nivel 3"]
 
 ==== GUI
 ****
