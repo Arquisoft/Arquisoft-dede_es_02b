@@ -1,9 +1,9 @@
 [[section-concepts]]
 == Conceptos Transversales
 
-=== _<Conceptos de dominio>_
+=== _Conceptos de dominio_
 
-_<*Usuario:* Persona que utilizará la aplicación web. Será necesario guardar sus datos, especialmente 
+*Usuario:* Persona que utilizará la aplicación web. Será necesario guardar sus datos, especialmente 
 la dirección a la que realizar los envíos
 
 *Administrador:* Persona que administrará la web, especialmente el manejo y edición de productos de la tienda.
@@ -12,40 +12,40 @@ la dirección a la que realizar los envíos
 el que más desee.
 
 *Carro:* Los productos que vaya eligiendo el usuario irán añadiéndose a un carro, donde se agruparán para
-proceder al pago de los mismos.>_
+proceder al pago de los mismos.
 
 
-=== _<Experiencia de usuario>_
+=== _Experiencia de usuario_
 
-_<La interfaz de usuario deberá ser intuitiva, limpia y sencilla para facilitar al usuario el uso de la web,
+La interfaz de usuario deberá ser intuitiva, limpia y sencilla para facilitar al usuario el uso de la web,
 y que solo se preocupe en buscar los productos que quiera y pagarlos.
-La web estará, en principio, en castellano; ya que la tienda venderá productos dentro de España>_
+La web estará, en principio, en castellano; ya que la tienda venderá productos dentro de España
 
 
-=== _<Seguridad>_
+=== _Seguridad_
 
-_<La seguridad a la hora de almacenar datos privados de usuarios viene dada por el uso de SOLID, que ayuda
+La seguridad a la hora de almacenar datos privados de usuarios viene dada por el uso de SOLID, que ayuda
 a compartimentarlos y que sean almacenados de forma segura.
-Habrá que estudiar la seguridad de la web, por ejemplo con el uso de https.>_
+Habrá que estudiar la seguridad de la web, por ejemplo con el uso de https.
 
 
-=== _<Arquitectura y patrones de diseño>_
+=== _Arquitectura y patrones de diseño_
 
-_<En rprincipio se utilizará un patrón MVC (Modelo Vista Controlador), distinguiendo las capas de negocio
-y lógica de la aplicación; y ayudando especialmente a la hora del desarrollo de la misma.>_
+En rprincipio se utilizará un patrón MVC (Modelo Vista Controlador), distinguiendo las capas de negocio
+y lógica de la aplicación; y ayudando especialmente a la hora del desarrollo de la misma.
 
 
-=== _<Implementación>_
+=== _Implementación_
 
-_<La aplicación web deberá ser persistente, guardanto tanto los datos de los productos como los de los
+La aplicación web deberá ser persistente, guardanto tanto los datos de los productos como los de los
 usuarios para que se pueda acceder a ellos en cualquier momento. Para ello será clave el uso de SOLID.
 Se contará con un control de acceso, los usuarios deberán estar registrados para poder comprar. Toda la 
-parte visual de la web se hará con el framework REACT.>_
+parte visual de la web se hará con el framework REACT.
 
-=== _<Conceptos operacionales>_
+=== _Conceptos operacionales_
 
-_<Dos tipos de usuarios conformarán el ecosistema de la aplicación, administradores y usuarios normales
+Dos tipos de usuarios conformarán el ecosistema de la aplicación, administradores y usuarios normales
 (clientes). Los administradores podrán gestionar la lista de usuarios, pero especialmente la de productos;
 pudiendo añadir, editar o eliminar productos cuando sea necesario.
-Los clientes no podrán bajo ningún concepto acceder a las funcionalidades de la parte del administrador.>_
+Los clientes no podrán bajo ningún concepto acceder a las funcionalidades de la parte del administrador.
 
