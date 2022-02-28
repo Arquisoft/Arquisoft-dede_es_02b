@@ -32,7 +32,7 @@ There are many notations for describing scenarios, e.g.
 
 === Añadir producto al carrito
 
-[plantuml,"Sequence diagram",png]
+[plantuml,"Diagrama Añadir producto",png]
 ----
 actor Cliente
 participant Carrito
@@ -48,7 +48,7 @@ Carrito -> Cliente: Visualizar carrito
 
 === Eliminar producto del carrito.
 
-[plantuml,"Sequence diagram",png]
+[plantuml,"Diagrama Eliminar Producto",png]
 ----
 actor Cliente
 participant Carrito
@@ -58,3 +58,47 @@ Cliente -> Carrito: Eliminar el producto seleccionado
 note across: Tras hacer esto, la lista del carrito dejará de mostrar dicho producto
 Carrito -> Cliente: Se actualiza el carrito
 ----
+
+=== Inicio de sesión
+
+[plantuml,"Diagrama Inicio de sesión",png]
+----
+actor Cliente
+participant Frontend
+participant Backend
+Cliente -> Frontend: Introducir credenciales
+Frontend -> Backend: Petición de inicio de sesión
+alt El usuario existe
+    Backend -> Frontend: Devuelve el usuario
+    Frontend -> Cliente: Sesión iniciada
+else El usuario no existe
+    Backend -> Frontend: Error en la autenticación
+end
+----
+
+=== Ver pedidos del usuario
+
+[plantuml,"Ver pedidos",png]
+----
+actor Cliente
+participant "Interfaz de Usuario"
+database "POD"
+Cliente -> "Interfaz de Usuario": Ver pedidos
+"Interfaz de Usuario" -> "POD": Obtener pedidos
+"POD" -> "Interfaz de Usuario": Devolver pedidos
+"Interfaz de Usuario" -> "Interfaz de Usuario": Mostrar pedidos
+----
+
+=== Ver ventas realizadas
+
+[plantuml,"Ver ventas realizadas",png]
+----
+actor Administrador
+participant "DeDe"
+database "MongoDB"
+Administrador -> "DeDe": Ver ventas realizadas
+"DeDe" -> "MongoDB": Obtener ventas
+"MongoDB" -> "DeDe": Devolver ventas
+"DeDe" -> "Administrador": Mostrar pedidos
+----
+
