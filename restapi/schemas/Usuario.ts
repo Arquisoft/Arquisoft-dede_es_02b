@@ -1,10 +1,34 @@
 import mongoose from "mongoose";
+import { validateEmail } from "./validators";
 
 const usuarioSchema = new mongoose.Schema({
-    nombre: String,
-    dni:String,
-    email:String,
-    contraseña:String
+    nombre: {
+        type: String,
+        required: true,
+        lowercase: true,
+    },
+    dni:{
+        type: String,
+        required: true,
+        lowercase: true,
+        minlength: 9,
+        maxlength: 9,
+    },
+    email:{
+        type: String,
+        required: true,
+        lowercase: true,
+        immutable: true,
+        validate: {
+            validator: (v: String) => validateEmail(v),
+            message: (props: { value: any; }) => `${props.value} no es un email válido`,
+        }
+    },
+    contraseña:{
+        type: String,
+        required: true,
+        lowercase: true,
+    }
 })
 
-module.exports = mongoose.model("Usuarios", usuarioSchema)
+export default mongoose.model("Usuarios", usuarioSchema)

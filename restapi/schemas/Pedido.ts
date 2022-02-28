@@ -1,20 +1,49 @@
 import mongoose from "mongoose";
-
-interface Producto{
-    
-}
+import { validateEmail } from "./validators";
 
 const pedidoSchema = new mongoose.Schema({
-    "Numero de pedido": Number,
-    email: String,
+    "Numero de pedido": {
+        type: Number,
+        required: true,
+        immutable: true,
+    },
+    email: {
+        type: String,
+        required: true,
+        lowercase: true,
+        validate: {
+            validator: (v: String) => validateEmail(v),
+            message: (props: { value: any; }) => `${props.value} no es un email válido`,
+        }
+    },
     "lista de productos": [{
         id_producto: mongoose.Types.ObjectId,
-        cantidad: Number,
-        precio: Number
+        cantidad: {
+            type: Number,
+            required: true,
+            min: 0,
+        },
+        precio:  {
+            type: Number,
+            required: true,
+            min: 0,
+        },
     }],
-    "precio total": Number,
-    direccion: String,
-    fecha: Date
+    "precio total": {
+        type: Number,
+        required: true,
+        min: 0,
+    },
+    direccion: {
+        type: String,
+        required: true,
+        lowercase: true,
+    },
+    fecha: {
+        type: Date,
+        immutable: true,
+        default: () => Date.now(),
+    }
 })
 
-module.exports = mongoose.model("Pedidos", pedidoSchema)
+export default mongoose.model("Pedidos", pedidoSchema)

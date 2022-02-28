@@ -1,8 +1,20 @@
 import express, { Request, Response, Router } from 'express';
 import {check} from 'express-validator';
 import mongoose from 'mongoose';
+import Usuario from './schemas/Usuario';
 
-mongoose.connect("mongodb+srv://admin:Xv66rrHLF5argEOb@dedees2b.e6i7s.mongodb.net/myFirstDatabase?retryWrites=true&w=majority")
+mongoose.connect("mongodb+srv://admin:Xv66rrHLF5argEOb@dedees2b.e6i7s.mongodb.net/Dede?retryWrites=true&w=majority").then(() => console.log("BD conectada"))
+
+async function run() {
+  const usuario = await Usuario.create({
+    nombre: "Prueba",
+    dni:"12345678A",
+    email:"prueba",
+    contraseña:"1234", 
+  })     
+}
+
+run()
 
 const api:Router = express.Router()
 
