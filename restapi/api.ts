@@ -1,5 +1,20 @@
 import express, { Request, Response, Router } from 'express';
 import {check} from 'express-validator';
+import mongoose from 'mongoose';
+import Usuario from './schemas/Usuario';
+
+mongoose.connect("mongodb+srv://admin:Xv66rrHLF5argEOb@dedees2b.e6i7s.mongodb.net/Dede?retryWrites=true&w=majority").then(() => console.log("BD conectada"))
+
+async function run() {
+  const usuario = await Usuario.create({
+    nombre: "Prueba",
+    dni:"12345678A",
+    email:"prueba",
+    contraseña:"1234", 
+  })     
+}
+
+run()
 
 const api:Router = express.Router()
 
@@ -47,7 +62,7 @@ api.post(
   async (req: Request, res: Response): Promise<Response> => {
     let name = "Pera";
     let id;
-    if(products.length == 0){
+    if(products.length == 0){ 
      id = 1;
     }else{
       id = products[products.length-1].id+1;
