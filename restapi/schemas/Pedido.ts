@@ -1,23 +1,23 @@
 import mongoose from "mongoose";
-import { validateEmail } from "./validators";
 
 const pedidoSchema = new mongoose.Schema({
     "Numero de pedido": {
         type: Number,
         required: true,
         immutable: true,
+        unique: true,
     },
-    email: {
-        type: String,
+    id_usuario: { //Mejor id de usuario?
+        type: mongoose.Types.ObjectId,
         required: true,
-        lowercase: true,
-        validate: {
-            validator: (v: String) => validateEmail(v),
-            message: (props: { value: any; }) => `${props.value} no es un email válido`,
-        }
+        ref: "Usuario",
     },
     "lista de productos": [{
-        id_producto: mongoose.Types.ObjectId,
+        id_producto:{
+            type: mongoose.Types.ObjectId,
+            required: true,
+            ref: "Producto",
+        } ,
         cantidad: {
             type: Number,
             required: true,

@@ -15,4 +15,4 @@ const productoSchema = new mongoose.Schema({
     descripcion: String
 })
 
-export default mongoose.model("Productos", productoSchema)
+module.exports = mongoose.model("Productos", productoSchema)

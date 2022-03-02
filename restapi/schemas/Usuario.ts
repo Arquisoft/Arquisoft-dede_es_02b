@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { validateEmail } from "./validators";
+import { validateEmail } from "./Validators";
 
 const usuarioSchema = new mongoose.Schema({
     nombre: {
@@ -13,6 +13,7 @@ const usuarioSchema = new mongoose.Schema({
         lowercase: true,
         minlength: 9,
         maxlength: 9,
+        unique: true,
     },
     email:{
         type: String,
@@ -27,7 +28,6 @@ const usuarioSchema = new mongoose.Schema({
     contraseña:{
         type: String,
         required: true,
-        lowercase: true,
     }
 })
 
