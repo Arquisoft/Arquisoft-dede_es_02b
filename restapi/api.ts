@@ -3,6 +3,8 @@ import mongoose from 'mongoose';
 import Usuario from './schemas/Usuario';
 import Producto from './schemas/Producto';
 
+import bcrypt from 'bcrypt';
+
 mongoose.connect("mongodb+srv://admin:Xv66rrHLF5argEOb@dedees2b.e6i7s.mongodb.net/Dede?retryWrites=true&w=majority").then(() => console.log("BD conectada"))
 
 const api:Router = express.Router()
@@ -18,14 +20,20 @@ api.get(
 api.post( 
   "/users/add",
   async (req: Request, res: Response): Promise<Response> => {
-    let usuario = new Usuario();
-    usuario.nombre = req.body.nombre;
-    usuario.email = req.body.email;
-    usuario.dni = req.body.dni;
-    usuario.contraseña = req.body.contraseña;
-    
-    await usuario.save();
-    return res.sendStatus(200); 
+    try{
+      let usuario = new Usuario();
+      usuario.nombre = req.body.nombre;
+      usuario.email = req.body.email;
+      usuario.dni = req.body.dni;
+      
+      const hashedPass = await bcrypt.hash(req.body.contraseña, 10);
+      usuario.contraseña = hashedPass;
+
+      await usuario.save();
+      return res.sendStatus(200); 
+    }catch{
+      return res.sendStatus(500)
+    }
   }
 );
 
