@@ -17,6 +17,29 @@ api.get(
   }
 );
 
+api.post(
+  "/users/login",
+  async (req: Request, res: Response): Promise<Response> =>{
+    let correo = req.body.email.toLowerCase();
+    if(await Usuario.exists({ email: correo})){
+      let user = await Usuario.findOne().where("email").equals(correo.toLowerCase());
+    
+      try{
+        if(await bcrypt.compare(req.body.contraseña, user.contraseña)){
+          return res.status(200).send("Success");
+        }else{
+          return res.status(400).send("Contraseña erronea");
+        }
+      }catch{
+        return res.sendStatus(500);
+      }
+
+    }else{
+      return res.status(400).send("Usuario no encontrado");
+    }
+  }
+);
+
 api.post( 
   "/users/add",
   async (req: Request, res: Response): Promise<Response> => {
