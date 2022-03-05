@@ -36,11 +36,9 @@ There are many notations for describing scenarios, e.g.
 ----
 actor Cliente
 participant Carrito
-database MongoDB
 Cliente -> Carrito: Petición de autenticación
 Carrito -> Cliente: Respuesta de autenticación
 Cliente -> Carrito: Añadir productos al carrito
-Carrito -> MongoDB: Guardar productos del cliente
 note across: Tras hacer esto, la lista del carrito tendrá guardado dicho producto
 Cliente -> Carrito: Entrar al carrito
 Carrito -> Cliente: Visualizar carrito
