@@ -25,7 +25,7 @@ export async function addProduct(product:Product):Promise<boolean>{
   let response = await fetch(apiEndPoint+'/users/add', {
       method: 'POST',
       headers: {'Content-Type':'application/json'},
-      body: JSON.stringify({'name':product.name, 'origin':product.origin, 'descripcion':product.description, 'precio':product.price})
+      body: JSON.stringify({'nombre':product.nombre, 'origen':product.origen, 'descripcion':product.descripcion, 'precio':product.precio})
     });
   if (response.status===200)
     return true;
@@ -33,9 +33,9 @@ export async function addProduct(product:Product):Promise<boolean>{
     return false;
 }
 
-export async function getProducts():Promise<User[]>{
+export async function getProducts():Promise<Product[]>{
   const apiEndPoint= process.env.REACT_APP_API_URI || 'http://localhost:5000/api'
-  let response = await fetch(apiEndPoint+'/users/list');
+  let response = await fetch(apiEndPoint+'/products/list');
   //The objects returned by the api are directly convertible to User objects
   return response.json()
 }
