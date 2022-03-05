@@ -1,35 +1,46 @@
 import * as React from 'react';
 import Card from '@mui/material/Card';
+import CardHeader from '@mui/material/CardHeader';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
+import Link from '@mui/material/Link';
 import { AddShoppingCart} from '@mui/icons-material';
 import accounting from "accounting";
+import {Product} from '../shared/shareddtypes';
+import { idText } from 'typescript';
 
-export default function Product() {
+type ProductProp = {
+  product: Product;
+}
+
+export default function ProductItem(productProp : ProductProp) {
   return (
     <Card sx={{ maxWidth: 345 }}>
       <CardMedia
         component="img"
-        alt="manzanas"
+        alt={productProp.product.nombre}
         height="140"
-        image="https://i.ibb.co/Q8ZznpP/manzanas.jpg"
+        image={productProp.product.foto}
       />
-      <CardContent>
+      <CardContent>   
         <Typography gutterBottom variant="h5" component="div">
-          Manzanas
+        {productProp.product.nombre}
         </Typography>
         <Typography variant="body2" color="text.secondary">
-          Manzanas procedentes del Valle del Ebro
+        {productProp.product.descripcion}
+        </Typography>
+        <Typography variant="body2" color="text.secondary">
+        Origen: {productProp.product.origen}
         </Typography>
       </CardContent>
       <CardActions sx={{flexDirection:"row-reverse"}}>
         <IconButton>
             <AddShoppingCart />
         </IconButton>
-        <Typography sx={{fontSize:20}}> {accounting.formatMoney(3,"€")}</Typography>
+        <Typography sx={{fontSize:20}}> {accounting.formatMoney(productProp.product.precio,"€")}</Typography>
       </CardActions>
     </Card>
   );
