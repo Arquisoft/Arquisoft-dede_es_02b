@@ -6,8 +6,9 @@ export type User = {
 }
 
 export type Product = {
-    name:string;
-    origin:string;
-    price:number;
-    description:string;
+    nombre:string;
+    origen:string;
+    precio:number;
+    descripcion:string;
+    foto:string;
 }

@@ -64,7 +64,7 @@ api.post(
 api.get(
   "/products/list",
   async (req: Request, res: Response): Promise<Response> => {
-      let productos = await Producto.find().select("nombre").select("origen").select("precio").select("descripcion")
+      let productos = await Producto.find().select("nombre").select("origen").select("precio").select("descripcion").select("foto")
       console.log(productos);
       return res.status(200).send(productos)
   }

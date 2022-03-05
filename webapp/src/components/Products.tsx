@@ -11,7 +11,6 @@ type ProductProps = {
 }
 
 export default function Products(props: ProductProps) {
-  console.log(props.products[1]);
   return (
     <Box sx={{ flexGrow: 1, padding: 3 }}>
       <Grid container spacing={3}>

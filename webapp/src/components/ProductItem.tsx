@@ -16,28 +16,31 @@ type ProductProp = {
   product: Product;
 }
 
-export default function ProductItem(product : ProductProp) {
+export default function ProductItem(productProp : ProductProp) {
   return (
     <Card sx={{ maxWidth: 345 }}>
       <CardMedia
         component="img"
-        alt="manzanas"
+        alt={productProp.product.nombre}
         height="140"
-        image="https://i.ibb.co/Q8ZznpP/manzanas.jpg"
+        image={productProp.product.foto}
       />
       <CardContent>   
         <Typography gutterBottom variant="h5" component="div">
-        {product.product.description}
+        {productProp.product.nombre}
         </Typography>
         <Typography variant="body2" color="text.secondary">
-          Manzanas procedentes del Valle del Ebro
+        {productProp.product.descripcion}
+        </Typography>
+        <Typography variant="body2" color="text.secondary">
+        Origen: {productProp.product.origen}
         </Typography>
       </CardContent>
       <CardActions sx={{flexDirection:"row-reverse"}}>
         <IconButton>
             <AddShoppingCart />
         </IconButton>
-        <Typography sx={{fontSize:20}}> {accounting.formatMoney(3,"€")}</Typography>
+        <Typography sx={{fontSize:20}}> {accounting.formatMoney(productProp.product.precio,"€")}</Typography>
       </CardActions>
     </Card>
   );
