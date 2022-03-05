@@ -64,11 +64,16 @@ Carrito -> Cliente: Se actualiza el carrito
 [plantuml,"Diagrama Inicio de sesión",png]
 ----
 actor Cliente
-participant DeDe
-participant SOLID
-Cliente -> DeDe: Inicio de sesión
-DeDe -> SOLID: Autenticacion
-SOLID -> DeDe: Aceptación del inicio de sesión
+participant Frontend
+participant Backend
+Cliente -> Frontend: Introducir credenciales
+Frontend -> Backend: Petición de inicio de sesión
+alt El usuario existe
+    Backend -> Frontend: Devuelve el usuario
+    Frontend -> Cliente: Sesión iniciada
+else El usuario no existe
+    Backend -> Frontend: Error en la autenticación
+end
 ----
 
 === Ver pedidos del usuario
