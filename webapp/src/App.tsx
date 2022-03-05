@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import  {getUsers} from './api/api';
 import {User} from './shared/shareddtypes';
 import './App.css';
-import NavBar from './components/NavBar';
-import Products from './components/Products';
+import HomeNavBar from './components/HomeNavBar';
+import Login from './components/Login';
 
 function App(): JSX.Element {
 
@@ -19,9 +19,8 @@ function App(): JSX.Element {
 
   return (
     <>
-      <NavBar/>
-      <Products/>
-      
+      <HomeNavBar/>
+      <Login/>
     </>
   );
 }
