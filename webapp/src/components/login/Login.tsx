@@ -10,6 +10,9 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import  {login} from '../../api/api';
+import {LoginData} from '../../shared/shareddtypes';
+import { Api } from '@mui/icons-material';
 
 function Copyright(props: any) {
   return (
@@ -21,17 +24,20 @@ function Copyright(props: any) {
   );
 }
 
+type LoggedBool = {
+  logged: boolean;
+}
+
 const theme = createTheme();
 
-export default function SignIn() {
+export default function Login() {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    // eslint-disable-next-line no-console
-    console.log({
-      usuario: data.get('usuario'),
-      contraseña: data.get('contraseña'),
-    });
+    
+    var email = data.get('email');
+    var contraseña = data.get('contraseña');
+
   };
 
   return (
@@ -57,10 +63,10 @@ export default function SignIn() {
               margin="normal"
               required
               fullWidth
-              id="usuario"
-              label="Usuario"
-              name="usuario"
-              autoComplete="usuario"
+              id="email"
+              label="Email"
+              name="email"
+              autoComplete="email"
               autoFocus
             />
             <TextField
@@ -84,7 +90,7 @@ export default function SignIn() {
             <Grid container>
               <Grid item>
                 <Link href="#" variant="body2">
-                  {"Registra un POD"}
+                  {"Registrarse"}
                 </Link>
               </Grid>
             </Grid>
