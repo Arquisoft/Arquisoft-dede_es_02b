@@ -11,6 +11,7 @@ import { AddShoppingCart} from '@mui/icons-material';
 import accounting from "accounting";
 import {Product} from '../shared/shareddtypes';
 import { idText } from 'typescript';
+import { TextField } from '@mui/material';
 
 type ProductProp = {
   product: Product;
@@ -41,6 +42,24 @@ export default function ProductItem(productProp : ProductProp) {
             <AddShoppingCart />
         </IconButton>
         <Typography sx={{fontSize:20}}> {accounting.formatMoney(productProp.product.precio,"€")}</Typography>
+        <TextField
+          id="cantidad-producto"
+          type="number"
+          InputLabelProps={{
+            shrink: true,
+          }}
+          sx={{
+            width:34,
+            paddingRight:1,
+            paddingLeft:1,
+            textAlign:'center'
+          }}
+          inputProps={{min:1,max:10, style:{textAlign:'right'}}}
+          variant="standard"
+          defaultValue={1}
+          
+        />
+        <Typography>Cantidad:</Typography>
       </CardActions>
     </Card>
   );
