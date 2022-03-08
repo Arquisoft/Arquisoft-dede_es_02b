@@ -5,9 +5,15 @@ export type User = {
     dni:string;
 }
 
+export type LoginData = {
+    email: string;
+    password: string;
+}
+
 export type Product = {
-    name:string;
-    description:string;
-    origin:string;
-    price:number;
+    nombre:string;
+    origen:string;
+    precio:number;
+    descripcion:string;
+    foto:string;
 }

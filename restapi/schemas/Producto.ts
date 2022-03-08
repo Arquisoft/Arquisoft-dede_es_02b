@@ -4,15 +4,24 @@ const productoSchema = new mongoose.Schema({
     nombre: {
         type: String,
         required: true,
-        lowercase: true,
     },
-    origen: String,
+    origen:{
+        type: String,
+        required: true,
+    },
     precio: {
         type: Number,
         required: true,
         min: 0,
     },
-    descripcion: String
+    descripcion: {
+        type: String,
+        required: true,
+    }, 
+    foto: {
+        type: String,
+        required: true,
+    },
 })
 
 export default mongoose.model("Productos", productoSchema)

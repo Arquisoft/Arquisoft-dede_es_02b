@@ -4,6 +4,7 @@ import Usuario from './schemas/Usuario';
 import Producto from './schemas/Producto';
 
 import bcrypt from 'bcrypt';
+import { Console } from 'console';
 
 mongoose.connect("mongodb+srv://admin:Xv66rrHLF5argEOb@dedees2b.e6i7s.mongodb.net/Dede?retryWrites=true&w=majority").then(() => console.log("BD conectada"))
 
@@ -63,7 +64,8 @@ api.post(
 api.get(
   "/products/list",
   async (req: Request, res: Response): Promise<Response> => {
-      let productos = await Producto.find().select("nombre").select("origen").select("precio").select("descripcion")
+      let productos = await Producto.find().select("nombre").select("origen").select("precio").select("descripcion").select("foto")
+      console.log(productos);
       return res.status(200).send(productos)
   }
 ); 
