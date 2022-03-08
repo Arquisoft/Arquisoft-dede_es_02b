@@ -4,6 +4,8 @@ import {Product} from './shared/shareddtypes';
 import './App.css';
 import NavBar from './components/NavBar';
 import Products from './components/Products';
+import { Switch, Route, Link } from "react-router-dom";
+import LoginScreen from './components/login/LoginScreen';
 
 function App(): JSX.Element {
 
@@ -19,9 +21,15 @@ function App(): JSX.Element {
 
   return (
     <>
-      <NavBar/>
-      <Products products ={products}/>
-      
+      <Switch>
+        <Route exact path="/">
+          <LoginScreen/>
+        </Route>
+        <Route path="/products"> 
+          <NavBar/>
+          <Products products ={products}/>
+        </Route>
+      </Switch>
     </>
   );
 }

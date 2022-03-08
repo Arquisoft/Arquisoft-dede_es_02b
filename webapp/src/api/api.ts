@@ -1,4 +1,4 @@
-import {User, Product} from '../shared/shareddtypes';
+import {LoginData, User, Product} from '../shared/shareddtypes';
 
 export async function addUser(user:User):Promise<boolean>{
     const apiEndPoint= process.env.REACT_APP_API_URI || 'http://localhost:5000/api'
@@ -38,4 +38,17 @@ export async function getProducts():Promise<Product[]>{
   let response = await fetch(apiEndPoint+'/products/list');
   //The objects returned by the api are directly convertible to User objects
   return response.json()
+}
+
+export async function login(user:LoginData):Promise<boolean>{
+  const apiEndPoint= process.env.REACT_APP_API_URI || 'http://localhost:5000/api'
+  let response = await fetch(apiEndPoint+'/users/login', {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({'email':user.email, 'contraseña':user.password})
+    });
+  if (response.status===200)
+    return true;
+  else
+    return false;
 }
