@@ -1,13 +1,13 @@
 export type User = {
-    name:string;
+    nombre:string;
     email:string;
-    password:string;
+    contraseña:string;
     dni:string;
 }
 
 export type LoginData = {
     email: string;
-    password: string;
+    contraseña: string;
 }
 
 export type Product = {
