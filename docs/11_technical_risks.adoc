@@ -35,11 +35,5 @@
 |===
 |Deuda Técnica | Explicación
 
-|La documentación no se despliega en gh-pages.
-|No se ha conseguido, para la primera versión de la documentación, ser capaces de desplegar la documentación en gh-pages, algo que debe ser arreglado imperativamente.
-
-|Diagramas de tiempo de ejecución no realizados.
-|Los diagramas deberían de haberse realizado para la primera versión de la documentación.
-
 
 |===
