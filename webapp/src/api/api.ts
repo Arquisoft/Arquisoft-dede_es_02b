@@ -5,7 +5,7 @@ export async function addUser(user:User):Promise<boolean>{
     let response = await fetch(apiEndPoint+'/users/add', {
         method: 'POST',
         headers: {'Content-Type':'application/json'},
-        body: JSON.stringify({'name':user.name, 'email':user.email, 'contraseña':user.password, 'dni':user.dni})
+        body: JSON.stringify({'name':user.nombre, 'email':user.email, 'contraseña':user.contraseña, 'dni':user.dni})
       });
     if (response.status===200)
       return true;
@@ -27,9 +27,9 @@ export async function addProduct(product:Product):Promise<boolean>{
       headers: {'Content-Type':'application/json'},
       body: JSON.stringify({'nombre':product.nombre, 'origen':product.origen, 'descripcion':product.descripcion, 'precio':product.precio})
     });
-  if (response.status===200)
+  if (response.status===200){
     return true;
-  else
+  }else
     return false;
 }
 
@@ -45,10 +45,12 @@ export async function login(user:LoginData):Promise<boolean>{
   let response = await fetch(apiEndPoint+'/users/login', {
       method: 'POST',
       headers: {'Content-Type':'application/json'},
-      body: JSON.stringify({'email':user.email, 'contraseña':user.password})
+      body: JSON.stringify({'email':user.email, 'contraseña':user.contraseña})
     });
-  if (response.status===200)
+
+  if (response.status===200){
+    localStorage.setItem("emailUsuario", user.email);
     return true;
-  else
+  }else
     return false;
 }

@@ -12,10 +12,17 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import { ShoppingCart } from '@mui/icons-material';
 import { Badge } from '@mui/material';
+import { Navigate } from 'react-router-dom';
+
+type NavBarProps = {
+  setLogueado: (logueado: boolean) => void;
+  logueado: boolean;
+};
+
 
 const pages = ['Products'];
 
-const NavBar = () => {
+const NavBar = (props: NavBarProps) => {
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
 
@@ -33,6 +40,22 @@ const NavBar = () => {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
+  
+  function logOut(props: NavBarProps): JSX.Element{
+    const logOutUser = () => {
+      localStorage.removeItem("emailUsuario");
+      props.setLogueado(false);
+  };
+
+  if (props.logueado)
+      return (
+        <Typography textAlign="center" onClick={logOutUser}>
+          Log Out
+        </Typography>
+      );
+  else 
+    return <Navigate to="/login" />;
+  }
 
   return (
     <AppBar position="static">
@@ -81,6 +104,7 @@ const NavBar = () => {
                   <Typography textAlign="center">{page}</Typography>
                 </MenuItem>
               ))}
+              <MenuItem key="logout"> {logOut(props)}</MenuItem>
             </Menu>
           </Box>
           <Typography

@@ -14,23 +14,24 @@ api.get(
   
   api.post(
     "/users/login",
-    async (req: Request, res: Response): Promise<Response> =>{
+    async (req: Request, res: Response): Promise<void> =>{
       let correo = req.body.email.toLowerCase();
       if(await Usuario.exists({ email: correo})){
         let user = await Usuario.findOne().where("email").equals(correo.toLowerCase());
-      
+        console.log(user);
         try{
           if(await bcrypt.compare(req.body.contraseña, user.contraseña)){
-            return res.status(200).send("Success");
+            res.json(correo);
+            // res.status(200).send(correo);
           }else{
-            return res.status(400).send("Contraseña erronea");
+           res.status(400).send("Contraseña erronea");
           }
         }catch{
-          return res.sendStatus(500);
+          res.sendStatus(500);
         }
   
       }else{
-        return res.status(400).send("Usuario no encontrado");
+        res.status(400).send("Usuario no encontrado");
       }
     }
   );
