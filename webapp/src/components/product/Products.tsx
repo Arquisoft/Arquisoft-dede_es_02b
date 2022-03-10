@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import  {getProducts} from '../api/api';
-import {Product} from '../shared/shareddtypes';
+import  {getProducts} from '../../api/api';
+import {Product} from '../../shared/shareddtypes';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import ProductComponent from './ProductItem';
