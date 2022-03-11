@@ -9,8 +9,10 @@ import IconButton from '@mui/material/IconButton';
 import Link from '@mui/material/Link';
 import { AddShoppingCart} from '@mui/icons-material';
 import accounting from "accounting";
-import {Product} from '../shared/shareddtypes';
+import {Product} from '../../shared/shareddtypes';
 import { idText } from 'typescript';
+import { TextField } from '@mui/material';
+import { Box } from '@mui/system';
 
 type ProductProp = {
   product: Product;
@@ -36,11 +38,33 @@ export default function ProductItem(productProp : ProductProp) {
         Origen: {productProp.product.origen}
         </Typography>
       </CardContent>
-      <CardActions sx={{flexDirection:"row-reverse"}}>
-        <IconButton>
-            <AddShoppingCart />
-        </IconButton>
-        <Typography sx={{fontSize:20}}> {accounting.formatMoney(productProp.product.precio,"€")}</Typography>
+      <CardActions sx={{flexDirection:"row-reverse", justifyContent:'space-between'}}>
+        <Box sx={{display:'flex', flexDirection:"row-reverse", alignItems:'center'}}>
+          <IconButton>
+              <AddShoppingCart />
+          </IconButton>
+          <Typography sx={{fontSize:20}}> {accounting.formatMoney(productProp.product.precio,"€")}</Typography>
+        </Box>
+        <Box sx={{display:'flex', flexDirection:"row-reverse", alignItems:'center'}}>
+          <TextField
+            id="cantidad-producto"
+            type="number"
+            InputLabelProps={{
+              shrink: true,
+            }}
+            sx={{
+              width:34,
+              paddingRight:1,
+              paddingLeft:1,
+              textAlign:'center'
+            }}
+            inputProps={{min:1,max:10, style:{textAlign:'right'}}}
+            variant="standard"
+            defaultValue={1}
+            
+          />
+          <Typography>Cantidad:</Typography>
+        </Box>
       </CardActions>
     </Card>
   );

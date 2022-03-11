@@ -33,4 +33,7 @@ Potentially more columns in case you need translations.
 | Solid          | SOLID se compone de una serie de principios y de buenas prácticas que os permiten administrar la mayoría de problemas de diseño de software permitiendonos tener un código más limpio, más mantenible, más escalable a futuro y menos propenso a errores.
 | Pod            | Pod es un contenedor, en el que se presenta un conjunto de datos al usuario.
 | MongoDB        | MongoDB es un programa de base de datos NoSQL que en vez de guardar datos en tablas guarda datos en estructuras BSON (similar a JSON).
+| Express | Infraestructura de aplicaciones web para Node.js que nos permite realizar las peticiones en el back end.
+| Mongoose | Biblioteca que nos permite conectar con MongoDB desde Express.
+| bcrypt | Dependencia que nos permite crear para cada contraseña un hash distinto y así encriptarlas de manera segura.
 |===
