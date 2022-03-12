@@ -10,35 +10,23 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import  {login} from '../../api/api';
-import {LoginData} from '../../shared/shareddtypes';
-import { Api } from '@mui/icons-material';
-import Auth from './Auth';
+import  {addUser} from '../../api/api';
 import {useHistory} from 'react-router-dom';
-
-function Copyright(props: any) {
-  return (
-    <Typography variant="body2" color="text.secondary" align="center" {...props}>
-      <Link color="inherit" href="https://github.com/Arquisoft/dede_es2b">
-        Código fuente
-      </Link>
-    </Typography>
-  );
-}
-
+import {User} from '../../shared/shareddtypes';
+import Auth from './Auth';
 
 const theme = createTheme();
 
-export default function Login() {
+export default function Register() {
 
   let history = useHistory();
   
-  const sendLoginInfo = async (loginData: LoginData) => {
-    var correct = await login(loginData);
+  const sendRegisterInfo = async (user: User) => {
+    var correct = await addUser(user);
     
     if(correct){
-      Auth.login();
-      history.push("/products");
+        history.push("/products");
+        Auth.login();
     }
   }
 
@@ -46,12 +34,14 @@ export default function Login() {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     
-    const loginData: LoginData = {
+    const user: User = {
+      name: data.get('nombre') as string,
+      dni: data.get('dni') as string,
       email: data.get('email') as string,
       password: data.get('contraseña') as string
     }
 
-    sendLoginInfo(loginData);
+    sendRegisterInfo(user);
   };
 
   return (
@@ -73,6 +63,24 @@ export default function Login() {
             Inicia sesión
           </Typography>
           <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              id="nombre"
+              label="Nombre"
+              name="nombre"
+              autoFocus
+            />
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              id="dni"
+              label="DNI"
+              name="dni"
+              autoFocus
+            />
             <TextField
               margin="normal"
               required
@@ -101,18 +109,8 @@ export default function Login() {
             >
               Iniciar sesión
             </Button>
-            <Grid container>
-              <Grid item>
-                <Link href="#" variant="body2"
-                  onClick={() => {
-                    history.push("/register");
-                  }}> Registrarse
-                </Link>
-              </Grid>
-            </Grid>
-          </Box>
+            </Box>
         </Box>
-        <Copyright sx={{ mt: 8, mb: 4 }} />
       </Container>
     </ThemeProvider>
   );

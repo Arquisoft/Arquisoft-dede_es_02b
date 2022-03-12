@@ -4,10 +4,12 @@ import {Product} from './shared/shareddtypes';
 import './App.css';
 import NavBar from './components/NavBar';
 import Products from './components/product/Products';
-import { Switch, Route, Link } from "react-router-dom";
+import { Switch, Route, Link, Redirect } from "react-router-dom";
 import LoginScreen from './components/login/LoginScreen';
 import Carrito from './components/carrito/Carrito';
 import Total from './components/carrito/Total';
+import Auth from './components/login/Auth';
+import RegisterScreen from './components/login/RegisterScreen';
 
 function App(): JSX.Element {
 
@@ -24,18 +26,42 @@ function App(): JSX.Element {
   return (
     <>
       <Switch>
-        <Route exact path="/">
-          <LoginScreen/>
-        </Route>
-        <Route path="/products"> 
-          <NavBar/>
-          <Products products ={products}/>
-        </Route>
-        <Route path="/carrito"> 
-          <NavBar/>
-          <Carrito products ={products}/>
-          <Total/>
-        </Route>
+        <Route exact path="/" render={()=>{
+          return Auth.isAuthenticated() ? 
+          <Redirect to="/products"/> 
+          : <Redirect to="/login"/> }
+        }/>
+
+        <Route path="/login" render={()=>{
+          return Auth.isAuthenticated() ? 
+          <Redirect to="/products"/> 
+          : <LoginScreen/>}
+        }/>
+
+        <Route path="/register" render={()=>{
+          return Auth.isAuthenticated() ? 
+          <Redirect to="/products"/> 
+          : <RegisterScreen/>}
+        }/>
+
+        <Route path="/products" render={()=>{
+          return Auth.isAuthenticated() ? 
+          <> 
+            <NavBar/>
+            <Products products ={products}/>
+          </>
+          : <Redirect to="/login"/>}
+        }/>
+        
+        <Route path="/carrito" render={()=>{
+          return Auth.isAuthenticated() ? 
+          <> 
+            <NavBar/>
+            <Carrito products ={products}/>
+            <Total/>
+          </>
+          : <Redirect to="/login"/>}
+        }/>
       </Switch>
     </>
   );
