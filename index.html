@@ -479,8 +479,9 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_añadir_producto_al_carrito">6.1. Añadir producto al carrito</a></li>
 <li><a href="#_eliminar_producto_del_carrito">6.2. Eliminar producto del carrito.</a></li>
 <li><a href="#_inicio_de_sesión">6.3. Inicio de sesión</a></li>
-<li><a href="#_ver_pedidos_del_usuario">6.4. Ver pedidos del usuario</a></li>
-<li><a href="#_ver_ventas_realizadas">6.5. Ver ventas realizadas</a></li>
+<li><a href="#_registrarse_en_el_sistema">6.4. Registrarse en el sistema</a></li>
+<li><a href="#_ver_pedidos_del_usuario">6.5. Ver pedidos del usuario</a></li>
+<li><a href="#_ver_ventas_realizadas">6.6. Ver ventas realizadas</a></li>
 </ul>
 </li>
 <li><a href="#section-deployment-view">7. Vista de despliegue</a></li>
@@ -1067,87 +1068,8 @@ El sistema será escrito en TypeScript con React, una biblioteca que facilitará
 <div class="sect1">
 <h2 id="section-building-block-view">5. Vista de bloque de creación</h2>
 <div class="sectionbody">
-<div class="sidebarblock arc42help">
-<div class="content">
-<div class="paragraph">
-<div class="title">Contenido</div>
-<p>La vista de bloques de construcción muestra la descomposición estática del sistema en bloques de construcción (módulos, componentes, subsistemas, clases,
-interfaces, paquetes, bibliotecas, marcos, capas, particiones, niveles, funciones, macros, operaciones,
-estructuras de datos, &#8230;&#8203;) así como sus dependencias (relaciones, asociaciones, &#8230;&#8203;)</p>
-</div>
-<div class="paragraph">
-<p>Esta vista es obligatoria para toda documentación de arquitectura.
-En analogía con una casa, este es el <em>plano</em>.</p>
-</div>
-<div class="paragraph">
-<div class="title">Motivación</div>
-<p>Mantenga una visión general de su código fuente haciendo que su estructura sea comprensible a través de
-abstracción.</p>
-</div>
-<div class="paragraph">
-<p>Esto le permite comunicarse con su parte interesada en un nivel abstracto sin revelar detalles de implementación.</p>
-</div>
-<div class="paragraph">
-<div class="title">Formulario</div>
-<p>La vista de bloque de creación es una colección jerárquica de cuadros negros y cuadros blancos.
-(ver figura abajo) y sus descripciones.</p>
-</div>
-<div class="paragraph">
-<p><span class="image"><img src="./images/05_building_blocks-EN.png" alt="Jerarquía de bloques de construcción"></span></p>
-</div>
-<div class="paragraph">
-<p><strong>Nivel 1</strong> es la descripción del cuadro blanco del sistema general junto con el cuadro negro
-descripciones de cuadro de todos los bloques de construcción contenidos.</p>
-</div>
-<div class="paragraph">
-<p><strong>Nivel 2</strong> hace zoom en algunos bloques de construcción del nivel 1.
-Por lo tanto, contiene la descripción del cuadro blanco de los bloques de construcción seleccionados del nivel 1, junto con las descripciones del cuadro negro de sus bloques de construcción internos.</p>
-</div>
-<div class="paragraph">
-<p><strong>Nivel 3</strong> amplía los bloques de construcción seleccionados del nivel 2, y así sucesivamente.</p>
-</div>
-</div>
-</div>
 <div class="sect2">
 <h3 id="_sistema_general_de_caja_blanca">5.1. Sistema general de caja blanca</h3>
-<div class="sidebarblock arc42help">
-<div class="content">
-<div class="paragraph">
-<p>Aquí describe la descomposición del sistema general utilizando la siguiente plantilla de caja blanca. Contiene</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>un diagrama general</p>
-</li>
-<li>
-<p>una motivación para la descomposición</p>
-</li>
-<li>
-<p>descripciones de caja negra de los bloques de construcción contenidos. Para estos te ofrecemos alternativas:</p>
-<div class="ulist">
-<ul>
-<li>
-<p>use la tabla <em>one</em> para obtener una descripción general breve y pragmática de todos los componentes básicos contenidos y sus interfaces</p>
-</li>
-<li>
-<p>use una lista de descripciones de caja negra de los bloques de construcción de acuerdo con la plantilla de caja negra (ver más abajo).
-Dependiendo de la herramienta que elija, esta lista podría ser subcapítulos (en archivos de texto), subpáginas (en un wiki) o elementos anidados (en una herramienta de modelado).</p>
-</li>
-</ul>
-</div>
-</li>
-<li>
-<p>(opcional :) interfaces importantes, que no se explican en las plantillas de cuadro negro de un bloque de construcción, pero son muy importantes para comprender el cuadro blanco.
-Dado que hay tantas formas de especificar interfaces, ¿por qué no proporcionar una plantilla específica para ellas?
- En el peor de los casos, debe especificar y describir la sintaxis, la semántica, los protocolos, el manejo de errores,
- restricciones, versiones, calidades, compatibilidades necesarias y muchas cosas más.
-En el mejor de los casos te saldrás con la tuya con ejemplos o firmas sencillas.</p>
-</li>
-</ul>
-</div>
-</div>
-</div>
 <div class="paragraph">
 <p><span class="image"><img src="./images/05_diagrama_general.png" alt="Diagrama general"></span></p>
 </div>
@@ -1355,64 +1277,6 @@ En el mejor de los casos te saldrás con la tuya con ejemplos o firmas sencillas
 <div class="sect1">
 <h2 id="section-runtime-view">6. Runtime View</h2>
 <div class="sectionbody">
-<div class="sidebarblock arc42help">
-<div class="content">
-<div class="paragraph">
-<div class="title">Contents</div>
-<p>The runtime view describes concrete behavior and interactions of the system’s building blocks in form of scenarios from the following areas:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>important use cases or features: how do building blocks execute them?</p>
-</li>
-<li>
-<p>interactions at critical external interfaces: how do building blocks cooperate with users and neighboring systems?</p>
-</li>
-<li>
-<p>operation and administration: launch, start-up, stop</p>
-</li>
-<li>
-<p>error and exception scenarios</p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<p>Remark: The main criterion for the choice of possible scenarios (sequences, workflows) is their <strong>architectural relevance</strong>. It is <strong>not</strong> important to describe a large number of scenarios. You should rather document a representative selection.</p>
-</div>
-<div class="paragraph">
-<div class="title">Motivation</div>
-<p>You should understand how (instances of) building blocks of your system perform their job and communicate at runtime.
-You will mainly capture scenarios in your documentation to communicate your architecture to stakeholders that are less willing or able to read and understand the static models (building block view, deployment view).</p>
-</div>
-<div class="paragraph">
-<div class="title">Form</div>
-<p>There are many notations for describing scenarios, e.g.</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>numbered list of steps (in natural language)</p>
-</li>
-<li>
-<p>activity diagrams or flow charts</p>
-</li>
-<li>
-<p>sequence diagrams</p>
-</li>
-<li>
-<p>BPMN or EPCs (event process chains)</p>
-</li>
-<li>
-<p>state machines</p>
-</li>
-<li>
-<p>&#8230;&#8203;</p>
-</li>
-</ul>
-</div>
-</div>
-</div>
 <div class="sect2">
 <h3 id="_añadir_producto_al_carrito">6.1. Añadir producto al carrito</h3>
 <div class="imageblock">
@@ -1438,7 +1302,15 @@ You will mainly capture scenarios in your documentation to communicate your arch
 </div>
 </div>
 <div class="sect2">
-<h3 id="_ver_pedidos_del_usuario">6.4. Ver pedidos del usuario</h3>
+<h3 id="_registrarse_en_el_sistema">6.4. Registrarse en el sistema</h3>
+<div class="imageblock">
+<div class="content">
+<img src="./images/Diagrama%20Registro.png" alt="Diagrama Registro" width="482" height="513">
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_ver_pedidos_del_usuario">6.5. Ver pedidos del usuario</h3>
 <div class="imageblock">
 <div class="content">
 <img src="./images/Ver%20pedidos.png" alt="Ver pedidos" width="277" height="326">
@@ -1446,7 +1318,7 @@ You will mainly capture scenarios in your documentation to communicate your arch
 </div>
 </div>
 <div class="sect2">
-<h3 id="_ver_ventas_realizadas">6.5. Ver ventas realizadas</h3>
+<h3 id="_ver_ventas_realizadas">6.6. Ver ventas realizadas</h3>
 <div class="imageblock">
 <div class="content">
 <img src="./images/Ver%20ventas%20realizadas.png" alt="Ver ventas realizadas" width="345" height="313">
