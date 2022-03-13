@@ -50,4 +50,7 @@
 | No se realizan cobros de ningún tipo.
 | La aplicación no tiene implementada dicha funcionalidad.
 
+| No se han realizado pruebas.
+| La aplicación no ha sido probada mediante tests.
+
 |===
