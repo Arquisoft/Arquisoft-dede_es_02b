@@ -47,6 +47,7 @@ const NavBar = (props: NavBarProps) => {
       props.setLogueado(false);
   };
 
+
   if (props.logueado)
       return (
         <Typography textAlign="center" onClick={logOutUser}>
@@ -130,7 +131,7 @@ const NavBar = (props: NavBarProps) => {
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Carrito">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0, color: 'white' }}>
-                <Badge badgeContent={2} color="secondary">
+                <Badge badgeContent={sessionStorage.length} color="secondary">
                   <ShoppingCart />
                 </Badge>
               </IconButton>

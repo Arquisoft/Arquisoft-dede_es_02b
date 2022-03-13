@@ -57,19 +57,23 @@ export async function login(user:LoginData):Promise<boolean>{
 
 export async function addToCart(product:Product, quantity:number):Promise<boolean>{
   const apiEndPoint= process.env.REACT_APP_API_URI || 'http://localhost:5000'
-  console.log(apiEndPoint);
   let response = await fetch(apiEndPoint+'/cart/add', {
       method: 'POST',
       headers: {'Content-Type':'application/json'},
-      body: JSON.stringify({'id':product.id, 
-                            'descripcion':product.descripcion, 
-                            'foto':product.foto, 
-                            'nombre':product.nombre, 
-                            'origen':product.origen, 
-                            'precio':product.precio, 
+      body: JSON.stringify({'id':product._id, 
                             'qty':quantity})
   });
+  
   if (response.status===200){
+    var value = sessionStorage.getItem(product._id);
+    if (value != null){
+      var actual = Number.parseInt(value) + quantity;
+      sessionStorage.setItem(product._id, actual.toString());
+    }
+    else {
+      sessionStorage.setItem(product._id, quantity.toString());
+    }
+    
     return true;
   }
   else {

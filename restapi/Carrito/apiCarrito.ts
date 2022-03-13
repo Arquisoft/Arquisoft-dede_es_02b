@@ -6,11 +6,7 @@ const api:Router = express.Router()
   api.post(
     "/cart/add",
     async (req: Request, res: Response): Promise<Response> => {
-      
-      console.log("funciona");
       var productId = req.body.id;
-      sessionStorage.setItem(productId, req.body);
-
       return res.sendStatus(200);
     }
   );

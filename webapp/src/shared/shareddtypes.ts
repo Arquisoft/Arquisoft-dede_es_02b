@@ -11,7 +11,7 @@ export type LoginData = {
 }
 
 export type Product = {
-    id:string;
+    _id:string;
     nombre:string;
     origen:string;
     precio:number;
