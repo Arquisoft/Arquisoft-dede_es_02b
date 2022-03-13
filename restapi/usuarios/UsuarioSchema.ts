@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { validateEmail } from "./Validators";
+import { validateEmail } from "../schemas/Validators";
 
 const usuarioSchema = new mongoose.Schema({
     nombre: {
@@ -31,4 +31,4 @@ const usuarioSchema = new mongoose.Schema({
     }
 })
 
-export default mongoose.model("Usuarios", usuarioSchema)
+export default mongoose.model("Usuarios", usuarioSchema) 
