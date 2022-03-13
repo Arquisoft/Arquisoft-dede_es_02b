@@ -82,3 +82,9 @@ export async function addToCart(product:Product, quantity:number):Promise<boolea
   }
     
 }
+
+export async function findProductById(id:string):Promise<Product>{
+  const apiEndPoint= process.env.REACT_APP_API_URI || 'http://localhost:5000'
+  let response = await fetch(apiEndPoint+'/products/' + id);
+  return response.json();
+}

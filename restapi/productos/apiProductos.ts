@@ -33,5 +33,13 @@ api.get(
       return res.sendStatus(200);
     }
   );
+
+  api.get(
+    "/products/:id",
+    async (req: Request, res: Response): Promise<Response> => {
+        let productos = await Producto.findById(req.params.id)
+        return res.status(200).send(productos)
+    }
+  ); 
   
 export default api;
