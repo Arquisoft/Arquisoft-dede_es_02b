@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useState } from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -12,12 +13,14 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import { ShoppingCart } from '@mui/icons-material';
 import { Badge } from '@mui/material';
+import { Navigate } from 'react-router-dom';
 
 const pages = ['Products'];
 
 const NavBar = () => {
-  const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
-  const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
+  const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
+  const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
+  const [logueado, setLogueado] = useState(true);
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget);
@@ -33,6 +36,24 @@ const NavBar = () => {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
+
+  function logOut(): JSX.Element{
+    const logOutUser = () => {
+      sessionStorage.clear();
+
+      setLogueado(false);
+    };
+
+    if (logueado){
+        return (
+          <Button key="logout" onClick={logOutUser} sx={{ my: 2, color: 'white', display: 'block' }}>
+            Log Out
+          </Button>
+        );
+      }
+    else 
+      return <Navigate to="/login" />;
+    }
 
   return (
     <AppBar position="static">
@@ -81,6 +102,7 @@ const NavBar = () => {
                   <Typography textAlign="center">{page}</Typography>
                 </MenuItem>
               ))}
+              <MenuItem key="logout"> {logOut()}</MenuItem>
             </Menu>
           </Box>
           <Typography
@@ -101,12 +123,14 @@ const NavBar = () => {
                 {page}
               </Button>
             ))}
+            {logOut()}
           </Box>
+
 
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Carrito">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0, color: 'white' }}>
-                <Badge badgeContent={2} color="secondary">
+                <Badge badgeContent={sessionStorage.length} color="secondary">
                   <ShoppingCart />
                 </Badge>
               </IconButton>
