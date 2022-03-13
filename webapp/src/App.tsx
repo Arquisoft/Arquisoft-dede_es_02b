@@ -3,9 +3,11 @@ import  {getProducts} from './api/api';
 import {Product} from './shared/shareddtypes';
 import './App.css';
 import NavBar from './components/NavBar';
-import Products from './components/Products';
+import Products from './components/product/Products';
 import { Routes, Route, Link, Navigate } from "react-router-dom";
 import LoginScreen from './components/login/LoginScreen';
+import Carrito from './components/carrito/Carrito';
+import Total from './components/carrito/Total';
 
 function App(): JSX.Element {
 

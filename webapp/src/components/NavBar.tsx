@@ -39,7 +39,8 @@ const NavBar = () => {
 
   function logOut(): JSX.Element{
     const logOutUser = () => {
-      sessionStorage.removeItem("emailUsuario");
+      sessionStorage.clear();
+
       setLogueado(false);
     };
 
@@ -129,7 +130,7 @@ const NavBar = () => {
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Carrito">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0, color: 'white' }}>
-                <Badge badgeContent={2} color="secondary">
+                <Badge badgeContent={sessionStorage.length} color="secondary">
                   <ShoppingCart />
                 </Badge>
               </IconButton>
