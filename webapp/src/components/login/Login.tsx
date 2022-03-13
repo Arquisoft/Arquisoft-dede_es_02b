@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useState } from "react";
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -11,34 +12,39 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import  {login} from '../../api/api';
+import { Navigate } from "react-router-dom";
 import {LoginData} from '../../shared/shareddtypes';
 import { Api } from '@mui/icons-material';
+
+type LoginProps = {
+  setLogueado: (logueado: boolean) => void;
+  logueado: boolean;
+};
 
 function Copyright(props: any) {
   return (
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
       <Link color="inherit" href="https://github.com/Arquisoft/dede_es2b">
-        Código fuente
+        Código fuente 
       </Link>
     </Typography>
   );
 }
 
-type LoggedBool = {
-  logged: boolean;
-}
-
 const theme = createTheme();
 
-export default function Login() {
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+export default function Login(props: LoginProps) {
+  const [email, setEmail] = useState("");
+  const [contraseña, setContraseña] = useState("");
+  
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    
-    var email = data.get('email');
-    var contraseña = data.get('contraseña');
-
+    props.setLogueado(await login({email, contraseña}));
   };
+
+  if (props.logueado) {
+    return <Navigate to="/products" />;
+  }
 
   return (
     <ThemeProvider theme={theme}>
@@ -68,6 +74,7 @@ export default function Login() {
               name="email"
               autoComplete="email"
               autoFocus
+              onChange={(e) => setEmail(e.target.value)}
             />
             <TextField
               margin="normal"
@@ -78,6 +85,7 @@ export default function Login() {
               type="contraseña"
               id="contraseña"
               autoComplete="current-contraseña"
+              onChange={(e) => setContraseña(e.target.value)}
             />
             <Button
               type="submit"
