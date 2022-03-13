@@ -39,7 +39,8 @@ const NavBar = () => {
 
   function logOut(): JSX.Element{
     const logOutUser = () => {
-      sessionStorage.removeItem("emailUsuario");
+      sessionStorage.clear();
+
       setLogueado(false);
     };
 
