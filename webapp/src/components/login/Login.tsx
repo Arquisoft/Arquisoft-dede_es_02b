@@ -13,8 +13,6 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import  {login} from '../../api/api';
 import {LoginData} from '../../shared/shareddtypes';
 import { Api } from '@mui/icons-material';
-import Auth from './Auth';
-import {useHistory} from 'react-router-dom';
 
 function Copyright(props: any) {
   return (
@@ -26,32 +24,20 @@ function Copyright(props: any) {
   );
 }
 
+type LoggedBool = {
+  logged: boolean;
+}
 
 const theme = createTheme();
 
 export default function Login() {
-
-  let history = useHistory();
-  
-  const sendLoginInfo = async (loginData: LoginData) => {
-    var correct = await login(loginData);
-    
-    if(correct){
-      Auth.login();
-      history.push("/products");
-    }
-  }
-
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     
-    const loginData: LoginData = {
-      email: data.get('email') as string,
-      password: data.get('contraseña') as string
-    }
+    var email = data.get('email');
+    var contraseña = data.get('contraseña');
 
-    sendLoginInfo(loginData);
   };
 
   return (
@@ -89,8 +75,8 @@ export default function Login() {
               fullWidth
               name="contraseña"
               label="Contraseña"
-              type="password"
-              id="filled-password-input"
+              type="contraseña"
+              id="contraseña"
               autoComplete="current-contraseña"
             />
             <Button
@@ -103,10 +89,8 @@ export default function Login() {
             </Button>
             <Grid container>
               <Grid item>
-                <Link href="#" variant="body2"
-                  onClick={() => {
-                    history.push("/register");
-                  }}> Registrarse
+                <Link href="#" variant="body2">
+                  {"Registrarse"}
                 </Link>
               </Grid>
             </Grid>
