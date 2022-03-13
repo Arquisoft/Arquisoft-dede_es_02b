@@ -16,11 +16,6 @@ import { Navigate } from "react-router-dom";
 import {LoginData} from '../../shared/shareddtypes';
 import { Api } from '@mui/icons-material';
 
-type LoginProps = {
-  setLogueado: (logueado: boolean) => void;
-  logueado: boolean;
-};
-
 function Copyright(props: any) {
   return (
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
@@ -33,16 +28,23 @@ function Copyright(props: any) {
 
 const theme = createTheme();
 
-export default function Login(props: LoginProps) {
+export default function Login() {
   const [email, setEmail] = useState("");
   const [contraseña, setContraseña] = useState("");
+  const [logueado, setLogueado] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
   
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    props.setLogueado(await login({email, contraseña}));
+    setLogueado(await login({email, contraseña}));
+    
+    if(!logueado)
+      setErrorMessage('Email o contraseña incorrectos');
+    else
+      setErrorMessage('');
   };
 
-  if (props.logueado) {
+  if (logueado){
     return <Navigate to="/products" />;
   }
 
@@ -87,6 +89,9 @@ export default function Login(props: LoginProps) {
               autoComplete="current-contraseña"
               onChange={(e) => setContraseña(e.target.value)}
             />
+            {errorMessage && (
+              <p className="error"> {errorMessage} </p>
+            )}
             <Button
               type="submit"
               fullWidth

@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useState } from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -14,17 +15,12 @@ import { ShoppingCart } from '@mui/icons-material';
 import { Badge } from '@mui/material';
 import { Navigate } from 'react-router-dom';
 
-type NavBarProps = {
-  setLogueado: (logueado: boolean) => void;
-  logueado: boolean;
-};
-
-
 const pages = ['Products'];
 
-const NavBar = (props: NavBarProps) => {
-  const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
-  const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
+const NavBar = () => {
+  const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
+  const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
+  const [logueado, setLogueado] = useState(true);
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget);
@@ -40,22 +36,23 @@ const NavBar = (props: NavBarProps) => {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
-  
-  function logOut(props: NavBarProps): JSX.Element{
-    const logOutUser = () => {
-      localStorage.removeItem("emailUsuario");
-      props.setLogueado(false);
-  };
 
-  if (props.logueado)
-      return (
-        <Typography textAlign="center" onClick={logOutUser}>
-          Log Out
-        </Typography>
-      );
-  else 
-    return <Navigate to="/login" />;
-  }
+  function logOut(): JSX.Element{
+    const logOutUser = () => {
+      sessionStorage.removeItem("emailUsuario");
+      setLogueado(false);
+    };
+
+    if (logueado){
+        return (
+          <Button key="logout" onClick={logOutUser} sx={{ my: 2, color: 'white', display: 'block' }}>
+            Log Out
+          </Button>
+        );
+      }
+    else 
+      return <Navigate to="/login" />;
+    }
 
   return (
     <AppBar position="static">
@@ -104,7 +101,7 @@ const NavBar = (props: NavBarProps) => {
                   <Typography textAlign="center">{page}</Typography>
                 </MenuItem>
               ))}
-              <MenuItem key="logout"> {logOut(props)}</MenuItem>
+              <MenuItem key="logout"> {logOut()}</MenuItem>
             </Menu>
           </Box>
           <Typography
@@ -125,7 +122,9 @@ const NavBar = (props: NavBarProps) => {
                 {page}
               </Button>
             ))}
+            {logOut()}
           </Box>
+
 
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Carrito">

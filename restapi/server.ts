@@ -13,8 +13,6 @@ const app: Application = express();
 const port: number = 5000;
 const conexiondb: string = process.env.mongoDBURI!;
 
-console.log(conexiondb);
-
 const options: cors.CorsOptions = {
   origin: ['http://localhost:3000']
 }; 

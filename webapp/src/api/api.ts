@@ -7,9 +7,10 @@ export async function addUser(user:User):Promise<boolean>{
         headers: {'Content-Type':'application/json'},
         body: JSON.stringify({'name':user.nombre, 'email':user.email, 'contraseña':user.contraseña, 'dni':user.dni})
       });
-    if (response.status===200)
-      return true;
-    else
+    if (response.status===200){
+        sessionStorage.setItem("emailUsuario", user.email);
+        return true;
+    }else
       return false;
 }
 
@@ -49,7 +50,7 @@ export async function login(user:LoginData):Promise<boolean>{
     });
 
   if (response.status===200){
-    localStorage.setItem("emailUsuario", user.email);
+    sessionStorage.setItem("emailUsuario", user.email);
     return true;
   }else
     return false;
