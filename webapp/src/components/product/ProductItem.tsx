@@ -19,7 +19,7 @@ type ProductProp = {
   product: Product;
 }
 
-export default function ProductItem(productProp : ProductProp) {
+const ProductItem:React.FC<ProductProp>=(productProp : ProductProp) =>{
 
   const handleAddCart = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -78,3 +78,5 @@ export default function ProductItem(productProp : ProductProp) {
     </form>
   );
 }
+
+export default ProductItem;

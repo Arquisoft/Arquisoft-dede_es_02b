@@ -18,7 +18,7 @@ import { Link } from 'react-router-dom';
 
 const pages = ['Products'];
 
-const NavBar = () => {
+const NavBar: React.FC  = () => {
   const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
   const [logueado, setLogueado] = useState(true);
