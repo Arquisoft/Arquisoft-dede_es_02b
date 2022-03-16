@@ -1,7 +1,7 @@
 [[section-technical-risks]]
-== Risks and Technical Debts
+== Riesgos y deudas técnicas
 
-.Risks
+.Riesgos
 |===
 |Riesgo |Explicación |Solución
 
@@ -31,7 +31,7 @@
 
 |===
 
-.Technical Debts
+.Deudas Técnicas
 |===
 |Deuda Técnica | Explicación
 
