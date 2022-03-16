@@ -5,6 +5,7 @@ import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
 import type { AlertColor } from '@mui/material/Alert';
 import {addUser} from '../api/api';
+import {User} from '../shared/shareddtypes';
 
 type EmailFormProps = {
   OnUserListChange: () => void;
@@ -17,7 +18,7 @@ type NotificationType = {
 
 function EmailForm(props: EmailFormProps): JSX.Element {
 
-  const [name, setName] = useState('');
+  const [nombre, setNombre] = useState('');
   const [email, setEmail] = useState('');
 
   const [notificationStatus, setNotificationStatus] = useState(false);
@@ -27,7 +28,7 @@ function EmailForm(props: EmailFormProps): JSX.Element {
   
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    let result:boolean = await addUser({name,email});
+    let result:boolean = await addUser({nombre, email, contraseña: "1345", dni:"12345678a"});
     if (result){
       setNotificationStatus(true);
       setNotification({ 
@@ -55,7 +56,7 @@ function EmailForm(props: EmailFormProps): JSX.Element {
             label="Name" 
             variant="outlined"
             value={name}
-            onChange={e => setName(e.target.value)}
+            onChange={e => setNombre(e.target.value)}
             sx={{ my: 2 }}
           />
         <TextField

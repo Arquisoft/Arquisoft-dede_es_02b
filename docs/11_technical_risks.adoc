@@ -53,5 +53,4 @@
 | No se han realizado pruebas.
 | La aplicación no ha sido probada mediante tests.
 
-
 |===

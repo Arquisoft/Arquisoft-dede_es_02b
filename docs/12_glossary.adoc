@@ -14,4 +14,5 @@
 | Express       | Infraestructura de aplicaciones web para Node.js que nos permite realizar las peticiones en el back end.
 | Mongoose      | Biblioteca que nos permite conectar con MongoDB desde Express.
 | bcrypt        | Dependencia que nos permite crear para cada contraseña un hash distinto y así encriptarlas de manera segura.
+| dotenv        | Dependencia para externalizar en un archivo ciertos strings
 |===

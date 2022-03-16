@@ -1,35 +1,47 @@
 import React, { useState, useEffect } from 'react';
-import Box from '@mui/material/Box';
-import Link from '@mui/material/Link';
-import Container from '@mui/material/Container';
-import EmailForm from './components/EmailForm';
-import Welcome from './components/Welcome';
-import UserList from './components/UserList';
-import  {getUsers} from './api/api';
-import {User} from './shared/shareddtypes';
+import  {getProducts} from './api/api';
+import {Product} from './shared/shareddtypes';
 import './App.css';
+import NavBar from './components/NavBar';
+import Products from './components/product/Products';
+import { Routes, Route, Link, Navigate } from "react-router-dom";
+import LoginScreen from './components/login/LoginScreen';
+import Carrito from './components/carrito/Carrito';
+import Total from './components/carrito/Total';
 
 function App(): JSX.Element {
 
-  const [users,setUsers] = useState<User[]>([]);
+  const [products,setProducts] = useState<Product[]>([]);
 
-  const refreshUserList = async () => {
-    setUsers(await getUsers());
+  const refreshProductList = async () => {
+    setProducts(await getProducts());
   }
 
   useEffect(()=>{
-    refreshUserList();
+    refreshProductList();
   },[]);
 
   return (
     <>
-      <Container maxWidth="sm">
-        <Welcome message="ASW students"/>
-        <Box component="div" sx={{ py: 2}}>This is a basic example of a React application using Typescript. You can add your email to the list filling the form below.</Box>
-        <EmailForm OnUserListChange={refreshUserList}/>        
-        <UserList users={users}/>
-        <Link href="https://github.com/pglez82/asw2122_0">Source code</Link>
-      </Container>
+      <Routes>
+        <Route path="/" element={<Navigate to="/login" />}/>
+        <Route path="/login" element={
+          <LoginScreen/>
+        }/>
+        <Route path="/products" element={
+          <div>
+            <NavBar/>
+            <Products products ={products}/>
+          </div>
+        }/> 
+        <Route path="/carrito" element={
+          <div>
+            <NavBar/>
+            <Carrito products ={products}/>
+          </div>
+        }/> 
+
+      </Routes>
     </>
   );
 }

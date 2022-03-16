@@ -1,4 +1,20 @@
 export type User = {
-    name:string;
+    nombre:string;
     email:string;
-  }
+    contraseña:string;
+    dni:string;
+}
+
+export type LoginData = {
+    email: string;
+    contraseña: string;
+}
+
+export type Product = {
+    _id:string;
+    nombre:string;
+    origen:string;
+    precio:number;
+    descripcion:string;
+    foto:string;
+}
