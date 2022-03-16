@@ -1,7 +1,4 @@
 [[section-deployment-view]]
-
-
-[[section-deployment-view]]
 == Vista de despliegue
 
 [plantuml, deployment_view1, svg]
