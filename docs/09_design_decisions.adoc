@@ -8,11 +8,20 @@
 |Ventajas
 |Desventajas
 
-|Documentación en castellano
+|Documentación en castellano.
 |Es el idioma nativo de los miembros del grupo, lo cuál ayuda a crearla de manera más rápida.
 |Será difícilmente accesible para gente que no lo hable.
 
-|MongoDB
+|Uso de MongoDB como base de datos.
 |Es de código abierto, sencillo uso con Node.js y varios miembros del equipo ya han trabajado con ella.
-|Los datos serán limitados al formato JSON
+|Los datos serán limitados al formato JSON.
+
+|Uso de Mongoose para la interacción con la base de datos.
+|Permite realizar la interacción con la base de datos de una manera sencilla.
+|
+
+|Utilización de la libreria bcrypt.
+|Nos permite guardar las contraseñas de los usuarios de una manera segura.
+|
+
 |===

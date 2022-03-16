@@ -1,6 +1,5 @@
 [[section-runtime-view]]
-== Runtime View
-
+== Vista en tiempo de ejecución
 
 === Añadir producto al carrito
 
