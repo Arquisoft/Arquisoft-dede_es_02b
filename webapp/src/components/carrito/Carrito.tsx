@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import * as React from 'react';
 import  {getProducts} from '../../api/api';
 import {Product} from '../../shared/shareddtypes';
 import Box from '@mui/material/Box';
@@ -24,7 +24,7 @@ let carrito:Product[]=[];
   return precio;
 }
 
-export default function Carrito(props: ProductProps) {
+const Carrito: React.FC<ProductProps>= (props: ProductProps) =>{
   carrito=props.products;
   return (
     <Box sx={{ flexGrow: 1, padding: 3}}>
@@ -38,3 +38,5 @@ export default function Carrito(props: ProductProps) {
     </Box>
   );
 }
+
+export default Carrito;
