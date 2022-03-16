@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useState } from "react";
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -10,27 +11,36 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { Navigate } from "react-router-dom";
 import  {addUser} from '../../api/api';
-import {useHistory} from 'react-router-dom';
+import {useNavigate} from 'react-router-dom';
 import {User} from '../../shared/shareddtypes';
 
 const theme = createTheme();
 
 export default function Register() {
+  
+  const [logueado, setLogueado] = useState("");
 
-  let history = useHistory();
+  let history = useNavigate();
   
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     
     const user: User = {
-      name: data.get('nombre') as string,
+      nombre: data.get('nombre') as string,
       dni: data.get('dni') as string,
       email: data.get('email') as string,
-      password: data.get('contraseña') as string
+      contraseña: data.get('contraseña') as string
     }
   };
+
+  const emailLogueado = logueado || sessionStorage.getItem("emailUsuario");
+
+  if (emailLogueado){
+    return <Navigate to="/products" />;
+  }
 
   return (
     <ThemeProvider theme={theme}>

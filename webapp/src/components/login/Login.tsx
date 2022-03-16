@@ -31,12 +31,14 @@ const theme = createTheme();
 export default function Login() {
   const [email, setEmail] = useState("");
   const [contraseña, setContraseña] = useState("");
-  const [logueado, setLogueado] = useState(false);
+  const [logueado, setLogueado] = useState("");
   const [errorMessage, setErrorMessage] = useState('');
   
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    setLogueado(await login({email, contraseña}));
+
+    if(!await login({email, contraseña}))
+      setLogueado(email);
     
     if(!logueado)
       setErrorMessage('Email o contraseña incorrectos');
@@ -44,7 +46,9 @@ export default function Login() {
       setErrorMessage('');
   };
 
-  if (logueado){
+  const emailLogueado = logueado || sessionStorage.getItem("emailUsuario");
+
+  if (emailLogueado){
     return <Navigate to="/products" />;
   }
 
@@ -102,7 +106,7 @@ export default function Login() {
             </Button>
             <Grid container>
               <Grid item>
-                <Link href="#" variant="body2">
+                <Link href="/register" variant="body2">
                   {"Registrarse"}
                 </Link>
               </Grid>
