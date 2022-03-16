@@ -1,14 +1,14 @@
 import { TextField } from '@mui/material';
 import React, { useState, useEffect } from 'react';
-import Login from './Login';
 import LoginNavBar from './LoginNavBar';
+import Register from './Register';
 
-export default function LoginScreen() {
+export default function RegisterScreen() {
 
   return (
     <>
         <LoginNavBar/>
-        <Login/>
+        <Register />
     </>
   );
 }

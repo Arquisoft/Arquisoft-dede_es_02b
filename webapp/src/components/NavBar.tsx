@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useState } from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -13,18 +14,14 @@ import MenuItem from '@mui/material/MenuItem';
 import { ShoppingCart } from '@mui/icons-material';
 import { Badge } from '@mui/material';
 import { Navigate } from 'react-router-dom';
-
-type NavBarProps = {
-  setLogueado: (logueado: boolean) => void;
-  logueado: boolean;
-};
-
+import { Link } from 'react-router-dom';
 
 const pages = ['Products'];
 
-const NavBar = (props: NavBarProps) => {
-  const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
-  const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
+const NavBar = () => {
+  const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
+  const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
+  const [logueado, setLogueado] = useState(true);
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget);
@@ -40,22 +37,25 @@ const NavBar = (props: NavBarProps) => {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
-  
-  function logOut(props: NavBarProps): JSX.Element{
-    const logOutUser = () => {
-      localStorage.removeItem("emailUsuario");
-      props.setLogueado(false);
-  };
 
-  if (props.logueado)
-      return (
-        <Typography textAlign="center" onClick={logOutUser}>
-          Log Out
-        </Typography>
-      );
-  else 
-    return <Navigate to="/login" />;
-  }
+
+  function logOut(): JSX.Element{
+    const logOutUser = () => {
+      sessionStorage.clear();
+
+      setLogueado(false);
+    };
+
+    if (logueado){
+        return (
+          <Button key="logout" onClick={logOutUser} sx={{ my: 2, color: 'white', display: 'block' }}>
+            Log Out
+          </Button>
+        );
+      }
+    else 
+      return <Navigate to="/login" />;
+    }
 
   return (
     <AppBar position="static">
@@ -100,11 +100,13 @@ const NavBar = (props: NavBarProps) => {
               }}
             >
               {pages.map((page) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">{page}</Typography>
-                </MenuItem>
+                <Link to="/products">
+                  <MenuItem key={page}>
+                    <Typography textAlign="center">{page}</Typography>
+                  </MenuItem>
+                </Link>
               ))}
-              <MenuItem key="logout"> {logOut(props)}</MenuItem>
+              <MenuItem key="logout"> {logOut()}</MenuItem>
             </Menu>
           </Box>
           <Typography
@@ -117,23 +119,29 @@ const NavBar = (props: NavBarProps) => {
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             {pages.map((page) => (
-              <Button
-                key={page}
-                onClick={handleCloseNavMenu}
-                sx={{ my: 2, color: 'white', display: 'block' }}
-              >
-                {page}
-              </Button>
+              <Link to="/products">
+                <Button
+                  key={page}
+                  onClick={handleCloseNavMenu}
+                  sx={{ my: 2, color: 'white', display: 'block' }}
+                >
+                  {page}
+                </Button>
+              </Link>
             ))}
+            {logOut()}
           </Box>
+
 
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Carrito">
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0, color: 'white' }}>
-                <Badge badgeContent={2} color="secondary">
-                  <ShoppingCart />
-                </Badge>
-              </IconButton>
+              <Link to="/carrito">
+                <IconButton onClick={handleOpenUserMenu} sx={{ p: 0, color: 'white' }}>
+                  <Badge badgeContent={sessionStorage.length} color="secondary">
+                    <ShoppingCart />
+                  </Badge>
+                </IconButton>
+              </Link>
             </Tooltip>
           </Box>
         </Toolbar>

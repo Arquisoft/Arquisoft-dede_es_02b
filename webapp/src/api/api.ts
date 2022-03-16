@@ -7,9 +7,10 @@ export async function addUser(user:User):Promise<boolean>{
         headers: {'Content-Type':'application/json'},
         body: JSON.stringify({'name':user.nombre, 'email':user.email, 'contraseña':user.contraseña, 'dni':user.dni})
       });
-    if (response.status===200)
-      return true;
-    else
+    if (response.status===200){
+        sessionStorage.setItem("emailUsuario", user.email);
+        return true;
+    }else
       return false;
 }
 
@@ -49,8 +50,41 @@ export async function login(user:LoginData):Promise<boolean>{
     });
 
   if (response.status===200){
-    localStorage.setItem("emailUsuario", user.email);
+    sessionStorage.setItem("emailUsuario", user.email);
     return true;
   }else
     return false;
+}
+
+export async function addToCart(product:Product, quantity:number):Promise<boolean>{
+  const apiEndPoint= process.env.REACT_APP_API_URI || 'http://localhost:5000'
+  let response = await fetch(apiEndPoint+'/cart/add', {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({'id':product._id, 
+                            'qty':quantity})
+  });
+  
+  if (response.status===200){
+    var value = sessionStorage.getItem(product._id);
+    if (value != null){
+      var actual = Number.parseInt(value) + quantity;
+      sessionStorage.setItem(product._id, actual.toString());
+    }
+    else {
+      sessionStorage.setItem(product._id, quantity.toString());
+    }
+    
+    return true;
+  }
+  else {
+    return false;
+  }
+    
+}
+
+export async function findProductById(id:string):Promise<Product>{
+  const apiEndPoint= process.env.REACT_APP_API_URI || 'http://localhost:5000'
+  let response = await fetch(apiEndPoint+'/products/' + id);
+  return response.json();
 }
