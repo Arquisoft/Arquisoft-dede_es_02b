@@ -25,7 +25,7 @@ class Cart implements Carrito{
     public add(product: Product, quantity: number){
         var i:number = 0;
         for (i; i < this.items.length; i = i + 1) {
-            if (this.items[i].product.id == product.id){
+            if (this.items[i].product._id == product._id){
                 this.items[i].quantity += quantity;
                 this.totalQuantity += this.items[i].quantity;
                 this.totalPrice += this.items[i].quantity * this.items[i].product.precio;
