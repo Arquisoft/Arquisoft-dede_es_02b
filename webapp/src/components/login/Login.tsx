@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useState, useEffect  } from "react";
+import { useState } from "react";
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -15,8 +15,6 @@ import  {login} from '../../api/api';
 import { Navigate } from "react-router-dom";
 import {LoginData} from '../../shared/shareddtypes';
 import { Api } from '@mui/icons-material';
-import { LoginSolid } from "@inrupt/solid-ui-react";
-
 
 function Copyright(props: any) {
   return (
@@ -31,15 +29,10 @@ function Copyright(props: any) {
 const theme = createTheme();
 
 const Login:React.FC=()=> {
-  const [email, setEmail] = useState("https://inrupt.net");
-  const [contraseña, setContraseña] = useState("https://inrupt.net");
+  const [email, setEmail] = useState("");
+  const [contraseña, setContraseña] = useState("");
   const [logueado, setLogueado] = useState("");
   const [errorMessage, setErrorMessage] = useState('');
-  const [url, setUrl] = useState("https://localhost:3000");
-
-  useEffect(() => {
-    setUrl(window.location.href);
-  }, [setUrl]);
   
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -103,10 +96,6 @@ const Login:React.FC=()=> {
             {errorMessage && (
               <p className="error"> {errorMessage} </p>
             )}
-            <LoginSolid
-              oidcIssuer={email}
-              redirectUrl={url}
-            >
             <Button
               type="submit"
               fullWidth
