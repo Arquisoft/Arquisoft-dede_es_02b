@@ -62,17 +62,33 @@ export async function addToCart(product:Product, quantity:number):Promise<boolea
       method: 'POST',
       headers: {'Content-Type':'application/json'},
       body: JSON.stringify({'id':product._id, 
+                            'nombre':product.nombre,
+                            'descripcion':product.descripcion, 
+                            'origen':product.origen, 
+                            'precio':product.precio,  
+                            'foto':product.foto,
                             'qty':quantity})
   });
+  if (quantity <= 0){
+    quantity = 1;
+  }
+  var item ={'id':product._id, 
+             'nombre':product.nombre,
+             'descripcion':product.descripcion, 
+             'origen':product.origen, 
+             'precio':product.precio,  
+             'foto':product.foto,
+             'qty':quantity};
   
   if (response.status===200){
     var value = sessionStorage.getItem(product._id);
     if (value != null){
-      var actual = Number.parseInt(value) + quantity;
-      sessionStorage.setItem(product._id, actual.toString());
+      var temp = JSON.parse(value);
+      temp.qty = temp.qty + quantity;
+      sessionStorage.setItem(product._id, JSON.stringify(temp));
     }
     else {
-      sessionStorage.setItem(product._id, quantity.toString());
+      sessionStorage.setItem(product._id, JSON.stringify(item));
     }
     
     return true;
