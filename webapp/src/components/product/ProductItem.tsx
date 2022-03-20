@@ -14,16 +14,20 @@ import { idText } from 'typescript';
 import { TextField } from '@mui/material';
 import { Box } from '@mui/system';
 import { addToCart } from '../../api/api';
+import { useState } from "react";
 
 type ProductProp = {
   product: Product;
 }
 
+
+
 const ProductItem:React.FC<ProductProp>=(productProp : ProductProp) =>{
+  const [cantidad, setCantidad] = useState(1);
 
   const handleAddCart = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    let result:boolean = await addToCart(productProp.product, 1);
+    let result:boolean = await addToCart(productProp.product, cantidad);
   }
 
   return (
@@ -69,7 +73,9 @@ const ProductItem:React.FC<ProductProp>=(productProp : ProductProp) =>{
             inputProps={{min:1,max:10, style:{textAlign:'right'}}}
             variant="standard"
             defaultValue={1}
-            
+            onChange={(e) => 
+              setCantidad(parseInt(e.target.value))
+            }
           />
           <Typography>Cantidad:</Typography>
         </Box>
