@@ -6,6 +6,7 @@ import Grid from '@mui/material/Grid';
 import ProductComponent from './CarritoItem';
 import { Button, Typography } from '@mui/material';
 import accounting from 'accounting';
+import { getValue } from '@testing-library/user-event/dist/utils';
 
 
 type ProductProps = {
@@ -24,6 +25,16 @@ let cantidad:number = 0;
   return precio;
 }
 
+function Productos(carrito:Map<Product, number>):void{
+  let index = -1;
+  return(carrito.forEach((value:number, key:Product) => {
+    <Grid item xs={12} sm={6} md={4} lg={3} key={index+1}>
+      <ProductComponent product={key} cantidadItem={value}/>
+    </Grid>
+    }
+  ));
+}
+
 const Carrito: React.FC<ProductProps>= (props: ProductProps) =>{
   var i = 0;
   console.log(sessionStorage[i]);
@@ -36,15 +47,10 @@ const Carrito: React.FC<ProductProps>= (props: ProductProps) =>{
       carrito.set(obj, cantidad);
     }
   }
-
   return (
     <Box sx={{ flexGrow: 1, padding: 3}}>
       <Grid container spacing={3}>
-        {Array.from(Array(carrito.size)).map((_, index) => (
-          <Grid item xs={12} sm={6} md={4} lg={3} key={index}>
-            <ProductComponent product={carrito[index]} cantidadItem={cantidad}/>
-          </Grid>
-        ))}
+        {Productos}
       </Grid>
     </Box>
   ); 
