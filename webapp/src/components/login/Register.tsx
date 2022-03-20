@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useState } from "react";
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -10,27 +11,88 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import  {addUser} from '../../api/api';
-import {useHistory} from 'react-router-dom';
-import {User} from '../../shared/shareddtypes';
+import { Navigate } from "react-router-dom";
+import { addUser, findUserByEmail, findUserByDni } from '../../api/api';
+import { useNavigate } from 'react-router-dom';
+import { User } from '../../shared/shareddtypes';
 
 const theme = createTheme();
 
 export default function Register() {
 
-  let history = useHistory();
-  
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const [logueado, setLogueado] = useState("");
+  const [errorMessage, setErrorMessage] = useState('');
+
+  let history = useNavigate();
+
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    
+
     const user: User = {
-      name: data.get('nombre') as string,
+      nombre: data.get('nombre') as string,
       dni: data.get('dni') as string,
       email: data.get('email') as string,
-      password: data.get('contraseña') as string
+      contraseña: data.get('contraseña') as string
+    }
+
+    if (await comprobarDatos(user)) {
+      if (await addUser(user)) {
+        setLogueado(user.email);
+      }
     }
   };
+
+  const emailLogueado = logueado || sessionStorage.getItem("emailUsuario");
+
+  if (emailLogueado) {
+    return <Navigate to="/products" />;
+  }
+
+  async function comprobarDatos(user: User): Promise<boolean> {
+    if (user.nombre.length === 0) {
+      setErrorMessage("Error: El nombre no puede estar vacío");
+      return false;
+    }
+
+    if (user.dni.length === 0) {
+      setErrorMessage("Error: El dni no puede estar vacío");
+      return false;
+    }
+
+    if (user.dni.length !== 9) {
+      setErrorMessage("Error: El dni debe contener 9 carácteres");
+      return false;
+    }
+
+    if (await findUserByDni(user.dni)) {
+      setErrorMessage("Error: El dni introducido ya existe");
+      return false;
+    }
+
+    if (user.email.length === 0) {
+      setErrorMessage("Error: El email no puede estar vacío");
+      return false;
+    }
+
+    if (await findUserByEmail(user.email)) {
+      setErrorMessage("Error: El email introducido ya existe");
+      return false;
+    }
+
+    if (!(user.email.includes('@') && (user.email.endsWith('.com') || user.email.endsWith('.es')))) {
+      setErrorMessage("Error: El formato del email no es válido");
+      return false;
+    }
+
+    if (user.contraseña.length === 0) {
+      setErrorMessage("Error: La contraseña no puede estar vacía");
+      return false;
+    }
+
+    setErrorMessage('');
+    return true;
+  }
 
   return (
     <ThemeProvider theme={theme}>
@@ -89,17 +151,29 @@ export default function Register() {
               id="filled-password-input"
               autoComplete="current-contraseña"
             />
+            {errorMessage && (
+              <p className="error"> {errorMessage} </p>
+            )}
             <Button
               type="submit"
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
             >
-              Iniciar sesión
+              Registrarse
             </Button>
-            </Box>
+            <Grid container>
+              <Grid item>
+                <Link href="/" variant="body2">
+                  {"Iniciar Sesión"}
+                </Link>
+              </Grid>
+            </Grid>
+          </Box>
         </Box>
       </Container>
     </ThemeProvider>
   );
 }
+
+

@@ -8,6 +8,7 @@ import { Routes, Route, Link, Navigate } from "react-router-dom";
 import LoginScreen from './components/login/LoginScreen';
 import Carrito from './components/carrito/Carrito';
 import Total from './components/carrito/Total';
+import RegisterScreen from './components/login/RegisterScreen';
 
 function App(): JSX.Element {
 
@@ -25,8 +26,13 @@ function App(): JSX.Element {
     <>
       <Routes>
         <Route path="/" element={<Navigate to="/login" />}/>
+        <Route path="/registro" element={<Navigate to="/register" />}/>
+        <Route path="/productos" element={<Navigate to="/products" />}/>
         <Route path="/login" element={
           <LoginScreen/>
+        }/>
+        <Route path="/register" element={
+          <RegisterScreen/>
         }/>
         <Route path="/products" element={
           <div>

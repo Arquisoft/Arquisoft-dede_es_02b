@@ -1,60 +1,65 @@
-import {LoginData, User, Product} from '../shared/shareddtypes';
+import { nextTick } from 'process';
+import { LoginData, User, Product } from '../shared/shareddtypes';
 
-export async function addUser(user:User):Promise<boolean>{
-    const apiEndPoint= process.env.REACT_APP_API_URI || 'http://localhost:5000'
-    let response = await fetch(apiEndPoint+'/users/add', {
-        method: 'POST',
-        headers: {'Content-Type':'application/json'},
-        body: JSON.stringify({'name':user.nombre, 'email':user.email, 'contraseña':user.contraseña, 'dni':user.dni})
-      });
-    if (response.status===200){
-        sessionStorage.setItem("emailUsuario", user.email);
-        return true;
-    }else
-      return false;
-}
-
-export async function getUsers():Promise<User[]>{
-    const apiEndPoint= process.env.REACT_APP_API_URI || 'http://localhost:5000'
-    let response = await fetch(apiEndPoint+'/users/list');
-    //The objects returned by the api are directly convertible to User objects
-    return response.json()
-}
-
-export async function addProduct(product:Product):Promise<boolean>{
-  const apiEndPoint= process.env.REACT_APP_API_URI || 'http://localhost:5000'
-  let response = await fetch(apiEndPoint+'/users/add', {
+export async function addUser(user: User): Promise<boolean> {
+  const apiEndPoint = process.env.REACT_APP_API_URI || 'http://localhost:5000'
+  try {
+    await fetch(apiEndPoint + '/users/add', {
       method: 'POST',
-      headers: {'Content-Type':'application/json'},
-      body: JSON.stringify({'nombre':product.nombre, 'origen':product.origen, 'descripcion':product.descripcion, 'precio':product.precio})
-    });
-  if (response.status===200){
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ 'nombre': user.nombre, 'email': user.email, 'contraseña': user.contraseña, 'dni': user.dni })
+    }).then(handleExceptions);
+
+    sessionStorage.setItem("emailUsuario", user.email);
     return true;
-  }else
+  } catch {
+    return false;
+  }
+}
+
+export async function getUsers(): Promise<User[]> {
+  const apiEndPoint = process.env.REACT_APP_API_URI || 'http://localhost:5000'
+  let response = await fetch(apiEndPoint + '/users/list');
+
+  return response.json()
+}
+
+export async function addProduct(product: Product): Promise<boolean> {
+  const apiEndPoint = process.env.REACT_APP_API_URI || 'http://localhost:5000'
+  let response = await fetch(apiEndPoint + '/users/add', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ 'nombre': product.nombre, 'origen': product.origen, 'descripcion': product.descripcion, 'precio': product.precio })
+  });
+  if (response.status === 200) {
+    return true;
+  } else
     return false;
 }
 
-export async function getProducts():Promise<Product[]>{
-  const apiEndPoint= process.env.REACT_APP_API_URI || 'http://localhost:5000'
-  let response = await fetch(apiEndPoint+'/products/list');
+export async function getProducts(): Promise<Product[]> {
+  const apiEndPoint = process.env.REACT_APP_API_URI || 'http://localhost:5000'
+  let response = await fetch(apiEndPoint + '/products/list');
   //The objects returned by the api are directly convertible to User objects
   return response.json()
 }
 
-export async function login(user:LoginData):Promise<boolean>{
-  const apiEndPoint= process.env.REACT_APP_API_URI || 'http://localhost:5000'
-  let response = await fetch(apiEndPoint+'/users/login', {
+export async function login(user: LoginData): Promise<boolean> {
+  const apiEndPoint = process.env.REACT_APP_API_URI || 'http://localhost:5000'
+  try {
+    await fetch(apiEndPoint + '/users/login', {
       method: 'POST',
-      headers: {'Content-Type':'application/json'},
-      body: JSON.stringify({'email':user.email, 'contraseña':user.contraseña})
-    });
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ 'email': user.email, 'contraseña': user.contraseña })
+    }).then(handleExceptions);
 
-  if (response.status===200){
     sessionStorage.setItem("emailUsuario", user.email);
     return true;
-  }else
+  } catch {
     return false;
+  }
 }
+
 
 export async function addToCart(product:Product, quantity:number):Promise<boolean>{
   const apiEndPoint= process.env.REACT_APP_API_URI || 'http://localhost:5000'
@@ -86,21 +91,41 @@ export async function addToCart(product:Product, quantity:number):Promise<boolea
       var temp = JSON.parse(value);
       temp.qty = temp.qty + quantity;
       sessionStorage.setItem(product._id, JSON.stringify(temp));
+
     }
     else {
       sessionStorage.setItem(product._id, JSON.stringify(item));
     }
-    
+
     return true;
   }
   else {
     return false;
   }
-    
+
 }
 
-export async function findProductById(id:string):Promise<Product>{
-  const apiEndPoint= process.env.REACT_APP_API_URI || 'http://localhost:5000'
-  let response = await fetch(apiEndPoint+'/products/' + id);
+export async function findProductById(id: string): Promise<Product> {
+  const apiEndPoint = process.env.REACT_APP_API_URI || 'http://localhost:5000'
+  let response = await fetch(apiEndPoint + '/products/' + id);
+  return response.json();
+}
+
+function handleExceptions(response: Response): Response {
+  if (response.ok) {
+    return response;
+  } else {
+    throw new Error("Algo ha fallado");
+  }
+}
+
+export async function findUserByEmail(email: string): Promise<User> {
+  const apiEndPoint = process.env.REACT_APP_API_URI || 'http://localhost:5000'
+  let response = await fetch(apiEndPoint + '/users/email=' + email);
+  return response.json();
+}
+export async function findUserByDni(dni: string): Promise<User> {
+  const apiEndPoint = process.env.REACT_APP_API_URI || 'http://localhost:5000'
+  let response = await fetch(apiEndPoint + '/users/dni=' + dni);
   return response.json();
 }
