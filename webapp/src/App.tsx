@@ -9,6 +9,7 @@ import LoginScreen from './components/login/LoginScreen';
 import Carrito from './components/carrito/Carrito';
 import Total from './components/carrito/Total';
 import RegisterScreen from './components/login/RegisterScreen';
+import SolidConnection from "./SolidConnection";
 
 function App(): JSX.Element {
 
@@ -29,10 +30,10 @@ function App(): JSX.Element {
         <Route path="/registro" element={<Navigate to="/register" />}/>
         <Route path="/productos" element={<Navigate to="/products" />}/>
         <Route path="/login" element={
-          <LoginScreen/>
+          <SolidConnection />
         }/>
         <Route path="/register" element={
-          <RegisterScreen/>
+          <SolidConnection />
         }/>
         <Route path="/products" element={
           <div>
