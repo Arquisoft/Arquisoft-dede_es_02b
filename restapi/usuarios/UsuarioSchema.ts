@@ -7,7 +7,7 @@ const usuarioSchema = new mongoose.Schema({
         required: true,
         lowercase: true,
     },
-    dni:{
+    dni: {
         type: String,
         required: true,
         lowercase: true,
@@ -15,7 +15,7 @@ const usuarioSchema = new mongoose.Schema({
         maxlength: 9,
         unique: true,
     },
-    email:{
+    email: {
         type: String,
         required: true,
         lowercase: true,
@@ -25,7 +25,7 @@ const usuarioSchema = new mongoose.Schema({
             message: (props: { value: any; }) => `${props.value} no es un email válido`,
         }
     },
-    contraseña:{
+    contraseña: {
         type: String,
         required: true,
     }
