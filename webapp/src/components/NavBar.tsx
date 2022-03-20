@@ -14,10 +14,11 @@ import MenuItem from '@mui/material/MenuItem';
 import { ShoppingCart } from '@mui/icons-material';
 import { Badge } from '@mui/material';
 import { Navigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 const pages = ['Products'];
 
-const NavBar = () => {
+const NavBar: React.FC  = () => {
   const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
   const [logueado, setLogueado] = useState(true);
@@ -36,6 +37,7 @@ const NavBar = () => {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
+
 
   function logOut(): JSX.Element{
     const logOutUser = () => {
@@ -98,9 +100,11 @@ const NavBar = () => {
               }}
             >
               {pages.map((page) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">{page}</Typography>
-                </MenuItem>
+                <Link to="/products">
+                  <MenuItem key={page}>
+                    <Typography textAlign="center">{page}</Typography>
+                  </MenuItem>
+                </Link>
               ))}
               <MenuItem key="logout"> {logOut()}</MenuItem>
             </Menu>
@@ -115,13 +119,15 @@ const NavBar = () => {
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             {pages.map((page) => (
-              <Button
-                key={page}
-                onClick={handleCloseNavMenu}
-                sx={{ my: 2, color: 'white', display: 'block' }}
-              >
-                {page}
-              </Button>
+              <Link to="/products">
+                <Button
+                  key={page}
+                  onClick={handleCloseNavMenu}
+                  sx={{ my: 2, color: 'white', display: 'block' }}
+                >
+                  {page}
+                </Button>
+              </Link>
             ))}
             {logOut()}
           </Box>
@@ -129,11 +135,13 @@ const NavBar = () => {
 
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Carrito">
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0, color: 'white' }}>
-                <Badge badgeContent={sessionStorage.length} color="secondary">
-                  <ShoppingCart />
-                </Badge>
-              </IconButton>
+              <Link to="/carrito">
+                <IconButton onClick={handleOpenUserMenu} sx={{ p: 0, color: 'white' }}>
+                  <Badge badgeContent={sessionStorage.length} color="secondary">
+                    <ShoppingCart />
+                  </Badge>
+                </IconButton>
+              </Link>
             </Tooltip>
           </Box>
         </Toolbar>

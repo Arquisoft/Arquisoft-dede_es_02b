@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { useState } from "react";
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -11,42 +10,27 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import  {login} from '../../api/api';
-import { Navigate } from "react-router-dom";
-import {LoginData} from '../../shared/shareddtypes';
-import { Api } from '@mui/icons-material';
-
-function Copyright(props: any) {
-  return (
-    <Typography variant="body2" color="text.secondary" align="center" {...props}>
-      <Link color="inherit" href="https://github.com/Arquisoft/dede_es2b">
-        Código fuente 
-      </Link>
-    </Typography>
-  );
-}
+import  {addUser} from '../../api/api';
+import {useHistory} from 'react-router-dom';
+import {User} from '../../shared/shareddtypes';
 
 const theme = createTheme();
 
-const Login:React.FC=()=> {
-  const [email, setEmail] = useState("");
-  const [contraseña, setContraseña] = useState("");
-  const [logueado, setLogueado] = useState(false);
-  const [errorMessage, setErrorMessage] = useState('');
-  
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    setLogueado(await login({email, contraseña}));
-    
-    if(!logueado)
-      setErrorMessage('Email o contraseña incorrectos');
-    else
-      setErrorMessage('');
-  };
+export default function Register() {
 
-  if (logueado){
-    return <Navigate to="/products" />;
-  }
+  let history = useHistory();
+  
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const data = new FormData(event.currentTarget);
+    
+    const user: User = {
+      name: data.get('nombre') as string,
+      dni: data.get('dni') as string,
+      email: data.get('email') as string,
+      password: data.get('contraseña') as string
+    }
+  };
 
   return (
     <ThemeProvider theme={theme}>
@@ -71,12 +55,29 @@ const Login:React.FC=()=> {
               margin="normal"
               required
               fullWidth
+              id="nombre"
+              label="Nombre"
+              name="nombre"
+              autoFocus
+            />
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              id="dni"
+              label="DNI"
+              name="dni"
+              autoFocus
+            />
+            <TextField
+              margin="normal"
+              required
+              fullWidth
               id="email"
               label="Email"
               name="email"
               autoComplete="email"
               autoFocus
-              onChange={(e) => setEmail(e.target.value)}
             />
             <TextField
               margin="normal"
@@ -84,14 +85,10 @@ const Login:React.FC=()=> {
               fullWidth
               name="contraseña"
               label="Contraseña"
-              type="contraseña"
-              id="contraseña"
+              type="password"
+              id="filled-password-input"
               autoComplete="current-contraseña"
-              onChange={(e) => setContraseña(e.target.value)}
             />
-            {errorMessage && (
-              <p className="error"> {errorMessage} </p>
-            )}
             <Button
               type="submit"
               fullWidth
@@ -100,19 +97,9 @@ const Login:React.FC=()=> {
             >
               Iniciar sesión
             </Button>
-            <Grid container>
-              <Grid item>
-                <Link href="#" variant="body2">
-                  {"Registrarse"}
-                </Link>
-              </Grid>
-            </Grid>
-          </Box>
+            </Box>
         </Box>
-        <Copyright sx={{ mt: 8, mb: 4 }} />
       </Container>
     </ThemeProvider>
   );
 }
-
-export default Login;

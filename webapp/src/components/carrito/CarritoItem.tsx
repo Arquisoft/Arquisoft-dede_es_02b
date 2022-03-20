@@ -17,7 +17,7 @@ type ProductProp = {
   product: Product;
 }
 
-export default function CarritoItem(productProp : ProductProp) {
+const CarritoItem: React.FC<ProductProp>=(productProp : ProductProp) =>{
   return (
     <Card sx={{ maxWidth: 345 }}>
       <CardMedia
@@ -45,3 +45,5 @@ export default function CarritoItem(productProp : ProductProp) {
     </Card>
   );
 }
+
+export default CarritoItem;
