@@ -1,12 +1,13 @@
 import { useState, useEffect } from "react";
 import { Autocomplete, Button, Container, Grid, Link, TextField, Typography } from "@mui/material";
-import { LoginButton, session } from "@inrupt/solid-ui-react";
-import { navigate } from "react-router-dom";
+import { LoginButton, useSession } from "@inrupt/solid-ui-react";
+import { useNavigate } from "react-router-dom";
 import { handleIncomingRedirect, onSessionRestore } from "@inrupt/solid-client-authn-browser";
 
 
 export default function SolidConection() {
-
+    const navigate = useNavigate();
+    const { session } = useSession();
     const [oidcIssuer, setOidcIssuer] = useState("https://broker.pod.inrupt.com/");
 
     const providers = [{ displayName: "Broker Inrupt", url: "https://broker.pod.inrupt.com/" }, { displayName: "Inrupt", url: "https://inrupt.net/" }]
@@ -37,7 +38,7 @@ export default function SolidConection() {
                     disablePortal
                     id="combo-box-providers"
                     options={providers}
-                    renderInput={(params) => <TextField {...params} label="Provider:" />}
+                    renderInput={(params) => <TextField {...params} label="Proveedor:" />}
                     getOptionLabel={(option) => option.displayName}
                     onChange={(e, value) => {
                         if (value != null)
@@ -57,7 +58,7 @@ export default function SolidConection() {
                     </Grid>
                 </Grid>
                 <Typography variant="body1" component="p" id="help">
-                    ¿No tienes un POD? Registraté aquí: <Link id="inrupt" href="https://signup.pod.inrupt.com" target="_blank">Inrupt</Link>
+                    Â¿No tienes un POD? Registrate aquÃ­: <Link id="inrupt" href="https://signup.pod.inrupt.com" target="_blank">Inrupt</Link>
                 </Typography>
             </>
         </Container>
