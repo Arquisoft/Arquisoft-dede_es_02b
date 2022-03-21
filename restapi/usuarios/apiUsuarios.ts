@@ -15,26 +15,27 @@ api.get(
 api.post(
   "/users/login",
   async (req: Request, res: Response): Promise<void> => {
-    let correo = req.body.email.toLowerCase();
-    if (await Usuario.exists({ email: correo })) {
-      let user = await Usuario.findOne().where("email").equals(correo.toLowerCase());
-      console.log(user);
-      try {
+    try {
+      let correo = req.body.email.toLowerCase();
+      if (await Usuario.exists({ email: correo })) {
+        let user = await Usuario.findOne().where("email").equals(correo.toLowerCase());
+        console.log(user);
+
         if (await bcrypt.compare(req.body.contraseña, user.contraseña)) {
           res.json(correo);
           // res.status(200).send(correo);
         } else {
           res.status(412).send("Contraseña erronea");
         }
-      } catch {
-        res.sendStatus(500);
-      }
 
-    } else {
-      res.status(412).send("Usuario no encontrado");
+
+      } else {
+        res.status(412).send("Usuario no encontrado");
+      }
+    } catch {
+      res.sendStatus(500);
     }
-  }
-);
+  });
 
 api.post(
   "/users/add",
