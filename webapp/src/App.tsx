@@ -30,10 +30,10 @@ function App(): JSX.Element {
         <Route path="/registro" element={<Navigate to="/register" />}/>
         <Route path="/productos" element={<Navigate to="/products" />}/>
         <Route path="/login" element={
-          <SolidConnection />
+          <LoginScreen />
         }/>
         <Route path="/register" element={
-          <SolidConnection />
+          <RegisterScreen />
         }/>
         <Route path="/products" element={
           <div>
