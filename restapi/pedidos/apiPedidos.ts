@@ -16,16 +16,10 @@ api.post(
         pedido.precio_total = req.body.precio_total;
         
         pedido.direccion = req.body.direccion;
-        // pedido.direccion.calle = req.body.calle;
-        // pedido.direccion.localidad = req.body.localidad;
-        // pedido.direccion.provincia = req.body.provincia;
-        // pedido.direccion.pais = req.body.pais;
-        // pedido.direccion.codigo_postal = req.body.codigo_postal;
-
         pedido.fecha = new Date();
 
         await pedido.save();
-        return res.status(200).send(pedido);
+        return res.sendStatus(200);
       } catch {
         return res.sendStatus(500);
       }

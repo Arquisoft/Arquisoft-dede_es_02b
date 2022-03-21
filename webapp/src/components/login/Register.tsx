@@ -30,6 +30,7 @@ export default function Register() {
     const data = new FormData(event.currentTarget);
 
     const user: User = {
+      _id:"",
       nombre: data.get('nombre') as string,
       dni: data.get('dni') as string,
       email: data.get('email') as string,

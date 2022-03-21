@@ -1,5 +1,5 @@
 import { nextTick } from 'process';
-import { LoginData, User, Product } from '../shared/shareddtypes';
+import { LoginData, User, Product, Pedido } from '../shared/shareddtypes';
 
 export async function addUser(user: User): Promise<boolean> {
   const apiEndPoint = process.env.REACT_APP_API_URI || 'http://localhost:5000'
@@ -128,4 +128,25 @@ export async function findUserByDni(dni: string): Promise<User> {
   const apiEndPoint = process.env.REACT_APP_API_URI || 'http://localhost:5000'
   let response = await fetch(apiEndPoint + '/users/dni=' + dni);
   return response.json();
+}
+
+export async function addPedido(pedido: Pedido): Promise<boolean> {
+  const apiEndPoint = process.env.REACT_APP_API_URI || 'http://localhost:5000'
+  try {
+    await fetch(apiEndPoint + '/pedidos/add', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        "numero_pedido":pedido.numero_pedido,
+        "id_usuario":pedido.id_usuario,
+        "lista_productos":pedido.lista_productos,
+        "precio_total":pedido.precio_total,
+        "direccion":pedido.direccion
+    })
+    }).then(handleExceptions);
+
+    return true;
+  } catch {
+    return false;
+  }
 }
