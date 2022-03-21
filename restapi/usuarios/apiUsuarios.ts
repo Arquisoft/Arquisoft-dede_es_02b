@@ -17,20 +17,17 @@ api.post(
   async (req: Request, res: Response): Promise<void> => {
     try {
       let correo = req.body.email.toLowerCase();
-      if (await Usuario.exists({ email: correo })) {
-        let user = await Usuario.findOne().where("email").equals(correo.toLowerCase());
-        console.log(user);
-
+      let user = await Usuario.findOne().where("email").equals(correo.toLowerCase());
+      
+      if (user) {
         if (await bcrypt.compare(req.body.contraseña, user.contraseña)) {
           res.json(correo);
           // res.status(200).send(correo);
         } else {
-          res.status(412).send("Contraseña erronea");
+          res.status(412).send("Contraseña o usuario erroneo");
         }
-
-
       } else {
-        res.status(412).send("Usuario no encontrado");
+        res.status(412).send("Contraseña o usuario erroneo");
       }
     } catch {
       res.sendStatus(500);
