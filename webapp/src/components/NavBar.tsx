@@ -18,7 +18,7 @@ import { Link } from 'react-router-dom';
 
 const pages = ['Products'];
 
-const NavBar = () => {
+const NavBar: React.FC  = () => {
   const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
   const [logueado, setLogueado] = useState(sessionStorage.getItem("emailUsuario"));
@@ -138,7 +138,7 @@ const NavBar = () => {
             <Tooltip title="Carrito">
               <Link to="/carrito">
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0, color: 'white' }}>
-                  <Badge badgeContent={sessionStorage.length} color="secondary">
+                  <Badge badgeContent={sessionStorage.length-1} color="secondary">
                     <ShoppingCart />
                   </Badge>
                 </IconButton>

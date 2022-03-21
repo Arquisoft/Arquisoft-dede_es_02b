@@ -28,7 +28,7 @@ function Copyright(props: any) {
 
 const theme = createTheme();
 
-export default function Login() {
+const Login:React.FC=()=> {
   const [email, setEmail] = useState("");
   const [contraseña, setContraseña] = useState("");
   const [logueado, setLogueado] = useState("");
@@ -118,3 +118,5 @@ export default function Login() {
     </ThemeProvider>
   );
 }
+
+export default Login;

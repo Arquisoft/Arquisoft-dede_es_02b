@@ -15,9 +15,10 @@ import DeleteIcon from '@mui/icons-material/Delete';
 
 type ProductProp = {
   product: Product;
+  cantidadItem: number;
 }
 
-export default function CarritoItem(productProp : ProductProp) {
+const CarritoItem: React.FC<ProductProp>=(productProp : ProductProp) =>{
   return (
     <Card sx={{ maxWidth: 345 }}>
       <CardMedia
@@ -36,12 +37,16 @@ export default function CarritoItem(productProp : ProductProp) {
           <IconButton>
               <DeleteIcon />
           </IconButton>
-          <Typography sx={{fontSize:20}}> {accounting.formatMoney(productProp.product.precio,"€")}</Typography>
+          <Typography sx={{fontSize:20}}> {accounting.formatMoney(productProp.product.precio *productProp.cantidadItem,"€")}</Typography>
         </Box>
         <Box sx={{display:'flex', flexDirection:"row-reverse", alignItems:'center'}}>
-          <Typography>Cantidad: 1</Typography>
+          <Typography>
+            {productProp.cantidadItem}
+          </Typography>
         </Box>
       </CardActions>
     </Card>
   );
 }
+
+export default CarritoItem;
