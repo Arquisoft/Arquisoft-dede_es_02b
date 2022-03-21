@@ -2,8 +2,9 @@ import express, { Request, Response, Router } from 'express';
 import Cart from './Cart';
 import Producto from '../productos/ProductoSchema';
 
-const api:Router = express.Router()
-  api.post(
+const apiCarrito:Router = express.Router()
+
+apiCarrito.post(
     "/cart/add",
     async (req: Request, res: Response): Promise<Response> => {
       var productId = req.body.id;
@@ -11,4 +12,4 @@ const api:Router = express.Router()
     }
   );
   
-export default api;
+export default apiCarrito;

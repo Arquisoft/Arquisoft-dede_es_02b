@@ -1,4 +1,3 @@
-import { nextTick } from 'process';
 import { LoginData, User, Product, Pedido } from '../shared/shareddtypes';
 
 export async function addUser(user: User): Promise<boolean> {

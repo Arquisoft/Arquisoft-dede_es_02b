@@ -2,9 +2,9 @@ import express, { Request, Response, Router } from 'express';
 import bcrypt from 'bcrypt';
 import Usuario from './UsuarioSchema';
 
-const api: Router = express.Router()
+const apiUsuarios: Router = express.Router()
 
-api.get(
+apiUsuarios.get(
   "/users/list",
   async (req: Request, res: Response): Promise<Response> => {
     let users = await Usuario.find().select("nombre").select("dni").select("email")
@@ -12,7 +12,7 @@ api.get(
   }
 );
 
-api.post(
+apiUsuarios.post(
   "/users/login",
   async (req: Request, res: Response): Promise<void> => {
     try {
@@ -22,7 +22,6 @@ api.post(
       if (user) {
         if (await bcrypt.compare(req.body.contraseña, user.contraseña)) {
           res.json(correo);
-          // res.status(200).send(correo);
         } else {
           res.status(412).send("Contraseña o usuario erroneo");
         }
@@ -34,7 +33,7 @@ api.post(
     }
   });
 
-api.post(
+apiUsuarios.post(
   "/users/add",
   async (req: Request, res: Response): Promise<Response> => {
     try {
@@ -54,7 +53,7 @@ api.post(
   }
 );
 
-api.get(
+apiUsuarios.get(
   "/users/email=:email",
   async (req: Request, res: Response): Promise<Response> => {
     let usuario = await Usuario.findOne().where("email").equals(req.params.email.toLowerCase())
@@ -62,7 +61,7 @@ api.get(
   }
 );
 
-api.get(
+apiUsuarios.get(
   "/users/dni=:dni",
   async (req: Request, res: Response): Promise<Response> => {
     let usuario = await Usuario.findOne().where("dni").equals(req.params.dni.toLowerCase())
@@ -70,4 +69,4 @@ api.get(
   }
 );
 
-export default api;
+export default apiUsuarios;

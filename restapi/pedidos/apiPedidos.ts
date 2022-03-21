@@ -1,9 +1,9 @@
 import express, { Request, Response, Router } from 'express';
 import Pedido from './PedidoSchema';
 
-const api:Router = express.Router();
+const apiPedidos:Router = express.Router();
 
-api.post(
+apiPedidos.post(
     "/pedidos/add",
     async (req: Request, res: Response): Promise<Response> => {
       try {
@@ -26,4 +26,4 @@ api.post(
     }
   );
 
-export default api;
+export default apiPedidos;
