@@ -60,19 +60,7 @@ export async function login(user: LoginData): Promise<boolean> {
 }
 
 
-export async function addToCart(product:Product, quantity:number):Promise<boolean>{
-  const apiEndPoint= process.env.REACT_APP_API_URI || 'http://localhost:5000'
-  let response = await fetch(apiEndPoint+'/cart/add', {
-      method: 'POST',
-      headers: {'Content-Type':'application/json'},
-      body: JSON.stringify({'id':product._id, 
-                            'nombre':product.nombre,
-                            'descripcion':product.descripcion, 
-                            'origen':product.origen, 
-                            'precio':product.precio,  
-                            'foto':product.foto,
-                            'qty':quantity})
-  });
+export function addToCart(product:Product, quantity:number):boolean{
   if (quantity <= 0){
     quantity = 1;
   }
@@ -84,8 +72,7 @@ export async function addToCart(product:Product, quantity:number):Promise<boolea
              'foto':product.foto,
              'qty':quantity};
   
-  if (response.status===200){
-    var value = sessionStorage.getItem(product._id);
+  var value = sessionStorage.getItem(product._id);
     if (value != null){
       var temp = JSON.parse(value);
       temp.qty = temp.qty + quantity;
@@ -98,11 +85,6 @@ export async function addToCart(product:Product, quantity:number):Promise<boolea
 
     return true;
   }
-  else {
-    return false;
-  }
-
-}
 
 export async function findProductById(id: string): Promise<Product> {
   const apiEndPoint = process.env.REACT_APP_API_URI || 'http://localhost:5000'
