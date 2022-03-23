@@ -8,16 +8,16 @@ import mongoose from 'mongoose';
 import apiUsuarios from './usuarios/apiUsuarios';
 import apiProductos from './productos/apiProductos';
 import apiPedidos from './pedidos/apiPedidos';
-import apiCarrito from './Carrito/apiCarrito';
-import Carrito from './Carrito/Cart';
+import apiCarrito from './carrito/apiCarrito';
+import Carrito from './carrito/Cart';
 
 
 const app: Application = express();
-const port: number = 5000;
-const conexiondb: string = process.env.mongoDBURI!;
+const port: string = process.env.PORT!;
+const conexiondb: string = process.env.MONGO_URI!;
 
 const options: cors.CorsOptions = {
-  origin: ['http://localhost:3000']
+  origin: [process.env.CORS_OPTIONS!]
 }; 
 
 const metricsMiddleware:RequestHandler = promBundle({includeMethod: true});
