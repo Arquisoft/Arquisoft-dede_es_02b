@@ -1,0 +1,81 @@
+{
+    "users": [{
+            "_id": "6220e1b3e976d8ae3a9d3e5e",
+            "nombre": "admin",
+            "email": "admin@email.com",
+            "dni": "00000001a",
+            "contraseña": "$2b$10$I6GUXY4VDqmNfPSeYnWg1uE2NN7u5UcZJ5ozvANYKKP.nuKOb1ija",
+            "__v": 0
+        },
+        {
+            "_id": "6220e1c1e976d8ae3a9d3e60",
+            "nombre": "adrian",
+            "email": "adrian@email.com",
+            "dni": "00000002a",
+            "contraseña": "$2b$10$WdEFpZGFNu6sXaXXZ7cB6uAHDzkhpjQbCw0Abs549zrP0Mr3CG1c.",
+            "__v": 0
+        },
+        {
+            "_id": "6223a07933ab846960afdb59",
+            "nombre": "alex",
+            "email": "alex@email.com",
+            "dni": "00000003a",
+            "contraseña": "$2b$10$iK0TCJbMy6zmytD9mvSewOGc6VZYZDkuCQ.Wef6kHgYFNY0QzQ9t2",
+            "__v": 0
+        }
+    ],
+    "productos": [{
+            "_id": "621f7f978600d56807483f74",
+            "nombre": "manzana reineta",
+            "origen": "Gijón",
+            "precio": 2.5,
+            "descripcion": "Manzana reineta",
+            "__v": 0,
+            "foto": "https://i.ibb.co/HnSzg1b/reineta.jpg"
+        },
+        {
+            "_id": "621f7f978600d56807483f76",
+            "nombre": "manzana golden",
+            "origen": "Lugo",
+            "precio": 3,
+            "descripcion": "Manzana golden",
+            "__v": 0,
+            "foto": "https://i.ibb.co/YZbKwjh/golden.jpg"
+        },
+        {
+            "_id": "621f93de5881f01a9196931f",
+            "nombre": "mango",
+            "origen": "Colombia",
+            "precio": 5,
+            "descripcion": "mango",
+            "__v": 0,
+            "foto": "https://i.ibb.co/mhbdbbd/mango.jpg"
+        }
+    ],
+    "pedidos": [{
+        "direccion": {
+            "calle": "camín de güerces 1293 15a",
+            "localidad": "gijón",
+            "provincia": "asturias",
+            "pais": "españa",
+            "codigo_postal": 33391
+        },
+        "_id": "62385278aa3b8ac2580301dd",
+        "lista_productos": [{
+                "id_producto": "621f7f978600d56807483f74",
+                "cantidad": 3,
+                "precio": 7.5
+            },
+            {
+                "id_producto": "621f7f978600d56807483f76",
+                "cantidad": 1,
+                "precio": 3
+            }
+        ],
+        "fecha": "2022-03-21T10:24:56.424Z",
+        "numero_pedido": 1,
+        "id_usuario": "6220e1c1e976d8ae3a9d3e60",
+        "precio_total": 10.5,
+        "__v": 0
+    }]
+}

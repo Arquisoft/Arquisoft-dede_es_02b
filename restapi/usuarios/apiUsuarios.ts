@@ -7,7 +7,7 @@ const apiUsuarios: Router = express.Router()
 apiUsuarios.get(
   "/users/list",
   async (req: Request, res: Response): Promise<Response> => {
-    let users = await Usuario.find().select("nombre").select("dni").select("email")
+    let users = await Usuario.find();
     return res.status(200).send(users);
   }
 );
@@ -41,6 +41,14 @@ apiUsuarios.post(
       usuario.nombre = req.body.nombre;
       usuario.email = req.body.email;
       usuario.dni = req.body.dni;
+
+      if(!req.body.contraseña){
+        return res.sendStatus(500);
+      }
+
+      if(req.body._id){
+        usuario._id = req.body._id;
+      }
 
       const hashedPass = await bcrypt.hash(req.body.contraseña, 10);
       usuario.contraseña = hashedPass;
