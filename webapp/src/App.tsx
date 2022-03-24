@@ -9,6 +9,7 @@ import LoginScreen from './components/login/LoginScreen';
 import Carrito from './components/carrito/Carrito';
 import Total from './components/carrito/Total';
 import RegisterScreen from './components/login/RegisterScreen';
+import ListaPedidos from './components/pedidos/ListaPedidos';
 
 function App(): JSX.Element {
 
@@ -44,6 +45,12 @@ function App(): JSX.Element {
           <div>
             <NavBar/>
             <Carrito products ={products}/>
+          </div>
+        }/> 
+        <Route path="/pedidos" element={
+          <div>
+            <NavBar/>
+            <ListaPedidos/>
           </div>
         }/> 
 
