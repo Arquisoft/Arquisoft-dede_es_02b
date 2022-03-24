@@ -28,13 +28,11 @@ export function createApp(): Application{
 
 export function createServer(app : Application): http.Server{
     const port: string = process.env.PORT!;
-    let server = app.listen(port, ():void => {
+    return app.listen(port, ():void => {
         console.log('Restapi server for testing listening on '+ port);
     }).on("error",(error:Error)=>{
         console.error('Error occured: ' + error.message);
     });
-
-    return server;
 }
 
 export async function loadDatabase(){

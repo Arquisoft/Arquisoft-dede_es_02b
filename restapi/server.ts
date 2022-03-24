@@ -8,8 +8,6 @@ import mongoose from 'mongoose';
 import apiUsuarios from './usuarios/apiUsuarios';
 import apiProductos from './productos/apiProductos';
 import apiPedidos from './pedidos/apiPedidos';
-import apiCarrito from './carrito/apiCarrito';
-import Carrito from './carrito/Cart';
 
 
 const app: Application = express();
@@ -29,7 +27,6 @@ app.use(bp.json());
 app.use(apiUsuarios);
 app.use(apiPedidos);
 app.use(apiProductos);
-app.use(apiCarrito);
 
 app.listen(port, ():void => {
     console.log('Restapi listening on '+ port);
