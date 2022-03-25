@@ -18,3 +18,13 @@ export type Product = {
     descripcion:string;
     foto:string;
 }
+
+export type Pedido = {
+    _id:string;
+    nPedido: string; 
+    fecha: string; 
+    totalPedido: string;  
+    estado: string;  
+    cliente: string;  
+    direccion: string; 
+}

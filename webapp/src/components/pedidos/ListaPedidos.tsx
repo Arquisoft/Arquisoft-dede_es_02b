@@ -1,6 +1,9 @@
 import * as React from 'react';
 import { DataGrid, GridColDef, GridValueGetterParams } from '@mui/x-data-grid';
 import accounting from 'accounting';
+import Button from '@mui/material/Button';
+import DeleteIcon from '@mui/icons-material/Delete';
+import { Pedido } from '../../shared/shareddtypes';
 
 const columns: GridColDef[] = [
   {
@@ -53,6 +56,13 @@ const rows = [
   {id:5, nPedido: 5, fecha: '24-03-2022', totalPedido: accounting.formatMoney(8,'€'), estado: 'Preparando', cliente: 'Cliente5', direccion:'Calle Valdés Salas, 11, 33007 Oviedo, Asturias'  },
 ];
 
+function borrar(rows:Array<Pedido>, ):Array<Pedido>{
+  rows.map((_, index) =>{
+  });
+  
+  return rows;
+}
+
 const ListaPedidos:React.FC=()=> {
   return (
     <div style={{ height: 400, width: '100%' }}>
@@ -64,6 +74,11 @@ const ListaPedidos:React.FC=()=> {
         checkboxSelection
         disableSelectionOnClick
       />
+      <div>
+      <Button variant="outlined" startIcon={<DeleteIcon />}>
+       Borrar
+      </Button>
+      </div>
     </div>
   );
 }
