@@ -1,9 +1,9 @@
 import express, { Request, Response, Router } from 'express';
 import Producto from './ProductoSchema';
 
-const api: Router = express.Router()
+const apiProductos: Router = express.Router()
 
-api.get(
+apiProductos.get(
   "/products/list",
   async (req: Request, res: Response): Promise<Response> => {
     let productos = await Producto.find();
@@ -11,7 +11,7 @@ api.get(
   }
 );
 
-api.post(
+apiProductos.post(
   "/products/add",
   async (req: Request, res: Response): Promise<Response> => {
     let producto = new Producto();
@@ -25,7 +25,7 @@ api.post(
   }
 );
 
-api.post(
+apiProductos.post(
   "/products/delete",
   async (req: Request, res: Response): Promise<Response> => {
     Producto.findById(req.body.id_producto).deleteOne().exec();
@@ -33,7 +33,7 @@ api.post(
   }
 );
 
-api.get(
+apiProductos.get(
   "/products/:id",
   async (req: Request, res: Response): Promise<Response> => {
     let productos = await Producto.findById(req.params.id)
@@ -41,4 +41,4 @@ api.get(
   }
 );
 
-export default api;
+export default apiProductos;

@@ -1,5 +1,4 @@
-import { nextTick } from 'process';
-import { LoginData, User, Product } from '../shared/shareddtypes';
+import { LoginData, User, Product, Pedido } from '../shared/shareddtypes';
 
 export async function addUser(user: User): Promise<boolean> {
   const apiEndPoint = process.env.REACT_APP_API_URI || 'http://localhost:5000'
@@ -19,7 +18,7 @@ export async function addUser(user: User): Promise<boolean> {
 
 export async function getUsers(): Promise<User[]> {
   const apiEndPoint = process.env.REACT_APP_API_URI || 'http://localhost:5000'
-  let response = await fetch(apiEndPoint + '/users/list');
+  let response: Response = await fetch(apiEndPoint + '/users/list');
 
   return response.json()
 }
@@ -60,20 +59,7 @@ export async function login(user: LoginData): Promise<boolean> {
   }
 }
 
-
-export async function addToCart(product:Product, quantity:number):Promise<boolean>{
-  const apiEndPoint= process.env.REACT_APP_API_URI || 'http://localhost:5000'
-  let response = await fetch(apiEndPoint+'/cart/add', {
-      method: 'POST',
-      headers: {'Content-Type':'application/json'},
-      body: JSON.stringify({'id':product._id, 
-                            'nombre':product.nombre,
-                            'descripcion':product.descripcion, 
-                            'origen':product.origen, 
-                            'precio':product.precio,  
-                            'foto':product.foto,
-                            'qty':quantity})
-  });
+export function addToCart(product:Product, quantity:number):boolean{
   if (quantity <= 0){
     quantity = 1;
   }
@@ -85,8 +71,7 @@ export async function addToCart(product:Product, quantity:number):Promise<boolea
              'foto':product.foto,
              'qty':quantity};
   
-  if (response.status===200){
-    var value = sessionStorage.getItem(product._id);
+  var value = sessionStorage.getItem(product._id);
     if (value != null){
       var temp = JSON.parse(value);
       temp.qty = temp.qty + quantity;
@@ -99,11 +84,6 @@ export async function addToCart(product:Product, quantity:number):Promise<boolea
 
     return true;
   }
-  else {
-    return false;
-  }
-
-}
 
 export async function findProductById(id: string): Promise<Product> {
   const apiEndPoint = process.env.REACT_APP_API_URI || 'http://localhost:5000'
@@ -128,4 +108,26 @@ export async function findUserByDni(dni: string): Promise<User> {
   const apiEndPoint = process.env.REACT_APP_API_URI || 'http://localhost:5000'
   let response = await fetch(apiEndPoint + '/users/dni=' + dni);
   return response.json();
+}
+
+export async function addPedido(pedido: Pedido): Promise<boolean> {
+  const apiEndPoint = process.env.REACT_APP_API_URI || 'http://localhost:5000'
+  try {
+    await fetch(apiEndPoint + '/pedidos/add', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        "numero_pedido":pedido.numero_pedido,
+        "id_usuario":pedido.id_usuario,
+        "lista_productos":pedido.lista_productos,
+        "precio_total":pedido.precio_total,
+        "direccion":pedido.direccion,
+        "estado":pedido.estado
+    })
+    }).then(handleExceptions);
+
+    return true;
+  } catch {
+    return false;
+  }
 }

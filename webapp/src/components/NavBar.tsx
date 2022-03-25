@@ -34,11 +34,6 @@ const NavBar: React.FC  = () => {
     setAnchorElNav(null);
   };
 
-  const handleCloseUserMenu = () => {
-    setAnchorElUser(null);
-  };
-
-
   function logOut(): JSX.Element{
     const logOutUser = () => {
       sessionStorage.clear();
