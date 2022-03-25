@@ -14,14 +14,6 @@
             "dni": "00000002a",
             "contraseña": "$2b$10$WdEFpZGFNu6sXaXXZ7cB6uAHDzkhpjQbCw0Abs549zrP0Mr3CG1c.",
             "__v": 0
-        },
-        {
-            "_id": "6223a07933ab846960afdb59",
-            "nombre": "alex",
-            "email": "alex@email.com",
-            "dni": "00000003a",
-            "contraseña": "$2b$10$iK0TCJbMy6zmytD9mvSewOGc6VZYZDkuCQ.Wef6kHgYFNY0QzQ9t2",
-            "__v": 0
         }
     ],
     "productos": [{
