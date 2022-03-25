@@ -16,6 +16,7 @@ apiPedidos.post(
       pedido.precio_total = req.body.precio_total;
       
       pedido.direccion = req.body.direccion;
+      pedido.estado = req.body.estado;
       pedido.fecha = new Date();
 
       await pedido.save();

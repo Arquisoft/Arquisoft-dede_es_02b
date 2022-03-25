@@ -61,6 +61,7 @@
             "codigo_postal": 33391
         },
         "_id": "62385278aa3b8ac2580301dd",
+        "estado": "Entregado",
         "lista_productos": [{
                 "id_producto": "621f7f978600d56807483f74",
                 "cantidad": 3,

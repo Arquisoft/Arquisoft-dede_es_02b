@@ -27,68 +27,35 @@ afterAll(async () => {
 
 describe('añadir usuario ', () => {
     it('nombre = ""', async () => {
-        let nombre:string = ''
-        let email:string = 'gonzalezgpablo@uniovi.es'
-        let dni:string = '12345678a'
-        let contraseña:string = '1234'
-        const response:Response = await request(app).post('/users/add').send({
-            nombre: nombre,
-            email: email,
-            dni: dni,
-            contraseña: contraseña
-        }).set('Accept', 'application/json')
+        const response:Response = await probarAddUsuarios(null, '', 'gonzalezgpablo@uniovi.com', '','1234');
         expect(response.statusCode).toBe(500);
     });
 
     it('sin nombre', async () => {
-        let email:string = 'gonzalezgpablo@uniovi.es'
-        let dni:string = '12345678a'
-        let contraseña:string = '1234'
         const response:Response = await request(app).post('/users/add').send({
-            email: email,
-            dni: dni,
-            contraseña: contraseña
+            email: 'gonzalezgpablo@uniovi.es',
+            dni: '12345678a',
+            contraseña: '1234'
         }).set('Accept', 'application/json')
         expect(response.statusCode).toBe(500);
     });
 
     it('email = ""', async () => {
-        let nombre:string = 'Pablo'
-        let email:string = ''
-        let dni:string = '12345678a'
-        let contraseña:string = '1234'
-        const response:Response = await request(app).post('/users/add').send({
-            nombre: nombre,
-            email: email,
-            dni: dni,
-            contraseña: contraseña
-        }).set('Accept', 'application/json')
+        const response:Response = await probarAddUsuarios(null, 'Pablo', '', '12345678a','1234');
         expect(response.statusCode).toBe(500);
     });
 
     it('sin email', async () => {
-        let nombre:string = 'Pablo'
-        let dni:string = '12345678a'
-        let contraseña:string = '1234'
         const response:Response = await request(app).post('/users/add').send({
-            nombre: nombre,
-            dni: dni,
-            contraseña: contraseña
+            nombre: 'Pablo',
+            dni: '12345678a',
+            contraseña: '1234'
         }).set('Accept', 'application/json')
         expect(response.statusCode).toBe(500);
     });
 
     it('dni = ""', async () => {
-        let nombre:string = 'Pablo'
-        let email:string = 'gonzalezgpablo@uniovi.es'
-        let dni:string = ''
-        let contraseña:string = '1234'
-        const response:Response = await request(app).post('/users/add').send({
-            nombre: nombre,
-            email: email,
-            dni: dni,
-            contraseña: contraseña
-        }).set('Accept', 'application/json')
+        const response:Response = await probarAddUsuarios(null, 'Pablo', 'gonzalezgpablo@uniovi.com', '','1234');
         expect(response.statusCode).toBe(500);
     });
 
@@ -105,100 +72,41 @@ describe('añadir usuario ', () => {
     });
 
     it('contraseña = ""', async () => {
-        let nombre:string = 'Pablo'
-        let email:string = 'gonzalezgpablo@uniovi.es'
-        let dni:string = '12345678a'
-        let contraseña:string = ''
-        const response:Response = await request(app).post('/users/add').send({
-            nombre: nombre,
-            email: email,
-            dni: dni,
-            contraseña: contraseña
-        }).set('Accept', 'application/json')
+        const response:Response = await probarAddUsuarios(null, 'Pablo', 'gonzalezgpablo@uniovi.com', '12345678a','');
         expect(response.statusCode).toBe(500);
     });
 
     it('sin contraseña', async () => {
-        let nombre:string = 'Pablo'
-        let email:string = 'gonzalezgpablo@uniovi.es'
-        let dni:string = '12345678a'
         const response:Response = await request(app).post('/users/add').send({
-            nombre: nombre,
-            email: email,
-            dni: dni
+            nombre: 'Pablo',
+            email: 'gonzalezgpablo@uniovi.es',
+            dni: '12345678a'
         }).set('Accept', 'application/json')
         expect(response.statusCode).toBe(500);
     });
 
     it('con email sin .es ni .com', async () => {
-        let nombre:string = 'Pablo'
-        let email:string = 'gonzalezgpablo@uniovi'
-        let dni:string = '12345678a'
-        let contraseña:string = '1234'
-        const response:Response = await request(app).post('/users/add').send({
-            nombre: nombre,
-            email: email,
-            dni: dni,
-            contraseña: contraseña
-        }).set('Accept', 'application/json')
+        const response:Response = await probarAddUsuarios(null, 'Pablo', 'gonzalezgpablo@uniovi', '12345678a','1234');
         expect(response.statusCode).toBe(500);
     });
 
     it('con email sin @', async () => {
-        let nombre:string = 'Pablo'
-        let email:string = 'gonzalezgpablouniovi.es'
-        let dni:string = '12345678a'
-        let contraseña:string = '1234'
-        const response:Response = await request(app).post('/users/add').send({
-            nombre: nombre,
-            email: email,
-            dni: dni,
-            contraseña: contraseña
-        }).set('Accept', 'application/json')
+        const response:Response = await probarAddUsuarios(null, 'Pablo', 'gonzalezgpablouniovi.es', '12345678a','1234');
         expect(response.statusCode).toBe(500);
     });
 
     it('con dni invalido', async () => {
-        let nombre:string = 'Pablo'
-        let email:string = 'gonzalezgpablo@uniovi.es'
-        let dni:string = '12348a'
-        let contraseña:string = '1234'
-        const response:Response = await request(app).post('/users/add').send({
-            nombre: nombre,
-            email: email,
-            dni: dni,
-            contraseña: contraseña
-        }).set('Accept', 'application/json')
+        const response:Response = await probarAddUsuarios(null, 'Pablo', 'gonzalezgpablo@uniovi.es', '12345a','1234');
         expect(response.statusCode).toBe(500);
     });
 
     it('correctamente', async () => {
-        let _id = '623b1d8889b169d070b43641';
-        let nombre:string = 'Pablo'
-        let email:string = 'gonzalezgpablo@uniovi.es'
-        let dni:string = '12345678a'
-        let contraseña:string = '1234'
-        const response:Response = await request(app).post('/users/add').send({
-            _id: _id,
-            nombre: nombre,
-            email: email,
-            dni: dni,
-            contraseña: contraseña
-        }).set('Accept', 'application/json')
+       const response:Response = await probarAddUsuarios('623b1d8889b169d070b43641', 'Pablo', 'gonzalezgpablo@uniovi.es', '12345678a','1234');
         expect(response.statusCode).toBe(200);
     });
 
     it('repetido', async () => {
-        let nombre:string = 'Pablo'
-        let email:string = 'gonzalezgpablo@uniovi.es'
-        let dni:string = '12345678a'
-        let contraseña:string = '1234'
-        const response:Response = await request(app).post('/users/add').send({
-            nombre: nombre,
-            email: email,
-            dni: dni,
-            contraseña: contraseña
-        }).set('Accept', 'application/json')
+        const response:Response = await probarAddUsuarios(null, 'Pablo', 'gonzalezgpablo@uniovi.es', '12345678a','1234');
         expect(response.statusCode).toBe(500);
     });
     
@@ -259,33 +167,18 @@ describe('listar usuarios', () => {
 
 describe("login ", () => {
     it("correcto", async () => {
-        let email: string = "admin@email.com";
-        let contraseña: string = "1234";
-        const response:Response = await request(app).post('/users/login').send({
-            email: email,
-            contraseña: contraseña
-        }).set('Accept', 'application/json');
+        const response:Response = await probarLogin("admin@email.com","1234");
         expect(response.statusCode).toBe(200);
-        expect(response.body).toBe(email);
+        expect(response.body).toBe("admin@email.com");
     })
 
     it("incorrecto - mala contraseña", async () => {
-        let email: string = "admin@email.com";
-        let contraseña: string = "asjdkla";
-        const response:Response = await request(app).post('/users/login').send({
-            email: email,
-            contraseña: contraseña
-        }).set('Accept', 'application/json');
+        const response:Response = await probarLogin("admin@email.com","asdr");
         expect(response.statusCode).toBe(412);
     })
 
     it("incorrecto - mal usuario", async () => {
-        let email: string = "incorrecto@email.com";
-        let contraseña: string = "1234";
-        const response:Response = await request(app).post('/users/login').send({
-            email: email,
-            contraseña: contraseña
-        }).set('Accept', 'application/json');
+        const response:Response = await probarLogin("incorrecto@email.com","1234");
         expect(response.statusCode).toBe(412);
     })
 
@@ -305,3 +198,29 @@ describe("login ", () => {
         expect(response.statusCode).toBe(500);
     })
 })
+
+async function probarAddUsuarios(_id:string|null, nombre: string, email:string, dni:string, contraseña:string):Promise<Response>{
+    if(_id){
+        return await request(app).post('/users/add').send({
+            _id: _id,
+            nombre: nombre,
+            email: email,
+            dni: dni,
+            contraseña: contraseña
+        }).set('Accept', 'application/json')
+   }else{
+        return await request(app).post('/users/add').send({
+            nombre: nombre,
+            email: email,
+            dni: dni,
+            contraseña: contraseña
+        }).set('Accept', 'application/json')
+   }
+}
+
+async function probarLogin(email:string, contraseña:string):Promise<Response>{
+    return await request(app).post('/users/login').send({
+        email: email,
+        contraseña: contraseña
+    }).set('Accept', 'application/json');
+}

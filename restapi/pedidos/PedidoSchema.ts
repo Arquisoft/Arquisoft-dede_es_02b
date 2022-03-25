@@ -66,6 +66,11 @@ const pedidoSchema = new mongoose.Schema({
         type: Date,
         immutable: true,
         default: () => Date.now(),
+    },
+    estado: {
+        type: String,
+        required: true,
+        enum: ["Entregado", "En reparto", "Pendiente", "Listo para repartir", "Cancelado"],
     }
 })
 

@@ -121,7 +121,8 @@ export async function addPedido(pedido: Pedido): Promise<boolean> {
         "id_usuario":pedido.id_usuario,
         "lista_productos":pedido.lista_productos,
         "precio_total":pedido.precio_total,
-        "direccion":pedido.direccion
+        "direccion":pedido.direccion,
+        "estado":pedido.estado
     })
     }).then(handleExceptions);
 

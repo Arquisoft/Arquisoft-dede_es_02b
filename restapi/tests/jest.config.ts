@@ -6,10 +6,7 @@ export default {
     collectCoverage: true,
     collectCoverageFrom:[
         "usuarios/apiUsuarios.ts",
-        "usuarios/UsuarioSchema.ts",
-        "productos/apiProductos.ts", 
-        "productos/ProductoSchema.ts", 
-        "pedidos/apiPedidos.ts", 
-        "pedidos/PedidoSchema.ts"
+        "productos/apiProductos.ts",  
+        "pedidos/apiPedidos.ts"
     ]
 }
