@@ -21,7 +21,7 @@ const pages = ['Products'];
 const NavBar: React.FC  = () => {
   const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
-  const [logueado, setLogueado] = useState(true);
+  const [logueado, setLogueado] = useState(sessionStorage.getItem("emailUsuario"));
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget);
@@ -34,21 +34,16 @@ const NavBar: React.FC  = () => {
     setAnchorElNav(null);
   };
 
-  const handleCloseUserMenu = () => {
-    setAnchorElUser(null);
-  };
-
-
   function logOut(): JSX.Element{
     const logOutUser = () => {
       sessionStorage.clear();
 
-      setLogueado(false);
+      setLogueado("");
     };
 
     if (logueado){
         return (
-          <Button key="logout" onClick={logOutUser} sx={{ my: 2, color: 'white', display: 'block' }}>
+          <Button key="logout" onClick={logOutUser} sx={{ my: 2, color: 'blue', display: 'block' }}>
             Log Out
           </Button>
         );
@@ -100,7 +95,7 @@ const NavBar: React.FC  = () => {
               }}
             >
               {pages.map((page) => (
-                <Link to="/products">
+                <Link to={"/"+page}>
                   <MenuItem key={page}>
                     <Typography textAlign="center">{page}</Typography>
                   </MenuItem>
@@ -111,15 +106,16 @@ const NavBar: React.FC  = () => {
           </Box>
           <Typography
             variant="h6"
+            key="dede"
             noWrap
             component="div"
             sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}
           >
-            LOGO
+            Dede
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             {pages.map((page) => (
-              <Link to="/products">
+              <Link to={"/"+page}>
                 <Button
                   key={page}
                   onClick={handleCloseNavMenu}
@@ -137,7 +133,7 @@ const NavBar: React.FC  = () => {
             <Tooltip title="Carrito">
               <Link to="/carrito">
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0, color: 'white' }}>
-                  <Badge badgeContent={sessionStorage.length} color="secondary">
+                  <Badge badgeContent={sessionStorage.length-1} color="secondary">
                     <ShoppingCart />
                   </Badge>
                 </IconButton>

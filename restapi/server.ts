@@ -8,16 +8,14 @@ import mongoose from 'mongoose';
 import apiUsuarios from './usuarios/apiUsuarios';
 import apiProductos from './productos/apiProductos';
 import apiPedidos from './pedidos/apiPedidos';
-import apiCarrito from './Carrito/apiCarrito';
-import Carrito from './Carrito/Cart';
 
 
 const app: Application = express();
-const port: number = 5000;
-const conexiondb: string = process.env.mongoDBURI!;
+const port: string = process.env.PORT!;
+const conexiondb: string = process.env.MONGO_URI!;
 
 const options: cors.CorsOptions = {
-  origin: ['http://localhost:3000']
+  origin: [process.env.CORS_OPTIONS!]
 }; 
 
 const metricsMiddleware:RequestHandler = promBundle({includeMethod: true});
@@ -29,7 +27,6 @@ app.use(bp.json());
 app.use(apiUsuarios);
 app.use(apiPedidos);
 app.use(apiProductos);
-app.use(apiCarrito);
 
 app.listen(port, ():void => {
     console.log('Restapi listening on '+ port);

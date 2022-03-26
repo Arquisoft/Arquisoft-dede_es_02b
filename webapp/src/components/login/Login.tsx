@@ -13,8 +13,6 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import  {login} from '../../api/api';
 import { Navigate } from "react-router-dom";
-import {LoginData} from '../../shared/shareddtypes';
-import { Api } from '@mui/icons-material';
 
 function Copyright(props: any) {
   return (
@@ -31,12 +29,14 @@ const theme = createTheme();
 const Login:React.FC=()=> {
   const [email, setEmail] = useState("");
   const [contraseña, setContraseña] = useState("");
-  const [logueado, setLogueado] = useState(false);
+  const [logueado, setLogueado] = useState("");
   const [errorMessage, setErrorMessage] = useState('');
   
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    setLogueado(await login({email, contraseña}));
+
+    if(!await login({email, contraseña}))
+      setLogueado(email);
     
     if(!logueado)
       setErrorMessage('Email o contraseña incorrectos');
@@ -44,7 +44,9 @@ const Login:React.FC=()=> {
       setErrorMessage('');
   };
 
-  if (logueado){
+  const emailLogueado = logueado || sessionStorage.getItem("emailUsuario");
+
+  if (emailLogueado){
     return <Navigate to="/products" />;
   }
 
@@ -84,7 +86,7 @@ const Login:React.FC=()=> {
               fullWidth
               name="contraseña"
               label="Contraseña"
-              type="contraseña"
+              type="password"
               id="contraseña"
               autoComplete="current-contraseña"
               onChange={(e) => setContraseña(e.target.value)}
@@ -102,7 +104,7 @@ const Login:React.FC=()=> {
             </Button>
             <Grid container>
               <Grid item>
-                <Link href="#" variant="body2">
+                <Link href="/register" variant="body2">
                   {"Registrarse"}
                 </Link>
               </Grid>
