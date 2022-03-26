@@ -10,7 +10,6 @@ import Carrito from './components/carrito/Carrito';
 import Total from './components/carrito/Total';
 import RegisterScreen from './components/login/RegisterScreen';
 import ListaPedidos from './components/pedidos/ListaPedidos';
-import ListaPedidos2 from './components/pedidos/ListaPedidos2';
 
 function App(): JSX.Element {
 
@@ -51,7 +50,7 @@ function App(): JSX.Element {
         <Route path="/pedidos" element={
           <div>
             <NavBar/>
-            <ListaPedidos2/>
+            <ListaPedidos/>
           </div>
         }/> 
 
