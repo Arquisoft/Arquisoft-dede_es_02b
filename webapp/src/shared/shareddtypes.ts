@@ -26,21 +26,12 @@ export type Pedido = {
     id_usuario:string;
     precio_total:number;
     estado: Estado;
-    lista_productos:[{
-        id_producto:string,
-        cantidad:number,
-        precio:number,
-    }];
-    direccion:{
-        calle:string,
-        localidad:string,
-        provincia:string,
-        pais:string,
-        codigo_postal:number,
-    };
+    fecha:string;
+    lista_productos:string;
+    direccion:string;
 }
 
-enum Estado {
+export enum Estado {
     entregado = "Entregado",
     reparto = "En reparto",
     pendiente = "Pendiente",
