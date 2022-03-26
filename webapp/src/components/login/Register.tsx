@@ -13,7 +13,6 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Navigate } from "react-router-dom";
 import { addUser, findUserByEmail, findUserByDni } from '../../api/api';
-import { useNavigate } from 'react-router-dom';
 import { User } from '../../shared/shareddtypes';
 
 const theme = createTheme();
@@ -23,13 +22,12 @@ export default function Register() {
   const [logueado, setLogueado] = useState("");
   const [errorMessage, setErrorMessage] = useState('');
 
-  let history = useNavigate();
-
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
 
     const user: User = {
+      _id:"",
       nombre: data.get('nombre') as string,
       dni: data.get('dni') as string,
       email: data.get('email') as string,

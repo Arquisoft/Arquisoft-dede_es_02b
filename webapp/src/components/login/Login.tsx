@@ -13,8 +13,6 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import  {login} from '../../api/api';
 import { Navigate } from "react-router-dom";
-import {LoginData} from '../../shared/shareddtypes';
-import { Api } from '@mui/icons-material';
 
 function Copyright(props: any) {
   return (

@@ -1,11 +1,8 @@
 import * as React from 'react';
-import  {getProducts} from '../../api/api';
 import {Product} from '../../shared/shareddtypes';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import ProductComponent from './CarritoItem';
-import { Button, Typography } from '@mui/material';
-import accounting from 'accounting';
 
 
 type ProductProps = {
