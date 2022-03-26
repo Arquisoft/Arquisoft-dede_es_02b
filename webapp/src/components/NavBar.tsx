@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useState } from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -12,12 +13,15 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import { ShoppingCart } from '@mui/icons-material';
 import { Badge } from '@mui/material';
+import { Navigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 const pages = ['Products'];
 
-const NavBar = () => {
-  const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
-  const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
+const NavBar: React.FC  = () => {
+  const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
+  const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
+  const [logueado, setLogueado] = useState(sessionStorage.getItem("emailUsuario"));
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget);
@@ -30,9 +34,23 @@ const NavBar = () => {
     setAnchorElNav(null);
   };
 
-  const handleCloseUserMenu = () => {
-    setAnchorElUser(null);
-  };
+  function logOut(): JSX.Element{
+    const logOutUser = () => {
+      sessionStorage.clear();
+
+      setLogueado("");
+    };
+
+    if (logueado){
+        return (
+          <Button key="logout" onClick={logOutUser} sx={{ my: 2, color: 'blue', display: 'block' }}>
+            Log Out
+          </Button>
+        );
+      }
+    else 
+      return <Navigate to="/login" />;
+    }
 
   return (
     <AppBar position="static">
@@ -77,39 +95,49 @@ const NavBar = () => {
               }}
             >
               {pages.map((page) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">{page}</Typography>
-                </MenuItem>
+                <Link to={"/"+page}>
+                  <MenuItem key={page}>
+                    <Typography textAlign="center">{page}</Typography>
+                  </MenuItem>
+                </Link>
               ))}
+              <MenuItem key="logout"> {logOut()}</MenuItem>
             </Menu>
           </Box>
           <Typography
             variant="h6"
+            key="dede"
             noWrap
             component="div"
             sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}
           >
-            LOGO
+            Dede
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             {pages.map((page) => (
-              <Button
-                key={page}
-                onClick={handleCloseNavMenu}
-                sx={{ my: 2, color: 'white', display: 'block' }}
-              >
-                {page}
-              </Button>
+              <Link to={"/"+page}>
+                <Button
+                  key={page}
+                  onClick={handleCloseNavMenu}
+                  sx={{ my: 2, color: 'white', display: 'block' }}
+                >
+                  {page}
+                </Button>
+              </Link>
             ))}
+            {logOut()}
           </Box>
+
 
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Carrito">
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0, color: 'white' }}>
-                <Badge badgeContent={2} color="secondary">
-                  <ShoppingCart />
-                </Badge>
-              </IconButton>
+              <Link to="/carrito">
+                <IconButton onClick={handleOpenUserMenu} sx={{ p: 0, color: 'white' }}>
+                  <Badge badgeContent={sessionStorage.length-1} color="secondary">
+                    <ShoppingCart />
+                  </Badge>
+                </IconButton>
+              </Link>
             </Tooltip>
           </Box>
         </Toolbar>

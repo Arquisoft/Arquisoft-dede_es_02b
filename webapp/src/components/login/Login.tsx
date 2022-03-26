@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useState } from "react";
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -11,34 +12,43 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import  {login} from '../../api/api';
-import {LoginData} from '../../shared/shareddtypes';
-import { Api } from '@mui/icons-material';
+import { Navigate } from "react-router-dom";
 
 function Copyright(props: any) {
   return (
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
       <Link color="inherit" href="https://github.com/Arquisoft/dede_es2b">
-        Código fuente
+        Código fuente 
       </Link>
     </Typography>
   );
 }
 
-type LoggedBool = {
-  logged: boolean;
-}
-
 const theme = createTheme();
 
-export default function Login() {
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+const Login:React.FC=()=> {
+  const [email, setEmail] = useState("");
+  const [contraseña, setContraseña] = useState("");
+  const [logueado, setLogueado] = useState("");
+  const [errorMessage, setErrorMessage] = useState('');
+  
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    
-    var email = data.get('email');
-    var contraseña = data.get('contraseña');
 
+    if(!await login({email, contraseña}))
+      setLogueado(email);
+    
+    if(!logueado)
+      setErrorMessage('Email o contraseña incorrectos');
+    else
+      setErrorMessage('');
   };
+
+  const emailLogueado = logueado || sessionStorage.getItem("emailUsuario");
+
+  if (emailLogueado){
+    return <Navigate to="/products" />;
+  }
 
   return (
     <ThemeProvider theme={theme}>
@@ -68,6 +78,7 @@ export default function Login() {
               name="email"
               autoComplete="email"
               autoFocus
+              onChange={(e) => setEmail(e.target.value)}
             />
             <TextField
               margin="normal"
@@ -75,10 +86,14 @@ export default function Login() {
               fullWidth
               name="contraseña"
               label="Contraseña"
-              type="contraseña"
+              type="password"
               id="contraseña"
               autoComplete="current-contraseña"
+              onChange={(e) => setContraseña(e.target.value)}
             />
+            {errorMessage && (
+              <p className="error"> {errorMessage} </p>
+            )}
             <Button
               type="submit"
               fullWidth
@@ -89,7 +104,7 @@ export default function Login() {
             </Button>
             <Grid container>
               <Grid item>
-                <Link href="#" variant="body2">
+                <Link href="/register" variant="body2">
                   {"Registrarse"}
                 </Link>
               </Grid>
@@ -101,3 +116,5 @@ export default function Login() {
     </ThemeProvider>
   );
 }
+
+export default Login;

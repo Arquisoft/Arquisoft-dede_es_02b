@@ -7,7 +7,7 @@ import {getPrecio} from "./Carrito"
 
 
 
-const Total = () => {
+const Total:React.FC = () => {
     return(
         <div className="root">
             <h2>Total: {accounting.formatMoney(getPrecio(),"€")}</h2>

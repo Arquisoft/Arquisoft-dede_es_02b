@@ -1,7 +1,7 @@
 [[section-technical-risks]]
-== Risks and Technical Debts
+== Riesgos y deudas técnicas
 
-.Risks
+.Riesgos
 |===
 |Riesgo |Explicación |Solución
 
@@ -31,9 +31,26 @@
 
 |===
 
-.Technical Debts
+.Deudas Técnicas
 |===
 |Deuda Técnica | Explicación
 
+| Conexión con SOLID.
+| En este momento aún no conectamos en ningún momento con SOLID para acceder a los PODS de los usuarios.
+
+| No se pueden realizar pedidos.
+| La funcionalidad de realizar un pedido aún no está operativa.
+
+| El carrito aun no se muestra.
+| La interracción entre el back end y el front end en la funcionalidad del carrito no está realizada.
+
+| La aplicación no carga importes por distancia.
+| Funcionalidad no realizada.
+
+| No se realizan cobros de ningún tipo.
+| La aplicación no tiene implementada dicha funcionalidad.
+
+| No se han realizado pruebas.
+| La aplicación no ha sido probada mediante tests.
 
 |===

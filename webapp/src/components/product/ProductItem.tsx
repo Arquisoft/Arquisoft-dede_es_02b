@@ -1,25 +1,32 @@
 import * as React from 'react';
 import Card from '@mui/material/Card';
-import CardHeader from '@mui/material/CardHeader';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
-import Link from '@mui/material/Link';
 import { AddShoppingCart} from '@mui/icons-material';
 import accounting from "accounting";
 import {Product} from '../../shared/shareddtypes';
-import { idText } from 'typescript';
 import { TextField } from '@mui/material';
 import { Box } from '@mui/system';
+import { addToCart } from '../../api/api';
+import { useState } from "react";
 
 type ProductProp = {
   product: Product;
 }
 
-export default function ProductItem(productProp : ProductProp) {
+const ProductItem:React.FC<ProductProp>=(productProp : ProductProp) =>{
+  const [cantidad, setCantidad] = useState(1);
+
+  const handleAddCart = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    await addToCart(productProp.product, cantidad);
+  }
+
   return (
+    <form name="register" onSubmit={handleAddCart}>
     <Card sx={{ maxWidth: 345 }}>
       <CardMedia
         component="img"
@@ -40,8 +47,8 @@ export default function ProductItem(productProp : ProductProp) {
       </CardContent>
       <CardActions sx={{flexDirection:"row-reverse", justifyContent:'space-between'}}>
         <Box sx={{display:'flex', flexDirection:"row-reverse", alignItems:'center'}}>
-          <IconButton>
-              <AddShoppingCart />
+          <IconButton type="submit" >
+            <AddShoppingCart/> 
           </IconButton>
           <Typography sx={{fontSize:20}}> {accounting.formatMoney(productProp.product.precio,"€")}</Typography>
         </Box>
@@ -61,11 +68,16 @@ export default function ProductItem(productProp : ProductProp) {
             inputProps={{min:1,max:10, style:{textAlign:'right'}}}
             variant="standard"
             defaultValue={1}
-            
+            onChange={(e) => 
+              setCantidad(parseInt(e.target.value))
+            }
           />
           <Typography>Cantidad:</Typography>
         </Box>
       </CardActions>
     </Card>
+    </form>
   );
 }
+
+export default ProductItem;

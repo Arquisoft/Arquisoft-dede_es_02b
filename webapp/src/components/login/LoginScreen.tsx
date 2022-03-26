@@ -1,14 +1,15 @@
-import { TextField } from '@mui/material';
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import Login from './Login';
 import LoginNavBar from './LoginNavBar';
 
-export default function LoginScreen() {
+const LoginScreen:React.FC=() =>{
 
   return (
     <>
         <LoginNavBar/>
-        <Login />
+        <Login/>
     </>
   );
 }
+
+export default LoginScreen;

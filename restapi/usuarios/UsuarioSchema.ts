@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { validateEmail } from "./Validators";
+import { validateEmail } from "../schemas/Validators";
 
 const usuarioSchema = new mongoose.Schema({
     nombre: {
@@ -7,7 +7,7 @@ const usuarioSchema = new mongoose.Schema({
         required: true,
         lowercase: true,
     },
-    dni:{
+    dni: {
         type: String,
         required: true,
         lowercase: true,
@@ -15,7 +15,7 @@ const usuarioSchema = new mongoose.Schema({
         maxlength: 9,
         unique: true,
     },
-    email:{
+    email: {
         type: String,
         required: true,
         lowercase: true,
@@ -25,10 +25,10 @@ const usuarioSchema = new mongoose.Schema({
             message: (props: { value: any; }) => `${props.value} no es un email válido`,
         }
     },
-    contraseña:{
+    contraseña: {
         type: String,
         required: true,
     }
 })
 
-export default mongoose.model("Usuarios", usuarioSchema)
+export default mongoose.model("Usuarios", usuarioSchema) 
