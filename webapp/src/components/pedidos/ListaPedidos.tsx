@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useState, useEffect } from 'react';
 import { alpha } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Table from '@mui/material/Table';
@@ -26,48 +26,16 @@ import EditIcon from '@mui/icons-material/Edit';
 import { Autocomplete, Backdrop, Button, Fade, Modal, TextField } from '@mui/material';
 import { display } from '@mui/system';
 import { FilterAltRounded } from '@mui/icons-material';
+import  {getPedidos} from '../../api/api';
 
 
-function createData(
-    _id:string,
-    numero_pedido: number, 
-    fecha: string, 
-    precio_total: number,  
-    estado: Estado,  
-    id_usuario: string, 
-    lista_productos:[{
-      id_producto:string,
-      cantidad:number,
-      precio:number,
-  }],
-  direccion:{
-      calle:string,
-      localidad:string,
-      provincia:string,
-      pais:string,
-      codigo_postal:number,
-  },
-): Pedido {
-  return {
-    _id,
-    numero_pedido,
-    fecha,
-    precio_total,
-    estado,
-    id_usuario,
-    lista_productos,
-    direccion,
-  };
+const [pedidos,setProducts] = useState<Pedido[]>([]);
+
+const refreshPedidosList = async () => {
+  setProducts(await getPedidos());
 }
 
-var rows = [
-  createData('1', 1, '2022-03-20', 7, Estado.entregado, 'Cliente1', [{id_producto:'1',precio:10, cantidad:2}], {calle:'Valdés Salas', localidad:'Oviedo', provincia:'Asturias', pais:'España', codigo_postal:23243}),
-  createData('2', 2, '2022-03-21', 5.3, Estado.entregado, 'Cliente2',[{id_producto:'1',precio:10, cantidad:2}], {calle:'Valdés Salas', localidad:'Oviedo', provincia:'Asturias', pais:'España', codigo_postal:23243}),
-  createData('3', 3, '2022-03-22', 10.45, Estado.entregado, 'Cliente3',[{id_producto:'1',precio:10, cantidad:2}], {calle:'Valdés Salas', localidad:'Oviedo', provincia:'Asturias', pais:'España', codigo_postal:23243}),
-  createData('4', 4, '2022-03-23', 8.5, Estado.entregado, 'Cliente4',[{id_producto:'1',precio:10, cantidad:2}], {calle:'Valdés Salas', localidad:'Oviedo', provincia:'Asturias', pais:'España', codigo_postal:23243}),
-  createData('5', 5, '2022-03-24', 3.5, Estado.entregado, 'Cliente5',[{id_producto:'1',precio:10, cantidad:2}], {calle:'Valdés Salas', localidad:'Oviedo', provincia:'Asturias', pais:'España', codigo_postal:23243}),
-  
-];
+var rows = pedidos;
 
 const opcionesFiltrado=[
     {label:'Nº Pedido'},
@@ -360,7 +328,7 @@ export default function ListaPedidos() {
     var lista = lastState;
     if(palabra!=""){
       if(tipoFiltrado==opcionesFiltrado[0].label)
-        lista = lista.filter((f)=>{ return f.numero_pedido==Number(palabra)})
+        lista = lista.filter((f)=>{ return f.numero_pedido.toString()==palabra})
       if(tipoFiltrado==opcionesFiltrado[1].label)
         lista = lista.filter((f)=>{ return f.fecha==palabra})
       if(tipoFiltrado==opcionesFiltrado[2].label)
@@ -382,7 +350,7 @@ export default function ListaPedidos() {
 
   const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.checked) {
-      const newSelecteds = rows.map((n) => String(n.numero_pedido));
+      const newSelecteds = rows.map((n) => n.numero_pedido.toString());
       setSelected(newSelecteds);
       return;
     }
@@ -483,7 +451,7 @@ export default function ListaPedidos() {
               {state
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row, index) => {
-                  const isItemSelected = isSelected(String(row.numero_pedido));
+                  const isItemSelected = isSelected(row.numero_pedido.toString());
                   const labelId = `enhanced-table-checkbox-${index}`;
 
                   return (
@@ -499,7 +467,7 @@ export default function ListaPedidos() {
                       <TableCell padding="checkbox">
                         <Checkbox
                           color="primary"
-                          onClick={(event) => handleClick(event, String(row.numero_pedido))}
+                          onClick={(event) => handleClick(event, row.numero_pedido.toString())}
                           checked={isItemSelected}
                           inputProps={{
                             'aria-labelledby': labelId,
