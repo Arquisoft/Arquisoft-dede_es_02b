@@ -27,8 +27,18 @@ export type Pedido = {
     precio_total:number;
     estado: Estado;
     fecha:string;
-    lista_productos:string;
-    direccion:string;
+    lista_productos:[{
+        id_producto:string,
+        cantidad:number,
+        precio:number,
+    }];
+    direccion:{
+        calle:string,
+        localidad:string,
+        provincia:string,
+        pais:string,
+        codigo_postal:number,
+    };
 }
 
 export enum Estado {

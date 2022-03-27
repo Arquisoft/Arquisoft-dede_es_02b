@@ -35,8 +35,18 @@ function createData(
     precio_total: number,  
     estado: Estado,  
     id_usuario: string, 
-    lista_productos:string,
-    direccion: string
+    lista_productos:[{
+      id_producto:string,
+      cantidad:number,
+      precio:number,
+  }],
+  direccion:{
+      calle:string,
+      localidad:string,
+      provincia:string,
+      pais:string,
+      codigo_postal:number,
+  },
 ): Pedido {
   return {
     _id,
@@ -51,11 +61,11 @@ function createData(
 }
 
 var rows = [
-  createData('1', 1, '2022-03-20', 7, Estado.entregado, 'Cliente1', '[{id_producto:1,precio:10, cantidad:2}]', '{calle:Valdés Salas, localidad:Oviedo, provincia:Asturias, pais: Asturias, codigo_postal:23243}'),
-  createData('2', 2, '2022-03-21', 5.3, Estado.entregado, 'Cliente2','[{id_producto:1,precio:10, cantidad:2}]', '{calle:Valdés Salas, localidad:Oviedo, provincia:Asturias, pais: Asturias, codigo_postal:23243}'),
-  createData('3', 3, '2022-03-22', 10.45, Estado.entregado, 'Cliente3','[{id_producto:1,precio:10, cantidad:2}]', '{calle:Valdés Salas, localidad:Oviedo, provincia:Asturias, pais: Asturias, codigo_postal:23243}'),
-  createData('4', 4, '2022-03-23', 8.5, Estado.entregado, 'Cliente4','[{id_producto:1,precio:10, cantidad:2}]', '{calle:Valdés Salas, localidad:Oviedo, provincia:Asturias, pais: Asturias, codigo_postal:23243}'),
-  createData('5', 5, '2022-03-24', 3.5, Estado.entregado, 'Cliente5','[{id_producto:1,precio:10, cantidad:2}]', '{calle:Valdés Salas, localidad:Oviedo, provincia:Asturias, pais: Asturias, codigo_postal:23243}'),
+  createData('1', 1, '2022-03-20', 7, Estado.entregado, 'Cliente1', [{id_producto:'1',precio:10, cantidad:2}], {calle:'Valdés Salas', localidad:'Oviedo', provincia:'Asturias', pais:'España', codigo_postal:23243}),
+  createData('2', 2, '2022-03-21', 5.3, Estado.entregado, 'Cliente2',[{id_producto:'1',precio:10, cantidad:2}], {calle:'Valdés Salas', localidad:'Oviedo', provincia:'Asturias', pais:'España', codigo_postal:23243}),
+  createData('3', 3, '2022-03-22', 10.45, Estado.entregado, 'Cliente3',[{id_producto:'1',precio:10, cantidad:2}], {calle:'Valdés Salas', localidad:'Oviedo', provincia:'Asturias', pais:'España', codigo_postal:23243}),
+  createData('4', 4, '2022-03-23', 8.5, Estado.entregado, 'Cliente4',[{id_producto:'1',precio:10, cantidad:2}], {calle:'Valdés Salas', localidad:'Oviedo', provincia:'Asturias', pais:'España', codigo_postal:23243}),
+  createData('5', 5, '2022-03-24', 3.5, Estado.entregado, 'Cliente5',[{id_producto:'1',precio:10, cantidad:2}], {calle:'Valdés Salas', localidad:'Oviedo', provincia:'Asturias', pais:'España', codigo_postal:23243}),
   
 ];
 
@@ -123,7 +133,7 @@ interface HeadCell {
 const headCells: readonly HeadCell[] = [
   {
     id: 'numero_pedido',
-    numeric: true,
+    numeric: false,
     disablePadding: true,
     label: 'Nº Pedido',
   },
@@ -161,7 +171,7 @@ const headCells: readonly HeadCell[] = [
     id: 'lista_productos',
     numeric: false,
     disablePadding: false,
-    label: 'Dirección',
+    label: 'Productos',
   },
 ];
 
@@ -321,6 +331,7 @@ export default function ListaPedidos() {
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const [state, setState] = React.useState<Pedido[]>(rows);
   const [lastState, setLastState] = React.useState<Pedido[]>(state);
+  const [rowState, setRowState]=React.useState<Pedido>(state[0])
 
   function borrar(seleccionados: readonly String[]) {
     var opcion=window.confirm("¿Seguro de que quieres eliminar el pedido?");
@@ -423,10 +434,24 @@ export default function ListaPedidos() {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+
+  function editar(row:Pedido){
+    setRowState(row);
+    setOpen(true);
+  }
+
   var estado:Estado=opcionesEstado[0].label;
 
   function editarEstado(){
-    var elemento= state[0]; elemento.estado=estado; state[0]=elemento;
+    var lista = state;
+    for (let index = 0; index < lista.length; index++) {
+      const element = lista[index];
+      if(rowState._id===element._id){
+        lista[index].estado=estado;
+      }
+      
+    }
+    setState(lista);
     setOpen(false);
   }
 
@@ -455,7 +480,7 @@ export default function ListaPedidos() {
             <TableBody>
               {/* if you don't need to support IE11, you can replace the `stableSort` call with:
               rows.slice().sort(getComparator(order, orderBy)) */}
-              {stableSort(state, getComparator(order, orderBy))
+              {state
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row, index) => {
                   const isItemSelected = isSelected(String(row.numero_pedido));
@@ -493,9 +518,9 @@ export default function ListaPedidos() {
                       <TableCell align="left">{row.precio_total}</TableCell>
                       <TableCell align="left">{row.estado}</TableCell>
                       <TableCell align="left">{row.id_usuario}</TableCell>
-                      <TableCell align="left">{row.direccion}</TableCell>
-                      <TableCell align="left">{row.lista_productos}</TableCell>
-                      <TableCell><IconButton onClick={handleOpen}><EditIcon/></IconButton></TableCell>
+                      <TableCell align="left">{row.direccion.calle+", "+row.direccion.localidad+", "+row.direccion.provincia+", "+row.direccion.pais+", "+row.direccion.codigo_postal}</TableCell>
+                      <TableCell align="left">{row.lista_productos.map((registro)=>{return "id: "+registro.id_producto+", cantidad: "+registro.cantidad+", precio: "+registro.precio+"€"})}</TableCell>
+                      <TableCell><IconButton onClick={()=>editar(row)}><EditIcon/></IconButton></TableCell>
                       <Modal
                       aria-labelledby="transition-modal-title"
                       aria-describedby="transition-modal-description"
