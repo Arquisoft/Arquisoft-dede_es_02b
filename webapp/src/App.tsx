@@ -9,7 +9,8 @@ import LoginScreen from './components/login/LoginScreen';
 import Carrito from './components/carrito/Carrito';
 import Total from './components/carrito/Total';
 import RegisterScreen from './components/login/RegisterScreen';
-import SolidConnection from "./SolidConnection";
+import SolidConnection from "./FuntionSolidConnection";
+
 
 function App(): JSX.Element {
 
@@ -23,6 +24,8 @@ function App(): JSX.Element {
     refreshProductList();
   },[]);
 
+   console.log(SolidConnection("https://pod.inrupt.com/diegomarty/profile/card#me"));
+
   return (
     <>
       <Routes>
@@ -30,10 +33,10 @@ function App(): JSX.Element {
         <Route path="/registro" element={<Navigate to="/register" />}/>
         <Route path="/productos" element={<Navigate to="/products" />}/>
         <Route path="/login" element={
-          <SolidConnection />
+          <LoginScreen />
         }/>
         <Route path="/register" element={
-          <SolidConnection />
+          <RegisterScreen />
         }/>
         <Route path="/products" element={
           <div>
