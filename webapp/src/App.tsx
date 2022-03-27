@@ -9,7 +9,7 @@ import LoginScreen from './components/login/LoginScreen';
 import Carrito from './components/carrito/Carrito';
 import Total from './components/carrito/Total';
 import RegisterScreen from './components/login/RegisterScreen';
-import SolidConnection from "./FuntionSolidConnection";
+import FuntionSolidConnection from "./FuntionSolidConnection";
 
 
 function App(): JSX.Element {
@@ -24,7 +24,7 @@ function App(): JSX.Element {
     refreshProductList();
   },[]);
 
-   console.log(SolidConnection("https://pod.inrupt.com/diegomarty/profile/card#me"));
+   console.log(FuntionSolidConnection("https://diegomarty00.inrupt.net/profile/card#me"));
 
   return (
     <>
