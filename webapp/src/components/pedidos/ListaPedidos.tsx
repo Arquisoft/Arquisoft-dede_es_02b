@@ -45,11 +45,11 @@ const opcionesFiltrado=[
 ]
 
 const opcionesEstado=[
-  Estado.cancelado,
-  Estado.entregado,
-  Estado.listo,
-  Estado.pendiente,
-  Estado.reparto
+  {label:Estado.entregado},
+  {label:Estado.reparto},
+  {label:Estado.pendiente},
+  {label:Estado.listo},
+  {label:Estado.cancelado},
 ]
 
 
@@ -134,6 +134,12 @@ const headCells: readonly HeadCell[] = [
     numeric: false,
     disablePadding: false,
     label: 'Dirección',
+  },
+  {
+    id: 'lista_productos',
+    numeric: false,
+    disablePadding: false,
+    label: 'Productos',
   },
 ];
 
@@ -293,13 +299,12 @@ export default function ListaPedidos() {
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const [state, setState] = React.useState<Pedido[]>(rows);
   const [lastState, setLastState] = React.useState<Pedido[]>(state);
+  const [rowState, setRowState]=React.useState<Pedido>(state[0])
 
   function borrar(seleccionados: readonly String[]) {
     var opcion=window.confirm("¿Seguro de que quieres eliminar el pedido?");
     if(opcion){
       var lista = state;
-      var contador=0;
-      var borrado = false;
       for (let index = 0; index < lista.length; index++) {
         for (let j = 0; j < seleccionados.length; j++) {
           const seleccionado = seleccionados[j];
@@ -397,11 +402,24 @@ export default function ListaPedidos() {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-  var estado:Estado=Estado.pendiente;
+
+  function editar(row:Pedido){
+    setRowState(row);
+    setOpen(true);
+  }
+
+  var estado:Estado=opcionesEstado[0].label;
 
   function editarEstado(){
-    var elemento= state[0]; 
-    elemento.estado=estado; state[0]=elemento;
+    var lista = state;
+    for (let index = 0; index < lista.length; index++) {
+      const element = lista[index];
+      if(rowState._id===element._id){
+        lista[index].estado=estado;
+      }
+      
+    }
+    setState(lista);
     setOpen(false);
   }
 
@@ -430,7 +448,7 @@ export default function ListaPedidos() {
             <TableBody>
               {/* if you don't need to support IE11, you can replace the `stableSort` call with:
               rows.slice().sort(getComparator(order, orderBy)) */}
-              {stableSort(state, getComparator(order, orderBy))
+              {state
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row, index) => {
                   const isItemSelected = isSelected(row.numero_pedido.toString());
@@ -462,14 +480,15 @@ export default function ListaPedidos() {
                         scope="row"
                         padding="none"
                       >
-                        {row.numero_pedido}
+                        {String(row.numero_pedido)}
                       </TableCell>
                       <TableCell align="left">{row.fecha}</TableCell>
                       <TableCell align="left">{row.precio_total}</TableCell>
                       <TableCell align="left">{row.estado}</TableCell>
                       <TableCell align="left">{row.id_usuario}</TableCell>
-                      <TableCell align="left">{row.direccion}</TableCell>
-                      <TableCell><IconButton onClick={handleOpen}><EditIcon/></IconButton></TableCell>
+                      <TableCell align="left">{row.direccion.calle+", "+row.direccion.localidad+", "+row.direccion.provincia+", "+row.direccion.pais+", "+row.direccion.codigo_postal}</TableCell>
+                      <TableCell align="left">{row.lista_productos.map((registro)=>{return "id: "+registro.id_producto+", cantidad: "+registro.cantidad+", precio: "+registro.precio+"€"})}</TableCell>
+                      <TableCell><IconButton onClick={()=>editar(row)}><EditIcon/></IconButton></TableCell>
                       <Modal
                       aria-labelledby="transition-modal-title"
                       aria-describedby="transition-modal-description"
@@ -495,7 +514,7 @@ export default function ListaPedidos() {
                             renderInput={(params) => <TextField {...params} label="Opciones" />}
                             onChange={(event, newValue) => {
                               if(newValue!=null)
-                                  estado = newValue;
+                                  estado = newValue.label;
                             }}
                           />
                           <Button onClick={()=>editarEstado()}>Editar</Button>
