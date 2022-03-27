@@ -299,7 +299,11 @@ export default function ListaPedidos() {
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const [state, setState] = React.useState<Pedido[]>(rows);
   const [lastState, setLastState] = React.useState<Pedido[]>(state);
-  const [rowState, setRowState]=React.useState<Pedido>(state[0])
+  const [rowState, setRowState]=React.useState<Pedido>(state[0]);
+
+  useEffect(()=>{
+    refreshPedidosList();
+  },[]);
 
   function borrar(seleccionados: readonly String[]) {
     var opcion=window.confirm("¿Seguro de que quieres eliminar el pedido?");
