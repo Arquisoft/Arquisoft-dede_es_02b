@@ -28,15 +28,6 @@ import { display } from '@mui/system';
 import { FilterAltRounded } from '@mui/icons-material';
 import  {getPedidos} from '../../api/api';
 
-
-const [pedidos,setProducts] = useState<Pedido[]>([]);
-
-const refreshPedidosList = async () => {
-  setProducts(await getPedidos());
-}
-
-var rows = pedidos;
-
 const opcionesFiltrado=[
     {label:'Nº Pedido'},
     {label:'Fecha'},
@@ -292,14 +283,21 @@ const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
 };
 
 export default function ListaPedidos() {
+  const [pedidos,setPedidos] = useState<Pedido[]>([]);
   const [order, setOrder] = React.useState<Order>('asc');
   const [orderBy, setOrderBy] = React.useState<keyof Pedido>('numero_pedido');
   const [selected, setSelected] = React.useState<readonly string[]>([]);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
-  const [state, setState] = React.useState<Pedido[]>(rows);
+  const [state, setState] = React.useState<Pedido[]>(pedidos);
   const [lastState, setLastState] = React.useState<Pedido[]>(state);
   const [rowState, setRowState]=React.useState<Pedido>(state[0]);
+
+
+
+const refreshPedidosList = async () => {
+  setPedidos(await getPedidos());
+}
 
   useEffect(()=>{
     refreshPedidosList();
@@ -354,7 +352,7 @@ export default function ListaPedidos() {
 
   const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.checked) {
-      const newSelecteds = rows.map((n) => n.numero_pedido.toString());
+      const newSelecteds = pedidos.map((n) => n.numero_pedido.toString());
       setSelected(newSelecteds);
       return;
     }
@@ -447,7 +445,7 @@ export default function ListaPedidos() {
               orderBy={orderBy}
               onSelectAllClick={handleSelectAllClick}
               onRequestSort={handleRequestSort}
-              rowCount={state.length}
+              rowCount={1}
             />
             <TableBody>
               {/* if you don't need to support IE11, you can replace the `stableSort` call with:
@@ -543,7 +541,7 @@ export default function ListaPedidos() {
         <TablePagination
           rowsPerPageOptions={[5, 10, 25]}
           component="div"
-          count={rows.length}
+          count={pedidos.length}
           rowsPerPage={rowsPerPage}
           page={page}
           onPageChange={handleChangePage}
