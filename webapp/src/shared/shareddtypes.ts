@@ -26,7 +26,7 @@ export type Pedido = {
     id_usuario:string;
     precio_total:number;
     estado: Estado;
-    fecha: string;
+    fecha:string;
     lista_productos:[{
         id_producto:string,
         cantidad:number,
