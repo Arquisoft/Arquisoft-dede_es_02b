@@ -1,22 +1,23 @@
 import mongoose from "mongoose";
 
 const pedidoSchema = new mongoose.Schema({
-    "Numero de pedido": {
+    numero_pedido: {
         type: Number,
         required: true,
         immutable: true,
         unique: true,
     },
-    id_usuario: { //Mejor id de usuario?
+    id_usuario: { 
         type: mongoose.Types.ObjectId,
         required: true,
         ref: "Usuario",
     },
-    "lista de productos": [{
+    lista_productos: [{
         id_producto:{
             type: mongoose.Types.ObjectId,
             required: true,
             ref: "Producto",
+            _id:true,
         } ,
         cantidad: {
             type: Number,
@@ -28,21 +29,48 @@ const pedidoSchema = new mongoose.Schema({
             required: true,
             min: 0,
         },
+        _id:false,
     }],
-    "precio total": {
+    precio_total: {
         type: Number,
         required: true,
         min: 0,
     },
     direccion: {
-        type: String,
-        required: true,
-        lowercase: true,
+        calle: {
+            type: String,
+            required: true,
+            lowercase: true,
+        },
+        localidad: {
+            type:String,
+            required: true,
+            lowercase: true,
+        },
+        provincia: {
+            type:String,
+            required: true,
+            lowercase: true,
+        },
+        pais: {
+            type:String,
+            required: true,
+            lowercase: true,
+        },
+        codigo_postal: {
+            type: Number,
+            required: true,
+        },
     },
     fecha: {
         type: Date,
         immutable: true,
         default: () => Date.now(),
+    },
+    estado: {
+        type: String,
+        required: true,
+        enum: ["Entregado", "En reparto", "Pendiente", "Listo para repartir", "Cancelado"],
     }
 })
 
