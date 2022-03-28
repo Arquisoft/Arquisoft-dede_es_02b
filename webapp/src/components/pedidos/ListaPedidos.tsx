@@ -24,7 +24,6 @@ import { Pedido, Estado } from '../../shared/shareddtypes';
 import { isElementOfType } from 'react-dom/test-utils';
 import EditIcon from '@mui/icons-material/Edit';
 import { Autocomplete, Backdrop, Button, Fade, Modal, TextField } from '@mui/material';
-import { display } from '@mui/system';
 import { FilterAltRounded } from '@mui/icons-material';
 import  {getPedidos} from '../../api/api';
 
@@ -282,26 +281,20 @@ const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
   );
 };
 
-export default function ListaPedidos() {
-  const [pedidos,setPedidos] = useState<Pedido[]>([]);
+type PedidoProps = {
+  pedidos: Pedido[];
+}
+
+const ListaPedidos:React.FC<PedidoProps>=(props: PedidoProps)=> {
+
   const [order, setOrder] = React.useState<Order>('asc');
   const [orderBy, setOrderBy] = React.useState<keyof Pedido>('numero_pedido');
   const [selected, setSelected] = React.useState<readonly string[]>([]);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
-  const [state, setState] = React.useState<Pedido[]>(pedidos);
+  const [state, setState] = React.useState<Pedido[]>(props.pedidos);
   const [lastState, setLastState] = React.useState<Pedido[]>(state);
   const [rowState, setRowState]=React.useState<Pedido>(state[0]);
-
-
-
-const refreshPedidosList = async () => {
-  setPedidos(await getPedidos());
-}
-
-  useEffect(()=>{
-    refreshPedidosList();
-  },[]);
 
   function borrar(seleccionados: readonly String[]) {
     var opcion=window.confirm("¿Seguro de que quieres eliminar el pedido?");
@@ -352,7 +345,7 @@ const refreshPedidosList = async () => {
 
   const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.checked) {
-      const newSelecteds = pedidos.map((n) => n.numero_pedido.toString());
+      const newSelecteds = props.pedidos.map((n) => n.numero_pedido.toString());
       setSelected(newSelecteds);
       return;
     }
@@ -541,7 +534,7 @@ const refreshPedidosList = async () => {
         <TablePagination
           rowsPerPageOptions={[5, 10, 25]}
           component="div"
-          count={pedidos.length}
+          count={props.pedidos.length}
           rowsPerPage={rowsPerPage}
           page={page}
           onPageChange={handleChangePage}
@@ -551,3 +544,5 @@ const refreshPedidosList = async () => {
     </Box>
   );
 }
+
+export default ListaPedidos;
