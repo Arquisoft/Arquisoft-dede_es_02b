@@ -16,4 +16,5 @@
 | bcrypt        | Dependencia que nos permite crear para cada contraseña un hash distinto y así encriptarlas de manera segura.
 | dotenv        | Dependencia para externalizar en un archivo ciertos strings
 | React Rouder Dom       | Librería para implementar la navegación entre URLs.
+| React Split      | Librería para dividir la pantalla en varias partes con una barra deslizable para cambiar el tamaño
 |===
