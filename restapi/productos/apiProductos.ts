@@ -28,7 +28,7 @@ apiProductos.post(
 apiProductos.post(
   "/products/delete",
   async (req: Request, res: Response): Promise<Response> => {
-    Producto.findById(req.body.id_producto).deleteOne().exec();
+    Producto.findById(req.body._id).deleteOne().exec();
     return res.sendStatus(200);
   }
 );
@@ -41,4 +41,4 @@ apiProductos.get(
   }
 );
 
-export default apiProductos;
+export default apiProductos; 
