@@ -24,18 +24,8 @@ import { Pedido, Estado } from '../../shared/shareddtypes';
 import { isElementOfType } from 'react-dom/test-utils';
 import EditIcon from '@mui/icons-material/Edit';
 import { Autocomplete, Backdrop, Button, Fade, Modal, TextField } from '@mui/material';
-import { display } from '@mui/system';
 import { FilterAltRounded } from '@mui/icons-material';
 import  {getPedidos} from '../../api/api';
-
-
-const [pedidos,setProducts] = useState<Pedido[]>([]);
-
-const refreshPedidosList = async () => {
-  setProducts(await getPedidos());
-}
-
-var rows = pedidos;
 
 const opcionesFiltrado=[
     {label:'Nº Pedido'},
@@ -291,15 +281,20 @@ const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
   );
 };
 
-export default function ListaPedidos() {
+type PedidoProps = {
+  pedidos: Pedido[];
+}
+
+const ListaPedidos:React.FC<PedidoProps>=(props: PedidoProps)=> {
+
   const [order, setOrder] = React.useState<Order>('asc');
   const [orderBy, setOrderBy] = React.useState<keyof Pedido>('numero_pedido');
   const [selected, setSelected] = React.useState<readonly string[]>([]);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
-  const [state, setState] = React.useState<Pedido[]>(rows);
+  const [state, setState] = React.useState<Pedido[]>(props.pedidos);
   const [lastState, setLastState] = React.useState<Pedido[]>(state);
-  const [rowState, setRowState]=React.useState<Pedido>(state[0])
+  const [rowState, setRowState]=React.useState<Pedido>(state[0]);
 
   function borrar(seleccionados: readonly String[]) {
     var opcion=window.confirm("¿Seguro de que quieres eliminar el pedido?");
@@ -350,7 +345,7 @@ export default function ListaPedidos() {
 
   const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.checked) {
-      const newSelecteds = rows.map((n) => n.numero_pedido.toString());
+      const newSelecteds = props.pedidos.map((n) => n.numero_pedido.toString());
       setSelected(newSelecteds);
       return;
     }
@@ -443,7 +438,7 @@ export default function ListaPedidos() {
               orderBy={orderBy}
               onSelectAllClick={handleSelectAllClick}
               onRequestSort={handleRequestSort}
-              rowCount={state.length}
+              rowCount={1}
             />
             <TableBody>
               {/* if you don't need to support IE11, you can replace the `stableSort` call with:
@@ -539,7 +534,7 @@ export default function ListaPedidos() {
         <TablePagination
           rowsPerPageOptions={[5, 10, 25]}
           component="div"
-          count={rows.length}
+          count={props.pedidos.length}
           rowsPerPage={rowsPerPage}
           page={page}
           onPageChange={handleChangePage}
@@ -549,3 +544,5 @@ export default function ListaPedidos() {
     </Box>
   );
 }
+
+export default ListaPedidos;
