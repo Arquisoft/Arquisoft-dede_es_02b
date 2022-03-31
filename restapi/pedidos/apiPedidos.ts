@@ -37,7 +37,7 @@ apiPedidos.get(
   }
 );
 
-apiPedidos.post(
+apiPedidos.delete(
   "/pedidos/delete",
   async (req: Request, res: Response): Promise<Response> => {
     Pedido.findById(req.body._id).deleteOne().exec();

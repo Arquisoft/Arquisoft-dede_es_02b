@@ -77,7 +77,7 @@ apiUsuarios.get(
   }
 );
 
-apiUsuarios.post(
+apiUsuarios.delete(
   "/users/delete",
   async (req: Request, res: Response): Promise<Response> => {
     Usuario.findById(req.body._id).deleteOne().exec();
