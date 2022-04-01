@@ -3,17 +3,20 @@
 
 [options="header"]
 |===
-| Termino       | Definición
-| Typescript    | TypeScript es un lenguaje de programación libre y de código abierto desarrollado y mantenido por Microsoft. Es un superconjunto de JavaScript, que esencialmente añade tipos estáticos y objetos basados en clases.
-| Docker        | Docker es un proyecto que automatiza el despliegue de aplicaciones dentro de contenedores de software, proporcionando una capa adicional de abstracción y automatización de virtualización de aplicaciones en múltiples sistemas operativos.
-| Node.js       | Node.js es un entorno en tiempo de ejecución multiplataforma para la capa del servidor diseñado para crear aplicaciones escalables, permitiéndote establecer y gestionar múltiples conexiones al mismo tiempo.
-| React         | React es una biblioteca Javascript de código abierto diseñada para crear interfaces de usuario con el objetivo de facilitar el desarrollo de aplicaciones en una sola página.
-| Solid         | SOLID se compone de una serie de principios y de buenas prácticas que os permiten administrar la mayoría de problemas de diseño de software permitiendonos tener un código más limpio, más mantenible, más escalable a futuro y menos propenso a errores.
-| Pod           | Pod es un contenedor, en el que se presenta un conjunto de datos al usuario.
-| MongoDB       | MongoDB es un programa de base de datos NoSQL que en vez de guardar datos en tablas guarda datos en estructuras BSON (similar a JSON).
-| Express       | Infraestructura de aplicaciones web para Node.js que nos permite realizar las peticiones en el back end.
-| Mongoose      | Biblioteca que nos permite conectar con MongoDB desde Express.
-| bcrypt        | Dependencia que nos permite crear para cada contraseña un hash distinto y así encriptarlas de manera segura.
-| dotenv        | Dependencia para externalizar en un archivo ciertos strings
-| React Rouder Dom       | Librería para implementar la navegación entre URLs.
+| Termino           | Definición
+| Typescript        | TypeScript es un lenguaje de programación libre y de código abierto desarrollado y mantenido por Microsoft. Es un superconjunto de JavaScript, que esencialmente añade tipos estáticos y objetos basados en clases.
+| Docker            | Docker es un proyecto que automatiza el despliegue de aplicaciones dentro de contenedores de software, proporcionando una capa adicional de abstracción y automatización de virtualización de aplicaciones en múltiples sistemas operativos.
+| Node.js           | Node.js es un entorno en tiempo de ejecución multiplataforma para la capa del servidor diseñado para crear aplicaciones escalables, permitiéndote establecer y gestionar múltiples conexiones al mismo tiempo.
+| React             | React es una biblioteca Javascript de código abierto diseñada para crear interfaces de usuario con el objetivo de facilitar el desarrollo de aplicaciones en una sola página.
+| Solid             | SOLID se compone de una serie de principios y de buenas prácticas que os permiten administrar la mayoría de problemas de diseño de software permitiendonos tener un código más limpio, más mantenible, más escalable a futuro y menos propenso a errores.
+| Pod               | Pod es un contenedor, en el que se presenta un conjunto de datos al usuario.
+| MongoDB           | MongoDB es un programa de base de datos NoSQL que en vez de guardar datos en tablas guarda datos en estructuras BSON (similar a JSON).
+| Express           | Infraestructura de aplicaciones web para Node.js que nos permite realizar las peticiones en el back end.
+| Mongoose          | Biblioteca que nos permite conectar con MongoDB desde Express.
+| bcrypt            | Dependencia que nos permite crear para cada contraseña un hash distinto y así encriptarlas de manera segura.
+| dotenv            | Dependencia para externalizar en un archivo ciertos strings.
+| React Router Dom  | Librería para implementar la navegación entre URLs.
+| Jest              | Librería para la realización de los tests de backend.
+| Supertest         | Librería para realizar las pruebas de las peticiones del backend.
+| Cors              | Dependencia para que tanto la aplicación de nodejs como la aplicacion de react puedan interactuar.
 |===
