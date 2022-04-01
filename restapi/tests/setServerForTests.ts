@@ -17,7 +17,7 @@ export function createApp(): Application{
     let app : Application = express();
     
     const options: cors.CorsOptions = {
-        origin: [process.env.CORS_OPTIONS!]
+        origin: [process.env.CORS_OPTIONS||'http://localhost:3000']
     };
 
     app.use(cors(options));
@@ -27,7 +27,7 @@ export function createApp(): Application{
 }
 
 export function createServer(app : Application): http.Server{
-    const port: string = process.env.PORT!;
+    const port: string = process.env.PORT||'5000';
     return app.listen(port, ():void => {
         console.log('Restapi server for testing listening on '+ port);
     }).on("error",(error:Error)=>{
