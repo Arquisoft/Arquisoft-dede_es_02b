@@ -47,10 +47,9 @@ export async function closeServer(server: http.Server){
     server.close();
     
     try{
-        let collections = await mongoose.connection.db.collections();
-        for (let collection of collections) {
-            await collection.deleteMany({})
-        }
+        await Producto.deleteMany();
+        await Usuario.deleteMany();
+        await Pedido.deleteMany();
 
         await mongoose.disconnect();
     }catch{

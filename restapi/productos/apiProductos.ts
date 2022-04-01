@@ -19,6 +19,7 @@ apiProductos.post(
     producto.origen = req.body.origen;
     producto.precio = req.body.precio;
     producto.descripcion = req.body.descripcion;
+    producto.foto = req.body.foto;
 
     await producto.save();
     return res.sendStatus(200);
