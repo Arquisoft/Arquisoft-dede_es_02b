@@ -3,7 +3,7 @@
 
 [![Actions Status](https://github.com/arquisoft/dede_0/workflows/CI%20for%20ASW2122/badge.svg)](https://github.com/arquisoft/dede_0/actions)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=Arquisoft_dede_0&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=Arquisoft_dede_0)
-[![codecov](https://codecov.io/gh/Arquisoft/dede_es2b/branch/main/graph/badgv]e.svg?token=oJPjRjawRb)](https://codecov.io/gh/Arquisoft/dede_es2b)
+[![codecov](https://codecov.io/gh/Arquisoft/dede_en1b/branch/master/graph/badge.svg?token=r1a8JeFXQN)](https://codecov.io/gh/Arquisoft/dede_es2b)
 
 
 <p float="left">
