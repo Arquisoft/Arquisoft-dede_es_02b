@@ -26,7 +26,7 @@ export function getPrecio():number{
 const Carrito: React.FC<ProductProps>= (props: ProductProps) =>{
   var i = 0;
   let productos: Product[]=[];
-  console.log(sessionStorage[i]);
+  carrito.clear();
   for(i; i<props.products.length; i++){
     var cartItem = sessionStorage.getItem(props.products[i]._id);
     if (cartItem != null){
