@@ -504,6 +504,11 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </li>
 <li><a href="#section-technical-risks">11. Riesgos y deudas técnicas</a></li>
 <li><a href="#section-glossary">12. Glosario</a></li>
+<li><a href="#section-anexo">13. Anexo</a>
+<ul class="sectlevel2">
+<li><a href="#_modelo_de_datos">13.1. Modelo de datos.</a></li>
+</ul>
+</li>
 </ul>
 </div>
 </div>
@@ -1503,6 +1508,120 @@ Los requisitos se representarán en un diagrama de árbol, <em>10.1 Árbol de ca
 </tbody>
 </table>
 <div style="page-break-after: always;"></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="section-anexo">13. Anexo</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>En este Anexo se mostrarán diferentes aspectos de la aplicación que ayudarán a entender partes que no hayan quedado explicadas por completo
+o que no corresponden a ninguno de los puntos de la documentación.</p>
+</div>
+<div class="sect2">
+<h3 id="_modelo_de_datos">13.1. Modelo de datos.</h3>
+<div class="paragraph">
+<p>En el modelo de datos de nuestra aplicación, al estar usando MongoDB, tenemos 3 colecciones diferentes quue almacenan los elementos con los que interactúa la
+aplicación. Son las siguientes:</p>
+</div>
+<div class="sect3">
+<h4 id="_pedidos">13.1.1. Pedidos.</h4>
+<div class="paragraph">
+<p>Son los pedidos que se realizan en la aplicación. Tiene los siguientes campos</p>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="ulist">
+<ul>
+<li>
+<p>_id: Identificador único de cada pedido.</p>
+</li>
+<li>
+<p>Dirección: Dirección del cliente que realizar el pedido, que incluye los campos Calle, Localidad, Provincia, País y Código Postal.</p>
+</li>
+<li>
+<p>Lista_Productos: Lista de los productos incluídos en el pedido, mostrando su Id, su cantidad y su precio total.</p>
+</li>
+<li>
+<p>Fecha: Fecha en la que se ha realizado el Pedido.</p>
+</li>
+<li>
+<p>Numero_Pedido: Número de cada pedido.</p>
+</li>
+<li>
+<p>Id_Usuario: Identificador único del cliente que ha realizado el pedido.</p>
+</li>
+<li>
+<p>Precio_Total: Precio Total de cada pedido.</p>
+</li>
+<li>
+<p>Estado: Estado de cada pedido. Puede tomar los valores Entregado, En reparto, Pendiente, Listo para repartir y Cancelado.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_productos">13.1.2. Productos.</h4>
+<div class="paragraph">
+<p>Son los productos que se pueden comprar en la tienda.</p>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="ulist">
+<ul>
+<li>
+<p>_id: Identificador único de cada producto.</p>
+</li>
+<li>
+<p>Nombre: Nombre del prodcuto.</p>
+</li>
+<li>
+<p>Origen: Lugar de origen del producto.</p>
+</li>
+<li>
+<p>Precio: Precio por unidad del producto.</p>
+</li>
+<li>
+<p>Descripción: Descripción del producto que muestra información sobre este.</p>
+</li>
+<li>
+<p>Foto: Enlace a un repositorio Online donde se almacenan las fotos de cada producto.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_usuarios">13.1.3. Usuarios.</h4>
+<div class="paragraph">
+<p>Son los usuarios registrados en la página, ya sean administradores o usuarios normales.</p>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="ulist">
+<ul>
+<li>
+<p>_id: Identificador único de cada usuario.</p>
+</li>
+<li>
+<p>Nombre: Nombre del usuario.</p>
+</li>
+<li>
+<p>Email: Correo electrónico del usuario.</p>
+</li>
+<li>
+<p>Dni: Dni del usuario registrado en la página.</p>
+</li>
+<li>
+<p>Contraseña: Contraseña de acceso del usuario, que se guarda cifrada en la base de datos.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div style="page-break-after: always;"></div>
 <div class="paragraph">
 <p><strong>About arc42</strong></p>
 </div>
@@ -1525,9 +1644,11 @@ Created by Dr. Peter Hruschka &amp; Dr. Gernot Starke.</p>
 </div>
 </div>
 </div>
+</div>
+</div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2022-02-27 23:05:46 +0100
+Last updated 2022-04-01 18:20:40 +0200
 </div>
 </div>
 </body>
