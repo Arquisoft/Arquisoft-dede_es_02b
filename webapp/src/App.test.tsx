@@ -7,6 +7,6 @@ test('renders learn react link', () => {
   render(<BrowserRouter>
     <App />
   </BrowserRouter>);
-  const linkElement = screen.getByText(/Source code/i);
+  const linkElement = screen.getByText(/Código fuente/);
   expect(linkElement).toBeInTheDocument();
 });
