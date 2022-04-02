@@ -51,11 +51,13 @@ jobs:
         node-version: 16
     - name: Create env file 📝
       run: |
+        cd restapi
+        touch .env
+        cat > .env
+        MONGO_URI_TEST=${{ secrets.MONGO_URI_TEST }}
+        MONGO_URI=${{ secrets.MONGO_URI }}
+        C^d
         ls
-      # touch .env
-      # echo MONGO_URI_TEST=${{ secrets.MONGO_URI_TEST }} >> .env
-      # echo MONGO_URI=${{ secrets.MONGO_URI }} >> .env
-      # cat .env
     - run: npm --prefix webapp install
     - run: npm --prefix restapi install
     - run: npm --prefix webapp run build
