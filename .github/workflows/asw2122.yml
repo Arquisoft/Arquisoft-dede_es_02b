@@ -49,7 +49,7 @@ jobs:
         node-version: 16
     - name: Create env file 📝
       run: |
-        touch .env
+        touch ../restapi/.env
         echo MONGO_URI_TEST=${{ secrets.MONGO_URI_TEST }} >> .env
         echo MONGO_URI=${{ secrets.MONGO_URI }} >> .env
         cat .env
