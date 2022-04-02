@@ -6,6 +6,7 @@ import ProductComponent from './CarritoItem';
 import Split from 'react-split';
 import { Typography } from '@mui/material';
 import Total from './Total';
+import { Console } from 'console';
 
 type ProductProps = {
   products: Product[];
@@ -32,7 +33,7 @@ const Carrito: React.FC<ProductProps>= (props: ProductProps) =>{
     if (cartItem != null){
       var cartItem2 = JSON.parse(cartItem);
       cantidad = cartItem2.qty;
-      var obj: Product = { _id: cartItem2._id, nombre:cartItem2.nombre, descripcion:cartItem2.descripcion, foto:cartItem2.foto, origen:cartItem2.origen, precio:cartItem2.precio};
+      var obj: Product = { _id: props.products[i]._id, nombre:cartItem2.nombre, descripcion:cartItem2.descripcion, foto:cartItem2.foto, origen:cartItem2.origen, precio:cartItem2.precio};
       productos.push(obj);
       carrito.set(obj, cantidad);
     }
@@ -47,6 +48,13 @@ const Carrito: React.FC<ProductProps>= (props: ProductProps) =>{
     return (
       <ul>{lista}</ul>
     );
+  }
+
+  function deleteCart(){
+    const items = props.products;
+    for(i; i<items.length; i++){
+      sessionStorage.removeItem(items[i]._id);
+    }
   }
 
   return (

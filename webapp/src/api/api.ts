@@ -83,7 +83,7 @@ export function addToCart(product:Product, quantity:number):boolean{
     }
 
     return true;
-  }
+}
 
 export async function findProductById(id: string): Promise<Product> {
   const apiEndPoint = process.env.REACT_APP_API_URI || 'http://localhost:5000'
