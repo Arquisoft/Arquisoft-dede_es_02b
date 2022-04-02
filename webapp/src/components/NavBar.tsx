@@ -64,6 +64,11 @@ const NavBar: React.FC  = () => {
           >
             DeDe
           </Typography>
+          <Link to={"/pedidos"}>
+            <Button key="pedidos" sx={{ my: 2, color: 'white', display: 'block' }}>
+             Pedidos
+            </Button>
+          </Link>
 
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
             <IconButton

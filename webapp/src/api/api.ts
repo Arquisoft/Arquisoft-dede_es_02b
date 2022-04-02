@@ -131,3 +131,10 @@ export async function addPedido(pedido: Pedido): Promise<boolean> {
     return false;
   }
 }
+
+export async function getPedidos(): Promise<Pedido[]> {
+  const apiEndPoint = process.env.REACT_APP_API_URI || 'http://localhost:5000'
+  let response = await fetch(apiEndPoint + '/pedidos/list');
+  //The objects returned by the api are directly convertible to User objects
+  return response.json()
+}
