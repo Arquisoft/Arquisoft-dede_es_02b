@@ -1,8 +1,10 @@
-name: CI for ASW2122
+# This is a basic workflow to help you get started with Actions
 
+name: CI prueba
+
+# Controls when the workflow will run
 on:
-  release:
-    types: [published]
+  # Triggers the workflow on push or pull request events but only for the master branch
   push:
     branches: [ master ]
 
@@ -49,7 +51,7 @@ jobs:
         node-version: 16
     - name: Create env file 📝
       run: |
-        cd ../restapi/
+        cd restapi
         touch .env
         echo MONGO_URI_TEST=${{ secrets.MONGO_URI_TEST }} >> .env
         echo MONGO_URI=${{ secrets.MONGO_URI }} >> .env
