@@ -20,7 +20,7 @@ const pages = ['Products'];
 
 const NavBar: React.FC  = () => {
   const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
-  const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
+  const [, setAnchorElUser] = useState<null | HTMLElement>(null);
   const [logueado, setLogueado] = useState(sessionStorage.getItem("emailUsuario"));
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
