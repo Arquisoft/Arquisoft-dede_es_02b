@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useState, useEffect } from 'react';
 import { alpha } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Table from '@mui/material/Table';
@@ -20,42 +20,12 @@ import Switch from '@mui/material/Switch';
 import DeleteIcon from '@mui/icons-material/Delete';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import { visuallyHidden } from '@mui/utils';
-import { Pedido } from '../../shared/shareddtypes';
+import { Pedido, Estado } from '../../shared/shareddtypes';
 import { isElementOfType } from 'react-dom/test-utils';
 import EditIcon from '@mui/icons-material/Edit';
 import { Autocomplete, Backdrop, Button, Fade, Modal, TextField } from '@mui/material';
-import { display } from '@mui/system';
 import { FilterAltRounded } from '@mui/icons-material';
-
-
-function createData(
-    _id:string,
-    nPedido: string, 
-    fecha: string, 
-    totalPedido: string,  
-    estado: string,  
-    cliente: string, 
-    direccion: string,
-): Pedido {
-  return {
-    _id,
-    nPedido,
-    fecha,
-    totalPedido,
-    estado,
-    cliente,
-    direccion,
-  };
-}
-
-var rows = [
-  createData('1', '1', '2022-03-20', '7','Entregado', 'Cliente1','Calle Valdés Salas, 11, 33007 Oviedo, Asturias'),
-  createData('2', '2', '2022-03-21', '5.3','Entregado', 'Cliente2','Calle Valdés Salas, 11, 33007 Oviedo, Asturias'),
-  createData('3', '3', '2022-03-22', '10.45','Listo para entregar', 'Cliente3','Calle Valdés Salas, 11, 33007 Oviedo, Asturias'),
-  createData('4', '4', '2022-03-23', '8.5','Enviado', 'Cliente4','Calle Valdés Salas, 11, 33007 Oviedo, Asturias'),
-  createData('5', '5', '2022-03-24', '3.5','Preparando', 'Cliente5','Calle Valdés Salas, 11, 33007 Oviedo, Asturias'),
-  
-];
+import  {getPedidos} from '../../api/api';
 
 const opcionesFiltrado=[
     {label:'Nº Pedido'},
@@ -65,10 +35,11 @@ const opcionesFiltrado=[
 ]
 
 const opcionesEstado=[
-  {label:'Preparando'},
-  {label:'Listo para Entregar'},
-  {label:'Enviado'},
-  {label:'Entregado'},
+  {label:Estado.entregado},
+  {label:Estado.reparto},
+  {label:Estado.pendiente},
+  {label:Estado.listo},
+  {label:Estado.cancelado},
 ]
 
 
@@ -119,7 +90,7 @@ interface HeadCell {
 
 const headCells: readonly HeadCell[] = [
   {
-    id: 'nPedido',
+    id: 'numero_pedido',
     numeric: false,
     disablePadding: true,
     label: 'Nº Pedido',
@@ -131,7 +102,7 @@ const headCells: readonly HeadCell[] = [
     label: 'Fecha',
   },
   {
-    id: 'totalPedido',
+    id: 'precio_total',
     numeric: false,
     disablePadding: false,
     label: 'Total del Pedido',
@@ -143,7 +114,7 @@ const headCells: readonly HeadCell[] = [
     label: 'Estado',
   },
   {
-    id: 'cliente',
+    id: 'id_usuario',
     numeric: false,
     disablePadding: false,
     label: 'Cliente',
@@ -153,6 +124,12 @@ const headCells: readonly HeadCell[] = [
     numeric: false,
     disablePadding: false,
     label: 'Dirección',
+  },
+  {
+    id: 'lista_productos',
+    numeric: false,
+    disablePadding: false,
+    label: 'Productos',
   },
 ];
 
@@ -304,21 +281,25 @@ const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
   );
 };
 
-export default function ListaPedidos() {
+type PedidoProps = {
+  pedidos: Pedido[];
+}
+
+const ListaPedidos:React.FC<PedidoProps>=(props: PedidoProps)=> {
+
   const [order, setOrder] = React.useState<Order>('asc');
-  const [orderBy, setOrderBy] = React.useState<keyof Pedido>('nPedido');
+  const [orderBy, setOrderBy] = React.useState<keyof Pedido>('numero_pedido');
   const [selected, setSelected] = React.useState<readonly string[]>([]);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
-  const [state, setState] = React.useState<Pedido[]>(rows);
+  const [state, setState] = React.useState<Pedido[]>(props.pedidos);
   const [lastState, setLastState] = React.useState<Pedido[]>(state);
+  const [rowState, setRowState]=React.useState<Pedido>(state[0]);
 
   function borrar(seleccionados: readonly String[]) {
     var opcion=window.confirm("¿Seguro de que quieres eliminar el pedido?");
     if(opcion){
       var lista = state;
-      var contador=0;
-      var borrado = false;
       for (let index = 0; index < lista.length; index++) {
         for (let j = 0; j < seleccionados.length; j++) {
           const seleccionado = seleccionados[j];
@@ -342,13 +323,13 @@ export default function ListaPedidos() {
     var lista = lastState;
     if(palabra!=""){
       if(tipoFiltrado==opcionesFiltrado[0].label)
-        lista = lista.filter((f)=>{ return f.nPedido==palabra})
+        lista = lista.filter((f)=>{ return f.numero_pedido.toString()==palabra})
       if(tipoFiltrado==opcionesFiltrado[1].label)
         lista = lista.filter((f)=>{ return f.fecha==palabra})
       if(tipoFiltrado==opcionesFiltrado[2].label)
         lista = lista.filter((f)=>{ return f.estado==palabra})
       if(tipoFiltrado==opcionesFiltrado[3].label)
-        lista = lista.filter((f)=>{ return f.cliente==palabra})
+        lista = lista.filter((f)=>{ return f.id_usuario==palabra})
     }
     setState(lista);
   }
@@ -364,7 +345,7 @@ export default function ListaPedidos() {
 
   const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.checked) {
-      const newSelecteds = rows.map((n) => n.nPedido);
+      const newSelecteds = props.pedidos.map((n) => n.numero_pedido.toString());
       setSelected(newSelecteds);
       return;
     }
@@ -416,10 +397,24 @@ export default function ListaPedidos() {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-  var estado:string=opcionesEstado[0].label;
+
+  function editar(row:Pedido){
+    setRowState(row);
+    setOpen(true);
+  }
+
+  var estado:Estado=opcionesEstado[0].label;
 
   function editarEstado(){
-    var elemento= state[0]; elemento.estado=estado; state[0]=elemento;
+    var lista = state;
+    for (let index = 0; index < lista.length; index++) {
+      const element = lista[index];
+      if(rowState._id===element._id){
+        lista[index].estado=estado;
+      }
+      
+    }
+    setState(lista);
     setOpen(false);
   }
 
@@ -443,15 +438,15 @@ export default function ListaPedidos() {
               orderBy={orderBy}
               onSelectAllClick={handleSelectAllClick}
               onRequestSort={handleRequestSort}
-              rowCount={state.length}
+              rowCount={1}
             />
             <TableBody>
               {/* if you don't need to support IE11, you can replace the `stableSort` call with:
               rows.slice().sort(getComparator(order, orderBy)) */}
-              {stableSort(state, getComparator(order, orderBy))
+              {state
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row, index) => {
-                  const isItemSelected = isSelected(row.nPedido);
+                  const isItemSelected = isSelected(row.numero_pedido.toString());
                   const labelId = `enhanced-table-checkbox-${index}`;
 
                   return (
@@ -461,13 +456,13 @@ export default function ListaPedidos() {
                       role="checkbox"
                       aria-checked={isItemSelected}
                       tabIndex={-1}
-                      key={row.nPedido}
+                      key={row.numero_pedido}
                       selected={isItemSelected}
                     >
                       <TableCell padding="checkbox">
                         <Checkbox
                           color="primary"
-                          onClick={(event) => handleClick(event, row.nPedido)}
+                          onClick={(event) => handleClick(event, row.numero_pedido.toString())}
                           checked={isItemSelected}
                           inputProps={{
                             'aria-labelledby': labelId,
@@ -480,14 +475,15 @@ export default function ListaPedidos() {
                         scope="row"
                         padding="none"
                       >
-                        {row.nPedido}
+                        {String(row.numero_pedido)}
                       </TableCell>
                       <TableCell align="left">{row.fecha}</TableCell>
-                      <TableCell align="left">{row.totalPedido}</TableCell>
+                      <TableCell align="left">{row.precio_total}</TableCell>
                       <TableCell align="left">{row.estado}</TableCell>
-                      <TableCell align="left">{row.cliente}</TableCell>
-                      <TableCell align="left">{row.direccion}</TableCell>
-                      <TableCell><IconButton onClick={handleOpen}><EditIcon/></IconButton></TableCell>
+                      <TableCell align="left">{row.id_usuario}</TableCell>
+                      <TableCell align="left">{row.direccion.calle+", "+row.direccion.localidad+", "+row.direccion.provincia+", "+row.direccion.pais+", "+row.direccion.codigo_postal}</TableCell>
+                      <TableCell align="left">{row.lista_productos.map((registro)=>{return "id: "+registro.id_producto+", cantidad: "+registro.cantidad+", precio: "+registro.precio+"€"})}</TableCell>
+                      <TableCell><IconButton onClick={()=>editar(row)}><EditIcon/></IconButton></TableCell>
                       <Modal
                       aria-labelledby="transition-modal-title"
                       aria-describedby="transition-modal-description"
@@ -538,7 +534,7 @@ export default function ListaPedidos() {
         <TablePagination
           rowsPerPageOptions={[5, 10, 25]}
           component="div"
-          count={rows.length}
+          count={props.pedidos.length}
           rowsPerPage={rowsPerPage}
           page={page}
           onPageChange={handleChangePage}
@@ -548,3 +544,5 @@ export default function ListaPedidos() {
     </Box>
   );
 }
+
+export default ListaPedidos;
