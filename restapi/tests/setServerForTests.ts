@@ -37,6 +37,8 @@ export function createServer(app : Application): http.Server{
 
 export async function loadDatabase(){
     const conexiondb: string = process.env.MONGO_URI_TEST!;
+    console.log(conexiondb);
+
     await mongoose.connect(conexiondb) 
     .then(() => console.log("BD conectada"))
 
