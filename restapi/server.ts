@@ -11,11 +11,11 @@ import apiPedidos from './pedidos/apiPedidos';
 
 
 const app: Application = express();
-const port: string = process.env.PORT!;
+const port: string = process.env.PORT||'5000';
 const conexiondb: string = process.env.MONGO_URI!;
 
 const options: cors.CorsOptions = {
-  origin: [process.env.CORS_OPTIONS!]
+  origin: [process.env.CORS_OPTIONS||'http://localhost:3000']
 }; 
 
 const metricsMiddleware:RequestHandler = promBundle({includeMethod: true});

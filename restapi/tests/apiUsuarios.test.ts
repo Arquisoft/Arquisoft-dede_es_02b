@@ -22,7 +22,7 @@ beforeAll(async () => {
 });
 
 afterAll(async () => {
-    closeServer(server);
+    await closeServer(server);
 })
 
 describe('añadir usuario ', () => {
@@ -151,7 +151,6 @@ async function probarAddUsuarios(arg0: {_id?:string, nombre?: string, email?:str
 
 async function probarLogin(arg0: { email?: string; contraseña?: string; }, code:number): Promise<Response> {
     const response:Response = await request(app).post('/users/login').send(arg0).set('Accept', 'application/json');
-    console.log(arg0);
     expect(response.statusCode).toBe(code);
     return response;
 }

@@ -19,16 +19,17 @@ apiProductos.post(
     producto.origen = req.body.origen;
     producto.precio = req.body.precio;
     producto.descripcion = req.body.descripcion;
+    producto.foto = req.body.foto;
 
     await producto.save();
     return res.sendStatus(200);
   }
 );
 
-apiProductos.post(
+apiProductos.delete(
   "/products/delete",
   async (req: Request, res: Response): Promise<Response> => {
-    Producto.findById(req.body.id_producto).deleteOne().exec();
+    Producto.findById(req.body._id).deleteOne().exec();
     return res.sendStatus(200);
   }
 );
@@ -41,4 +42,4 @@ apiProductos.get(
   }
 );
 
-export default apiProductos;
+export default apiProductos; 
