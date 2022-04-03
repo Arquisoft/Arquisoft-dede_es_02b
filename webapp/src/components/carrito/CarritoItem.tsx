@@ -11,10 +11,14 @@ import { Box } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import RemoveIcon from '@mui/icons-material/Remove';
 import AddIcon from '@mui/icons-material/Add';
+import { useState } from 'react';
 
 type ProductProp = {
   product: Product;
   cantidadItem: number;
+  borrar: Function;
+  add: Function;
+  delete: Function;
 }
 
 // const handleDeleteAllCart = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -32,36 +36,24 @@ type ProductProp = {
 //   await deleteUnitFromCart(productProp.product, 1);
 // }
 
-function handleDeleteItemFromCart(product:Product):void{
-  var value = sessionStorage.getItem(product._id);
-    if (value != null){
-      sessionStorage.removeItem(product._id);
-    }
-}
-
-function handleDeleteUnitFromCart(product:Product):void{
-  var value = sessionStorage.getItem(product._id);
-    if (value != null){
-      var temp = JSON.parse(value);
-      if (temp.qty > 1){
-        temp.qty = temp.qty - 1;
-        sessionStorage.setItem(product._id, JSON.stringify(temp));
-      }
-    }
-}
-
-function handleAddUnitFromCart(product:Product):void{
-  var value = sessionStorage.getItem(product._id);
-    if (value != null){
-      var temp = JSON.parse(value);
-      temp.qty = temp.qty + 1;
-      sessionStorage.setItem(product._id, JSON.stringify(temp));
-    }
-}
 
 const CarritoItem: React.FC<ProductProp>=(productProp : ProductProp) =>{
+  
+
+  function handleDeleteItemFromCart(product:Product):void{
+      productProp.borrar(product);
+  }
+  
+  function handleDeleteUnitFromCart(product:Product):void{
+      productProp.delete(product);
+  }
+  
+  function handleAddUnitFromCart(product:Product):void{
+      productProp.add(product);
+  }
+
   return (
-    <Card sx={{ maxWidth: 345 }}>
+    <Card id={productProp.product.nombre} sx={{ maxWidth: 345 }}>
       <CardMedia
         component="img"
         alt={productProp.product.nombre}
