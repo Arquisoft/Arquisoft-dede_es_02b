@@ -4,8 +4,12 @@ import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import ProductComponent from './CarritoItem';
 import Split from 'react-split';
-import { Typography } from '@mui/material';
+import { IconButton, Typography } from '@mui/material';
 import Total from './Total';
+import { Console } from 'console';
+import { useState } from 'react';
+import Delete from '@mui/icons-material/Delete';
+import ReactDOM from 'react-dom';
 
 type ProductProps = {
   products: Product[];
@@ -32,12 +36,14 @@ const Carrito: React.FC<ProductProps>= (props: ProductProps) =>{
     if (cartItem != null){
       var cartItem2 = JSON.parse(cartItem);
       cantidad = cartItem2.qty;
-      var obj: Product = { _id: cartItem2._id, nombre:cartItem2.nombre, descripcion:cartItem2.descripcion, foto:cartItem2.foto, origen:cartItem2.origen, precio:cartItem2.precio};
+      var obj: Product = { _id: props.products[i]._id, nombre:cartItem2.nombre, descripcion:cartItem2.descripcion, foto:cartItem2.foto, origen:cartItem2.origen, precio:cartItem2.precio};
       productos.push(obj);
       carrito.set(obj, cantidad);
     }
   }
-
+  const [productosCarrito, setProductosCarrito] = useState<Product[]>(productos);
+  
+  
   function ListaResumen(props: any){
     const items = props.items;
     let lista: any;
@@ -47,6 +53,14 @@ const Carrito: React.FC<ProductProps>= (props: ProductProps) =>{
     return (
       <ul>{lista}</ul>
     );
+  }
+
+  function deleteCart(){
+    const items = props.products;
+    for(i; i<items.length; i++){
+      sessionStorage.removeItem(items[i]._id);
+    }
+    setProductosCarrito([]);
   }
 
   return (
@@ -59,9 +73,9 @@ const Carrito: React.FC<ProductProps>= (props: ProductProps) =>{
     >
       <Box sx={{ flexGrow: 1, padding: 3}}>
           <Grid container spacing={3}>
-            {Array.from(Array(productos.length)).map((_, index) => (
+            {Array.from(Array(productosCarrito.length)).map((_, index) => (
               <Grid item xs={12} sm={6} md={4} lg={3} key={index}>
-                <ProductComponent product={productos[index]} cantidadItem={carrito.get(productos[index])as number}/>
+                <ProductComponent product={productosCarrito[index]} cantidadItem={carrito.get(productosCarrito[index])as number}/>
               </Grid>
             ))}
           </Grid>
@@ -70,16 +84,17 @@ const Carrito: React.FC<ProductProps>= (props: ProductProps) =>{
           <Typography variant="h4" component="div" sx={{ flexGrow: 1 }}>
             Resumen del pedido:
           </Typography>
-          {Array.from(Array(productos.length)).map((_, index) => (
+          {Array.from(Array(productosCarrito.length)).map((_, index) => (
             <Grid item xs={12} sm={6} md={4} lg={3} key={index}>
-              <li>{productos[index].nombre +" ("+ carrito.get(productos[index]) + " uds)" +
-                    "  -------  "+productos[index].precio*(carrito.get(productos[index])as number)+"€"}</li>
+              <li>{productosCarrito[index].nombre +" ("+ carrito.get(productosCarrito[index]) + " uds)" +
+                    "  -------  "+productosCarrito[index].precio*(carrito.get(productosCarrito[index])as number)+"€"}</li>
             </Grid>
           ))}
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             ----------------------------
           </Typography>
           <Total></Total>
+          <IconButton onClick={()=>deleteCart()}><Delete/>Borrar pedido</IconButton>
       </Box>
     </Split>
   ); 
