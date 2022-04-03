@@ -5,10 +5,8 @@ import Grid from '@mui/material/Grid';
 import ProductComponent from './CarritoItem';
 import Split from 'react-split';
 import { IconButton, Typography } from '@mui/material';
-import { Console } from 'console';
 import { useState } from 'react';
 import Delete from '@mui/icons-material/Delete';
-import ReactDOM from 'react-dom';
 import Total from './Total';
 
 type ProductProps = {
@@ -57,11 +55,11 @@ const Carrito: React.FC<ProductProps>= (props: ProductProps) =>{
 
   function borrarItem(product:Product){
     var value = sessionStorage.getItem(product._id);
-      if (value != null){
+      if (value !== null){
         sessionStorage.removeItem(product._id);
         let items = [...productosCarrito];
         for (let index = 0; index < items.length; index++) {
-          if(items[index]._id==product._id){
+          if(items[index]._id===product._id){
             var e = items[index];
             items.splice(index,1);
             carrito.delete(e);
@@ -73,7 +71,7 @@ const Carrito: React.FC<ProductProps>= (props: ProductProps) =>{
 
   function DeleteUnitFromCart(product:Product):void{
     var value = sessionStorage.getItem(product._id);
-      if (value != null){
+      if (value !== null){
         var temp = JSON.parse(value);
         if (temp.qty > 1){
           temp.qty = temp.qty - 1;
@@ -84,7 +82,7 @@ const Carrito: React.FC<ProductProps>= (props: ProductProps) =>{
               carrito2.set(key,value);
           });
           for (let index = 0; index < items.length; index++) {
-            if(items[index]._id==product._id){
+            if(items[index]._id===product._id){
               var e = items[index];
               var c = carrito2.get(e)
               if(typeof c !=="undefined"){
@@ -113,7 +111,7 @@ const Carrito: React.FC<ProductProps>= (props: ProductProps) =>{
               carrito2.set(key,value);
           });
           for (let index = 0; index < items.length; index++) {
-            if(items[index]._id==product._id){
+            if(items[index]._id===product._id){
               var e = items[index];
               var c = carrito2.get(e)
               if(typeof c !=="undefined"){
