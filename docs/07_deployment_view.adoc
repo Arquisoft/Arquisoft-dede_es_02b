@@ -12,13 +12,18 @@ database "MongoDB" as mongo {
     [Productos]
 }
 
-node "WebApp" as web
-node "RestApi" as rest
+node "Heroku" as web {
+  artifact "WebApp"
+}
+
+node "Heroku" as rest {
+  artifact "RestApi"
+}
 
 rest <--> web
 mongo <--> rest
-Usuario  -> web
-pod <-> rest
+Usuario -> web
+pod <--> rest
 ----
 
-El usuario se conectará a la aplicación web, donde iniciará sesión en su POD (alojado en un servidor de PODs externo) y permitirá a la aplicación acceder a él para obtener la dirección de envío. Los demás datos que no forman parte de la identidad del cliente (productos, compras realizadas) se almacenan en una base de datos MongoDB.
+El usuario se conectará a la aplicación web, alojada en Heroku, donde iniciará sesión. Los datos de la identidad del cliente están alojados en MongoDB. El backend también está alojado en Heroku. A la hora de realizar un pedido, iniciará sesión en su POD (alojado en un servidor de PODs externo) y permitirá a la aplicación acceder a él para obtener la dirección de envío.
