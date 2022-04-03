@@ -15,9 +15,7 @@ import { ShoppingCart } from '@mui/icons-material';
 import { Badge } from '@mui/material';
 import { Navigate, Link } from 'react-router-dom';
 
-const pages = ['Products'];
-
-const NavBar: React.FC  = () => {
+const NavBar: React.FC = () => {
   const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
   const [logueado, setLogueado] = useState(sessionStorage.getItem("emailUsuario"));
 
@@ -29,23 +27,23 @@ const NavBar: React.FC  = () => {
     setAnchorElNav(null);
   };
 
-  function logOut(): JSX.Element{
+  function logOut(): JSX.Element {
     const logOutUser = () => {
       sessionStorage.clear();
 
       setLogueado("");
     };
 
-    if (logueado){
-        return (
-          <Button key="logout" onClick={logOutUser} sx={{ my: 2, color: 'blue', display: 'block' }}>
-            Log Out
-          </Button>
-        );
-      }
-    else 
-      return <Navigate to="/login" />;
+    if (logueado) {
+      return (
+        <Button key="logout" onClick={logOutUser} sx={{ my: 1, color: anchorElNav===null?'white':'blue', display: 'block' }}>
+          Log Out
+        </Button>
+      );
     }
+    else
+      return <Navigate to="/login" />;
+  }
 
   return (
     <AppBar position="static">
@@ -59,11 +57,6 @@ const NavBar: React.FC  = () => {
           >
             DeDe
           </Typography>
-          <Link to={"/pedidos"}>
-            <Button key="pedidos" sx={{ my: 2, color: 'blue', display: 'block' }}>
-             Pedidos
-            </Button>
-          </Link>
 
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
             <IconButton
@@ -95,13 +88,16 @@ const NavBar: React.FC  = () => {
                 display: { xs: 'block', md: 'none' },
               }}
             >
-              {pages.map((page) => (
-                <Link to={"/"+page}>
-                  <MenuItem key={page}>
-                    <Typography textAlign="center">{page}</Typography>
-                  </MenuItem>
-                </Link>
-              ))}
+              <Link to={"/pedidos"}>
+              <Typography key="pedidos" sx={{ my: 1, color: 'blue', textAlign:"center", display: 'block' }}>
+                Pedidos
+              </Typography>
+            </Link>
+              <Link to={"/Products"}>
+                <MenuItem key={"Products"}>
+                  <Typography sx={{ my: 1, color: 'blue', textAlign:"center", display: 'block' }}>Productos</Typography>
+                </MenuItem>
+              </Link>
               <MenuItem key="logout"> {logOut()}</MenuItem>
             </Menu>
           </Box>
@@ -115,17 +111,20 @@ const NavBar: React.FC  = () => {
             Dede
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-            {pages.map((page) => (
-              <Link to={"/"+page}>
-                <Button
-                  key={page}
-                  onClick={handleCloseNavMenu}
-                  sx={{ my: 2, color: 'white', display: 'block' }}
-                >
-                  {page}
-                </Button>
-              </Link>
-            ))}
+            <Link to={"/Products"}>
+              <Button
+                key={"Products"}
+                onClick={handleCloseNavMenu}
+                sx={{ my: 2, color: 'white', display: 'block' }}
+              >
+                Productos
+              </Button>
+            </Link>
+            <Link to={"/pedidos"}>
+              <Button key="pedidos" sx={{ my: 2, color: 'white', display: 'block' }}>
+                Pedidos
+              </Button>
+            </Link>
             {logOut()}
           </Box>
 
@@ -134,7 +133,7 @@ const NavBar: React.FC  = () => {
             <Tooltip title="Carrito">
               <Link to="/carrito">
                 <IconButton sx={{ p: 0, color: 'white' }}>
-                  <Badge badgeContent={sessionStorage.length-1} color="secondary">
+                  <Badge badgeContent={sessionStorage.length - 1} color="secondary">
                     <ShoppingCart />
                   </Badge>
                 </IconButton>

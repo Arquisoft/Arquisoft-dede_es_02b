@@ -70,9 +70,10 @@ const Carrito: React.FC<ProductProps>= (props: ProductProps) =>{
           carrito.forEach((value2: number, key: Product)=>{
               carrito2.set(key,value2);
           });
-          for(let item of items){
-            if(item._id===product._id){
-              var e = item;
+
+          for (let index = 0; index < items.length; index++) {
+            if(items[index]._id===product._id){
+              var e = items[index];
               var c = carrito2.get(e)
               if(typeof c !=="undefined"){
                 c=c-1;
@@ -99,9 +100,9 @@ const Carrito: React.FC<ProductProps>= (props: ProductProps) =>{
               carrito2.set(key,value2);
           });
           
-          for(let item of items){
-            if(item._id===product._id){
-              var e = item;
+          for (let index = 0; index < items.length; index++) {
+            if(items[index]._id===product._id){
+              var e = items[index];
               var c = carrito2.get(e)
               if(typeof c !=="undefined"){
                 c=c+1;

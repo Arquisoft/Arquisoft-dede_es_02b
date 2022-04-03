@@ -36,7 +36,7 @@ const CarritoItem: React.FC<ProductProp>=(productProp : ProductProp) =>{
   }
 
   return (
-    <Card id={productProp.product.nombre} sx={{ maxWidth: 345 }}>
+    <Card aria-label={productProp.product.nombre} id={productProp.product.nombre} sx={{ maxWidth: 345 }}>
       <CardMedia
         component="img"
         alt={productProp.product.nombre}
@@ -50,13 +50,13 @@ const CarritoItem: React.FC<ProductProp>=(productProp : ProductProp) =>{
       </CardContent>
       <CardActions sx={{flexDirection:"row-reverse", justifyContent:'space-between', paddingTop:0}}>
       <Box sx={{display:'flex', flexDirection:"row-reverse", alignItems:'center'}}>
-          <IconButton onClick={()=>handleDeleteItemFromCart(productProp.product)}>
+          <IconButton aria-label='delete-item' onClick={()=>handleDeleteItemFromCart(productProp.product)}>
               <DeleteIcon />
           </IconButton>
-          <IconButton onClick={()=>handleAddUnitFromCart(productProp.product)}>
+          <IconButton aria-label='add-item' onClick={()=>handleAddUnitFromCart(productProp.product)}>
               <AddIcon />
           </IconButton>
-          <IconButton onClick={()=>handleDeleteUnitFromCart(productProp.product)}>
+          <IconButton aria-label='subtract-item' onClick={()=>handleDeleteUnitFromCart(productProp.product)}>
               <RemoveIcon />
           </IconButton>
           <Typography sx={{fontSize:20}}> {accounting.formatMoney(productProp.product.precio *productProp.cantidadItem,"€")}</Typography>

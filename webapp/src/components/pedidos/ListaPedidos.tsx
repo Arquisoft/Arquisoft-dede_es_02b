@@ -246,6 +246,7 @@ const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
           </IconButton>
         </Tooltip>
       ) : (<div>
+
             {() => {
               if(filtrado){
                 return (
@@ -274,7 +275,7 @@ const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
               }else{
               return (
               <Tooltip title="Filter list">
-                <IconButton onClick={()=>setFiltrado(true)}>
+                <IconButton aria-label='filter-icon' onClick={()=>setFiltrado(true)}>
                   <FilterListIcon/>
                 </IconButton>
               </Tooltip>
