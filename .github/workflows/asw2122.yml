@@ -1,6 +1,6 @@
 # This is a basic workflow to help you get started with Actions
 
-name: CI prueba
+name: CI for ASW2122
 
 # Controls when the workflow will run
 on:
@@ -88,3 +88,15 @@ jobs:
           password: ${{ secrets.DOCKER_PUSH_TOKEN }}
           registry: ghcr.io
           workdir: restapi
+  deploy-heroku:
+    runs-on: ubuntu-latest
+    needs: [docker-push-webapp, docker-push-restapi]
+    steps:
+      - uses: actions/checkout@v2
+      - uses: akhileshns/heroku-deploy@v3.12.12 # This is the action
+        with:
+          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+          heroku_app_name: "dede2b" #Must be unique in Heroku
+          heroku_email: "uo269855@uniovi.es"
+          usedocker: true
+
