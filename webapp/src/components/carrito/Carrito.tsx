@@ -44,16 +44,16 @@ const Carrito: React.FC<ProductProps>= (props: ProductProps) =>{
     return precio;
   }
 
-  function ListaResumen(props: any){
-    const items = props.items;
-    let lista: any;
-    items.forEach((value: number, key: Product) => {
-      lista += <li>key.nombre</li>
-    });
-    return (
-      <ul>{lista}</ul>
-    );
-  }
+  // function ListaResumen(props: any){
+  //   const items = props.items;
+  //   let lista: any;
+  //   items.forEach((value: number, key: Product) => {
+  //     lista += <li>key.nombre</li>
+  //   });
+  //   return (
+  //     <ul>{lista}</ul>
+  //   );
+  // }
 
   function borrarItem(product:Product){
     var value = sessionStorage.getItem(product._id);
