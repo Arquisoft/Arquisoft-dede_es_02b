@@ -174,7 +174,12 @@ function EnhancedTableHead(props: EnhancedTableProps) {
               {headCell.label}
               {orderBy === headCell.id ? (
                 <Box component="span" sx={visuallyHidden}>
-                  {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
+                  {() => {
+                    if(order === 'desc'){
+                      return 'sorted descending';
+                    } 
+                    return 'sorted ascending';
+                    }}
                 </Box>
               ) : null}
             </TableSortLabel>
@@ -187,7 +192,7 @@ function EnhancedTableHead(props: EnhancedTableProps) {
 
 interface EnhancedTableToolbarProps {
   numSelected: number;
-  seleccionados: readonly String[];
+  seleccionados: readonly string[];
   borrar : Function;
   filtrar: Function;
 }
@@ -197,7 +202,7 @@ var tipoFiltrado:string=opcionesFiltrado[0].label
 
 const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
   const { numSelected, borrar , filtrar} = props;
-  const [filtrado, setFiltrado] = React.useState<Boolean>(false);
+  const [filtrado, setFiltrado] = React.useState<boolean>(false);
   let quitarFiltrado = document.getElementById('quitarFiltrado');
   if(quitarFiltrado!=null){
     quitarFiltrado.addEventListener('click', ()=>setFiltrado(false));
@@ -241,35 +246,40 @@ const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
           </IconButton>
         </Tooltip>
       ) : (<div>
-            {filtrado ? (
-              <Typography sx={{ display: 'flex' }} component="div">
-                <Button variant="outlined" onClick={()=>filtrar()}>Filtrar</Button>
-                <Autocomplete
-                    disablePortal
-                    id="combo-box-demo"
-                    options={opcionesFiltrado}
-                    sx={{ width: 300 }}
-                    defaultValue={opcionesFiltrado[0]}
-                    renderInput={(params) => <TextField {...params} label="Opciones" />}
-                    onChange={(event, newValue) => {
-                      if(newValue!=null)
-                          tipoFiltrado = newValue.label;
-                    }}
-                  />
-                <TextField id="outlined-basic" label="Filtrar" variant="outlined" onChange={(e)=>palabraFiltrada=e.target.value}/>
-                <Tooltip title="Filter list">
-                  <IconButton id="quitarFiltrado">
-                    <FilterListIcon />
-                  </IconButton>
-                </Tooltip>
-              </Typography>
-            ):(
+            {() => {
+              if(filtrado){
+                return (
+                  <Typography sx={{ display: 'flex' }} component="div">
+                    <Button variant="outlined" onClick={()=>filtrar()}>Filtrar</Button>
+                    <Autocomplete
+                        disablePortal
+                        id="combo-box-demo"
+                        options={opcionesFiltrado}
+                        sx={{ width: 300 }}
+                        defaultValue={opcionesFiltrado[0]}
+                        renderInput={(params) => <TextField {...params} label="Opciones" />}
+                        onChange={(_event, newValue) => {
+                          if(newValue!=null)
+                              tipoFiltrado = newValue.label;
+                        }}
+                      />
+                    <TextField id="outlined-basic" label="Filtrar" variant="outlined" onChange={(e)=>palabraFiltrada=e.target.value}/>
+                    <Tooltip title="Filter list">
+                      <IconButton id="quitarFiltrado">
+                        <FilterListIcon />
+                      </IconButton>
+                    </Tooltip>
+                  </Typography>
+                )
+              }else{
+              return (
               <Tooltip title="Filter list">
                 <IconButton onClick={()=>setFiltrado(true)}>
                   <FilterListIcon/>
                 </IconButton>
               </Tooltip>
-            )}
+              )}
+            }}
           </div>
       )}
     </Toolbar>
@@ -291,10 +301,10 @@ const ListaPedidos:React.FC<PedidoProps>=(props: PedidoProps)=> {
   const [lastState, ] = React.useState<Pedido[]>(state);
   const [rowState, setRowState]=React.useState<Pedido>(state[0]);
 
-  function borrar(seleccionados: readonly String[]) {
+  function borrar(seleccionados: readonly string[]) {
     var opcion=window.confirm("¿Seguro de que quieres eliminar el pedido?");
-    const filtrado = (f : String )=>{return f!==seleccionados[j]}
-    let seleccionado: String;
+    const filtrado = (f : string )=>{return f!==seleccionados[j]}
+    let seleccionado: string;
     let element: Pedido;
     let index: number;
     let j: number;
@@ -317,25 +327,25 @@ const ListaPedidos:React.FC<PedidoProps>=(props: PedidoProps)=> {
       setState(lista);
       setSelected([]);
     }
-  };
+  }
 
-  function filtrar(palabra:string, tipoFiltrado:string){
+  function filtrar(palabra:string, tipoFiltrado2:string){
     var lista = lastState;
     if(palabra!==""){
-      if(tipoFiltrado===opcionesFiltrado[0].label)
+      if(tipoFiltrado2===opcionesFiltrado[0].label)
         lista = lista.filter((f)=>{ return f.numero_pedido.toString()===palabra})
-      if(tipoFiltrado===opcionesFiltrado[1].label)
+      if(tipoFiltrado2===opcionesFiltrado[1].label)
         lista = lista.filter((f)=>{ return f.fecha===palabra})
-      if(tipoFiltrado===opcionesFiltrado[2].label)
+      if(tipoFiltrado2===opcionesFiltrado[2].label)
         lista = lista.filter((f)=>{ return f.estado===palabra})
-      if(tipoFiltrado===opcionesFiltrado[3].label)
+      if(tipoFiltrado2===opcionesFiltrado[3].label)
         lista = lista.filter((f)=>{ return f.id_usuario===palabra})
     }
     setState(lista);
   }
 
   const handleRequestSort = (
-    event: React.MouseEvent<unknown>,
+    _event: React.MouseEvent<unknown>,
     property: keyof Pedido,
   ) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -352,7 +362,7 @@ const ListaPedidos:React.FC<PedidoProps>=(props: PedidoProps)=> {
     setSelected([]);
   };
 
-  const handleClick = (event: React.MouseEvent<unknown>, name: string) => {
+  const handleClick = (_event: React.MouseEvent<unknown>, name: string) => {
     const selectedIndex = selected.indexOf(name);
     let newSelected: readonly string[] = [];
 
@@ -372,7 +382,7 @@ const ListaPedidos:React.FC<PedidoProps>=(props: PedidoProps)=> {
     setSelected(newSelected);
   };
 
-  const handleChangePage = (event: unknown, newPage: number) => {
+  const handleChangePage = (_event: unknown, newPage: number) => {
     setPage(newPage);
   };
 
@@ -395,7 +405,6 @@ const ListaPedidos:React.FC<PedidoProps>=(props: PedidoProps)=> {
     p: 4,
   };
   const [open, setOpen] = React.useState(false);
-  // const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
   function editar(row:Pedido){
@@ -414,6 +423,8 @@ const ListaPedidos:React.FC<PedidoProps>=(props: PedidoProps)=> {
       }
       
     }
+
+    
     setState(lista);
     setOpen(false);
   }
@@ -507,7 +518,7 @@ const ListaPedidos:React.FC<PedidoProps>=(props: PedidoProps)=> {
                             sx={{ width: 300, paddingTop:2, paddingBottom:2}}
                             defaultValue={opcionesEstado[0]}
                             renderInput={(params) => <TextField {...params} label="Opciones" />}
-                            onChange={(event, newValue) => {
+                            onChange={(_event, newValue) => {
                               if(newValue!=null)
                                   estado = newValue.label;
                             }}
