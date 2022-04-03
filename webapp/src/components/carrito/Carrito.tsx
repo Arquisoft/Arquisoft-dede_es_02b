@@ -15,7 +15,6 @@ type ProductProps = {
   products: Product[];
 }
 
-//let carrito = new Map<Product, number>();
 
 let cantidad:number = 0;
 
@@ -24,7 +23,6 @@ const Carrito: React.FC<ProductProps>= (props: ProductProps) =>{
   let productos: Product[]=[];
   let a = new Map<Product,number>();
   a.clear();
-  //carrito.clear();
   for(i; i<props.products.length; i++){
     var cartItem = sessionStorage.getItem(props.products[i]._id);
     if (cartItem != null){
@@ -134,9 +132,11 @@ const Carrito: React.FC<ProductProps>= (props: ProductProps) =>{
 
   function deleteCart(){
     const items = props.products;
-    for(i; i<items.length; i++){
+    for(i=0; i<items.length; i++){
       sessionStorage.removeItem(items[i]._id);
     }
+    let a = new Map<Product,number>();
+    setCarrito(a);
     setProductosCarrito([]);
   }
 
