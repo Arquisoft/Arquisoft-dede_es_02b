@@ -5,7 +5,7 @@ const apiProductos: Router = express.Router()
 
 apiProductos.get(
   "/products/list",
-  async (req: Request, res: Response): Promise<Response> => {
+  async (_req: Request, res: Response): Promise<Response> => {
     let productos = await Producto.find();
     return res.status(200).send(productos)
   }

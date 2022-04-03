@@ -20,22 +20,6 @@ type ProductProp = {
   delete: Function;
 }
 
-// const handleDeleteAllCart = async (e: React.FormEvent<HTMLFormElement>) => {
-//   e.preventDefault();
-//   await deleteAllCart(productProp.product);
-// }
-
-// const handleDeleteItemFromCart = async () => {
-//   e.preventDefault();
-//   await deleteItemFromCart(productProp.product);
-// }
-
-// const handleDeleteUnitFromCart = async (e: React.FormEvent<HTMLFormElement>) => {
-//   e.preventDefault();
-//   await deleteUnitFromCart(productProp.product, 1);
-// }
-
-
 const CarritoItem: React.FC<ProductProp>=(productProp : ProductProp) =>{
   
 

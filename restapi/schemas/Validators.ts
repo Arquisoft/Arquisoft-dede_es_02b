@@ -1,4 +1,4 @@
-export function validateEmail(email: String) {
+export function validateEmail(email: string) {
     return (email.includes('@') && (email.endsWith('.com') || email.endsWith('.es')));
 }
 
