@@ -243,8 +243,8 @@ const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
       ) : (<div>
             {filtrado ? (
               <Typography sx={{ display: 'flex' }} component="div">
-                <Button variant="outlined" onClick={()=>filtrar()}>Filtrar</Button>
-                <Autocomplete
+                <Button aria-label='filtrar-button' variant="outlined" onClick={()=>filtrar()}>Filtrar</Button>
+                <Autocomplete aria-label='opciones'
                     disablePortal
                     id="combo-box-demo"
                     options={opcionesFiltrado}
@@ -265,7 +265,7 @@ const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
               </Typography>
             ):(
               <Tooltip title="Filter list">
-                <IconButton onClick={()=>setFiltrado(true)}>
+                <IconButton aria-label='filter-icon' onClick={()=>setFiltrado(true)}>
                   <FilterListIcon/>
                 </IconButton>
               </Tooltip>
