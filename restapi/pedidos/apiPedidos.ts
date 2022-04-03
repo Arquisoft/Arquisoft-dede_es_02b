@@ -31,7 +31,7 @@ apiPedidos.post(
 
 apiPedidos.get(
   "/pedidos/list",
-  async (req: Request, res: Response): Promise<Response> => {
+  async (_req: Request, res: Response): Promise<Response> => {
     let pedidos = await Pedido.find();
     return res.status(200).send(pedidos);
   }

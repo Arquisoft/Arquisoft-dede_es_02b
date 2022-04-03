@@ -6,7 +6,7 @@ const apiUsuarios: Router = express.Router()
 
 apiUsuarios.get(
   "/users/list",
-  async (req: Request, res: Response): Promise<Response> => {
+  async (_req: Request, res: Response): Promise<Response> => {
     let users = await Usuario.find();
     return res.status(200).send(users);
   }
