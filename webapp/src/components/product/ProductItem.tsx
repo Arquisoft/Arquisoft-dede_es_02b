@@ -12,6 +12,8 @@ import { TextField } from '@mui/material';
 import { Box } from '@mui/system';
 import { addToCart } from '../../api/api';
 import { useState } from "react";
+import AddIcon from '@mui/icons-material/Add';
+import RemoveIcon from '@mui/icons-material/Remove';
 
 type ProductProp = {
   product: Product;
@@ -24,9 +26,16 @@ const ProductItem:React.FC<ProductProp>=(productProp : ProductProp) =>{
     e.preventDefault();
     await addToCart(productProp.product, cantidad);
   }
+  function sumarCantidad(n:number){
+    var c = cantidad;
+    c=c+(1*n);
+    if(c<11 && c>0){
+      setCantidad(c);
+    }
+  }
 
   return (
-    <form name="register" onSubmit={handleAddCart}>
+    <form name="AddItem" onSubmit={handleAddCart}>
     <Card sx={{ maxWidth: 345 }}>
       <CardMedia
         component="img"
@@ -53,25 +62,25 @@ const ProductItem:React.FC<ProductProp>=(productProp : ProductProp) =>{
           <Typography sx={{fontSize:20}}> {accounting.formatMoney(productProp.product.precio,"€")}</Typography>
         </Box>
         <Box sx={{display:'flex', flexDirection:"row-reverse", alignItems:'center'}}>
+          <IconButton onClick={()=>sumarCantidad(1)}><AddIcon/></IconButton>
           <TextField
             id="cantidad-producto"
-            type="number"
-            InputLabelProps={{
-              shrink: true,
-            }}
             sx={{
               width:34,
               paddingRight:1,
               paddingLeft:1,
-              textAlign:'center'
+              textAlign:'center',
             }}
-            inputProps={{min:1,max:10, style:{textAlign:'right'}}}
+            inputProps={{min:1,max:10, style:{textAlign:'center'}}}
             variant="standard"
             defaultValue={1}
-            onChange={(e) => 
+            value={cantidad}
+            onChange={(e) => {
               setCantidad(parseInt(e.target.value))
             }
+            }
           />
+          <IconButton onClick={()=>sumarCantidad(-1)}><RemoveIcon/></IconButton>
           <Typography>Cantidad:</Typography>
         </Box>
       </CardActions>
