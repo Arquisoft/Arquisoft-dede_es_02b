@@ -6,7 +6,7 @@ require("dotenv").config({path: dotenvPath});
 import request, {Response} from 'supertest';
 import { Application } from 'express';
 import * as http from 'http';
-import bcrypt, { compare } from 'bcrypt';
+import bcrypt from 'bcrypt';
 import {createApp, createServer, closeServer, loadDatabase} from './setServerForTests';
 import apiUsuarios from '../usuarios/apiUsuarios';
 

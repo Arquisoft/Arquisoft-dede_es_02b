@@ -44,7 +44,7 @@ const Carrito: React.FC<ProductProps>= (props: ProductProps) =>{
 
   function borrarItem(product:Product){
     var value = sessionStorage.getItem(product._id);
-      if (value != null){
+      if (value !== null){
         sessionStorage.removeItem(product._id);
         let items = [...productosCarrito];
         for (let index = 0; index < items.length; index++) {
@@ -60,28 +60,28 @@ const Carrito: React.FC<ProductProps>= (props: ProductProps) =>{
 
   function DeleteUnitFromCart(product:Product):void{
     var value = sessionStorage.getItem(product._id);
-      if (value != null){
+      if (value !== null){
         var temp = JSON.parse(value);
         if (temp.qty > 1){
           temp.qty = temp.qty - 1;
           sessionStorage.setItem(product._id, JSON.stringify(temp));
           let items = [...productosCarrito];
           let carrito2 = new Map<Product,number>();
-          carrito.forEach((value: number, key: Product)=>{
-              carrito2.set(key,value);
+          carrito.forEach((value2: number, key: Product)=>{
+              carrito2.set(key,value2);
           });
+
           for (let index = 0; index < items.length; index++) {
             if(items[index]._id===product._id){
               var e = items[index];
               var c = carrito2.get(e)
               if(typeof c !=="undefined"){
                 c=c-1;
-                //carrito.delete(e);
                 carrito2.set(e,c);
-                
               }
             }
           }
+          
           setCarrito(carrito2);
         }
       }
@@ -96,23 +96,22 @@ const Carrito: React.FC<ProductProps>= (props: ProductProps) =>{
           sessionStorage.setItem(product._id, JSON.stringify(temp));
           let items = [...productosCarrito];
           let carrito2 = new Map<Product,number>();
-          carrito.forEach((value: number, key: Product)=>{
-              carrito2.set(key,value);
+          carrito.forEach((value2: number, key: Product)=>{
+              carrito2.set(key,value2);
           });
+          
           for (let index = 0; index < items.length; index++) {
             if(items[index]._id===product._id){
               var e = items[index];
               var c = carrito2.get(e)
               if(typeof c !=="undefined"){
                 c=c+1;
-                //carrito.delete(e);
                 carrito2.set(e,c);
-                
               }
             }
           }
+
           setCarrito(carrito2);
-          
         }
       }
   }
@@ -122,8 +121,8 @@ const Carrito: React.FC<ProductProps>= (props: ProductProps) =>{
     for(i=0; i<items.length; i++){
       sessionStorage.removeItem(items[i]._id);
     }
-    let a = new Map<Product,number>();
-    setCarrito(a);
+    let b = new Map<Product,number>();
+    setCarrito(b);
     setProductosCarrito([]);
   }
 

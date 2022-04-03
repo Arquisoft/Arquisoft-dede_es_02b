@@ -18,7 +18,7 @@ defineFeature(feature, test => {
       .goto("http://localhost:3000", {
         waitUntil: "networkidle0",
       })
-      .catch(() => {});
+      .catch((error) => {console.log(error)});
   });
 
   test('The user is not registered in the site', ({given,when,then}) => {

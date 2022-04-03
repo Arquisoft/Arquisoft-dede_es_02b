@@ -4,7 +4,7 @@ import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 
-const LoginNavBar:React.FC= ()=> {
+const HomeNavBar:React.FC=() =>{
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
@@ -18,4 +18,5 @@ const LoginNavBar:React.FC= ()=> {
   );
 }
 
-export default LoginNavBar;
+
+export default HomeNavBar;
