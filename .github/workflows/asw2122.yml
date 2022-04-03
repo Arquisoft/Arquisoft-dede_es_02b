@@ -118,7 +118,7 @@ jobs:
           touch .env
           echo MONGO_URI_TEST=${{ secrets.MONGO_URI_TEST }} >> .env
           echo MONGO_URI=${{ secrets.MONGO_URI }} >> .env
-          echo CORS_OPTIONS='https://dede2b-webapp.herokuapp.com/' >> .env
+          echo CORS_OPTIONS='https://dede2b-webapp.herokuapp.com' >> .env
           cat .env
       - uses: akhileshns/heroku-deploy@v3.12.12 # This is the action
         with:
