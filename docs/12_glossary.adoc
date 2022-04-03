@@ -16,6 +16,7 @@
 | bcrypt            | Dependencia que nos permite crear para cada contraseña un hash distinto y así encriptarlas de manera segura.
 | dotenv            | Dependencia para externalizar en un archivo ciertos strings.
 | React Router Dom  | Librería para implementar la navegación entre URLs.
+| React Split       | Librería para dividir la pantalla en varias partes con una barra deslizable para cambiar el tamaño.
 | Jest              | Librería para la realización de los tests de backend.
 | Supertest         | Librería para realizar las pruebas de las peticiones del backend.
 | Cors              | Dependencia para que tanto la aplicación de nodejs como la aplicacion de react puedan interactuar.
