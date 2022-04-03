@@ -51,7 +51,7 @@ jobs:
         node-version: 16
     - name: Create env file 📝
       run: |
-        cd ../restapi/
+        cd restapi
         touch .env
         echo MONGO_URI_TEST=${{ secrets.MONGO_URI_TEST }} >> .env
         echo MONGO_URI=${{ secrets.MONGO_URI }} >> .env
@@ -88,19 +88,3 @@ jobs:
           password: ${{ secrets.DOCKER_PUSH_TOKEN }}
           registry: ghcr.io
           workdir: restapi
-
-
-    # Steps represent a sequence of tasks that will be executed as part of the job
-    steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v3
-
-      # Runs a single command using the runners shell
-      - name: Run a one-line script
-        run: echo Hello, world!
-
-      # Runs a set of commands using the runners shell
-      - name: Run a multi-line script
-        run: |
-          echo Add other actions to build,
-          echo test, and deploy your project.
