@@ -13,8 +13,7 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import { ShoppingCart } from '@mui/icons-material';
 import { Badge } from '@mui/material';
-import { Navigate } from 'react-router-dom';
-import { Link } from 'react-router-dom';
+import { Navigate, Link } from 'react-router-dom';
 
 const pages = ['Products'];
 
