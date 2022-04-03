@@ -5,32 +5,26 @@ import Grid from '@mui/material/Grid';
 import ProductComponent from './CarritoItem';
 import Split from 'react-split';
 import { IconButton, Typography } from '@mui/material';
-import Total from './Total';
 import { Console } from 'console';
 import { useState } from 'react';
 import Delete from '@mui/icons-material/Delete';
 import ReactDOM from 'react-dom';
+import Total from './Total';
 
 type ProductProps = {
   products: Product[];
 }
 
-let carrito = new Map<Product, number>();
+//let carrito = new Map<Product, number>();
 
 let cantidad:number = 0;
-
-export function getPrecio():number{
-  let precio = 0;
-  carrito.forEach((value: number, key: Product) => {
-    precio += key.precio * value;
-  });
-  return precio;
-}
 
 const Carrito: React.FC<ProductProps>= (props: ProductProps) =>{
   var i = 0;
   let productos: Product[]=[];
-  carrito.clear();
+  let a = new Map<Product,number>();
+  a.clear();
+  //carrito.clear();
   for(i; i<props.products.length; i++){
     var cartItem = sessionStorage.getItem(props.products[i]._id);
     if (cartItem != null){
@@ -38,12 +32,20 @@ const Carrito: React.FC<ProductProps>= (props: ProductProps) =>{
       cantidad = cartItem2.qty;
       var obj: Product = { _id: props.products[i]._id, nombre:cartItem2.nombre, descripcion:cartItem2.descripcion, foto:cartItem2.foto, origen:cartItem2.origen, precio:cartItem2.precio};
       productos.push(obj);
-      carrito.set(obj, cantidad);
+      a.set(obj, cantidad);
     }
   }
+  const [carrito, setCarrito] = useState<Map<Product, number>>(a);
   const [productosCarrito, setProductosCarrito] = useState<Product[]>(productos);
   
-  
+  function getPrecio():number{
+    let precio = 0;
+    carrito.forEach((value: number, key: Product) => {
+      precio += key.precio * value;
+    });
+    return precio;
+  }
+
   function ListaResumen(props: any){
     const items = props.items;
     let lista: any;
@@ -53,6 +55,81 @@ const Carrito: React.FC<ProductProps>= (props: ProductProps) =>{
     return (
       <ul>{lista}</ul>
     );
+  }
+
+  function borrarItem(product:Product){
+    var value = sessionStorage.getItem(product._id);
+      if (value != null){
+        sessionStorage.removeItem(product._id);
+        let items = [...productosCarrito];
+        for (let index = 0; index < items.length; index++) {
+          if(items[index]._id==product._id){
+            var e = items[index];
+            items.splice(index,1);
+            carrito.delete(e);
+          }
+        }
+        setProductosCarrito(items); 
+      }
+  }
+
+  function DeleteUnitFromCart(product:Product):void{
+    var value = sessionStorage.getItem(product._id);
+      if (value != null){
+        var temp = JSON.parse(value);
+        if (temp.qty > 1){
+          temp.qty = temp.qty - 1;
+          sessionStorage.setItem(product._id, JSON.stringify(temp));
+          let items = [...productosCarrito];
+          let carrito2 = new Map<Product,number>();
+          carrito.forEach((value: number, key: Product)=>{
+              carrito2.set(key,value);
+          });
+          for (let index = 0; index < items.length; index++) {
+            if(items[index]._id==product._id){
+              var e = items[index];
+              var c = carrito2.get(e)
+              if(typeof c !=="undefined"){
+                c=c-1;
+                //carrito.delete(e);
+                carrito2.set(e,c);
+                
+              }
+            }
+          }
+          setCarrito(carrito2);
+        }
+      }
+  }
+  
+  function AddUnitFromCart(product:Product):void{
+    var value = sessionStorage.getItem(product._id);
+      if (value != null){
+        var temp = JSON.parse(value);
+        if(temp.qty<10){
+          temp.qty = temp.qty + 1;
+          sessionStorage.setItem(product._id, JSON.stringify(temp));
+          let items = [...productosCarrito];
+          let carrito2 = new Map<Product,number>();
+          carrito.forEach((value: number, key: Product)=>{
+              carrito2.set(key,value);
+          });
+          for (let index = 0; index < items.length; index++) {
+            if(items[index]._id==product._id){
+              var e = items[index];
+              var c = carrito2.get(e)
+              if(typeof c !=="undefined"){
+                c=c+1;
+                //carrito.delete(e);
+                carrito2.set(e,c);
+                
+              }
+            }
+          }
+          setCarrito(carrito2);
+          
+        }
+      }
   }
 
   function deleteCart(){
@@ -75,7 +152,7 @@ const Carrito: React.FC<ProductProps>= (props: ProductProps) =>{
           <Grid container spacing={3}>
             {Array.from(Array(productosCarrito.length)).map((_, index) => (
               <Grid item xs={12} sm={6} md={4} lg={3} key={index}>
-                <ProductComponent product={productosCarrito[index]} cantidadItem={carrito.get(productosCarrito[index])as number}/>
+                <ProductComponent product={productosCarrito[index]} cantidadItem={carrito.get(productosCarrito[index])as number} borrar={borrarItem} add={AddUnitFromCart} delete={DeleteUnitFromCart}/>
               </Grid>
             ))}
           </Grid>
@@ -93,7 +170,7 @@ const Carrito: React.FC<ProductProps>= (props: ProductProps) =>{
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             ----------------------------
           </Typography>
-          <Total></Total>
+          <Total total={getPrecio()}/>
           <IconButton onClick={()=>deleteCart()}><Delete/>Borrar pedido</IconButton>
       </Box>
     </Split>

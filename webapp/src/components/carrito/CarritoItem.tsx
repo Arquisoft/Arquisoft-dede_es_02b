@@ -16,6 +16,9 @@ import { useState } from 'react';
 type ProductProp = {
   product: Product;
   cantidadItem: number;
+  borrar: Function;
+  add: Function;
+  delete: Function;
 }
 
 // const handleDeleteAllCart = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -35,76 +38,49 @@ type ProductProp = {
 
 
 const CarritoItem: React.FC<ProductProp>=(productProp : ProductProp) =>{
-  const [cantidad, setCantidad] = useState(productProp.cantidadItem);
-  const [producto, setProducto] = useState(productProp.product);
+  
 
   function handleDeleteItemFromCart(product:Product):void{
-    var value = sessionStorage.getItem(product._id);
-      if (value != null){
-        sessionStorage.removeItem(product._id);
-        var e = document.getElementById(product.nombre);
-        if(e!=null)
-          e.remove();
-      }
+      productProp.borrar(product);
   }
   
   function handleDeleteUnitFromCart(product:Product):void{
-    var value = sessionStorage.getItem(product._id);
-      if (value != null){
-        var temp = JSON.parse(value);
-        if (temp.qty > 1){
-          temp.qty = temp.qty - 1;
-          sessionStorage.setItem(product._id, JSON.stringify(temp));
-          var c = cantidad;
-          c=c-1;
-          setCantidad(c);
-        }
-      }
+      productProp.delete(product);
   }
   
   function handleAddUnitFromCart(product:Product):void{
-    var value = sessionStorage.getItem(product._id);
-      if (value != null){
-        var temp = JSON.parse(value);
-        if(temp.qty<10){
-          temp.qty = temp.qty + 1;
-          sessionStorage.setItem(product._id, JSON.stringify(temp));
-          var c = cantidad;
-          c=c+1;
-          setCantidad(c);
-        }
-      }
+      productProp.add(product);
   }
 
   return (
-    <Card id={producto.nombre} sx={{ maxWidth: 345 }}>
+    <Card id={productProp.product.nombre} sx={{ maxWidth: 345 }}>
       <CardMedia
         component="img"
-        alt={producto.nombre}
+        alt={productProp.product.nombre}
         height="140"
-        image={producto.foto}
+        image={productProp.product.foto}
       />
       <CardContent sx={{paddingBottom:0}}>   
         <Typography gutterBottom variant="h5" component="div">
-        {producto.nombre}
+        {productProp.product.nombre}
         </Typography>
       </CardContent>
       <CardActions sx={{flexDirection:"row-reverse", justifyContent:'space-between', paddingTop:0}}>
       <Box sx={{display:'flex', flexDirection:"row-reverse", alignItems:'center'}}>
-          <IconButton onClick={()=>handleDeleteItemFromCart(producto)}>
+          <IconButton onClick={()=>handleDeleteItemFromCart(productProp.product)}>
               <DeleteIcon />
           </IconButton>
-          <IconButton onClick={()=>handleAddUnitFromCart(producto)}>
+          <IconButton onClick={()=>handleAddUnitFromCart(productProp.product)}>
               <AddIcon />
           </IconButton>
-          <IconButton onClick={()=>handleDeleteUnitFromCart(producto)}>
+          <IconButton onClick={()=>handleDeleteUnitFromCart(productProp.product)}>
               <RemoveIcon />
           </IconButton>
-          <Typography sx={{fontSize:20}}> {accounting.formatMoney(producto.precio *cantidad,"€")}</Typography>
+          <Typography sx={{fontSize:20}}> {accounting.formatMoney(productProp.product.precio *productProp.cantidadItem,"€")}</Typography>
         </Box>
         <Box sx={{display:'flex', flexDirection:"row-reverse", alignItems:'center'}}>
           <Typography>
-            {cantidad}
+            {productProp.cantidadItem}
           </Typography>
         </Box>
       </CardActions>
