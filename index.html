@@ -1153,11 +1153,11 @@ El sistema será escrito en TypeScript con React, una biblioteca que facilitará
 <div class="sectionbody">
 <div class="imageblock">
 <div class="content">
-<img src="./images/deployment_view1.svg" alt="deployment view1" width="459" height="408">
+<img src="./images/deployment_view1.svg" alt="deployment view1" width="614" height="452">
 </div>
 </div>
 <div class="paragraph">
-<p>El usuario se conectará a la aplicación web, donde iniciará sesión en su POD (alojado en un servidor de PODs externo) y permitirá a la aplicación acceder a él para obtener la dirección de envío. Los demás datos que no forman parte de la identidad del cliente (productos, compras realizadas) se almacenan en una base de datos MongoDB.</p>
+<p>El usuario se conectará a la aplicación web, alojada en Heroku, donde iniciará sesión. Los datos de la identidad del cliente están alojados en MongoDB. El backend también está alojado en Heroku. A la hora de realizar un pedido, iniciará sesión en su POD (alojado en un servidor de PODs externo) y permitirá a la aplicación acceder a él para obtener la dirección de envío.</p>
 </div>
 <div style="page-break-after: always;"></div>
 </div>
@@ -1494,6 +1494,10 @@ Los requisitos se representarán en un diagrama de árbol, <em>10.1 Árbol de ca
 <td class="tableblock halign-left valign-top"><p class="tableblock">Librería para implementar la navegación entre URLs.</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">React Split</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Librería para dividir la pantalla en varias partes con una barra deslizable para cambiar el tamaño.</p></td>
+</tr>
+<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Jest</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Librería para la realización de los tests de backend.</p></td>
 </tr>
@@ -1648,7 +1652,7 @@ Created by Dr. Peter Hruschka &amp; Dr. Gernot Starke.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2022-04-01 18:20:40 +0200
+Last updated 2022-04-03 23:03:34 +0200
 </div>
 </div>
 </body>
