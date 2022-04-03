@@ -10,17 +10,21 @@ type ProductProps = {
 }
 
 const Products:React.FC<ProductProps>=(props: ProductProps)=> {
-  return (
-    <Box sx={{ flexGrow: 1, padding: 3 }}>
-      <Grid container spacing={3}>
-        {Array.from(Array(props.products.length)).map((_, index) => (
-          <Grid item xs={12} sm={6} md={4} lg={3} key={index}>
-            <ProductComponent product={props.products[index]}/>
-          </Grid>
-        ))}
-      </Grid>
-    </Box>
-  );
+  if(props!==null){
+    return (
+      <Box sx={{ flexGrow: 1, padding: 3 }}>
+        <Grid container spacing={3}>
+          {Array.from(Array(props.products.length)).map((_, index) => (
+            <Grid item xs={12} sm={6} md={4} lg={3} key={index}>
+              <ProductComponent product={props.products[index]}/>
+            </Grid>
+          ))}
+        </Grid>
+      </Box>
+    );
+  }
+  else
+    return(<></>);
 }
 
 export default Products;
