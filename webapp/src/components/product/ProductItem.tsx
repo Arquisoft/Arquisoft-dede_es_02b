@@ -35,7 +35,7 @@ const ProductItem:React.FC<ProductProp>=(productProp : ProductProp) =>{
   }
 
   return (
-    <form name="register" onSubmit={handleAddCart}>
+    <form name="AddItem" onSubmit={handleAddCart}>
     <Card sx={{ maxWidth: 345 }}>
       <CardMedia
         component="img"
