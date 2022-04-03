@@ -1,6 +1,6 @@
 # This is a basic workflow to help you get started with Actions
 
-name: CI prueba
+name: CI for ASW2122
 
 # Controls when the workflow will run
 on:
