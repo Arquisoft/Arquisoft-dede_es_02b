@@ -45,8 +45,9 @@ npm start
 ```
 
 You should be able to access the application in [http://localhost:3000](http://localhost:3000).
+El despliegue de la app se realiza en https://dede2b-webapp.herokuapp.com/
 
-## Team member
+## Team members
 
 - Adrián Fernández Alonso - UO264268
 - Alberto Fernández Azcoaga - UO179637
