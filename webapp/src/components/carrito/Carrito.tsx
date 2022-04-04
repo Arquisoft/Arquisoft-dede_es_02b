@@ -8,6 +8,7 @@ import { IconButton, Typography } from '@mui/material';
 import { useState } from 'react';
 import Delete from '@mui/icons-material/Delete';
 import Total from './Total';
+import { ShoppingCart } from '@mui/icons-material';
 
 type ProductProps = {
   products: Product[];
@@ -135,7 +136,10 @@ const Carrito: React.FC<ProductProps>= (props: ProductProps) =>{
       minSize={[1000, 500]}
     >
       <Box sx={{ flexGrow: 1, padding: 3}}>
-          <Grid container spacing={3} direction="row" justifyContent="center" alignItems="center">
+      <Typography variant="h1" component="h2" sx={{fontSize:40}}>
+          Carrito <ShoppingCart />
+        </Typography>
+          <Grid container spacing={3} direction="row" justifyContent="center" alignItems="center" marginTop={1}>
             {Array.from(Array(productosCarrito.length)).map((_, index) => (
               <Grid item xs={12} sm={7} md={4} lg={3} key={index}>
                 <ProductComponent product={productosCarrito[index]} cantidadItem={carrito.get(productosCarrito[index])as number} borrar={borrarItem} add={AddUnitFromCart} delete={DeleteUnitFromCart}/>
