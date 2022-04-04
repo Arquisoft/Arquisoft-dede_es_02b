@@ -4,7 +4,7 @@ import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import ProductComponent from './CarritoItem';
 import Split from 'react-split';
-import { IconButton, Typography } from '@mui/material';
+import { Alert, IconButton, Snackbar, Typography } from '@mui/material';
 import { useState } from 'react';
 import Delete from '@mui/icons-material/Delete';
 import Total from './Total';
@@ -34,6 +34,7 @@ const Carrito: React.FC<ProductProps>= (props: ProductProps) =>{
   }
   const [carrito, setCarrito] = useState<Map<Product, number>>(a);
   const [productosCarrito, setProductosCarrito] = useState<Product[]>(productos);
+  const [producto, setProducto] = useState<null|Product>(null);
   
   function getPrecio():number{
     let precio = 0;
@@ -51,12 +52,14 @@ const Carrito: React.FC<ProductProps>= (props: ProductProps) =>{
         for (let index = 0; index < items.length; index++) {
           if(items[index]._id===product._id){
             var e = items[index];
+            setProducto(e);
             items.splice(index,1);
             carrito.delete(e);
           }
         }
         setProductosCarrito(items); 
       }
+      setOpen(true);
   }
 
   function DeleteUnitFromCart(product:Product):void{
@@ -126,6 +129,19 @@ const Carrito: React.FC<ProductProps>= (props: ProductProps) =>{
     setCarrito(b);
     setProductosCarrito([]);
   }
+  const [open, setOpen] = React.useState(false);
+
+  const handleClick = () => {
+    setOpen(true);
+  };
+
+  const handleClose = (event?: React.SyntheticEvent | Event, reason?: string) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setOpen(false);
+  };
 
   return (
     <Split
@@ -135,6 +151,11 @@ const Carrito: React.FC<ProductProps>= (props: ProductProps) =>{
       className="split-flex"
       minSize={[1000, 500]}
     >
+      <Snackbar  open={open} autoHideDuration={6000} onClose={handleClose}>
+        <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
+           {producto?.nombre} borrado del carrito
+        </Alert>
+      </Snackbar>
       <Box sx={{ flexGrow: 1, padding: 3}}>
       <Typography variant="h1" component="h2" sx={{fontSize:40}}>
           Carrito <ShoppingCart />
