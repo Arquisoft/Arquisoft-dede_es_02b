@@ -50,7 +50,7 @@ const refreshPedidosList = async () => {
         <Route path="/carrito" element={
           <div>
             <NavBar/>
-            <Carrito products ={products}/>
+            <Carrito/>
           </div>
         }/> 
         <Route path="/pedidos" element={

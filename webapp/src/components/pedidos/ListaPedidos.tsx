@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { alpha } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Table from '@mui/material/Table';
@@ -15,17 +15,12 @@ import Paper from '@mui/material/Paper';
 import Checkbox from '@mui/material/Checkbox';
 import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Switch from '@mui/material/Switch';
 import DeleteIcon from '@mui/icons-material/Delete';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import { visuallyHidden } from '@mui/utils';
 import { Pedido, Estado } from '../../shared/shareddtypes';
-import { isElementOfType } from 'react-dom/test-utils';
 import EditIcon from '@mui/icons-material/Edit';
 import { Autocomplete, Backdrop, Button, Fade, Modal, TextField } from '@mui/material';
-import { FilterAltRounded } from '@mui/icons-material';
-import  {getPedidos} from '../../api/api';
 
 const opcionesFiltrado=[
     {label:'Nº Pedido'},
@@ -43,43 +38,43 @@ const opcionesEstado=[
 ]
 
 
-function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
-  if (b[orderBy] < a[orderBy]) {
-    return -1;
-  }
-  if (b[orderBy] > a[orderBy]) {
-    return 1;
-  }
-  return 0;
-}
+// function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
+//   if (b[orderBy] < a[orderBy]) {
+//     return -1;
+//   }
+//   if (b[orderBy] > a[orderBy]) {
+//     return 1;
+//   }
+//   return 0;
+// }
 
 type Order = 'asc' | 'desc';
 
-function getComparator<Key extends keyof any>(
-  order: Order,
-  orderBy: Key,
-): (
-  a: { [key in Key]: number | string },
-  b: { [key in Key]: number | string },
-) => number {
-  return order === 'desc'
-    ? (a, b) => descendingComparator(a, b, orderBy)
-    : (a, b) => -descendingComparator(a, b, orderBy);
-}
+// function getComparator<Key extends keyof any>(
+//   order: Order,
+//   orderBy: Key,
+// ): (
+//   a: { [key in Key]: number | string },
+//   b: { [key in Key]: number | string },
+// ) => number {
+//   return order === 'desc'
+//     ? (a, b) => descendingComparator(a, b, orderBy)
+//     : (a, b) => -descendingComparator(a, b, orderBy);
+// }
 
 // This method is created for cross-browser compatibility, if you don't
 // need to support IE11, you can use Array.prototype.sort() directly
-function stableSort<T>(array: readonly T[], comparator: (a: T, b: T) => number) {
-  const stabilizedThis = array.map((el, index) => [el, index] as [T, number]);
-  stabilizedThis.sort((a, b) => {
-    const order = comparator(a[0], b[0]);
-    if (order !== 0) {
-      return order;
-    }
-    return a[1] - b[1];
-  });
-  return stabilizedThis.map((el) => el[0]);
-}
+// function stableSort<T>(array: readonly T[], comparator: (a: T, b: T) => number) {
+//   const stabilizedThis = array.map((el, index) => [el, index] as [T, number]);
+//   stabilizedThis.sort((a, b) => {
+//     const order = comparator(a[0], b[0]);
+//     if (order !== 0) {
+//       return order;
+//     }
+//     return a[1] - b[1];
+//   });
+//   return stabilizedThis.map((el) => el[0]);
+// }
 
 interface HeadCell {
   disablePadding: boolean;
@@ -192,7 +187,7 @@ function EnhancedTableHead(props: EnhancedTableProps) {
 
 interface EnhancedTableToolbarProps {
   numSelected: number;
-  seleccionados: readonly String[];
+  seleccionados: readonly string[];
   borrar : Function;
   filtrar: Function;
 }
@@ -201,8 +196,8 @@ var palabraFiltrada:string=""
 var tipoFiltrado:string=opcionesFiltrado[0].label
 
 const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
-  const { numSelected, seleccionados, borrar , filtrar} = props;
-  const [filtrado, setFiltrado] = React.useState<Boolean>(false);
+  const { numSelected, borrar , filtrar} = props;
+  const [filtrado, setFiltrado] = React.useState<boolean>(false);
   let quitarFiltrado = document.getElementById('quitarFiltrado');
   if(quitarFiltrado!=null){
     quitarFiltrado.addEventListener('click', ()=>setFiltrado(false));
@@ -248,8 +243,8 @@ const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
       ) : (<div>
             {filtrado ? (
               <Typography sx={{ display: 'flex' }} component="div">
-                <Button variant="outlined" onClick={()=>filtrar()}>Filtrar</Button>
-                <Autocomplete
+                <Button aria-label='filtrar-button' variant="outlined" onClick={()=>filtrar()}>Filtrar</Button>
+                <Autocomplete aria-label='opciones'
                     disablePortal
                     id="combo-box-demo"
                     options={opcionesFiltrado}
@@ -270,7 +265,7 @@ const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
               </Typography>
             ):(
               <Tooltip title="Filter list">
-                <IconButton onClick={()=>setFiltrado(true)}>
+                <IconButton aria-label='filter-icon' onClick={()=>setFiltrado(true)}>
                   <FilterListIcon/>
                 </IconButton>
               </Tooltip>
@@ -293,22 +288,27 @@ const ListaPedidos:React.FC<PedidoProps>=(props: PedidoProps)=> {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const [state, setState] = React.useState<Pedido[]>(props.pedidos);
-  const [lastState, setLastState] = React.useState<Pedido[]>(state);
+  const [lastState, ] = React.useState<Pedido[]>(state);
   const [rowState, setRowState]=React.useState<Pedido>(state[0]);
 
-  function borrar(seleccionados: readonly String[]) {
+  function borrar(seleccionados: readonly string[]) {
     var opcion=window.confirm("¿Seguro de que quieres eliminar el pedido?");
+    const filtrado = (f : string )=>{return f!==seleccionados[j]}
+    let seleccionado: string;
+    let element: Pedido;
+    let index: number;
+    let j: number;
     if(opcion){
       var lista = state;
-      for (let index = 0; index < lista.length; index++) {
-        for (let j = 0; j < seleccionados.length; j++) {
-          const seleccionado = seleccionados[j];
-          const element = lista[index];
+      for (index = 0; index < lista.length; index++) {
+        for (j = 0; j < seleccionados.length; j++) {
+          seleccionado = seleccionados[j];
+          element = lista[index];
           console.log(element);
           console.log(seleccionado);
-          if(seleccionado.match(element._id)!=null){
+          if(seleccionado.match(element._id)!==null){
             lista.splice(index,1);
-            seleccionados= seleccionados.filter((f)=>{return f!=seleccionados[j]})
+            seleccionados= seleccionados.filter(filtrado);
             j--;
           }
         }
@@ -317,25 +317,25 @@ const ListaPedidos:React.FC<PedidoProps>=(props: PedidoProps)=> {
       setState(lista);
       setSelected([]);
     }
-  };
+  }
 
-  function filtrar(palabra:string, tipoFiltrado:string){
+  function filtrar(palabra:string, tipoFiltrado2:string){
     var lista = lastState;
-    if(palabra!=""){
-      if(tipoFiltrado==opcionesFiltrado[0].label)
-        lista = lista.filter((f)=>{ return f.numero_pedido.toString()==palabra})
-      if(tipoFiltrado==opcionesFiltrado[1].label)
-        lista = lista.filter((f)=>{ return f.fecha==palabra})
-      if(tipoFiltrado==opcionesFiltrado[2].label)
-        lista = lista.filter((f)=>{ return f.estado==palabra})
-      if(tipoFiltrado==opcionesFiltrado[3].label)
-        lista = lista.filter((f)=>{ return f.id_usuario==palabra})
+    if(palabra!==""){
+      if(tipoFiltrado2===opcionesFiltrado[0].label)
+        lista = lista.filter((f)=>{ return f.numero_pedido.toString()===palabra})
+      if(tipoFiltrado2===opcionesFiltrado[1].label)
+        lista = lista.filter((f)=>{ return f.fecha===palabra})
+      if(tipoFiltrado2===opcionesFiltrado[2].label)
+        lista = lista.filter((f)=>{ return f.estado===palabra})
+      if(tipoFiltrado2===opcionesFiltrado[3].label)
+        lista = lista.filter((f)=>{ return f.id_usuario===palabra})
     }
     setState(lista);
   }
 
   const handleRequestSort = (
-    event: React.MouseEvent<unknown>,
+    _event: React.MouseEvent<unknown>,
     property: keyof Pedido,
   ) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -352,7 +352,7 @@ const ListaPedidos:React.FC<PedidoProps>=(props: PedidoProps)=> {
     setSelected([]);
   };
 
-  const handleClick = (event: React.MouseEvent<unknown>, name: string) => {
+  const handleClick = (_event: React.MouseEvent<unknown>, name: string) => {
     const selectedIndex = selected.indexOf(name);
     let newSelected: readonly string[] = [];
 
@@ -372,7 +372,7 @@ const ListaPedidos:React.FC<PedidoProps>=(props: PedidoProps)=> {
     setSelected(newSelected);
   };
 
-  const handleChangePage = (event: unknown, newPage: number) => {
+  const handleChangePage = (_event: unknown, newPage: number) => {
     setPage(newPage);
   };
 
@@ -395,7 +395,6 @@ const ListaPedidos:React.FC<PedidoProps>=(props: PedidoProps)=> {
     p: 4,
   };
   const [open, setOpen] = React.useState(false);
-  const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
   function editar(row:Pedido){
@@ -507,7 +506,7 @@ const ListaPedidos:React.FC<PedidoProps>=(props: PedidoProps)=> {
                             sx={{ width: 300, paddingTop:2, paddingBottom:2}}
                             defaultValue={opcionesEstado[0]}
                             renderInput={(params) => <TextField {...params} label="Opciones" />}
-                            onChange={(event, newValue) => {
+                            onChange={(_event, newValue) => {
                               if(newValue!=null)
                                   estado = newValue.label;
                             }}
