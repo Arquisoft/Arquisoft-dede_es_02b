@@ -23,7 +23,6 @@ apiPedidos.post(
       await pedido.save();
       return res.sendStatus(200);
     } catch {
-      console.log("error");
       return res.sendStatus(500);
     }
   }
