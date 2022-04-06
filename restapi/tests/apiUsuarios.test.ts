@@ -163,9 +163,17 @@ describe("login ", () => {
     })
 })
 
-describe("eliminar usuarios ", () =>{
-    it('correcto', async () => {
-        probarDelete({id:"6220e1c1e976d8ae3a9d3e60"},200);
+describe("eliminar usuario ", () =>{
+    it('existente', async () => {
+        probarDelete({_id:"6220e1c1e976d8ae3a9d3e60"},200);
+        var response:Response = await request(app).get("/users/id=6220e1c1e976d8ae3a9d3e60").set('Accept', 'application/json');
+        
+        expect(response.statusCode).toBe(200);
+        expect(response.body).toStrictEqual({});
+    })
+
+    it('inexistente', async () => {
+        probarDelete({_id:"6220e1c1e976d8ae3a9d3e60"},200);
     })
 })
 
@@ -181,7 +189,7 @@ async function probarLogin(arg0: { email?: string; contraseña?: string; }, code
     return response;
 }
 
-async function probarDelete(arg0: { id?: string; }, code:number): Promise<Response> {
+async function probarDelete(arg0: { _id?: string; }, code:number): Promise<Response> {
     const response:Response = await request(app).post('/users/delete').send(arg0).set('Accept', 'application/json');
     expect(response.statusCode).toBe(code);
     return response;
