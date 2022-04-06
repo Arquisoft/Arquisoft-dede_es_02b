@@ -8,3 +8,16 @@
 .button{
     max-width: 3;
 }
+
+
+#carrito-item{
+    animation-duration: 1.5s;
+    animation-name: aparecer;
+    transition: all 300ms;
+  }
+  
+  #carrito-item:hover{
+     transform: scale(1.03);
+    
+  }
+  

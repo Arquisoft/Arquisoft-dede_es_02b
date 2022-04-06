@@ -17,20 +17,24 @@ type ProductProps = {
 
 let cantidad:number = 0;
 
-const Carrito: React.FC<ProductProps>= (props: ProductProps) =>{
+const Carrito: React.FC= () =>{
   var i = 0;
   let productos: Product[]=[];
   let a = new Map<Product,number>();
-  a.clear();
-  for(i; i<props.products.length; i++){
-    var cartItem = sessionStorage.getItem(props.products[i]._id);
-    if (cartItem != null){
-      var cartItem2 = JSON.parse(cartItem);
-      cantidad = cartItem2.qty;
-      var obj: Product = { _id: props.products[i]._id, nombre:cartItem2.nombre, descripcion:cartItem2.descripcion, foto:cartItem2.foto, origen:cartItem2.origen, precio:cartItem2.precio};
-      productos.push(obj);
-      a.set(obj, cantidad);
+
+  for (let index = 0; index < sessionStorage.length; index++) {
+    const element = sessionStorage.key(index);
+    if(element!=null && element!="emailUsuario"){
+      var cartItem = sessionStorage.getItem(element);
+      if(cartItem!=null){
+        var cartItem2 = JSON.parse(cartItem);    
+        cantidad = cartItem2.qty;
+        var obj: Product = { _id: element, nombre:cartItem2.nombre, descripcion:cartItem2.descripcion, foto:cartItem2.foto, origen:cartItem2.origen, precio:cartItem2.precio};
+        productos.push(obj);
+        a.set(obj, cantidad);
+      }
     }
+    
   }
   const [carrito, setCarrito] = useState<Map<Product, number>>(a);
   const [productosCarrito, setProductosCarrito] = useState<Product[]>(productos);
@@ -121,7 +125,7 @@ const Carrito: React.FC<ProductProps>= (props: ProductProps) =>{
   }
 
   function deleteCart(){
-    const items = props.products;
+    const items = productosCarrito;
     for(i=0; i<items.length; i++){
       sessionStorage.removeItem(items[i]._id);
     }
@@ -160,9 +164,10 @@ const Carrito: React.FC<ProductProps>= (props: ProductProps) =>{
       <Typography variant="h1" component="h2" sx={{fontSize:40}}>
           Carrito <ShoppingCart />
         </Typography>
+        <h2>Prueba</h2>
           <Grid container spacing={3} direction="row" justifyContent="center" alignItems="center" marginTop={1}>
             {Array.from(Array(productosCarrito.length)).map((_, index) => (
-              <Grid item xs={12} sm={7} md={4} lg={3} key={index}>
+              <Grid id="carrito-item" item xs={12} sm={7} md={4} lg={3} key={index}>
                 <ProductComponent product={productosCarrito[index]} cantidadItem={carrito.get(productosCarrito[index])as number} borrar={borrarItem} add={AddUnitFromCart} delete={DeleteUnitFromCart}/>
               </Grid>
             ))}
