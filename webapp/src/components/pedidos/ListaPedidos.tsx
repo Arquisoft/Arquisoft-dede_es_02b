@@ -174,12 +174,7 @@ function EnhancedTableHead(props: EnhancedTableProps) {
               {headCell.label}
               {orderBy === headCell.id ? (
                 <Box component="span" sx={visuallyHidden}>
-                  {() => {
-                    if(order === 'desc'){
-                      return 'sorted descending';
-                    } 
-                    return 'sorted ascending';
-                    }}
+                  {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
                 </Box>
               ) : null}
             </TableSortLabel>
@@ -246,41 +241,35 @@ const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
           </IconButton>
         </Tooltip>
       ) : (<div>
-
-            {() => {
-              if(filtrado){
-                return (
-                  <Typography sx={{ display: 'flex' }} component="div">
-                    <Button variant="outlined" onClick={()=>filtrar()}>Filtrar</Button>
-                    <Autocomplete
-                        disablePortal
-                        id="combo-box-demo"
-                        options={opcionesFiltrado}
-                        sx={{ width: 300 }}
-                        defaultValue={opcionesFiltrado[0]}
-                        renderInput={(params) => <TextField {...params} label="Opciones" />}
-                        onChange={(_event, newValue) => {
-                          if(newValue!=null)
-                              tipoFiltrado = newValue.label;
-                        }}
-                      />
-                    <TextField id="outlined-basic" label="Filtrar" variant="outlined" onChange={(e)=>palabraFiltrada=e.target.value}/>
-                    <Tooltip title="Filter list">
-                      <IconButton id="quitarFiltrado">
-                        <FilterListIcon />
-                      </IconButton>
-                    </Tooltip>
-                  </Typography>
-                )
-              }else{
-              return (
+            {filtrado ? (
+              <Typography sx={{ display: 'flex' }} component="div">
+                <Button aria-label='filtrar-button' variant="outlined" onClick={()=>filtrar()}>Filtrar</Button>
+                <Autocomplete aria-label='opciones'
+                    disablePortal
+                    id="combo-box-demo"
+                    options={opcionesFiltrado}
+                    sx={{ width: 300 }}
+                    defaultValue={opcionesFiltrado[0]}
+                    renderInput={(params) => <TextField {...params} label="Opciones" />}
+                    onChange={(event, newValue) => {
+                      if(newValue!=null)
+                          tipoFiltrado = newValue.label;
+                    }}
+                  />
+                <TextField id="outlined-basic" label="Filtrar" variant="outlined" onChange={(e)=>palabraFiltrada=e.target.value}/>
+                <Tooltip title="Filter list">
+                  <IconButton id="quitarFiltrado">
+                    <FilterListIcon />
+                  </IconButton>
+                </Tooltip>
+              </Typography>
+            ):(
               <Tooltip title="Filter list">
                 <IconButton aria-label='filter-icon' onClick={()=>setFiltrado(true)}>
                   <FilterListIcon/>
                 </IconButton>
               </Tooltip>
-              )}
-            }}
+            )}
           </div>
       )}
     </Toolbar>
@@ -424,8 +413,6 @@ const ListaPedidos:React.FC<PedidoProps>=(props: PedidoProps)=> {
       }
       
     }
-
-    
     setState(lista);
     setOpen(false);
   }
