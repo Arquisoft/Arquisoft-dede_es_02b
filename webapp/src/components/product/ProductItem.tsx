@@ -50,11 +50,11 @@ const ProductItem:React.FC<ProductProp>=(productProp : ProductProp) =>{
 
   return (
     <form name="AddItem" onSubmit={handleAddCart}>
-      <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+      {/*<Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
         <Alert onClose={handleClose} severity="info" sx={{ width: '100%' }}>
           {productProp.product.nombre} x{cantidad} añadido al carrito
         </Alert>
-      </Snackbar>
+  </Snackbar>*/}
     <Card sx={{ maxWidth: 345 }}>
       <CardMedia
         component="img"

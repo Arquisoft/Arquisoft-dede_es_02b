@@ -5,6 +5,7 @@ import Grid from '@mui/material/Grid';
 import ProductComponent from './ProductItem';
 import { Typography } from '@mui/material';
 import { ShoppingBasket } from '@mui/icons-material';
+import "./Products.css";
 
 
 type ProductProps = {
@@ -20,7 +21,7 @@ const Products: React.FC<ProductProps> = (props: ProductProps) => {
         </Typography>
         <Grid container spacing={3} direction="row" justifyContent="center" alignItems="center" marginTop={1}>
           {Array.from(Array(props.products.length)).map((_, index) => (
-            <Grid item key={index}>
+            <Grid item id="product" key={index}>
               <ProductComponent product={props.products[index]} />
             </Grid>
           ))}

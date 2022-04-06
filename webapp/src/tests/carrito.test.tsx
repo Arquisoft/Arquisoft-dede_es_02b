@@ -9,7 +9,7 @@ test('Carrito', () => {
     products.productos.forEach(element=>{
       addToCart(element,3);
     })
-    render(<Carrito products ={products.productos}/>);
+    render(<Carrito/>);
     let text = screen.getByText(/Resumen del pedido/);
     expect(text).toBeInTheDocument();
     text = screen.getByText(/Total/);
