@@ -4,14 +4,13 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
-import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { Navigate } from "react-router-dom";
+import { Navigate, Link } from "react-router-dom";
 import { addUser, findUserByEmail, findUserByDni } from '../../api/api';
 import { User } from '../../shared/shareddtypes';
 
@@ -162,8 +161,10 @@ export default function Register() {
             </Button>
             <Grid container>
               <Grid item>
-                <Link href="/" variant="body2">
-                  {"Iniciar sesión"}
+              <Link to={"/login"}>
+                  <Typography key="login" sx={{ my: 1, color: 'blue', textAlign:"center", display: 'block' }}>
+                    Iniciar Sesión
+                  </Typography>
                 </Link>
               </Grid>
             </Grid>
@@ -171,7 +172,7 @@ export default function Register() {
         </Box>
       </Container>
     </ThemeProvider>
-  );
+  ); 
 }
 
 
