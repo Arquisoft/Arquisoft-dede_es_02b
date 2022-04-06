@@ -1,8 +1,3 @@
-import path from 'path';
-
-var dotenvPath = path.resolve('../.env');
-require("dotenv").config({path: dotenvPath});
-
 import request, {Response} from 'supertest';
 import { Application } from 'express';
 import * as http from 'http';
@@ -165,7 +160,7 @@ describe("login ", () => {
 
 describe("eliminar usuario ", () =>{
     it('existente', async () => {
-        probarDelete({_id:"6220e1c1e976d8ae3a9d3e60"},200);
+        await probarDelete({_id:"6220e1c1e976d8ae3a9d3e60"},200);
         var response:Response = await request(app).get("/users/id=6220e1c1e976d8ae3a9d3e60").set('Accept', 'application/json');
         
         expect(response.statusCode).toBe(200);
@@ -173,7 +168,7 @@ describe("eliminar usuario ", () =>{
     })
 
     it('inexistente', async () => {
-        probarDelete({_id:"6220e1c1e976d8ae3a9d3e60"},200);
+        await probarDelete({_id:"6220e1c1e976d8ae3a9d3e60"},200);
     })
 })
 
