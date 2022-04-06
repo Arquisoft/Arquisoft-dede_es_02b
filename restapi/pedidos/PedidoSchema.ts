@@ -6,31 +6,34 @@ const pedidoSchema = new mongoose.Schema({
         required: true,
         immutable: true,
         unique: true,
+        min: 0,
     },
     id_usuario: { 
         type: mongoose.Types.ObjectId,
         required: true,
         ref: "Usuario",
     },
-    lista_productos: [{
-        id_producto:{
-            type: mongoose.Types.ObjectId,
-            required: true,
-            ref: "Producto",
-            _id:true,
-        } ,
-        cantidad: {
-            type: Number,
-            required: true,
-            min: 0,
-        },
-        precio:  {
-            type: Number,
-            required: true,
-            min: 0,
-        },
-        _id:false,
-    }],
+    lista_productos: {
+        type:[{
+            id_producto:{
+                type: mongoose.Types.ObjectId,
+                required: true,
+                ref: "Producto",
+                _id:true,
+            } ,
+            cantidad: {
+                type: Number,
+                required: true,
+                min: 0,
+            },
+            precio:  {
+                type: Number,
+                required: true,
+                min: 0,
+            },
+            _id:false,
+        }],
+    },
     precio_total: {
         type: Number,
         required: true,
@@ -60,6 +63,7 @@ const pedidoSchema = new mongoose.Schema({
         codigo_postal: {
             type: Number,
             required: true,
+            min: 0,
         },
     },
     fecha: {

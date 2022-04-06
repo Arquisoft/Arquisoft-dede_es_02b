@@ -77,7 +77,19 @@ apiUsuarios.get(
   }
 );
 
-apiUsuarios.delete(
+apiUsuarios.get(
+  "/users/id=:id",
+  async (req: Request, res: Response): Promise<Response> => {
+    try {
+      let usuario = await Usuario.findById(req.params.id)
+      return res.status(200).send(usuario);
+    } catch (error) {
+      return res.sendStatus(500); 
+    }
+  }
+);
+
+apiUsuarios.post(
   "/users/delete",
   async (req: Request, res: Response): Promise<Response> => {
     Usuario.findById(req.body._id).deleteOne().exec();
