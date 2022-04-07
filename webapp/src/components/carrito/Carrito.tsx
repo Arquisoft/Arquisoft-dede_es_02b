@@ -125,13 +125,17 @@ const Carrito: React.FC= () =>{
   }
 
   function deleteCart(){
-    const items = productosCarrito;
-    for(i=0; i<items.length; i++){
-      sessionStorage.removeItem(items[i]._id);
+    var msg ="¿Seguro de que quieres eliminar todos los productos del carrito?"
+    var opcion=window.confirm(msg);
+    if(opcion){
+      const items = productosCarrito;
+      for(i=0; i<items.length; i++){
+        sessionStorage.removeItem(items[i]._id);
+      }
+      let b = new Map<Product,number>();
+      setCarrito(b);
+      setProductosCarrito([]);
     }
-    let b = new Map<Product,number>();
-    setCarrito(b);
-    setProductosCarrito([]);
   }
   const [open, setOpen] = React.useState(false);
 
@@ -164,7 +168,6 @@ const Carrito: React.FC= () =>{
       <Typography variant="h1" component="h2" sx={{fontSize:40}}>
           Carrito <ShoppingCart />
         </Typography>
-        <h2>Prueba</h2>
           <Grid container spacing={3} direction="row" justifyContent="center" alignItems="center" marginTop={1}>
             {Array.from(Array(productosCarrito.length)).map((_, index) => (
               <Grid id="carrito-item" item xs={12} sm={7} md={4} lg={3} key={index}>
