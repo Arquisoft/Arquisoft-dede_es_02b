@@ -14,6 +14,7 @@ import { addToCart } from '../../api/api';
 import { useState } from "react";
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
+import "./Products.css";
 
 type ProductProp = {
   product: Product;
@@ -50,12 +51,12 @@ const ProductItem:React.FC<ProductProp>=(productProp : ProductProp) =>{
 
   return (
     <form name="AddItem" onSubmit={handleAddCart}>
-      {/*<Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+      <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
         <Alert onClose={handleClose} severity="info" sx={{ width: '100%' }}>
           {productProp.product.nombre} x{cantidad} añadido al carrito
         </Alert>
-  </Snackbar>*/}
-    <Card sx={{ maxWidth: 345 }}>
+  </Snackbar>
+    <Card id="product" sx={{ maxWidth: 345 }}>
       <CardMedia
         component="img"
         alt={productProp.product.nombre}
