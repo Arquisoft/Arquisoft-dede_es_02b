@@ -2,9 +2,10 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import Register from '../components/login/Register';
+import { MemoryRouter } from 'react-router-dom';
 
 test('Register', () => {
-    render(<Register/>);
+    render(<MemoryRouter><Register/></MemoryRouter>);
     let text = screen.getByText(/Registrarse/);
     expect(text).toBeInTheDocument();
     
@@ -21,6 +22,6 @@ test('Register', () => {
     // botones
     text = screen.getByText(/Completar registro/);
     expect(text).toBeInTheDocument();
-    text = screen.getByText(/Iniciar sesión/);
+    text = screen.getByText(/Iniciar Sesión/);
     expect(text).toBeInTheDocument();
 });
