@@ -167,6 +167,19 @@ describe("listar pedidos ", () => {
             numero_pedido: 1, id_usuario: '6220e1c1e976d8ae3a9d3e60', lista_productos: lista_productos, precio_total: 10.5, direccion: { calle: "camín de güerces 1293 15a", localidad: "gijón", provincia: "asturias", pais: "españa", codigo_postal: 33391 }, estado: "Entregado"
         });
     });
+
+    it('por id - incorrecto',async () => {
+        var response:Response = await request(app).get("/pedidos/id=621f7f978600d56807483f74").set('Accept', 'application/json');
+        
+        expect(response.statusCode).toBe(200);
+        expect(response.body).toStrictEqual({});
+    });
+
+    it('por id - inválido',async () => {
+        var response:Response = await request(app).get("/pedidos/id=jgfgkjhjg").set('Accept', 'application/json');
+        
+        expect(response.statusCode).toBe(500);
+    });
 })
 
 describe("eliminar pedido ", () =>{

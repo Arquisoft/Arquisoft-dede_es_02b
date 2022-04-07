@@ -64,8 +64,12 @@ apiPedidos.get(
 apiPedidos.get(
   "/pedidos/id=:id",
   async (req: Request, res: Response): Promise<Response> => {
-    let pedidos = await Pedido.findById(req.params.id);
-    return res.status(200).send(pedidos);
+    try{
+      let pedidos = await Pedido.findById(req.params.id);
+      return res.status(200).send(pedidos);
+    }catch(Error){
+      return res.sendStatus(500);
+    }
   }
 );
 

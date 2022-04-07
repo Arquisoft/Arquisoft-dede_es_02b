@@ -87,7 +87,7 @@ export function addToCart(product:Product, quantity:number):boolean{
 
 export async function findProductById(id: string): Promise<Product> {
   const apiEndPoint = process.env.REACT_APP_API_URI || 'http://localhost:5000'
-  let response = await fetch(apiEndPoint + '/products/' + id);
+  let response = await fetch(apiEndPoint + '/products/id=' + id);
   return response.json();
 }
 
