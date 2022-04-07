@@ -1,8 +1,3 @@
-import path from 'path';
-
-var dotenvPath = path.resolve('../.env');
-require("dotenv").config({path: dotenvPath});
-
 import request, {Response} from 'supertest';
 import { Application } from 'express';
 import * as http from 'http';
@@ -118,6 +113,26 @@ describe('listar usuarios ', () => {
         expect(response.statusCode).toBe(200);
         expect(response.body).toStrictEqual({});
     });
+
+    it('por id',async () => {
+        var response:Response = await request(app).get("/users/id=6220e1c1e976d8ae3a9d3e60").set('Accept', 'application/json');
+
+        expect(response.statusCode).toBe(200);
+        await compareResponseBody(response.body, {nombre:"adrian", email:"adrian@email.com", dni:"00000002a", contraseña:"1234"});
+    });
+
+    it('por id - incorrecto',async () => {
+        var response:Response = await request(app).get("/users/id=621f7f978600d56807483f74").set('Accept', 'application/json');
+        
+        expect(response.statusCode).toBe(200);
+        expect(response.body).toStrictEqual({});
+    });
+
+    it('por id - inválido',async () => {
+        var response:Response = await request(app).get("/users/id=jgfgkjhjg").set('Accept', 'application/json');
+        
+        expect(response.statusCode).toBe(500);
+    });
 })
 
 describe("login ", () => {
@@ -143,6 +158,20 @@ describe("login ", () => {
     })
 })
 
+describe("eliminar usuario ", () =>{
+    it('existente', async () => {
+        await probarDelete({_id:"6220e1c1e976d8ae3a9d3e60"},200);
+        var response:Response = await request(app).get("/users/id=6220e1c1e976d8ae3a9d3e60").set('Accept', 'application/json');
+        
+        expect(response.statusCode).toBe(200);
+        expect(response.body).toStrictEqual({});
+    })
+
+    it('inexistente', async () => {
+        await probarDelete({_id:"6220e1c1e976d8ae3a9d3e60"},200);
+    })
+})
+
 async function probarAddUsuarios(arg0: {_id?:string, nombre?: string, email?:string, dni?:string, contraseña?:string}, code:number):Promise<Response>{
     const response:Response = await request(app).post('/users/add').send(arg0).set('Accept', 'application/json');
     expect(response.statusCode).toBe(code);
@@ -151,6 +180,12 @@ async function probarAddUsuarios(arg0: {_id?:string, nombre?: string, email?:str
 
 async function probarLogin(arg0: { email?: string; contraseña?: string; }, code:number): Promise<Response> {
     const response:Response = await request(app).post('/users/login').send(arg0).set('Accept', 'application/json');
+    expect(response.statusCode).toBe(code);
+    return response;
+}
+
+async function probarDelete(arg0: { _id?: string; }, code:number): Promise<Response> {
+    const response:Response = await request(app).post('/users/delete').send(arg0).set('Accept', 'application/json');
     expect(response.statusCode).toBe(code);
     return response;
 }
