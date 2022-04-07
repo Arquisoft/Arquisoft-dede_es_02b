@@ -167,6 +167,91 @@ describe("listar pedidos ", () => {
             numero_pedido: 1, id_usuario: '6220e1c1e976d8ae3a9d3e60', lista_productos: lista_productos, precio_total: 10.5, direccion: { calle: "camín de güerces 1293 15a", localidad: "gijón", provincia: "asturias", pais: "españa", codigo_postal: 33391 }, estado: "Entregado"
         });
     });
+
+    it('por id - incorrecto',async () => {
+        var response:Response = await request(app).get("/pedidos/id=621f7f978600d56807483f74").set('Accept', 'application/json');
+        
+        expect(response.statusCode).toBe(200);
+        expect(response.body).toStrictEqual({});
+    });
+
+    it('por id - inválido',async () => {
+        var response:Response = await request(app).get("/pedidos/id=jgfgkjhjg").set('Accept', 'application/json');
+        
+        expect(response.statusCode).toBe(500);
+    });
+
+    it('por numero de pedido', async () => {
+        var response: Response = await request(app).get("/pedidos/numero_pedido=1").set('Accept', 'application/json');
+
+        expect(response.statusCode).toBe(200);
+        let lista_productos = [
+            {
+                id_producto: "621f7f978600d56807483f74",
+                cantidad: 3,
+                precio: 7.5
+            },
+            {
+                id_producto: "621f7f978600d56807483f76",
+                cantidad: 1,
+                precio: 3
+            }]
+        await compareResponseBody(response.body, {
+            numero_pedido: 1, id_usuario: '6220e1c1e976d8ae3a9d3e60', lista_productos: lista_productos, precio_total: 10.5, direccion: { calle: "camín de güerces 1293 15a", localidad: "gijón", provincia: "asturias", pais: "españa", codigo_postal: 33391 }, estado: "Entregado"
+        });
+    });
+
+    it('por numero de pedido - incorrecto',async () => {
+        var response:Response = await request(app).get("/pedidos/numero_pedido=45").set('Accept', 'application/json');
+        
+        expect(response.statusCode).toBe(200);
+        expect(response.body).toStrictEqual({});
+    });
+
+    it('por numero de pedido - inválido',async () => {
+        var response:Response = await request(app).get("/pedidos/numero_pedido=jgfgkjhjg").set('Accept', 'application/json');
+        
+        expect(response.statusCode).toBe(500);
+    });
+})
+
+describe("editar pedido ", () => {
+    it('existente', async () => {
+        await probarEditar({numero_pedido:1, estado:"Pendiente"},200);
+        var response:Response = await request(app).get("/pedidos/numero_pedido=1").set('Accept', 'application/json');
+        
+        expect(response.statusCode).toBe(200);
+        let lista_productos = [
+            {
+                id_producto: "621f7f978600d56807483f74",
+                cantidad: 3,
+                precio: 7.5
+            },
+            {
+                id_producto: "621f7f978600d56807483f76",
+                cantidad: 1,
+                precio: 3
+            }]
+        await compareResponseBody(response.body, {
+            numero_pedido: 1, id_usuario: '6220e1c1e976d8ae3a9d3e60', lista_productos: lista_productos, precio_total: 10.5, direccion: { calle: "camín de güerces 1293 15a", localidad: "gijón", provincia: "asturias", pais: "españa", codigo_postal: 33391 }, estado: "Pendiente"
+        });
+    })
+
+    it('inexistente', async () => {
+        await probarEditar({numero_pedido:4, estado:"Pendiente"},500);
+    })
+
+    it('existente, estado inválido', async () => {
+        await probarEditar({numero_pedido:4, estado:"adwasd"},500);
+    })
+
+    it('existente, sin estado', async () => {
+        await probarEditar({numero_pedido:4},500);
+    })
+
+    it('sin numero de pedido', async () => {
+        await probarEditar({estado:"Pendiente"},500);
+    })
 })
 
 describe("eliminar pedido ", () =>{
@@ -211,6 +296,12 @@ async function compareResponseBody(body: any, arg1: { numero_pedido?: number, id
 
 async function probarDelete(arg0: { _id?: string; }, code:number): Promise<Response> {
     const response:Response = await request(app).post('/pedidos/delete').send(arg0).set('Accept', 'application/json');
+    expect(response.statusCode).toBe(code);
+    return response;
+}
+
+async function probarEditar(arg0: { numero_pedido?: number,  estado?: string}, code:number): Promise<Response> {
+    const response:Response = await request(app).post('/pedidos/editar').send(arg0).set('Accept', 'application/json');
     expect(response.statusCode).toBe(code);
     return response;
 }
