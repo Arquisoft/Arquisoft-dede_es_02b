@@ -46,9 +46,11 @@ test('Carrito', () => {
   elements = screen.getAllByLabelText(/delete-item/);
   expect(elements[0]).toBeInTheDocument();
   expect(elements.length).toEqual(products.productos.length);
-
+  window.confirm = jest.fn(() => true) 
   elements[0].click();
+  expect(window.confirm).toHaveBeenCalled();
   expect(elements.length).toEqual(products.productos.length);
+
 
 });
 
