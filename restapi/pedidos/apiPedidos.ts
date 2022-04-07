@@ -73,6 +73,33 @@ apiPedidos.get(
   }
 );
 
+apiPedidos.get(
+  "/pedidos/numero_pedido=:numero_pedido",
+  async (req: Request, res: Response): Promise<Response> => {
+    try{
+      let pedidos = await Pedido.findOne({numero_pedido: req.params.numero_pedido}).exec();
+      return res.status(200).send(pedidos);
+    }catch(Error){
+      return res.sendStatus(500);
+    }
+  }
+);
+
+apiPedidos.post(
+  "/pedidos/editar",
+  async (req: Request, res: Response): Promise<Response> => {
+    try {
+      let pedido = await Pedido.findOne({ numero_pedido: req.body.numero_pedido }).exec();
+      pedido.estado = req.body.estado;
+      
+      await pedido.save();
+      return res.sendStatus(200);
+    } catch {
+      return res.sendStatus(500);
+    }
+  }
+);
+
 apiPedidos.post(
   "/pedidos/delete",
   async (req: Request, res: Response): Promise<Response> => {

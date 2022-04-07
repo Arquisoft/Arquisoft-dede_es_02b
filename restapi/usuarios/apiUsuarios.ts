@@ -64,7 +64,7 @@ apiUsuarios.post(
 apiUsuarios.get(
   "/users/email=:email",
   async (req: Request, res: Response): Promise<Response> => {
-    let usuario = await Usuario.findOne().where("email").equals(req.params.email.toLowerCase())
+    let usuario = await Usuario.findOne({email: req.params.email.toLowerCase()}).exec();
     return res.status(200).send(usuario);
   }
 );
@@ -72,7 +72,7 @@ apiUsuarios.get(
 apiUsuarios.get(
   "/users/dni=:dni",
   async (req: Request, res: Response): Promise<Response> => {
-    let usuario = await Usuario.findOne().where("dni").equals(req.params.dni.toLowerCase())
+    let usuario = await Usuario.findOne({dni: req.params.dni.toLowerCase()}).exec();
     return res.status(200).send(usuario);
   }
 );
