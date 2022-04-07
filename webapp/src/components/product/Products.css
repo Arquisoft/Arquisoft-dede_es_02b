@@ -1,0 +1,23 @@
+
+#product{
+    animation-duration: 1.5s;
+    animation-name: aparecer;
+    transition: all 300ms;
+  }
+  
+  @keyframes aparecer {
+    from {
+        margin-top: 20%;
+        height: 300%
+      }
+    
+      to {
+        margin-top: 0%;
+        height: 100%;
+      }
+  }
+
+#product:hover{
+    transform: scale(1.03);
+   
+ }

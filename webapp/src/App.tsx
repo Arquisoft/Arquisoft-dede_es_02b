@@ -9,6 +9,7 @@ import LoginScreen from './components/login/LoginScreen';
 import Carrito from './components/carrito/Carrito';
 import RegisterScreen from './components/login/RegisterScreen';
 import ListaPedidos from './components/pedidos/ListaPedidos';
+import AñadirProducto from './components/product/AñadirProducto';
 
 function App(): JSX.Element {
 
@@ -50,13 +51,19 @@ const refreshPedidosList = async () => {
         <Route path="/carrito" element={
           <div>
             <NavBar/>
-            <Carrito products ={products}/>
+            <Carrito/>
           </div>
         }/> 
         <Route path="/pedidos" element={
           <div>
             <NavBar/>
             <ListaPedidos pedidos={pedidos}/>
+          </div>
+        }/> 
+        <Route path="/addProducts" element={
+          <div>
+            <NavBar/>
+            <AñadirProducto/>
           </div>
         }/> 
 

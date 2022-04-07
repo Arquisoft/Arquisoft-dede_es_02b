@@ -14,19 +14,23 @@ apiProductos.get(
 apiProductos.post(
   "/products/add",
   async (req: Request, res: Response): Promise<Response> => {
-    let producto = new Producto();
-    producto.nombre = req.body.nombre;
-    producto.origen = req.body.origen;
-    producto.precio = req.body.precio;
-    producto.descripcion = req.body.descripcion;
-    producto.foto = req.body.foto;
-
-    await producto.save();
-    return res.sendStatus(200);
+    try{
+      let producto = new Producto();
+      producto.nombre = req.body.nombre;
+      producto.origen = req.body.origen;
+      producto.precio = req.body.precio;
+      producto.descripcion = req.body.descripcion;
+      producto.foto = req.body.foto;
+  
+      await producto.save();
+      return res.sendStatus(200);
+    }catch(Error){
+      return res.sendStatus(500);
+    }
   }
 );
 
-apiProductos.delete(
+apiProductos.post(
   "/products/delete",
   async (req: Request, res: Response): Promise<Response> => {
     Producto.findById(req.body._id).deleteOne().exec();
@@ -35,10 +39,14 @@ apiProductos.delete(
 );
 
 apiProductos.get(
-  "/products/:id",
+  "/products/id=:id",
   async (req: Request, res: Response): Promise<Response> => {
-    let productos = await Producto.findById(req.params.id)
-    return res.status(200).send(productos)
+    try{
+      let productos = await Producto.findById(req.params.id);
+      return res.status(200).send(productos);
+    }catch(Error){
+      return res.sendStatus(500);
+    }
   }
 );
 
