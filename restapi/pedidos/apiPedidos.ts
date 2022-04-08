@@ -89,7 +89,7 @@ apiPedidos.post(
   "/pedidos/editar",
   async (req: Request, res: Response): Promise<Response> => {
     try {
-      let query = { numero_pedido: req.body.numero_pedido };
+      let query = { numero_pedido: req.body.numero_pedido.toString() };
       let pedido = await Pedido.findOne(query).exec();
       pedido.estado = req.body.estado;
       
