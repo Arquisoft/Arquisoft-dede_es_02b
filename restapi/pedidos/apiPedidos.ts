@@ -89,7 +89,8 @@ apiPedidos.post(
   "/pedidos/editar",
   async (req: Request, res: Response): Promise<Response> => {
     try {
-      let pedido = await Pedido.findOne({ numero_pedido: req.body.numero_pedido }).exec();
+      let query = { numero_pedido: req.body.numero_pedido };
+      let pedido = await Pedido.findOne(query).exec();
       pedido.estado = req.body.estado;
       
       await pedido.save();
