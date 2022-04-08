@@ -1,20 +1,24 @@
 import { Button, Container, Grid, TextareaAutosize, TextField, Typography } from '@mui/material';
 import { Box } from '@mui/system';
 import * as React from 'react';
+import { addProduct } from '../../api/api';
+import { Product } from '../../shared/shareddtypes';
 
 
 const AñadirProducto: React.FC = () => {
 
-    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
-        console.log({
-          nombre: data.get('nombre'),
-          origen: data.get('origen'),
-          precio: data.get('precio'),
-          foto: data.get('foto'),
-          descripcion: data.get('descripcion'),
-        });
+        let producto: Product = {
+            _id: '',
+            nombre: data.get('nombre') as string,
+            origen: data.get('origen') as string,
+            precio: Number.parseFloat(data.get('precio') as string),
+            descripcion: data.get('descripcion') as string,
+            foto: data.get('foto') as string
+        }
+        await addProduct(producto);
       };
 
     return (<Container component="main" maxWidth="xs">
