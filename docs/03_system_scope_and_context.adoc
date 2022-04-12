@@ -4,7 +4,7 @@
 
 === Contexto empresarial
 
-image:Diagrama3.png["Diagrama de contexto empresarial"]
+image:3_Diagrama_Contexto_Empresarial.png["Diagrama de contexto empresarial"]
 
 [options="header"]
 |===
@@ -17,6 +17,8 @@ image:Diagrama3.png["Diagrama de contexto empresarial"]
 
 
 === Contexto técnico
+
+image:3_Diagrama_Contexto_Tecnico.png["Diagrama de contexto técnico"]
 
 DeDe es un sistema descentralizado que sigue la arquitectura SOLID, es decir, cada usuario posee de sus propios datos.
 Cada usuario tendrá vinculado un SOLID pod el cual sirve para guarda sus datos personales, los demás datos son guardados en la base de datos.
