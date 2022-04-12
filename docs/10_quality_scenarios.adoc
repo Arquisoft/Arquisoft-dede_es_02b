@@ -11,20 +11,21 @@ Los requisitos se representarán en un diagrama de árbol, __10.1 Árbol de cali
 @startmindmap
 
 * Requisitos de calidad
-** Dispinibilidad
+** Disponibilidad
 ** Interoperabilidad
 ** Mantenibilidad
 ** Portabilidad
 ** Privacidad
-** Securidad
+** Seguridad
 ** Usabilidad
 
 @endmindmap
 ----
 === Escenarios de calidad
 
-[%header, cols=3]
+[%header, cols=4]
 |===
+
 |Requisito de calidad
 |Descripción
 |Escenario de calidad
