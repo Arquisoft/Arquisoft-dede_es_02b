@@ -755,7 +755,7 @@ los pods previamente explicados, solo se almacenará información imprescindible
 <div class="sect2">
 <h3 id="_contexto_empresarial">3.1. Contexto empresarial</h3>
 <div class="paragraph">
-<p><span class="image"><img src="./images/Diagrama3.png" alt="Diagrama de contexto empresarial"></span></p>
+<p><span class="image"><img src="./images/3_Diagrama_Contexto_Empresarial.png" alt="Diagrama de contexto empresarial"></span></p>
 </div>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
@@ -796,6 +796,9 @@ los pods previamente explicados, solo se almacenará información imprescindible
 </div>
 <div class="sect2">
 <h3 id="_contexto_técnico">3.2. Contexto técnico</h3>
+<div class="paragraph">
+<p><span class="image"><img src="./images/3_Diagrama_Contexto_Tecnico.png" alt="Diagrama de contexto técnico"></span></p>
+</div>
 <div class="paragraph">
 <p>DeDe es un sistema descentralizado que sigue la arquitectura SOLID, es decir, cada usuario posee de sus propios datos.
 Cada usuario tendrá vinculado un SOLID pod el cual sirve para guarda sus datos personales, los demás datos son guardados en la base de datos.
@@ -1280,14 +1283,13 @@ Los requisitos se representarán en un diagrama de árbol, <em>10.1 Árbol de ca
 <h3 id="_árbol_de_calidad">10.1. Árbol de calidad</h3>
 <div class="imageblock">
 <div class="content">
-<img src="./images/calidad.png" alt="calidad" width="342" height="424">
+<img src="./images/calidad.png" alt="calidad" width="355" height="424">
 </div>
 </div>
 </div>
 <div class="sect2">
 <h3 id="_escenarios_de_calidad">10.2. Escenarios de calidad</h3>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 1. Requisitos de calidad</caption>
 <colgroup>
 <col style="width: 33.3333%;">
 <col style="width: 33.3333%;">
@@ -1296,45 +1298,65 @@ Los requisitos se representarán en un diagrama de árbol, <em>10.1 Árbol de ca
 <thead>
 <tr>
 <th class="tableblock halign-left valign-top">Requisito de calidad</th>
+<th class="tableblock halign-left valign-top">Descripción</th>
 <th class="tableblock halign-left valign-top">Escenario de calidad</th>
-<th class="tableblock halign-left valign-top">Prioridad</th>
 </tr>
 </thead>
 <tbody>
 <tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Prioridad</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Privacidad</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Los datos privados de los usuarios deben estar protegidos. Para eso, nuestra aplicación solo usaría los datos necesarios, y de forma descentralizada.</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Alta</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Los datos privados de los usuarios deben estar protegidos.</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Para eso, nuestra aplicación solo usa los datos necesarios, y de forma descentralizada.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Alta / Alta</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Usabilidad</p></td>
+</tr>
+<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Los usuarios deben poder navegar a través de nuestra aplicación de una manera fácil.</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Alta</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Para asegurar esto realizaremos un cuestionario a distintas personas sobre lo fácil que les ha resultado el uso de la aplicación. Debemos de tener un 4 sobre 5 o más.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Alta / Alta</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Seguridad</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">La aplicación tiene que ser lo más segura posible. Los datos del usuario no deben ser prestados a un tercero.</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Alta</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">La aplicación tiene que ser lo más segura posible.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Para ello los datos del usuario no deben ser prestados a un tercero.</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Alta / Alta</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Disponibilidad</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Los usuarios deben poder acceder al sistema cuando lo deseen.</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Media-Alta</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">La aplicación está desplegada mediante Heroku, lo cuál hace que la aplicación tenga una alta disponibilidad.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Media / Alta</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Testabilidad</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">La aplicación debe estar probada correctamente para evitar fallos.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Mediante la herramienta codecov mediremos el % de código probado. Este porcentaje debe de ser igual o superior al 85%.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Media / Alta</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Mantenibilidad</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">El código de la aplicación debe escribirse de manera que pueda modificarse y reutilizarse fácilmente. Además, es importante que los errores del sistema se puedan solucionar fácilmente.</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Media</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Utilizaremos Sonarcloud para medir la calidad del código y debemos mantener una nota A en todos los apartados.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Compatibilidad</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Media / Alta</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Interoperabilidad</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Nuestro sistema debería poder trabajar con los mismos datos descentralizados de los usuarios que se pueden usar en otras aplicaciones.</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Media</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Media / Media</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Portabilidad</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">La aplicación debe desplegarse correctamente independientemente de si se ejecuta en una computadora, teléfono móvil o tableta.</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Baja</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">La aplicación debe funcionar correctamente independientemente de si se ejecuta en una computadora, teléfono móvil o tableta.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Debemos probar la aplicación en los distintos navegadores (Google chrome, Mozilla Firefox y Microsoft Edge) y en los distintos dispositivos.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Baja / Baja</p></td>
 </tr>
 </tbody>
 </table>
@@ -1346,7 +1368,6 @@ Los requisitos se representarán en un diagrama de árbol, <em>10.1 Árbol de ca
 <h2 id="section-technical-risks">11. Riesgos y deudas técnicas</h2>
 <div class="sectionbody">
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 2. Riesgos</caption>
 <colgroup>
 <col style="width: 33.3333%;">
 <col style="width: 33.3333%;">
@@ -1361,39 +1382,23 @@ Los requisitos se representarán en un diagrama de árbol, <em>10.1 Árbol de ca
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Uso de Solid</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Casi todos los miembros del equipo nunca antes habiamos trabajado con Solid.</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Debemos utilizar parte de nuestro tiempo en investigar cómo funciona Solid y utilizar el foro de Solid para resolver nuestras dudas.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Falta de compatibilidad con otras aplicaciones.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Falta de compatibilidad con el resto de aplicaciones si no utilizan el mismo formato de datos para la dirección que nuestra aplicación.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Establecer un modelo de datos concreto.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Uso de React</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">React es un framework nuevo para nosotros, por lo que debemos aprender a trabajar con él.</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Trabajar en entender algunos de los ejemplos que nos dan e investigar en la web.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Carga de trabajo superior a la que la aplicación pueda soportar.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">La aplicación puede tener un número de peticiones superior a la que pueda soportar, lo que puede acarrear problemas.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Realizar pruebas en la aplicación con cargas mayores de las esperadas.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Uso de Typescript</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Nuestro conocimiento de JavaScript es limitado y no hemos usado nunca Typescript.</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Al igual que los puntos anteriores, la solución es trabajar en ello investigando en la web.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Uso de GitHub</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Aunque GitHub es una gran herramienta y no es la primera vez que la usamos, algunos merges pueden generar conflictos que puedan ser difíciles de resolver.</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Debemos tener cuidado cuando hagamos un merge de dos ramas, especialmente con master.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Trabajo en equipo</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Trabajar en un grupo con un gran número de miembros es difícil sobretodo cuando no nos conocemos. Esto puede causar algunos problemas de comunicación y organización.</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Tener tantas reuniones de equipo como sean necesarias.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Tiempo</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Los plazos del curso pueden ser un problema si no nos organizamos bien como equipo. Esto puede significar que tengamos que asumir ciertas deudas técnicas.</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Buena organización y trabajar desde el primer día.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Caída del sistema de PODS.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Inrupt puede sufrir alguna caída, haciendo que la utilización de la aplicación mediante PODS puede quedar inutilizada.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Para solucionarlo, la aplicación permitirá al usuario su utilización sin ser usuario de PODS.</p></td>
 </tr>
 </tbody>
 </table>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 3. Deudas Técnicas</caption>
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -1405,6 +1410,14 @@ Los requisitos se representarán en un diagrama de árbol, <em>10.1 Árbol de ca
 </tr>
 </thead>
 <tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Posibles fallos de las distintas bibliotecas que utilizamos.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Las distintas bibliotecas que utilizamos podrían contener ciertos errores que impliquen fallos en nustra aplicación.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Dependencia en Heroku para el despliegue.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Una caída de Heroku implicaría que nuestra aplicación dejaría de estar operativa mientras dure dicha caída.</p></td>
+</tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Conexión con SOLID.</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">En este momento aún no conectamos en ningún momento con SOLID para acceder a los PODS de los usuarios.</p></td>
@@ -1420,10 +1433,6 @@ Los requisitos se representarán en un diagrama de árbol, <em>10.1 Árbol de ca
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">No se realizan cobros de ningún tipo.</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">La aplicación no tiene implementada dicha funcionalidad.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">No se han realizado pruebas.</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">La aplicación no ha sido probada mediante tests.</p></td>
 </tr>
 </tbody>
 </table>
@@ -1462,8 +1471,12 @@ Los requisitos se representarán en un diagrama de árbol, <em>10.1 Árbol de ca
 <td class="tableblock halign-left valign-top"><p class="tableblock">React es una biblioteca Javascript de código abierto diseñada para crear interfaces de usuario con el objetivo de facilitar el desarrollo de aplicaciones en una sola página.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Solid</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Principios SOLID</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">SOLID se compone de una serie de principios y de buenas prácticas que os permiten administrar la mayoría de problemas de diseño de software permitiendonos tener un código más limpio, más mantenible, más escalable a futuro y menos propenso a errores.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">SOLID</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">SOLID (Social online data) es una tecnología para organizar datos, aplicaciones e identidades en la web.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Pod</p></td>
@@ -1508,6 +1521,14 @@ Los requisitos se representarán en un diagrama de árbol, <em>10.1 Árbol de ca
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Cors</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Dependencia para que tanto la aplicación de nodejs como la aplicacion de react puedan interactuar.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Heroku</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Heroku es una plataforma como servicio (PaaS) de computación en la Nube que soporta distintos lenguajes de programación.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">MUI</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Material UI es una biblioteca de componentes para la interfaz de usuario.</p></td>
 </tr>
 </tbody>
 </table>
@@ -1652,7 +1673,7 @@ Created by Dr. Peter Hruschka &amp; Dr. Gernot Starke.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2022-04-03 23:03:34 +0200
+Last updated 2022-04-08 20:05:39 +0200
 </div>
 </div>
 </body>
