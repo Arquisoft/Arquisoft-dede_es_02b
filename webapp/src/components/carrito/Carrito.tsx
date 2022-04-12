@@ -10,10 +10,6 @@ import Delete from '@mui/icons-material/Delete';
 import Total from './Total';
 import { ShoppingCart } from '@mui/icons-material';
 
-type ProductProps = {
-  products: Product[];
-}
-
 
 let cantidad:number = 0;
 
@@ -24,9 +20,9 @@ const Carrito: React.FC= () =>{
 
   for (let index = 0; index < sessionStorage.length; index++) {
     const element = sessionStorage.key(index);
-    if(element!=null && element!="emailUsuario"){
+    if(element!==null && element!=="emailUsuario"){
       var cartItem = sessionStorage.getItem(element);
-      if(cartItem!=null){
+      if(cartItem!==null){
         var cartItem2 = JSON.parse(cartItem);    
         cantidad = cartItem2.qty;
         var obj: Product = { _id: element, nombre:cartItem2.nombre, descripcion:cartItem2.descripcion, foto:cartItem2.foto, origen:cartItem2.origen, precio:cartItem2.precio};
@@ -139,9 +135,7 @@ const Carrito: React.FC= () =>{
   }
   const [open, setOpen] = React.useState(false);
 
-  const handleClick = () => {
-    setOpen(true);
-  };
+  
 
   const handleClose = (event?: React.SyntheticEvent | Event, reason?: string) => {
     if (reason === 'clickaway') {
