@@ -11,52 +11,64 @@ Los requisitos se representarán en un diagrama de árbol, __10.1 Árbol de cali
 @startmindmap
 
 * Requisitos de calidad
+** Dispinibilidad
+** Interoperabilidad
+** Mantenibilidad
+** Portabilidad
 ** Privacidad
 ** Securidad
-** Mantenibilidad
 ** Usabilidad
-** Compatibilidad
-** Dispinibilidad
-** Portabilidad
 
 @endmindmap
 ----
 === Escenarios de calidad
 
 [%header, cols=3]
-.Requisitos de calidad
 |===
 |Requisito de calidad
+|Descripción
 |Escenario de calidad
 |Prioridad
 
 |Privacidad
-|Los datos privados de los usuarios deben estar protegidos. Para eso, nuestra aplicación solo usaría los datos necesarios, y de forma descentralizada.
-|Alta
+|Los datos privados de los usuarios deben estar protegidos.
+|Para eso, nuestra aplicación solo usa los datos necesarios, y de forma descentralizada.
+|Alta / Alta
 
 |Usabilidad
 |Los usuarios deben poder navegar a través de nuestra aplicación de una manera fácil.
-|Alta
+|Para asegurar esto realizaremos un cuestionario a distintas personas sobre lo fácil que les ha resultado el uso de la aplicación. Debemos de tener un 4 sobre 5 o más.
+|Alta / Alta
 
 |Seguridad
-|La aplicación tiene que ser lo más segura posible. Los datos del usuario no deben ser prestados a un tercero.
-|Alta
+|La aplicación tiene que ser lo más segura posible. 
+|Para ello los datos del usuario no deben ser prestados a un tercero.
+|Alta / Alta
 
 |Disponibilidad
 |Los usuarios deben poder acceder al sistema cuando lo deseen.
-|Media-Alta
+|La aplicación está desplegada mediante Heroku, lo cuál hace que la aplicación tenga una alta disponibilidad.
+|Media / Alta
+
+|Testabilidad
+|La aplicación debe estar probada correctamente para evitar fallos.
+|Mediante la herramienta codecov mediremos el % de código probado. Este porcentaje debe de ser igual o superior al 85%. 
+|Media / Alta
 
 |Mantenibilidad
 |El código de la aplicación debe escribirse de manera que pueda modificarse y reutilizarse fácilmente. Además, es importante que los errores del sistema se puedan solucionar fácilmente.
-|Media
+|Utilizaremos Sonarcloud para medir la calidad del código y debemos mantener una nota A en todos los apartados.
+|Media / Alta
 
-|Compatibilidad
+|Interoperabilidad
 |Nuestro sistema debería poder trabajar con los mismos datos descentralizados de los usuarios que se pueden usar en otras aplicaciones.
-|Media
+|
+|Media / Media
 
 |Portabilidad
-|La aplicación debe desplegarse correctamente independientemente de si se ejecuta en una computadora, teléfono móvil o tableta.
-|Baja
+|La aplicación debe funcionar correctamente independientemente de si se ejecuta en una computadora, teléfono móvil o tableta.
+|Debemos probar la aplicación en los distintos navegadores (Google chrome, Mozilla Firefox y Microsoft Edge) y en los distintos dispositivos.
+|Baja / Baja
 
 |===
 
