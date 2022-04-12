@@ -1291,29 +1291,28 @@ Los requisitos se representarán en un diagrama de árbol, <em>10.1 Árbol de ca
 <h3 id="_escenarios_de_calidad">10.2. Escenarios de calidad</h3>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
-<col style="width: 33.3333%;">
-<col style="width: 33.3333%;">
-<col style="width: 33.3334%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
 </colgroup>
 <thead>
 <tr>
 <th class="tableblock halign-left valign-top">Requisito de calidad</th>
 <th class="tableblock halign-left valign-top">Descripción</th>
 <th class="tableblock halign-left valign-top">Escenario de calidad</th>
+<th class="tableblock halign-left valign-top">Prioridad</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Prioridad</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Privacidad</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Los datos privados de los usuarios deben estar protegidos.</p></td>
-</tr>
-<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Para eso, nuestra aplicación solo usa los datos necesarios, y de forma descentralizada.</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Alta / Alta</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Usabilidad</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Usabilidad</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Los usuarios deben poder navegar a través de nuestra aplicación de una manera fácil.</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Para asegurar esto realizaremos un cuestionario a distintas personas sobre lo fácil que les ha resultado el uso de la aplicación. Debemos de tener un 4 sobre 5 o más.</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Alta / Alta</p></td>
@@ -1322,18 +1321,16 @@ Los requisitos se representarán en un diagrama de árbol, <em>10.1 Árbol de ca
 <td class="tableblock halign-left valign-top"><p class="tableblock">Seguridad</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">La aplicación tiene que ser lo más segura posible.</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Para ello los datos del usuario no deben ser prestados a un tercero.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Alta / Alta</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Alta / Alta</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Disponibilidad</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Los usuarios deben poder acceder al sistema cuando lo deseen.</p></td>
-</tr>
-<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">La aplicación está desplegada mediante Heroku, lo cuál hace que la aplicación tenga una alta disponibilidad.</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Media / Alta</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Testabilidad</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Testabilidad</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">La aplicación debe estar probada correctamente para evitar fallos.</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Mediante la herramienta codecov mediremos el % de código probado. Este porcentaje debe de ser igual o superior al 85%.</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Media / Alta</p></td>
@@ -1342,18 +1339,16 @@ Los requisitos se representarán en un diagrama de árbol, <em>10.1 Árbol de ca
 <td class="tableblock halign-left valign-top"><p class="tableblock">Mantenibilidad</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">El código de la aplicación debe escribirse de manera que pueda modificarse y reutilizarse fácilmente. Además, es importante que los errores del sistema se puedan solucionar fácilmente.</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Utilizaremos Sonarcloud para medir la calidad del código y debemos mantener una nota A en todos los apartados.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Media / Alta</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Media / Alta</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Interoperabilidad</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Nuestro sistema debería poder trabajar con los mismos datos descentralizados de los usuarios que se pueden usar en otras aplicaciones.</p></td>
-</tr>
-<tr>
 <td class="tableblock halign-left valign-top"></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Media / Media</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Portabilidad</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Portabilidad</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">La aplicación debe funcionar correctamente independientemente de si se ejecuta en una computadora, teléfono móvil o tableta.</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Debemos probar la aplicación en los distintos navegadores (Google chrome, Mozilla Firefox y Microsoft Edge) y en los distintos dispositivos.</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Baja / Baja</p></td>
