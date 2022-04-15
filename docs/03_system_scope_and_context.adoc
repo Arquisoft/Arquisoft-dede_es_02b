@@ -1,24 +1,30 @@
 [[section-system-scope-and-context]]
 == Alcance del sistema y contexto
 
+image:3_Diagrama_Contexto_Empresarial.png["Diagrama de contexto empresarial"]
 
 === Contexto empresarial
 
-image:3_Diagrama_Contexto_Empresarial.png["Diagrama de contexto empresarial"]
+En el centro del diagrama anterior encontramos a DeDe, la cual es nuestra apliación, y podemos dividirla en dos partes,
+WebApp y RestApp.
+
+Además, las listas que aparecen reflejadas en el diagraba, son listas que almacenadas en la bases de datos.
+
+Los sistemas de peticiones son ejemplos de las posibles situaciones y posibilidades peticiones que puede realizar un
+usuario en la aplicación.
 
 [options="header"]
 |===
 | Entidad         | Entrada      | Salida
-| Usuario         | El usuario recibirá como entrada el servicio de la aplicación, la comunicación se establecerá con una web adaptable para distintos dispositivos.   |  El usuario proporcionará la mayor parte de la entrada de la aplicación.
+| Usuario         | El usuario recibirá como entrada el servicio de la aplicación, la comunicación se establecerá con una web adaptable para distintos dispositivos.   |  El usuario proporcionará la mayor parte de la entrada de la aplicación, además de indicar su Pod.
 | Pod del usuario | El pod recibirá información personal del usuario y lo guardará. Esta información le llegará tanto del usuario como de la aplicación | El pod le enviará a la aplicación la información requerida.
-| App             | La app recibirá información del pod del usuario tomando importancia la localización. | La salida será el servicio de la aplicación y los cambios en la base de datos.
+| WebApp          | La WebApp recibirá las peticiones del usuario. | La salida será la visualización al usuario del servicio de la aplicación realizados en la RestApi.
+| RestApi         | La RestApi será la que solicite a las Api la información necesaria para resolver las consultas que se le indiquen. | La API devolverá las consultas y peticiones necesarias para trabajar con ellas y mostrar por WebApp.
 | Base de datos   | La base de datos recibirá los datos que la app necesité tener almacenado. | La base de datos envía la información a la aplicación cuando este lo necesite
 |===
 
 
 === Contexto técnico
-
-image:3_Diagrama_Contexto_Tecnico.png["Diagrama de contexto técnico"]
 
 DeDe es un sistema descentralizado que sigue la arquitectura SOLID, es decir, cada usuario posee de sus propios datos.
 Cada usuario tendrá vinculado un SOLID pod el cual sirve para guarda sus datos personales, los demás datos son guardados en la base de datos.
