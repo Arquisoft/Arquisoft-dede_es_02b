@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import  {getProducts} from './api/api';
-import {Product} from './shared/shareddtypes';
+import  {getProducts, getPedidos} from './api/api';
+import {Product, Pedido} from './shared/shareddtypes';
 import './App.css';
 import NavBar from './components/NavBar';
 import Products from './components/product/Products';
@@ -8,17 +8,25 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import LoginScreen from './components/login/LoginScreen';
 import Carrito from './components/carrito/Carrito';
 import RegisterScreen from './components/login/RegisterScreen';
+import ListaPedidos from './components/pedidos/ListaPedidos';
 
 function App(): JSX.Element {
 
   const [products,setProducts] = useState<Product[]>([]);
+  const [pedidos,setPedidos] = useState<Pedido[]>([]);
 
   const refreshProductList = async () => {
     setProducts(await getProducts());
   }
 
+  
+const refreshPedidosList = async () => {
+  setPedidos(await getPedidos());
+}
+
   useEffect(()=>{
     refreshProductList();
+    refreshPedidosList();
   },[]);
 
   return (
@@ -43,6 +51,12 @@ function App(): JSX.Element {
           <div>
             <NavBar/>
             <Carrito products ={products}/>
+          </div>
+        }/> 
+        <Route path="/pedidos" element={
+          <div>
+            <NavBar/>
+            <ListaPedidos pedidos={pedidos}/>
           </div>
         }/> 
 

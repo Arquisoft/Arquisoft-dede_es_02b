@@ -3,26 +3,27 @@
 
 [plantuml, deployment_view1, svg]
 ----
-database "POD SOLID" {
+database "POD SOLID" as pod {
   [Direcciones de usuarios]
 }
 
-node "DeDe" {
-  package "WebApp" {
-      [Aplicación Web]
-  }
-  package "RestApi" {
-      [Rest]
-  }
-  database "MongoDB" {
-      [Productos]
-  }
-  [Rest] <-> [Productos]
-  [Rest] <-> [Aplicación Web]
+database "MongoDB" as mongo {
+    [Usuarios]
+    [Productos]
 }
 
-Usuario  <-> [Aplicación Web]
-[Aplicación Web] <-> [Direcciones de usuarios]
+node "Heroku" as web {
+  artifact "WebApp"
+}
+
+node "Heroku" as rest {
+  artifact "RestApi"
+}
+
+rest <--> web
+mongo <--> rest
+Usuario -> web
+pod <--> rest
 ----
 
-El usuario se conectará a la aplicación web, donde iniciará sesión en su POD (alojado en un servidor de PODs externo) y permitirá a la aplicación acceder a él para obtener la dirección de envío. Los demás datos que no forman parte de la identidad del cliente (productos, compras realizadas) se almacenan en una base de datos MongoDB.
+El usuario se conectará a la aplicación web, alojada en Heroku, donde iniciará sesión. Los datos de la identidad del cliente están alojados en MongoDB. El backend también está alojado en Heroku. A la hora de realizar un pedido, iniciará sesión en su POD (alojado en un servidor de PODs externo) y permitirá a la aplicación acceder a él para obtener la dirección de envío.

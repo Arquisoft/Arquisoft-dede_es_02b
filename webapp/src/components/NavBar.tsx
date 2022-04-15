@@ -20,14 +20,14 @@ const pages = ['Products'];
 
 const NavBar: React.FC  = () => {
   const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
-  const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
+<<<<<<< HEAD
+=======
+  const [, setAnchorElUser] = useState<null | HTMLElement>(null);
+>>>>>>> Develop
   const [logueado, setLogueado] = useState(sessionStorage.getItem("emailUsuario"));
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget);
-  };
-  const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorElUser(event.currentTarget);
   };
 
   const handleCloseNavMenu = () => {
@@ -64,6 +64,11 @@ const NavBar: React.FC  = () => {
           >
             DeDe
           </Typography>
+          <Link to={"/pedidos"}>
+            <Button key="pedidos" sx={{ my: 2, color: 'blue', display: 'block' }}>
+             Pedidos
+            </Button>
+          </Link>
 
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
             <IconButton
@@ -77,6 +82,7 @@ const NavBar: React.FC  = () => {
               <MenuIcon />
             </IconButton>
             <Menu
+              key="menu"
               id="menu-appbar"
               anchorEl={anchorElNav}
               anchorOrigin={{
@@ -132,7 +138,7 @@ const NavBar: React.FC  = () => {
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Carrito">
               <Link to="/carrito">
-                <IconButton onClick={handleOpenUserMenu} sx={{ p: 0, color: 'white' }}>
+                <IconButton sx={{ p: 0, color: 'white' }}>
                   <Badge badgeContent={sessionStorage.length-1} color="secondary">
                     <ShoppingCart />
                   </Badge>
