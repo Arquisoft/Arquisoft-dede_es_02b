@@ -3,15 +3,24 @@
 
 [options="header"]
 |===
-| Bcrypt        | Dependencia que nos permite crear para cada contraseña un hash distinto y así encriptarlas de manera segura.
-| Docker        | Docker es un proyecto que automatiza el despliegue de aplicaciones dentro de contenedores de software, proporcionando una capa adicional de abstracción y automatización de virtualización de aplicaciones en múltiples sistemas operativos.
-| Dotenv        | Dependencia para externalizar en un archivo ciertos strings.
-| Express       | Infraestructura de aplicaciones web para Node.js que nos permite realizar las peticiones en el back end.
-| MongoDB       | MongoDB es un programa de base de datos NoSQL que en vez de guardar datos en tablas guarda datos en estructuras BSON (similar a JSON).
-| Mongoose      | Biblioteca que nos permite conectar con MongoDB desde Express.
-| Node.js       | Node.js es un entorno en tiempo de ejecución multiplataforma para la capa del servidor diseñado para crear aplicaciones escalables, permitiéndote establecer y gestionar múltiples conexiones al mismo tiempo.
-| Pod           | Pod es un contenedor, en el que se presenta un conjunto de datos al usuario.
-| React         | React es una biblioteca Javascript de código abierto diseñada para crear interfaces de usuario con el objetivo de facilitar el desarrollo de aplicaciones en una sola página.
-| SOLID -> (Single responsibility, Open-closed, Liskov substitution, Interface segregation and Dependency inversion) | Se compone de una serie de principios y de buenas prácticas que os permiten administrar la mayoría de problemas de diseño de software permitiendonos tener un código más limpio, más mantenible, más escalable a futuro y menos propenso a errores.
-| Typescript    | TypeScript es un lenguaje de programación libre y de código abierto desarrollado y mantenido por Microsoft. Es un superconjunto de JavaScript, que esencialmente añade tipos estáticos y objetos basados en clases.
+| Bcrypt            | Dependencia que nos permite crear para cada contraseña un hash distinto y así encriptarlas de manera segura.
+| Cors              | Dependencia para que tanto la aplicación de nodejs como la aplicacion de react puedan interactuar.
+| Docker            | Docker es un proyecto que automatiza el despliegue de aplicaciones dentro de contenedores de software, proporcionando una capa adicional de abstracción y automatización de virtualización de aplicaciones en múltiples sistemas operativos.
+| Dotenv            | Dependencia para externalizar en un archivo ciertos strings.
+| Express           | Infraestructura de aplicaciones web para Node.js que nos permite realizar las peticiones en el back end.
+| Heroku            | Heroku es una plataforma como servicio (PaaS) de computación en la Nube que soporta distintos lenguajes de programación.
+| Jest              | Librería para la realización de los tests de backend.
+| MongoDB           | MongoDB es un programa de base de datos NoSQL que en vez de guardar datos en tablas guarda datos en estructuras BSON (similar a JSON).
+| Mongoose          | Biblioteca que nos permite conectar con MongoDB desde Express.
+| MUI  -> (Multilingual User Interface) | Material UI es una biblioteca de componentes para la interfaz de usuario.
+| Node.js           | Node.js es un entorno en tiempo de ejecución multiplataforma para la capa del servidor diseñado para crear aplicaciones escalables, permitiéndote establecer y gestionar múltiples conexiones al mismo tiempo.
+| Pod               | Pod es un contenedor, en el que se presenta un conjunto de datos al usuario.
+| Principios SOLID  | SOLID se compone de una serie de principios y de buenas prácticas que os permiten administrar la mayoría de problemas de diseño de software permitiendonos tener un código más limpio, más mantenible, más escalable a futuro y menos propenso a errores.
+| React             | React es una biblioteca Javascript de código abierto diseñada para crear interfaces de usuario con el objetivo de facilitar el desarrollo de aplicaciones en una sola página.
+| React Router Dom  | Librería para implementar la navegación entre URLs.
+| React Split       | Librería para dividir la pantalla en varias partes con una barra deslizable para cambiar el tamaño.
+| SOLID -> (Single responsibility, Open-closed, Liskov substitution, Interface segregation and Dependency inversion) | Es una tecnología para organizar datos, aplicaciones e identidades en la web.
+| Supertest         | Librería para realizar las pruebas de las peticiones del backend.
+| Termino           | Definición
+| Typescript        | TypeScript es un lenguaje de programación libre y de código abierto desarrollado y mantenido por Microsoft. Es un superconjunto de JavaScript, que esencialmente añade tipos estáticos y objetos basados en clases.
 |===
