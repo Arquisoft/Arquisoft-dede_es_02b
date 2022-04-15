@@ -3,16 +3,15 @@
 
 [options="header"]
 |===
-| Termino       | Definición
-| Typescript    | TypeScript es un lenguaje de programación libre y de código abierto desarrollado y mantenido por Microsoft. Es un superconjunto de JavaScript, que esencialmente añade tipos estáticos y objetos basados en clases.
+| Bcrypt        | Dependencia que nos permite crear para cada contraseña un hash distinto y así encriptarlas de manera segura.
 | Docker        | Docker es un proyecto que automatiza el despliegue de aplicaciones dentro de contenedores de software, proporcionando una capa adicional de abstracción y automatización de virtualización de aplicaciones en múltiples sistemas operativos.
-| Node.js       | Node.js es un entorno en tiempo de ejecución multiplataforma para la capa del servidor diseñado para crear aplicaciones escalables, permitiéndote establecer y gestionar múltiples conexiones al mismo tiempo.
-| React         | React es una biblioteca Javascript de código abierto diseñada para crear interfaces de usuario con el objetivo de facilitar el desarrollo de aplicaciones en una sola página.
-| Solid         | SOLID se compone de una serie de principios y de buenas prácticas que os permiten administrar la mayoría de problemas de diseño de software permitiendonos tener un código más limpio, más mantenible, más escalable a futuro y menos propenso a errores.
-| Pod           | Pod es un contenedor, en el que se presenta un conjunto de datos al usuario.
-| MongoDB       | MongoDB es un programa de base de datos NoSQL que en vez de guardar datos en tablas guarda datos en estructuras BSON (similar a JSON).
+| Dotenv        | Dependencia para externalizar en un archivo ciertos strings.
 | Express       | Infraestructura de aplicaciones web para Node.js que nos permite realizar las peticiones en el back end.
+| MongoDB       | MongoDB es un programa de base de datos NoSQL que en vez de guardar datos en tablas guarda datos en estructuras BSON (similar a JSON).
 | Mongoose      | Biblioteca que nos permite conectar con MongoDB desde Express.
-| bcrypt        | Dependencia que nos permite crear para cada contraseña un hash distinto y así encriptarlas de manera segura.
-| dotenv        | Dependencia para externalizar en un archivo ciertos strings
+| Node.js       | Node.js es un entorno en tiempo de ejecución multiplataforma para la capa del servidor diseñado para crear aplicaciones escalables, permitiéndote establecer y gestionar múltiples conexiones al mismo tiempo.
+| Pod           | Pod es un contenedor, en el que se presenta un conjunto de datos al usuario.
+| React         | React es una biblioteca Javascript de código abierto diseñada para crear interfaces de usuario con el objetivo de facilitar el desarrollo de aplicaciones en una sola página.
+| SOLID -> (Single responsibility, Open-closed, Liskov substitution, Interface segregation and Dependency inversion) | Se compone de una serie de principios y de buenas prácticas que os permiten administrar la mayoría de problemas de diseño de software permitiendonos tener un código más limpio, más mantenible, más escalable a futuro y menos propenso a errores.
+| Typescript    | TypeScript es un lenguaje de programación libre y de código abierto desarrollado y mantenido por Microsoft. Es un superconjunto de JavaScript, que esencialmente añade tipos estáticos y objetos basados en clases.
 |===
