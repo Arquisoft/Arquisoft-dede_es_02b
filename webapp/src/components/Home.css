@@ -1,0 +1,103 @@
+
+:root{
+    --fondoLetra: polygon(0% 0%, 0 0, 0 50%, 0 100%, 0% 100%);
+}
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+.body{
+    height: 93vh;
+}
+
+.container{
+   display: flex; 
+   justify-content: space-between;
+   align-items: center;
+   height: 100%;
+   padding-left: 50px;
+   flex-wrap: wrap;
+}
+.Home{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: column;
+}
+.Titulo{
+    font-size: 3em;
+    margin-bottom: .5em;
+    position: relative;
+    align-items: flex-start;
+    margin-bottom: 20px;
+    animation-duration: 4s;
+    animation-name: colorTitulo;
+    margin-right: 30px;
+}
+.Descripcion{
+    margin-bottom: .5em;
+    position: relative;
+    display: inline-block;
+    padding: 4px;
+    animation-duration: 1.5s;
+    animation-name: aparecer;
+    transition: all 300ms;
+}
+.imagen{
+    width: 600px;
+    display: block;
+    animation: movimiento 3s linear infinite;
+
+}
+@keyframes colorTitulo{
+    50%{
+        color: white;
+    }
+}
+@keyframes fondoTitulo {
+    50%{
+        background-color: #1976d2;
+        clip-path: polygon(0% 0%, 95% 0, 100% 50%, 95% 100%, 0% 100%);
+    }
+  }
+@keyframes movimiento{
+    0%{
+        transform: translateY(0);
+    }
+    50%{
+        transform: translateY(20px);
+    }
+    100%{
+        transform: translateY(0);
+    }
+}
+
+.Titulo::before{
+    content: "";
+    display: block;
+    background-color: aqua;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1;
+    clip-path: var(--fondoLetra);
+    animation-duration: 4s;
+    animation-name: fondoTitulo;
+    transition: clip-path 4s;
+    padding-left: 20px;
+}
+.container::before{
+    content: "";
+    display: block;
+    background-color: rgb(255, 255, 255);
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1;
+}
