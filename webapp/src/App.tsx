@@ -11,7 +11,7 @@ import RegisterScreen from './components/login/RegisterScreen';
 import ListaPedidos from './components/pedidos/ListaPedidos';
 import AñadirProducto from './components/product/AñadirProducto';
 import Home from './components/Home';
-import HomeNavBar from './components/ButtonAppBar';
+import HomeNavBar from './components/HomeNavBar';
 
 function App(): JSX.Element {
 
