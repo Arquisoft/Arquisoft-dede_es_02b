@@ -602,28 +602,28 @@ los pods previamente explicados, solo se almacenará información imprescindible
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Privacidad</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Al usar la tecnología de SOLID y ser una aplicación descentralizada, cada usuario tendrá su espacio personal, por lo que sus datos no se verán comprometidos.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Testeabilidad</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">La aplicación se debe de poder probar usando pruebas unitarias. Tiene que ser lo más importante para garantizar que los demás puntos cumplan correctamente su funcionamiento.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">2</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Privacidad</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Al ser una aplicación descentralizada, cada usuario tendrá su espacio personal, por lo que sus datos no se verán comprometidos.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">3</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Usabilidad</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">La aplicación tiene que ser intuitiva de cara al usuario, para que no sea una mala experiencia el uso de nuestra tienda. Cosas como hacer pedidos o ver los datos personales debe ser accesible.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">3</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">4</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Funcionalidad</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Ya que la aplicación es una tienda, interesa que los clientes estén satisfechos con las funcionalidades que ofrece, no solo para que ellos sigan usando nuestra tienda sino también que la recomienden a otros posibles clientes.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">4</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Rendimiento</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Una aplicación de tienda no puede tener muchos tiempos de espera entre las diferentes acciones que ofrece, ya que haría que los usuarios dejen de usarla.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">5</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Testeabilidad</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">La aplicación se debe de poder probar usando pruebas unitarias.</p></td>
 </tr>
 </tbody>
 </table>
@@ -646,7 +646,7 @@ los pods previamente explicados, solo se almacenará información imprescindible
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Equipo de desarrollo</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Equipo de desarrollo que hará el proyecto.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Adrián Fernández Alonso, Álex Caso Díaz, Diego Martínez Menéndez, Diego Villa García y Pedro Zahonero Mangas</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Encargados de realizar la aplicación intentando cumplir los requisitos. Es importante la comunicación y el compromiso con el proyecto.</p></td>
 </tr>
 <tr>
@@ -656,7 +656,7 @@ los pods previamente explicados, solo se almacenará información imprescindible
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Profesorado</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Profesores de la asignatura ASW</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Hugo Lebrado Buján y José Emilio Labra Gallo</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Encargados de supervisar el desarrollo de nuesta tienda.</p></td>
 </tr>
 </tbody>
@@ -681,6 +681,10 @@ los pods previamente explicados, solo se almacenará información imprescindible
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Uso de la tecnología SOLID.</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Debemos crear una aplicación que cuente con un sistema de persistencia descentralizado, por lo que usaremos SOLID.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Uso del lenguaje Typescript.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Utilizar este lenguaje para facilitarnos el uso de enlaces dinámicos, ya que en años anteriores se usaba Javascript.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Uso de GIT para el control de versiones.</p></td>
@@ -752,10 +756,21 @@ los pods previamente explicados, solo se almacenará información imprescindible
 <div class="sect1">
 <h2 id="section-system-scope-and-context">3. Alcance del sistema y contexto</h2>
 <div class="sectionbody">
+<div class="paragraph">
+<p><span class="image"><img src="./images/3_Diagrama_Contexto_Empresarial.png" alt="Diagrama de contexto empresarial"></span></p>
+</div>
 <div class="sect2">
 <h3 id="_contexto_empresarial">3.1. Contexto empresarial</h3>
 <div class="paragraph">
-<p><span class="image"><img src="./images/3_Diagrama_Contexto_Empresarial.png" alt="Diagrama de contexto empresarial"></span></p>
+<p>En el centro del diagrama anterior encontramos a DeDe, la cual es nuestra apliación, y podemos dividirla en dos partes,
+WebApp y RestApp.</p>
+</div>
+<div class="paragraph">
+<p>Además, las listas que aparecen reflejadas en el diagraba, son listas que almacenadas en la bases de datos.</p>
+</div>
+<div class="paragraph">
+<p>Los sistemas de peticiones son ejemplos de las posibles situaciones y posibilidades peticiones que puede realizar un
+usuario en la aplicación.</p>
 </div>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
@@ -774,7 +789,7 @@ los pods previamente explicados, solo se almacenará información imprescindible
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Usuario</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">El usuario recibirá como entrada el servicio de la aplicación, la comunicación se establecerá con una web adaptable para distintos dispositivos.</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">El usuario proporcionará la mayor parte de la entrada de la aplicación.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">El usuario proporcionará la mayor parte de la entrada de la aplicación, además de indicar su Pod.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Pod del usuario</p></td>
@@ -782,9 +797,14 @@ los pods previamente explicados, solo se almacenará información imprescindible
 <td class="tableblock halign-left valign-top"><p class="tableblock">El pod le enviará a la aplicación la información requerida.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">App</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">La app recibirá información del pod del usuario tomando importancia la localización.</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">La salida será el servicio de la aplicación y los cambios en la base de datos.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">WebApp</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">La WebApp recibirá las peticiones del usuario.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">La salida será la visualización al usuario del servicio de la aplicación realizados en la RestApi.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">RestApi</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">La RestApi será la que solicite a las Api la información necesaria para resolver las consultas que se le indiquen.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">La API devolverá las consultas y peticiones necesarias para trabajar con ellas y mostrar por WebApp.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Base de datos</p></td>
@@ -796,9 +816,6 @@ los pods previamente explicados, solo se almacenará información imprescindible
 </div>
 <div class="sect2">
 <h3 id="_contexto_técnico">3.2. Contexto técnico</h3>
-<div class="paragraph">
-<p><span class="image"><img src="./images/3_Diagrama_Contexto_Tecnico.png" alt="Diagrama de contexto técnico"></span></p>
-</div>
 <div class="paragraph">
 <p>DeDe es un sistema descentralizado que sigue la arquitectura SOLID, es decir, cada usuario posee de sus propios datos.
 Cada usuario tendrá vinculado un SOLID pod el cual sirve para guarda sus datos personales, los demás datos son guardados en la base de datos.
@@ -1248,24 +1265,39 @@ Los clientes no podrán bajo ningún concepto acceder a las funcionalidades de l
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Documentación en castellano.</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Es el idioma nativo de los miembros del grupo, lo cuál ayuda a crearla de manera más rápida.</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Será difícilmente accesible para gente que no lo hable.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Uso de MongoDB como base de datos.</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Es de código abierto, sencillo uso con Node.js y varios miembros del equipo ya han trabajado con ella.</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Los datos serán limitados al formato JSON.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Uso de Mongoose para la interacción con la base de datos.</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Permite realizar la interacción con la base de datos de una manera sencilla.</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Utilización de la libreria bcrypt.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Bcrypt</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Nos permite guardar las contraseñas de los usuarios de una manera segura.</p></td>
-<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Ninguna</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Heroku</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Plataforma que permite alojar la apliacación de forma segura, estable y rápida de forma gratuita.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">No se puede almacenar archivos en el servidor.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">MongoDB</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Es de código abierto, sencillo uso con Node.js y varios miembros del equipo ya han trabajado con ella.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Los datos serán limitados al formato JSON, por lo que su tiempo de procesamiento se eleva a mayor tamaño de datos.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Mongoose</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Permite realizar la interacción con la base de datos de una manera sencilla.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Ninguna</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">React</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Enfocado principalmente para el desarollo de un buen Frondend.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Poca familiarización con esta librería.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">SOLID</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Permite obtener las direcciones de los usuarios y obtener todo tipo de información de sus perfiles públicos.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Es una tecnología que se exprime poco, hay pocas guías útiles y es complicada de utilizar por los problemas que tiene el sitio web de SOLID.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Typescript</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Es capaz de realizar enlaces dinámicos, cosa que otros lenguajes como JS no son capaces de hacer.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Poca familiarización con el lenguaje.</p></td>
 </tr>
 </tbody>
 </table>
@@ -1444,58 +1476,62 @@ Los requisitos se representarán en un diagrama de árbol, <em>10.1 Árbol de ca
 </colgroup>
 <thead>
 <tr>
-<th class="tableblock halign-left valign-top">Termino</th>
-<th class="tableblock halign-left valign-top">Definición</th>
+<th class="tableblock halign-left valign-top">Bcrypt</th>
+<th class="tableblock halign-left valign-top">Dependencia que nos permite crear para cada contraseña un hash distinto y así encriptarlas de manera segura.</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Typescript</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">TypeScript es un lenguaje de programación libre y de código abierto desarrollado y mantenido por Microsoft. Es un superconjunto de JavaScript, que esencialmente añade tipos estáticos y objetos basados en clases.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Cors</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Dependencia para que tanto la aplicación de nodejs como la aplicacion de react puedan interactuar.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Docker</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Docker es un proyecto que automatiza el despliegue de aplicaciones dentro de contenedores de software, proporcionando una capa adicional de abstracción y automatización de virtualización de aplicaciones en múltiples sistemas operativos.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Node.js</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Node.js es un entorno en tiempo de ejecución multiplataforma para la capa del servidor diseñado para crear aplicaciones escalables, permitiéndote establecer y gestionar múltiples conexiones al mismo tiempo.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">React</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">React es una biblioteca Javascript de código abierto diseñada para crear interfaces de usuario con el objetivo de facilitar el desarrollo de aplicaciones en una sola página.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Principios SOLID</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">SOLID se compone de una serie de principios y de buenas prácticas que os permiten administrar la mayoría de problemas de diseño de software permitiendonos tener un código más limpio, más mantenible, más escalable a futuro y menos propenso a errores.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">SOLID</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">SOLID (Social online data) es una tecnología para organizar datos, aplicaciones e identidades en la web.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Pod</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Pod es un contenedor, en el que se presenta un conjunto de datos al usuario.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">MongoDB</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">MongoDB es un programa de base de datos NoSQL que en vez de guardar datos en tablas guarda datos en estructuras BSON (similar a JSON).</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Dotenv</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Dependencia para externalizar en un archivo ciertos strings.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Express</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Infraestructura de aplicaciones web para Node.js que nos permite realizar las peticiones en el back end.</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Heroku</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Heroku es una plataforma como servicio (PaaS) de computación en la Nube que soporta distintos lenguajes de programación.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Jest</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Librería para la realización de los tests de backend.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">MongoDB</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">MongoDB es un programa de base de datos NoSQL que en vez de guardar datos en tablas guarda datos en estructuras BSON (similar a JSON).</p></td>
+</tr>
+<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Mongoose</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Biblioteca que nos permite conectar con MongoDB desde Express.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">bcrypt</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Dependencia que nos permite crear para cada contraseña un hash distinto y así encriptarlas de manera segura.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">MUI</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Material UI es una biblioteca de componentes para la interfaz de usuario.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">dotenv</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Dependencia para externalizar en un archivo ciertos strings.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Node.js</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Node.js es un entorno en tiempo de ejecución multiplataforma para la capa del servidor diseñado para crear aplicaciones escalables, permitiéndote establecer y gestionar múltiples conexiones al mismo tiempo.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Pod</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Pod es un contenedor, en el que se presenta un conjunto de datos al usuario.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Principios SOLID</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">SOLID se compone de una serie de principios y de buenas prácticas que os permiten administrar la mayoría de problemas de diseño de software permitiendonos tener un código más limpio, más mantenible, más escalable a futuro y menos propenso a errores.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">React</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">React es una biblioteca Javascript de código abierto diseñada para crear interfaces de usuario con el objetivo de facilitar el desarrollo de aplicaciones en una sola página.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">React Router Dom</p></td>
@@ -1506,24 +1542,20 @@ Los requisitos se representarán en un diagrama de árbol, <em>10.1 Árbol de ca
 <td class="tableblock halign-left valign-top"><p class="tableblock">Librería para dividir la pantalla en varias partes con una barra deslizable para cambiar el tamaño.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Jest</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Librería para la realización de los tests de backend.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">SOLID</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">SOLID (Social online data) es una tecnología para organizar datos, aplicaciones e identidades en la web.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Supertest</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Librería para realizar las pruebas de las peticiones del backend.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Cors</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Dependencia para que tanto la aplicación de nodejs como la aplicacion de react puedan interactuar.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Termino</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Definición</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Heroku</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Heroku es una plataforma como servicio (PaaS) de computación en la Nube que soporta distintos lenguajes de programación.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">MUI</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Material UI es una biblioteca de componentes para la interfaz de usuario.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Typescript</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">TypeScript es un lenguaje de programación libre y de código abierto desarrollado y mantenido por Microsoft. Es un superconjunto de JavaScript, que esencialmente añade tipos estáticos y objetos basados en clases.</p></td>
 </tr>
 </tbody>
 </table>
