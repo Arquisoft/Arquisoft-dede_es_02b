@@ -14,6 +14,7 @@ import MenuItem from '@mui/material/MenuItem';
 import { ShoppingCart } from '@mui/icons-material';
 import { Badge } from '@mui/material';
 import { Navigate, Link } from 'react-router-dom';
+import logo from "./logo.png"
 
 const NavBar: React.FC = () => {
   const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
@@ -42,7 +43,7 @@ const NavBar: React.FC = () => {
       );
     }
     else
-      return <Navigate to="/login" />;
+      return <Navigate to="/home" />;
   }
 
   return (
@@ -53,11 +54,10 @@ const NavBar: React.FC = () => {
             variant="h6"
             noWrap
             component="div"
-            sx={{ mr: 2, display: { xs: 'none', md: 'flex' } }}
+            sx={{ mr: 2, display: { xs: 'none', md: 'flex' }, maxWidth:"100%", maxHeight:"100%", width:"70px", height:"70px"}}
           >
-            DeDe
+            <img src={logo} alt=""></img>
           </Typography>
-
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
             <IconButton
               size="large"
@@ -106,9 +106,9 @@ const NavBar: React.FC = () => {
             key="dede"
             noWrap
             component="div"
-            sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}
+            sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' }, maxWidth:"100%", maxHeight:"100%", width:"70px", height:"70px" }}
           >
-            Dede
+            <img src={logo} alt=""></img>
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             <Link to={"/Products"}>
