@@ -14,7 +14,7 @@ const Home: React.FC = () => {
                     <Typography className='Titulo' variant='h1' sx={{ fontSize: '4em', marginRight:'20px' }}>Bienvenido a DeDe</Typography>
                     <Typography className='Descripcion' sx={{ fontSize: '1.5em' }}>La tienda Nº1 en la venta de frutas</Typography>
                     <Link to="/login">
-                    <Button variant='contained'>Login</Button>
+                    <Button variant='contained'>Entrar</Button>
                     </Link>
                 </Box>
                 <Box className='imagen'>

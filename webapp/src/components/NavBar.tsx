@@ -43,7 +43,7 @@ const NavBar: React.FC = () => {
       );
     }
     else
-      return <Navigate to="/login" />;
+      return <Navigate to="/home" />;
   }
 
   return (
