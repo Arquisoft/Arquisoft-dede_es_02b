@@ -10,6 +10,7 @@ import apiProductos from './productos/apiProductos';
 import apiPedidos from './pedidos/apiPedidos';
 
 const app: Application = express();
+app.disable("x-powered-by");
 const port: string = process.env.PORT||'5000';
 const conexiondb: string = process.env.MONGO_URI!;
 
