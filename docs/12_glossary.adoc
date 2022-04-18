@@ -3,6 +3,7 @@
 
 [options="header"]
 |===
+| Nombre            | Descripción
 | Bcrypt            | Dependencia que nos permite crear para cada contraseña un hash distinto y así encriptarlas de manera segura.
 | Cors              | Dependencia para que tanto la aplicación de nodejs como la aplicacion de react puedan interactuar.
 | Docker            | Docker es un proyecto que automatiza el despliegue de aplicaciones dentro de contenedores de software, proporcionando una capa adicional de abstracción y automatización de virtualización de aplicaciones en múltiples sistemas operativos.
