@@ -21,11 +21,12 @@ los pods previamente explicados, solo se almacenará información imprescindible
 
 |===
 |Prioridad|Objetivo|Descripción
-| 1 | Privacidad | Al usar la tecnología de SOLID y ser una aplicación descentralizada, cada usuario tendrá su espacio personal, por lo que sus datos no se verán comprometidos.
-| 2 | Usabilidad | La aplicación tiene que ser intuitiva de cara al usuario, para que no sea una mala experiencia el uso de nuestra tienda. Cosas como hacer pedidos o ver los datos personales debe ser accesible.
-| 3 | Funcionalidad | Ya que la aplicación es una tienda, interesa que los clientes estén satisfechos con las funcionalidades que ofrece, no solo para que ellos sigan usando nuestra tienda sino también que la recomienden a otros posibles clientes.
-| 4 | Rendimiento | Una aplicación de tienda no puede tener muchos tiempos de espera entre las diferentes acciones que ofrece, ya que haría que los usuarios dejen de usarla.
-| 5 | Testeabilidad | La aplicación se debe de poder probar usando pruebas unitarias.
+| 1 | Testeabilidad | La aplicación se debe de poder probar usando pruebas unitarias. Tiene que ser lo más importante para garantizar que los demás puntos cumplan correctamente su funcionamiento.
+| 2 | Privacidad | Al ser una aplicación descentralizada, cada usuario tendrá su espacio personal, por lo que sus datos no se verán comprometidos.
+| 3 | Usabilidad | La aplicación tiene que ser intuitiva de cara al usuario, para que no sea una mala experiencia el uso de nuestra tienda. Cosas como hacer pedidos o ver los datos personales debe ser accesible.
+| 4 | Funcionalidad | Ya que la aplicación es una tienda, interesa que los clientes estén satisfechos con las funcionalidades que ofrece, no solo para que ellos sigan usando nuestra tienda sino también que la recomienden a otros posibles clientes.
+| 5 | Rendimiento | Una aplicación de tienda no puede tener muchos tiempos de espera entre las diferentes acciones que ofrece, ya que haría que los usuarios dejen de usarla.
+
 |===
 
 === Stakeholders.
@@ -33,7 +34,7 @@ los pods previamente explicados, solo se almacenará información imprescindible
 [options="header",cols="1,2,2"]
 |===
 |Rol/Nombre|Descripción|Expectativas
-| Equipo de desarrollo | Equipo de desarrollo que hará el proyecto. | Encargados de realizar la aplicación intentando cumplir los requisitos. Es importante la comunicación y el compromiso con el proyecto.
+| Equipo de desarrollo | Adrián Fernández Alonso, Álex Caso Díaz, Diego Martínez Menéndez, Diego Villa García y Pedro Zahonero Mangas | Encargados de realizar la aplicación intentando cumplir los requisitos. Es importante la comunicación y el compromiso con el proyecto.
 | Usuarios | Usuarios finales de la aplicación | Usarán nuestra aplicación y poder realizar todas las acciones que se les ha prometido. Además es importante que el funcionamiento de la aplicación sea fluído para que estos usuarios estén contentos.
-| Profesorado | Profesores de la asignatura ASW | Encargados de supervisar el desarrollo de nuesta tienda.
+| Profesorado | Hugo Lebrado Buján y José Emilio Labra Gallo | Encargados de supervisar el desarrollo de nuesta tienda.
 |===

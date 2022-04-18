@@ -8,20 +8,33 @@
 |Ventajas
 |Desventajas
 
-|Documentación en castellano.
-|Es el idioma nativo de los miembros del grupo, lo cuál ayuda a crearla de manera más rápida.
-|Será difícilmente accesible para gente que no lo hable.
-
-|Uso de MongoDB como base de datos.
-|Es de código abierto, sencillo uso con Node.js y varios miembros del equipo ya han trabajado con ella.
-|Los datos serán limitados al formato JSON.
-
-|Uso de Mongoose para la interacción con la base de datos.
-|Permite realizar la interacción con la base de datos de una manera sencilla.
-|
-
-|Utilización de la libreria bcrypt.
+|Bcrypt
 |Nos permite guardar las contraseñas de los usuarios de una manera segura.
-|
+|Ninguna
+
+|Heroku
+|Plataforma que permite alojar la apliacación de forma segura, estable y rápida de forma gratuita.
+|No se puede almacenar archivos en el servidor.
+
+|MongoDB
+|Es de código abierto, sencillo uso con Node.js y varios miembros del equipo ya han trabajado con ella.
+|Los datos serán limitados al formato JSON, por lo que su tiempo de procesamiento se eleva a mayor tamaño de datos.
+
+|Mongoose
+|Permite realizar la interacción con la base de datos de una manera sencilla.
+|Ninguna
+
+|React
+|Enfocado principalmente para el desarollo de un buen Frondend.
+|Poca familiarización con esta librería.
+
+
+|SOLID
+|Permite obtener las direcciones de los usuarios y obtener todo tipo de información de sus perfiles públicos.
+|Es una tecnología que se exprime poco, hay pocas guías útiles y es complicada de utilizar por los problemas que tiene el sitio web de SOLID.
+
+|Typescript
+|Es capaz de realizar enlaces dinámicos, cosa que otros lenguajes como JS no son capaces de hacer.
+|Poca familiarización con el lenguaje.
 
 |===
