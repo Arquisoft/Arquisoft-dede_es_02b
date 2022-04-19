@@ -5,12 +5,18 @@ import { getProducts } from '../api/api';
 import { Product } from '../shared/shareddtypes';
 import products from './mockData.json';
 import { BrowserRouter } from 'react-router-dom';
+import accounting from 'accounting';
 
 test('Productos', () => {
-  render(<BrowserRouter><Products products ={products.productos}/></BrowserRouter>);
-  products.productos.forEach(element => {
-    const linkElement = screen.getByText(element.nombre);
-    expect(linkElement).toBeInTheDocument();
+    render(<Products products ={products.productos}/>);
+    //Probamos que salen todos los productos
+    products.productos.forEach(element => {
+      let Element = screen.getByText(element.nombre);
+      expect(Element).toBeInTheDocument();
+      Element = screen.getByText(element.descripcion);
+      expect(Element).toBeInTheDocument();
+      Element = screen.getByText(accounting.formatMoney(element.precio,"€"));
+      expect(Element).toBeInTheDocument();
   });
 });
 

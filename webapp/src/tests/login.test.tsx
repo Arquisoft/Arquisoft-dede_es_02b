@@ -1,9 +1,10 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import Login from '../components/login/Login';
+import { MemoryRouter } from 'react-router-dom';
 
 test('Login', () => {
-    render(<Login/>);
+    render(<MemoryRouter><Login/></MemoryRouter>);
     let text = screen.getByText(/Inicia sesión/);
     expect(text).toBeInTheDocument();
     

@@ -2,8 +2,8 @@
 
 
 [![Actions Status](https://github.com/arquisoft/dede_0/workflows/CI%20for%20ASW2122/badge.svg)](https://github.com/arquisoft/dede_es2b/actions)
-[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=Arquisoft_dede_0&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=Arquisoft_dede_es2b)
-[![codecov](https://codecov.io/gh/Arquisoft/dede_en1b/branch/master/graph/badge.svg?token=r1a8JeFXQN)](https://codecov.io/gh/Arquisoft/dede_es2b)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=Arquisoft_dede_es2b&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=Arquisoft_dede_es2b)
+[![codecov](https://codecov.io/gh/Arquisoft/dede_es2b/branch/master/graph/badge.svg?token=oJPjRjawRb)](https://codecov.io/gh/Arquisoft/dede_es2b)
 
 
 <p float="left">
@@ -45,8 +45,9 @@ npm start
 ```
 
 You should be able to access the application in [http://localhost:3000](http://localhost:3000).
+El despliegue de la app se realiza en https://dede2b-webapp.herokuapp.com/
 
-## Team member
+## Team members
 
 - Adrián Fernández Alonso - UO264268
 - Alberto Fernández Azcoaga - UO179637

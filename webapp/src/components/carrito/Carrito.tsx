@@ -4,37 +4,37 @@ import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import ProductComponent from './CarritoItem';
 import Split from 'react-split';
-import { IconButton, Typography } from '@mui/material';
-import { Console } from 'console';
+import { Alert, IconButton, Snackbar, Typography } from '@mui/material';
 import { useState } from 'react';
 import Delete from '@mui/icons-material/Delete';
-import ReactDOM from 'react-dom';
 import Total from './Total';
-
-type ProductProps = {
-  products: Product[];
-}
+import { ShoppingCart } from '@mui/icons-material';
 
 
 let cantidad:number = 0;
 
-const Carrito: React.FC<ProductProps>= (props: ProductProps) =>{
+const Carrito: React.FC= () =>{
   var i = 0;
   let productos: Product[]=[];
   let a = new Map<Product,number>();
-  a.clear();
-  for(i; i<props.products.length; i++){
-    var cartItem = sessionStorage.getItem(props.products[i]._id);
-    if (cartItem != null){
-      var cartItem2 = JSON.parse(cartItem);
-      cantidad = cartItem2.qty;
-      var obj: Product = { _id: props.products[i]._id, nombre:cartItem2.nombre, descripcion:cartItem2.descripcion, foto:cartItem2.foto, origen:cartItem2.origen, precio:cartItem2.precio};
-      productos.push(obj);
-      a.set(obj, cantidad);
+
+  for (let index = 0; index < sessionStorage.length; index++) {
+    const element = sessionStorage.key(index);
+    if(element!==null && element!=="emailUsuario"){
+      var cartItem = sessionStorage.getItem(element);
+      if(cartItem!==null){
+        var cartItem2 = JSON.parse(cartItem);    
+        cantidad = cartItem2.qty;
+        var obj: Product = { _id: element, nombre:cartItem2.nombre, descripcion:cartItem2.descripcion, foto:cartItem2.foto, origen:cartItem2.origen, precio:cartItem2.precio};
+        productos.push(obj);
+        a.set(obj, cantidad);
+      }
     }
+    
   }
   const [carrito, setCarrito] = useState<Map<Product, number>>(a);
   const [productosCarrito, setProductosCarrito] = useState<Product[]>(productos);
+  const [producto, setProducto] = useState<null|Product>(null);
   
   function getPrecio():number{
     let precio = 0;
@@ -44,57 +44,48 @@ const Carrito: React.FC<ProductProps>= (props: ProductProps) =>{
     return precio;
   }
 
-  // function ListaResumen(props: any){
-  //   const items = props.items;
-  //   let lista: any;
-  //   items.forEach((value: number, key: Product) => {
-  //     lista += <li>key.nombre</li>
-  //   });
-  //   return (
-  //     <ul>{lista}</ul>
-  //   );
-  // }
-
   function borrarItem(product:Product){
     var value = sessionStorage.getItem(product._id);
-      if (value != null){
+      if (value !== null){
         sessionStorage.removeItem(product._id);
         let items = [...productosCarrito];
         for (let index = 0; index < items.length; index++) {
-          if(items[index]._id==product._id){
+          if(items[index]._id===product._id){
             var e = items[index];
+            setProducto(e);
             items.splice(index,1);
             carrito.delete(e);
           }
         }
         setProductosCarrito(items); 
       }
+      setOpen(true);
   }
 
   function DeleteUnitFromCart(product:Product):void{
     var value = sessionStorage.getItem(product._id);
-      if (value != null){
+      if (value !== null){
         var temp = JSON.parse(value);
         if (temp.qty > 1){
           temp.qty = temp.qty - 1;
           sessionStorage.setItem(product._id, JSON.stringify(temp));
           let items = [...productosCarrito];
           let carrito2 = new Map<Product,number>();
-          carrito.forEach((value: number, key: Product)=>{
-              carrito2.set(key,value);
+          carrito.forEach((value2: number, key: Product)=>{
+              carrito2.set(key,value2);
           });
+
           for (let index = 0; index < items.length; index++) {
-            if(items[index]._id==product._id){
+            if(items[index]._id===product._id){
               var e = items[index];
               var c = carrito2.get(e)
               if(typeof c !=="undefined"){
                 c=c-1;
-                //carrito.delete(e);
                 carrito2.set(e,c);
-                
               }
             }
           }
+          
           setCarrito(carrito2);
         }
       }
@@ -109,36 +100,50 @@ const Carrito: React.FC<ProductProps>= (props: ProductProps) =>{
           sessionStorage.setItem(product._id, JSON.stringify(temp));
           let items = [...productosCarrito];
           let carrito2 = new Map<Product,number>();
-          carrito.forEach((value: number, key: Product)=>{
-              carrito2.set(key,value);
+          carrito.forEach((value2: number, key: Product)=>{
+              carrito2.set(key,value2);
           });
+          
           for (let index = 0; index < items.length; index++) {
-            if(items[index]._id==product._id){
+            if(items[index]._id===product._id){
               var e = items[index];
               var c = carrito2.get(e)
               if(typeof c !=="undefined"){
                 c=c+1;
-                //carrito.delete(e);
                 carrito2.set(e,c);
-                
               }
             }
           }
+
           setCarrito(carrito2);
-          
         }
       }
   }
 
   function deleteCart(){
-    const items = props.products;
-    for(i=0; i<items.length; i++){
-      sessionStorage.removeItem(items[i]._id);
+    var msg ="¿Seguro de que quieres eliminar todos los productos del carrito?"
+    var opcion=window.confirm(msg);
+    if(opcion){
+      const items = productosCarrito;
+      for(i=0; i<items.length; i++){
+        sessionStorage.removeItem(items[i]._id);
+      }
+      let b = new Map<Product,number>();
+      setCarrito(b);
+      setProductosCarrito([]);
     }
-    let a = new Map<Product,number>();
-    setCarrito(a);
-    setProductosCarrito([]);
   }
+  const [open, setOpen] = React.useState(false);
+
+  
+
+  const handleClose = (event?: React.SyntheticEvent | Event, reason?: string) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setOpen(false);
+  };
 
   return (
     <Split
@@ -148,10 +153,18 @@ const Carrito: React.FC<ProductProps>= (props: ProductProps) =>{
       className="split-flex"
       minSize={[1000, 500]}
     >
+      <Snackbar  open={open} autoHideDuration={6000} onClose={handleClose}>
+        <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
+           {producto?.nombre} borrado del carrito
+        </Alert>
+      </Snackbar>
       <Box sx={{ flexGrow: 1, padding: 3}}>
-          <Grid container spacing={3}>
+      <Typography variant="h1" component="h2" sx={{fontSize:40}}>
+          Carrito <ShoppingCart />
+        </Typography>
+          <Grid container spacing={3} direction="row" justifyContent="center" alignItems="center" marginTop={1}>
             {Array.from(Array(productosCarrito.length)).map((_, index) => (
-              <Grid item xs={12} sm={6} md={4} lg={3} key={index}>
+              <Grid id="carrito-item" item xs={12} sm={7} md={4} lg={3} key={index}>
                 <ProductComponent product={productosCarrito[index]} cantidadItem={carrito.get(productosCarrito[index])as number} borrar={borrarItem} add={AddUnitFromCart} delete={DeleteUnitFromCart}/>
               </Grid>
             ))}

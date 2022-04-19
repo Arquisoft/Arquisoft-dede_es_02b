@@ -25,7 +25,7 @@ export async function getUsers(): Promise<User[]> {
 
 export async function addProduct(product: Product): Promise<boolean> {
   const apiEndPoint = process.env.REACT_APP_API_URI || 'http://localhost:5000'
-  let response = await fetch(apiEndPoint + '/users/add', {
+  let response = await fetch(apiEndPoint + '/product/add', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ 'nombre': product.nombre, 'origen': product.origen, 'descripcion': product.descripcion, 'precio': product.precio, 'foto': product.foto })
@@ -87,7 +87,7 @@ export function addToCart(product:Product, quantity:number):boolean{
 
 export async function findProductById(id: string): Promise<Product> {
   const apiEndPoint = process.env.REACT_APP_API_URI || 'http://localhost:5000'
-  let response = await fetch(apiEndPoint + '/products/' + id);
+  let response = await fetch(apiEndPoint + '/products/id=' + id);
   return response.json();
 }
 
@@ -104,6 +104,7 @@ export async function findUserByEmail(email: string): Promise<User> {
   let response = await fetch(apiEndPoint + '/users/email=' + email);
   return response.json();
 }
+
 export async function findUserByDni(dni: string): Promise<User> {
   const apiEndPoint = process.env.REACT_APP_API_URI || 'http://localhost:5000'
   let response = await fetch(apiEndPoint + '/users/dni=' + dni);
@@ -137,4 +138,17 @@ export async function getPedidos(): Promise<Pedido[]> {
   let response = await fetch(apiEndPoint + '/pedidos/list');
   //The objects returned by the api are directly convertible to User objects
   return response.json()
+}
+
+export async function editPedido(pedido: Pedido): Promise<boolean> {
+  const apiEndPoint = process.env.REACT_APP_API_URI || 'http://localhost:5000'
+  let response = await fetch(apiEndPoint + '/pedidos/editar', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ 'numero_pedido': pedido.numero_pedido, 'estado': pedido.estado })
+  });
+  if (response.status === 200) {
+    return true;
+  } else
+    return false;
 }

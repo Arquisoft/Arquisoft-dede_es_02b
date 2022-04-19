@@ -8,12 +8,13 @@ import IconButton from '@mui/material/IconButton';
 import { AddShoppingCart} from '@mui/icons-material';
 import accounting from "accounting";
 import {Product} from '../../shared/shareddtypes';
-import { TextField } from '@mui/material';
+import { Alert, Snackbar, TextField } from '@mui/material';
 import { Box } from '@mui/system';
 import { addToCart } from '../../api/api';
 import { useState } from "react";
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
+import "./Products.css";
 
 type ProductProp = {
   product: Product;
@@ -34,9 +35,28 @@ const ProductItem:React.FC<ProductProp>=(productProp : ProductProp) =>{
     }
   }
 
+  const [open, setOpen] = React.useState(false);
+
+  const handleClick = () => {
+    setOpen(true);
+  };
+
+  const handleClose = (event?: React.SyntheticEvent | Event, reason?: string) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setOpen(false);
+  };
+
   return (
     <form name="AddItem" onSubmit={handleAddCart}>
-    <Card sx={{ maxWidth: 345 }}>
+      <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+        <Alert onClose={handleClose} severity="info" sx={{ width: '100%' }}>
+          {productProp.product.nombre} x{cantidad} añadido al carrito
+        </Alert>
+  </Snackbar>
+    <Card id="product" sx={{ maxWidth: 345 }}>
       <CardMedia
         component="img"
         alt={productProp.product.nombre}
@@ -56,7 +76,7 @@ const ProductItem:React.FC<ProductProp>=(productProp : ProductProp) =>{
       </CardContent>
       <CardActions sx={{flexDirection:"row-reverse", justifyContent:'space-between'}}>
         <Box sx={{display:'flex', flexDirection:"row-reverse", alignItems:'center'}}>
-          <IconButton type="submit" >
+          <IconButton type="submit" onClick={handleClick}>
             <AddShoppingCart/> 
           </IconButton>
           <Typography sx={{fontSize:20}}> {accounting.formatMoney(productProp.product.precio,"€")}</Typography>

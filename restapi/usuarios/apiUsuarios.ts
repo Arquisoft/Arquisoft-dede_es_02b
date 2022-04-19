@@ -6,7 +6,7 @@ const apiUsuarios: Router = express.Router()
 
 apiUsuarios.get(
   "/users/list",
-  async (req: Request, res: Response): Promise<Response> => {
+  async (_req: Request, res: Response): Promise<Response> => {
     let users = await Usuario.find();
     return res.status(200).send(users);
   }
@@ -64,7 +64,7 @@ apiUsuarios.post(
 apiUsuarios.get(
   "/users/email=:email",
   async (req: Request, res: Response): Promise<Response> => {
-    let usuario = await Usuario.findOne().where("email").equals(req.params.email.toLowerCase())
+    let usuario = await Usuario.findOne({email: req.params.email.toLowerCase()}).exec();
     return res.status(200).send(usuario);
   }
 );
@@ -72,12 +72,24 @@ apiUsuarios.get(
 apiUsuarios.get(
   "/users/dni=:dni",
   async (req: Request, res: Response): Promise<Response> => {
-    let usuario = await Usuario.findOne().where("dni").equals(req.params.dni.toLowerCase())
+    let usuario = await Usuario.findOne({dni: req.params.dni.toLowerCase()}).exec();
     return res.status(200).send(usuario);
   }
 );
 
-apiUsuarios.delete(
+apiUsuarios.get(
+  "/users/id=:id",
+  async (req: Request, res: Response): Promise<Response> => {
+    try {
+      let usuario = await Usuario.findById(req.params.id)
+      return res.status(200).send(usuario);
+    } catch (error) {
+      return res.sendStatus(500); 
+    }
+  }
+);
+
+apiUsuarios.post(
   "/users/delete",
   async (req: Request, res: Response): Promise<Response> => {
     Usuario.findById(req.body._id).deleteOne().exec();
