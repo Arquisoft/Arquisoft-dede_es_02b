@@ -10,6 +10,8 @@ import Carrito from './components/carrito/Carrito';
 import RegisterScreen from './components/login/RegisterScreen';
 import ListaPedidos from './components/pedidos/ListaPedidos';
 import AñadirProducto from './components/product/AñadirProducto';
+import Home from './components/Home';
+import HomeNavBar from './components/HomeNavBar';
 
 function App(): JSX.Element {
 
@@ -26,9 +28,15 @@ function App(): JSX.Element {
   return (
     <>
       <Routes>
-        <Route path="/" element={<Navigate to="/login" />}/>
+        <Route path="/" element={<Navigate to="/home" />}/>
         <Route path="/registro" element={<Navigate to="/register" />}/>
         <Route path="/productos" element={<Navigate to="/products" />}/>
+        <Route path="/home" element={
+          <div>
+            <HomeNavBar/>
+            <Home/>
+          </div>
+        }/>
         <Route path="/login" element={
           <LoginScreen/>
         }/>

@@ -6,7 +6,7 @@ import { MemoryRouter } from 'react-router-dom';
 
 test('Login screen', () => {
     render(<MemoryRouter><LoginScreen/></MemoryRouter>);
-    let text = screen.getByText(/DeDe/);
+    let text = screen.getByLabelText(/DeDe/);
     expect(text).toBeInTheDocument();
     text = screen.getByText(/Inicia sesión/);
     expect(text).toBeInTheDocument();
