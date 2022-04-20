@@ -27,7 +27,7 @@ test('Pedidos', () => {
     };
 
     let pedidos: Pedido[] = [pedido];
-    render(<ListaPedidos pedidos={pedidos} />);
+    render(<ListaPedidos />);
     //Probamos que salen todas las columnas
     let text = screen.getByText(/Nº Pedido/);
     expect(text).toBeInTheDocument();

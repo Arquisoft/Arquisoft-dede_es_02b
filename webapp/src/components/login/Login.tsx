@@ -44,7 +44,7 @@ const Login:React.FC=()=> {
       setErrorMessage('');
   };
 
-  const emailLogueado = logueado || sessionStorage.getItem("emailUsuario");
+  const emailLogueado = logueado || sessionStorage.getItem("usuario");
 
   if (emailLogueado){
     return <Navigate to="/products" />;
