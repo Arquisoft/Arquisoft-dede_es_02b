@@ -12,16 +12,14 @@ import TableSortLabel from '@mui/material/TableSortLabel';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Paper from '@mui/material/Paper';
-import Checkbox from '@mui/material/Checkbox';
 import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
-import DeleteIcon from '@mui/icons-material/Delete';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import { visuallyHidden } from '@mui/utils';
 import { Pedido, Estado, User, Product } from '../../shared/shareddtypes';
 import EditIcon from '@mui/icons-material/Edit';
 import { Autocomplete, Backdrop, Button, Fade, Modal, TextField } from '@mui/material';
-import { getPedidosByUser, findUserByEmail, getPedidos, findUserById, getUsers, getProducts, editPedido } from '../../api/api';
+import { getPedidosByUser, findUserByEmail, getPedidos, getUsers, getProducts, editPedido } from '../../api/api';
 
 const opcionesFiltrado = [
   { label: 'Nº Pedido' },
@@ -102,7 +100,7 @@ interface EnhancedTableProps {
 }
 
 function EnhancedTableHead(props: EnhancedTableProps) {
-  const { onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort } =
+  const { order, orderBy, onRequestSort } =
     props;
   const createSortHandler =
     (property: keyof Pedido) => (event: React.MouseEvent<unknown>) => {
@@ -113,15 +111,6 @@ function EnhancedTableHead(props: EnhancedTableProps) {
     <TableHead>
       <TableRow>
         <TableCell padding="checkbox">
-          <Checkbox
-            color="primary"
-            indeterminate={numSelected > 0 && numSelected < rowCount}
-            checked={rowCount > 0 && numSelected === rowCount}
-            onChange={onSelectAllClick}
-            inputProps={{
-              'aria-label': 'select all desserts',
-            }}
-          />
         </TableCell>
         {headCells.map((headCell) => (
           <TableCell
@@ -152,7 +141,6 @@ function EnhancedTableHead(props: EnhancedTableProps) {
 interface EnhancedTableToolbarProps {
   numSelected: number;
   seleccionados: readonly string[];
-  borrar: Function;
   filtrar: Function;
 }
 
@@ -160,7 +148,7 @@ var palabraFiltrada: string = ""
 var tipoFiltrado: string = opcionesFiltrado[0].label
 
 const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
-  const { numSelected, borrar, filtrar } = props;
+  const { numSelected, filtrar} = props;
   const [filtrado, setFiltrado] = React.useState<boolean>(false);
   let quitarFiltrado = document.getElementById('quitarFiltrado');
   if (quitarFiltrado != null) {
@@ -179,16 +167,7 @@ const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
         }),
       }}
     >
-      {numSelected > 0 ? (
-        <Typography
-          sx={{ flex: '1 1 100%' }}
-          color="inherit"
-          variant="subtitle1"
-          component="div"
-        >
-          {numSelected} selected
-        </Typography>
-      ) : (
+      {(
         <Typography
           sx={{ flex: '1 1 100%' }}
           variant="h6"
@@ -198,43 +177,37 @@ const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
           Pedidos
         </Typography>
       )}
-      {numSelected > 0 ? (
-        <Tooltip title="Delete" onClick={() => borrar()}>
-          <IconButton>
-            <DeleteIcon />
-          </IconButton>
-        </Tooltip>
-      ) : (<div>
-        {filtrado ? (
-          <Typography sx={{ display: 'flex' }} component="div">
-            <Button aria-label='filtrar-button' variant="outlined" onClick={() => filtrar()}>Filtrar</Button>
-            <Autocomplete aria-label='opciones'
-              disablePortal
-              id="combo-box-demo"
-              options={opcionesFiltrado}
-              sx={{ width: 300 }}
-              defaultValue={opcionesFiltrado[0]}
-              renderInput={(params) => <TextField {...params} label="Opciones" />}
-              onChange={(event, newValue) => {
-                if (newValue != null)
-                  tipoFiltrado = newValue.label;
-              }}
-            />
-            <TextField id="outlined-basic" label="Filtrar" variant="outlined" onChange={(e) => palabraFiltrada = e.target.value} />
-            <Tooltip title="Filter list">
-              <IconButton id="quitarFiltrado">
-                <FilterListIcon />
-              </IconButton>
-            </Tooltip>
-          </Typography>
-        ) : (
-          <Tooltip title="Filter list">
-            <IconButton aria-label='filter-icon' onClick={() => setFiltrado(true)}>
-              <FilterListIcon />
-            </IconButton>
-          </Tooltip>
-        )}
-      </div>
+      {(<div>
+            {filtrado ? (
+              <Typography sx={{ display: 'flex' }} component="div">
+                <Button aria-label='filtrar-button' variant="outlined" onClick={()=>filtrar()}>Filtrar</Button>
+                <Autocomplete aria-label='opciones'
+                    disablePortal
+                    id="combo-box-demo"
+                    options={opcionesFiltrado}
+                    sx={{ width: 300 }}
+                    defaultValue={opcionesFiltrado[0]}
+                    renderInput={(params) => <TextField {...params} label="Opciones" />}
+                    onChange={(event, newValue) => {
+                      if(newValue!=null)
+                          tipoFiltrado = newValue.label;
+                    }}
+                  />
+                <TextField id="outlined-basic" label="Filtrar" variant="outlined" onChange={(e)=>palabraFiltrada=e.target.value}/>
+                <Tooltip title="Filter list">
+                  <IconButton id="quitarFiltrado">
+                    <FilterListIcon />
+                  </IconButton>
+                </Tooltip>
+              </Typography>
+            ):(
+              <Tooltip title="Filter list">
+                <IconButton aria-label='filter-icon' onClick={()=>setFiltrado(true)}>
+                  <FilterListIcon/>
+                </IconButton>
+              </Tooltip>
+            )}
+          </div>
       )}
     </Toolbar>
   );
@@ -277,30 +250,6 @@ const ListaPedidos: React.FC = () => {
     setProductos(await getProducts());
   }
 
-  function borrar(seleccionados: readonly string[]) {
-    var opcion = window.confirm("¿Seguro de que quieres eliminar el pedido?");
-    const filtrado = (f: string) => { return f !== seleccionados[j] }
-    let seleccionado: string;
-    let element: Pedido;
-    let index: number;
-    let j: number;
-    if (opcion) {
-      var lista = state;
-      for (index = 0; index < lista.length; index++) {
-        for (j = 0; j < seleccionados.length; j++) {
-          seleccionado = seleccionados[j];
-          element = lista[index];
-          if (seleccionado.match(element._id) !== null) {
-            lista.splice(index, 1);
-            seleccionados = seleccionados.filter(filtrado);
-            j--;
-          }
-        }
-      }
-      setState(lista);
-      setSelected([]);
-    }
-  }
 
   function filtrar(palabra: string, tipoFiltrado2: string) {
     var lista = lastState;
@@ -335,25 +284,6 @@ const ListaPedidos: React.FC = () => {
     setSelected([]);
   };
 
-  const handleClick = (_event: React.MouseEvent<unknown>, name: string) => {
-    const selectedIndex = selected.indexOf(name);
-    let newSelected: readonly string[] = [];
-
-    if (selectedIndex === -1) {
-      newSelected = newSelected.concat(selected, name);
-    } else if (selectedIndex === 0) {
-      newSelected = newSelected.concat(selected.slice(1));
-    } else if (selectedIndex === selected.length - 1) {
-      newSelected = newSelected.concat(selected.slice(0, -1));
-    } else if (selectedIndex > 0) {
-      newSelected = newSelected.concat(
-        selected.slice(0, selectedIndex),
-        selected.slice(selectedIndex + 1),
-      );
-    }
-
-    setSelected(newSelected);
-  };
 
   const handleChangePage = (_event: unknown, newPage: number) => {
     setPage(newPage);
@@ -445,7 +375,7 @@ const ListaPedidos: React.FC = () => {
   return (
     <Box sx={{ width: '100%' }}>
       <Paper sx={{ width: '100%', mb: 2 }}>
-        <EnhancedTableToolbar numSelected={selected.length} seleccionados={selected} borrar={() => borrar(selected)} filtrar={() => filtrar(palabraFiltrada, tipoFiltrado)} />
+        <EnhancedTableToolbar numSelected={selected.length} seleccionados={selected} filtrar={()=>filtrar(palabraFiltrada, tipoFiltrado)}/>
         <TableContainer>
           <Table
             sx={{ minWidth: 750 }}
@@ -480,14 +410,7 @@ const ListaPedidos: React.FC = () => {
                       selected={isItemSelected}
                     >
                       <TableCell padding="checkbox">
-                        <Checkbox
-                          color="primary"
-                          onClick={(event) => handleClick(event, row.numero_pedido.toString())}
-                          checked={isItemSelected}
-                          inputProps={{
-                            'aria-labelledby': labelId,
-                          }}
-                        />
+                        
                       </TableCell>
                       <TableCell
                         component="th"
@@ -530,12 +453,12 @@ const ListaPedidos: React.FC = () => {
                               onChange={(_event, newValue) => {
                                 if (newValue != null)
                                   estado = newValue.label;
-                              }}
-                            />
-                            <Button onClick={() => editarEstado()}>Editar</Button>
-                          </Box>
-                        </Fade>
-                      </Modal>
+                            }}
+                          />
+                           <Button onClick={()=>editarEstado()}>Editar</Button>
+                        </Box>
+                      </Fade>
+                    </Modal>
                     </TableRow>
                   );
                 })}
