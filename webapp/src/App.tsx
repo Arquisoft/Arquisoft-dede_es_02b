@@ -45,7 +45,7 @@ function App(): JSX.Element {
         <Route path="/products" element={
           <div>
             <NavBar/>
-            <Products products ={products}/>
+            <Products/>
           </div>
         }/> 
         <Route path="/carrito" element={

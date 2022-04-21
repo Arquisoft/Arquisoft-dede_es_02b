@@ -25,7 +25,7 @@ export async function getUsers(): Promise<User[]> {
 
 export async function addProduct(product: Product): Promise<boolean> {
   const apiEndPoint = process.env.REACT_APP_API_URI || 'http://localhost:5000'
-  let response = await fetch(apiEndPoint + '/product/add', {
+  let response = await fetch(apiEndPoint + '/products/add', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ 'nombre': product.nombre, 'origen': product.origen, 'descripcion': product.descripcion, 'precio': product.precio, 'foto': product.foto })

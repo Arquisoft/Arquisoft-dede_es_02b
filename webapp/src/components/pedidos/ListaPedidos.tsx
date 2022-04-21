@@ -20,6 +20,7 @@ import { Pedido, Estado, User, Product } from '../../shared/shareddtypes';
 import EditIcon from '@mui/icons-material/Edit';
 import { Autocomplete, Backdrop, Button, Fade, Modal, TextField } from '@mui/material';
 import { getPedidosByUser, findUserByEmail, getPedidos, getUsers, getProducts, editPedido } from '../../api/api';
+import { JsxElement } from 'typescript';
 
 const opcionesFiltrado = [
   { label: 'Nº Pedido' },
@@ -342,12 +343,12 @@ const ListaPedidos: React.FC = () => {
     refreshProductList();
   }, []);
 
-  function botonEditar(row: Pedido) {
+  function botonEditar(row: Pedido): JSX.Element | undefined{
     if (JSON.parse(sessionStorage.getItem("usuario")!).esAdmin)
       return <TableCell><IconButton onClick={() => editar(row)}><EditIcon /></IconButton></TableCell>
   }
 
-  function getEmail(id: string) {
+  function getEmail(id: string): string {
     let usuario = users.find(u => u._id === id);
     if (usuario !== undefined)
       return usuario.email
