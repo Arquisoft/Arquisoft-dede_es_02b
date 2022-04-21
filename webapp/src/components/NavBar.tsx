@@ -50,6 +50,7 @@ const NavBar: React.FC = () => {
     <AppBar position="static">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
+        <Link to="/">
           <Typography
             variant="h6"
             noWrap
@@ -58,6 +59,7 @@ const NavBar: React.FC = () => {
           >
             <img src={logo} alt=""></img>
           </Typography>
+          </Link>
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
             <IconButton
               size="large"
@@ -101,6 +103,7 @@ const NavBar: React.FC = () => {
               <MenuItem key="logout"> {logOut()}</MenuItem>
             </Menu>
           </Box>
+          <Link to="/">
           <Typography
             variant="h6"
             key="dede"
@@ -110,6 +113,7 @@ const NavBar: React.FC = () => {
           >
             <img src={logo} alt=""></img>
           </Typography>
+          </Link>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             <Link to={"/Products"}>
               <Button
