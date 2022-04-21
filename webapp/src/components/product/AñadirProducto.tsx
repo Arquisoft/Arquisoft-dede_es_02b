@@ -1,6 +1,7 @@
 import { Button, Container, Grid, TextareaAutosize, TextField, Typography } from '@mui/material';
 import { Box } from '@mui/system';
 import * as React from 'react';
+import { Link } from 'react-router-dom';
 import { addProduct } from '../../api/api';
 import { Product } from '../../shared/shareddtypes';
 
@@ -19,7 +20,7 @@ const AñadirProducto: React.FC = () => {
             foto: data.get('foto') as string
         }
         await addProduct(producto);
-      };
+    };
 
     return (<Container component="main" maxWidth="xs">
         <Box sx={{
@@ -63,10 +64,10 @@ const AñadirProducto: React.FC = () => {
                             name="precio"
                             autoComplete="precio"
                             type="number"
-                            inputProps={{ 
-                                    min: 0,
-                                    step:"0.25"
-                                
+                            inputProps={{
+                                min: 0,
+                                step: "0.25"
+
                             }}
                             defaultValue={0.0}
                         />
@@ -92,14 +93,16 @@ const AñadirProducto: React.FC = () => {
                         />
                     </Grid>
                 </Grid>
-                <Button
-                    type="submit"
-                    fullWidth
-                    variant="contained"
-                    sx={{ mt: 3, mb: 2 }}
-                >
-                    Añadir
-                </Button>
+                <Link to="/products">
+                    <Button
+                        type="submit"
+                        fullWidth
+                        variant="contained"
+                        sx={{ mt: 3, mb: 2 }}
+                    >
+                        Añadir
+                    </Button>
+                </Link>
             </Box>
         </Box>
     </Container>
