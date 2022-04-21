@@ -30,7 +30,8 @@ export default function Register() {
       nombre: data.get('nombre') as string,
       dni: data.get('dni') as string,
       email: data.get('email') as string,
-      contraseña: data.get('contraseña') as string
+      contraseña: data.get('contraseña') as string,
+      esAdmin: false
     }
 
     if (await comprobarDatos(user)) {
@@ -40,7 +41,7 @@ export default function Register() {
     }
   };
 
-  const emailLogueado = logueado || sessionStorage.getItem("emailUsuario");
+  const emailLogueado = logueado || sessionStorage.getItem("usuario");
 
   if (emailLogueado) {
     return <Navigate to="/products" />;
@@ -62,7 +63,7 @@ export default function Register() {
       return false;
     }
 
-    if (await findUserByDni(user.dni)) {
+    if (JSON.stringify(await findUserByDni(user.dni)) !== "{}") {
       setErrorMessage("Error: El dni introducido ya existe");
       return false;
     }
@@ -72,7 +73,7 @@ export default function Register() {
       return false;
     }
 
-    if (await findUserByEmail(user.email)) {
+    if ((JSON.stringify(await findUserByEmail(user.email)) !== "{}")) {
       setErrorMessage("Error: El email introducido ya existe");
       return false;
     }

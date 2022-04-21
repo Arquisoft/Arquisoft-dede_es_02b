@@ -21,7 +21,7 @@ apiUsuarios.post(
       
       if (user) {
         if (await bcrypt.compare(req.body.contraseña, user.contraseña)) {
-          res.json(correo);
+          res.json(user);
         } else {
           res.status(412).send("Contraseña o usuario erroneo");
         }
@@ -65,7 +65,10 @@ apiUsuarios.get(
   "/users/email=:email",
   async (req: Request, res: Response): Promise<Response> => {
     let usuario = await Usuario.findOne({email: req.params.email.toLowerCase()}).exec();
-    return res.status(200).send(usuario);
+    if(usuario !== null){
+      return res.status(200).send(usuario)
+    }
+    return res.status(200).send("{}");
   }
 );
 
@@ -73,7 +76,10 @@ apiUsuarios.get(
   "/users/dni=:dni",
   async (req: Request, res: Response): Promise<Response> => {
     let usuario = await Usuario.findOne({dni: req.params.dni.toLowerCase()}).exec();
-    return res.status(200).send(usuario);
+    if(usuario !== null){
+      return res.status(200).send(usuario)
+    }
+    return res.status(200).send("{}");
   }
 );
 
@@ -82,7 +88,10 @@ apiUsuarios.get(
   async (req: Request, res: Response): Promise<Response> => {
     try {
       let usuario = await Usuario.findById(req.params.id)
-      return res.status(200).send(usuario);
+      if(usuario !== null){
+        return res.status(200).send(usuario)
+      }
+      return res.status(200).send("{}");
     } catch (error) {
       return res.sendStatus(500); 
     }

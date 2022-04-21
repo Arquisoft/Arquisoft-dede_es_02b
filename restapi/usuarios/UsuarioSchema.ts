@@ -28,6 +28,11 @@ const usuarioSchema = new mongoose.Schema({
     contraseña: {
         type: String,
         required: true,
+    },
+    esAdmin: {
+        type: Boolean, 
+        required: true,
+        default: false,
     }
 })
 

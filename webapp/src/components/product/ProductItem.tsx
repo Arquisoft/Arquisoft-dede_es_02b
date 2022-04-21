@@ -49,6 +49,7 @@ const ProductItem:React.FC<ProductProp>=(productProp : ProductProp) =>{
     setOpen(false);
   };
 
+
   return (
     <form name="AddItem" onSubmit={handleAddCart}>
       <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>

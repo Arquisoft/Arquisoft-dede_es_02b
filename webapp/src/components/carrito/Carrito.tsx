@@ -163,7 +163,7 @@ const Carrito: React.FC= () =>{
           Carrito <ShoppingCart />
         </Typography>
           <Grid container spacing={3} direction="row" justifyContent="center" alignItems="center" marginTop={1}>
-            {Array.from(Array(productosCarrito.length)).map((_, index) => (
+            {Array.from(Array(productosCarrito.length-1)).map((_, index) => (
               <Grid id="carrito-item" item xs={12} sm={7} md={4} lg={3} key={index}>
                 <ProductComponent product={productosCarrito[index]} cantidadItem={carrito.get(productosCarrito[index])as number} borrar={borrarItem} add={AddUnitFromCart} delete={DeleteUnitFromCart}/>
               </Grid>
@@ -174,7 +174,7 @@ const Carrito: React.FC= () =>{
           <Typography variant="h4" component="div" sx={{ flexGrow: 1 }}>
             Resumen del pedido:
           </Typography>
-          {Array.from(Array(productosCarrito.length)).map((_, index) => (
+          {Array.from(Array(productosCarrito.length-1)).map((_, index) => (
             <Grid item xs={12} sm={6} md={4} lg={3} key={index}>
               <li>{productosCarrito[index].nombre +" ("+ carrito.get(productosCarrito[index]) + " uds)" +
                     "  -------  "+productosCarrito[index].precio*(carrito.get(productosCarrito[index])as number)+"€"}</li>

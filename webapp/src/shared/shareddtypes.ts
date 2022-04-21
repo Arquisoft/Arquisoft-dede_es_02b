@@ -4,6 +4,7 @@ export type User = {
     email:string;
     contraseña:string;
     dni:string;
+    esAdmin:boolean;
 }
 
 export type LoginData = {
