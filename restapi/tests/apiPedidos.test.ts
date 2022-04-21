@@ -213,6 +213,39 @@ describe("listar pedidos ", () => {
         
         expect(response.statusCode).toBe(500);
     });
+
+    it('por id de usuario', async () => {
+        var response: Response = await request(app).get("/pedidos/id_usuario=6220e1c1e976d8ae3a9d3e60").set('Accept', 'application/json');
+
+        expect(response.statusCode).toBe(200);
+        let lista_productos = [
+            {
+                id_producto: "621f7f978600d56807483f74",
+                cantidad: 3,
+                precio: 7.5
+            },
+            {
+                id_producto: "621f7f978600d56807483f76",
+                cantidad: 1,
+                precio: 3
+            }]
+        await compareResponseBody(response.body[0], {
+            numero_pedido: 1, id_usuario: '6220e1c1e976d8ae3a9d3e60', lista_productos: lista_productos, precio_total: 10.5, direccion: { calle: "camín de güerces 1293 15a", localidad: "gijón", provincia: "asturias", pais: "españa", codigo_postal: 33391 }, estado: "Entregado"
+        });
+    });
+
+    it('por id de usuario - incorrecto',async () => {
+        var response:Response = await request(app).get("/pedidos/id_usuario=621f7f978600d56807483f74").set('Accept', 'application/json');
+        
+        expect(response.statusCode).toBe(200);
+        expect(response.body).toStrictEqual([]);
+    });
+
+    it('por id de usuario - inválido',async () => {
+        var response:Response = await request(app).get("/pedidos/id_usuario=jgfgkjhjg").set('Accept', 'application/json');
+        
+        expect(response.statusCode).toBe(500);
+    });
 })
 
 describe("editar pedido ", () => {
