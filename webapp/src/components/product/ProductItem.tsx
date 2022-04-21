@@ -14,6 +14,8 @@ import { addToCart } from '../../api/api';
 import { useState } from "react";
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
+import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
 import "./Products.css";
 
 type ProductProp = {
@@ -49,7 +51,6 @@ const ProductItem:React.FC<ProductProp>=(productProp : ProductProp) =>{
     setOpen(false);
   };
 
-
   return (
     <form name="AddItem" onSubmit={handleAddCart}>
       <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
@@ -57,7 +58,7 @@ const ProductItem:React.FC<ProductProp>=(productProp : ProductProp) =>{
           {productProp.product.nombre} x{cantidad} añadido al carrito
         </Alert>
   </Snackbar>
-    <Card id="product" sx={{ maxWidth: 345 }}>
+    <Card id="product" sx={{ maxWidth: 545 }}>
       <CardMedia
         component="img"
         alt={productProp.product.nombre}
@@ -77,6 +78,10 @@ const ProductItem:React.FC<ProductProp>=(productProp : ProductProp) =>{
       </CardContent>
       <CardActions sx={{flexDirection:"row-reverse", justifyContent:'space-between'}}>
         <Box sx={{display:'flex', flexDirection:"row-reverse", alignItems:'center'}}>
+        <IconButton aria-label='delete-item'>
+              <DeleteIcon />
+          </IconButton>
+          <IconButton ><EditIcon/></IconButton>
           <IconButton type="submit" onClick={handleClick}>
             <AddShoppingCart/> 
           </IconButton>

@@ -5,7 +5,7 @@ import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import { CardActionArea } from '@mui/material';
 import { Product } from '../shared/shareddtypes';
-import logo from "./logo.png"
+
 
 type ProductProp = {
     product: Product;
