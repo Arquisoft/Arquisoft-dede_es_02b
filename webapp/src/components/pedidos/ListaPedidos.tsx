@@ -21,7 +21,7 @@ import { visuallyHidden } from '@mui/utils';
 import { Pedido, Estado, User, Product } from '../../shared/shareddtypes';
 import EditIcon from '@mui/icons-material/Edit';
 import { Autocomplete, Backdrop, Button, Fade, Modal, TextField } from '@mui/material';
-import { getPedidosByUser, findUserByEmail, getPedidos, findUserById, getUsers, getProducts, editPedido } from '../../api/api';
+import { getPedidosByUser, findUserByEmail, getPedidos, getUsers, getProducts, editPedido } from '../../api/api';
 
 const opcionesFiltrado = [
   { label: 'Nº Pedido' },
