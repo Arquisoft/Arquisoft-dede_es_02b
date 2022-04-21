@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import  {getProducts, getPedidos} from './api/api';
-import {Product, Pedido} from './shared/shareddtypes';
+import { useState, useEffect } from 'react';
+import  {getProducts} from './api/api';
+import {Product} from './shared/shareddtypes';
 import './App.css';
 import NavBar from './components/NavBar';
 import Products from './components/product/Products';
@@ -16,20 +16,13 @@ import HomeNavBar from './components/HomeNavBar';
 function App(): JSX.Element {
 
   const [products,setProducts] = useState<Product[]>([]);
-  const [pedidos,setPedidos] = useState<Pedido[]>([]);
-
+  
   const refreshProductList = async () => {
     setProducts(await getProducts());
   }
 
-  
-const refreshPedidosList = async () => {
-  setPedidos(await getPedidos());
-}
-
   useEffect(()=>{
     refreshProductList();
-    refreshPedidosList();
   },[]);
 
   return (
@@ -65,7 +58,7 @@ const refreshPedidosList = async () => {
         <Route path="/pedidos" element={
           <div>
             <NavBar/>
-            <ListaPedidos pedidos={pedidos}/>
+            <ListaPedidos/>
           </div>
         }/> 
         <Route path="/addProducts" element={

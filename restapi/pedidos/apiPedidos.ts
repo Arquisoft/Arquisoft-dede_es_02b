@@ -85,11 +85,24 @@ apiPedidos.get(
   }
 );
 
+apiPedidos.get(
+  "/pedidos/id_usuario=:id_usuario",
+  async (req: Request, res: Response): Promise<Response> => {
+    try{
+      let pedidos = await Pedido.find({id_usuario: req.params.id_usuario}).exec();
+      return res.status(200).send(pedidos);
+    }catch(Error){
+      return res.sendStatus(500);
+    }
+  }
+);
+
 apiPedidos.post(
   "/pedidos/editar",
   async (req: Request, res: Response): Promise<Response> => {
     try {
-      let pedido = await Pedido.findOne({ numero_pedido: req.body.numero_pedido }).exec();
+      let query = { numero_pedido: req.body.numero_pedido.toString() };
+      let pedido = await Pedido.findOne(query).exec();
       pedido.estado = req.body.estado;
       
       await pedido.save();
