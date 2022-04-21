@@ -51,7 +51,7 @@ const Home: React.FC<ProductProps> = (props: ProductProps) => {
                     <div className='quienesSomos'>
                         <Typography variant='h1' sx={{ fontSize: '4em' }}>Productos destacados</Typography>
                         <Grid container spacing={3} direction="row" justifyContent="center" alignItems="center" marginTop={1}>
-                            {Array.from(Array(props.products.length-1)).map((_, index) => (
+                            {Array.from(Array(props.products.length)).map((_, index) => (
                                 <Grid item key={index}>
                                     <ProductHome product={props.products[index]} />
                                 </Grid>
