@@ -41,7 +41,7 @@ const refreshPedidosList = async () => {
         <Route path="/home" element={
           <div>
             <HomeNavBar/>
-            <Home/>
+            <Home products ={products}/>
           </div>
         }/>
         <Route path="/login" element={

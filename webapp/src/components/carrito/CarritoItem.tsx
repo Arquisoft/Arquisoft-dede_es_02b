@@ -7,7 +7,7 @@ import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 import accounting from "accounting";
 import {Product} from '../../shared/shareddtypes';
-import { Alert, Box, Snackbar } from '@mui/material';
+import { Box } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import RemoveIcon from '@mui/icons-material/Remove';
 import AddIcon from '@mui/icons-material/Add';
@@ -28,7 +28,6 @@ const CarritoItem: React.FC<ProductProp>=(productProp : ProductProp) =>{
     var opcion=window.confirm(msg);
     if(opcion){
       productProp.borrar(product);
-      setOpen(true);
     }
   }
   
@@ -39,19 +38,8 @@ const CarritoItem: React.FC<ProductProp>=(productProp : ProductProp) =>{
   function handleAddUnitFromCart(product:Product):void{
       productProp.add(product);
   }
-  const [open, setOpen] = React.useState(false);
 
-  const handleClick = () => {
-    setOpen(true);
-  };
 
-  const handleClose = (event?: React.SyntheticEvent | Event, reason?: string) => {
-    if (reason === 'clickaway') {
-      return;
-    }
-
-    setOpen(false);
-  };
 
   return (
     <Card aria-label={productProp.product.nombre} id={productProp.product.nombre} sx={{ maxWidth: 345 }}>
