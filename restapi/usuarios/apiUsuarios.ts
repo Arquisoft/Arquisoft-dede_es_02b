@@ -50,6 +50,9 @@ apiUsuarios.post(
         usuario._id = req.body._id;
       }
 
+      if(req.body.esAdmin !== undefined)
+        usuario.esAdmin = req.body.esAdmin;
+
       const hashedPass = await bcrypt.hash(req.body.contraseña, 10);
       usuario.contraseña = hashedPass;
 

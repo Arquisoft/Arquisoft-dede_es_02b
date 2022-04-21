@@ -75,6 +75,7 @@ async function insertUsers() {
         usuario.email = user.email;
         usuario.dni = user.dni;
         usuario.contraseña = user.contraseña;
+        usuario.esAdmin = user.esAdmin;
 
         await usuario.save();
     }
