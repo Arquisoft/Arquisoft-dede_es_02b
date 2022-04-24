@@ -92,7 +92,7 @@ const Login:React.FC=()=> {
               onChange={(e) => setContraseña(e.target.value)}
             />
             {errorMessage && (
-              <p className="error"> {errorMessage} </p>
+              <p style={{color: 'red'}} className="error"> {errorMessage} </p>
             )}
             <Button
               type="submit"

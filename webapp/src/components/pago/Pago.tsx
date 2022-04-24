@@ -1,39 +1,47 @@
 import * as React from 'react';
 import { useState } from "react";
-import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
-import LinkMui from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Navigate } from 'react-router-dom';
+import { color } from '@mui/system';
 
 const theme = createTheme();
 
 function Pago(): JSX.Element {
-    const [direccion, setDireccion] = useState("");
+  const [direccion, setDireccion] = useState("");
+  const [tarjeta, setTarjeta] = useState("");
+  const [errorMessage, setErrorMessage] = useState('');
 
-    if (sessionStorage.length==1){
-      return <Navigate to="/carrito" />;
-    }
+  const tarjetaRegex = /([0-9]{4}){1}( [0-9]{4}){3}/
 
-    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-      event.preventDefault();
+  if (sessionStorage.length==1){
+    return <Navigate to="/carrito" />;
+  }
 
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    
+    if(!tarjeta.match(tarjetaRegex))
+      setErrorMessage('La tarjeta es incorrecta');
+  };
+
+  function SubmitButton(){
+    if (direccion && tarjeta){
+      return <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>Pagar</Button>
+    } else {
+      return <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }} disabled>Pagar</Button>
     };
+  };
 
-    function SubmitButton(){
-      if (direccion){
-        return <Button variant="contained" type="button">Pagar</Button>
-      } else {
-        return <Button variant="contained" type="button" disabled>Pagar</Button>
-      };
-    };
+  function handlePOD(){
+    
+  }
 
   return(
     <>
@@ -49,20 +57,41 @@ function Pago(): JSX.Element {
           }}
         >
           <Typography component="h1" variant="h5">
-            Pago
+            Pagar
           </Typography>
           <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+          <Grid container>
+            <Grid item>
+              <TextField
+                margin="normal"
+                required
+                fullWidth
+                id="direccion"
+                label="Dirección"
+                name="direccion"
+                autoComplete="direccion"
+                autoFocus
+                onChange={(e) => setDireccion(e.target.value)}
+              />
+            </Grid>
+              <Grid item alignItems="stretch" style={{ display: "flex" }}>
+                <Button onClick={handlePOD} fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>Obtener de POD</Button>
+              </Grid>
+            </Grid>
             <TextField
               margin="normal"
               required
               fullWidth
-              id="dirección"
-              label="Dirección"
-              name="dirección"
-              autoComplete="dirección"
-              autoFocus
-              onChange={(e) => setDireccion(e.target.value)}
+              name="numeroTarjeta"
+              label="Número de Tarjeta"
+              type="numeroTarjeta"
+              id="numeroTarjeta"
+              autoComplete="numeroTarjeta"
+              onChange={(e) => setTarjeta(e.target.value)}
             />
+            {errorMessage && (
+              <p style={{color: 'red'}} className="error"> {errorMessage} </p>
+            )}
             <SubmitButton/>
           </Box>
         </Box>
