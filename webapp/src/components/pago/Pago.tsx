@@ -11,11 +11,16 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { Navigate } from 'react-router-dom';
 
 const theme = createTheme();
 
 function Pago(): JSX.Element {
     const [direccion, setDireccion] = useState("");
+
+    if (sessionStorage.length==1){
+      return <Navigate to="/carrito" />;
+    }
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
       event.preventDefault();
