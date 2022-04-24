@@ -2,7 +2,7 @@ import { Button } from "@mui/material";
 import accounting from "accounting";
 import React, { useEffect } from "react";
 import "./Carrito.css"
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useState } from "react";
 
 type Price = {
@@ -10,25 +10,23 @@ type Price = {
 }
   
 const Total: React.FC<Price>= (total: Price) => {
-  const [botonPagarActivo, setPagar] = useState(false);
+  const [botonPagarActivo, setPagar] = useState(total.price>0);
+  const navigate = useNavigate();
 
-  function ConditionalLink(){
+  useEffect(()=>{
     setPagar(total.price>0);
+  }, [total.price]);
+
+  function handleClick(){
     if (botonPagarActivo){
-      return <Link to={"/pago"}>
-              <Button variant="contained" type="button" disabled={!botonPagarActivo}>Pagar</Button>
-            </Link>
-    } else {
-      return <>
-              <Button variant="contained" type="button" disabled={!botonPagarActivo}>Pagar</Button>
-            </>
-    };
+      navigate("/pago");
+    }
   }
 
   return(
       <div className="root">
           <h2>Total: {accounting.formatMoney(total.price,"€")}</h2>
-          <ConditionalLink/>
+          <Button variant="contained" type="button" disabled={!botonPagarActivo} onClick={handleClick}>Pagar</Button>
       </div>
   )
 }
