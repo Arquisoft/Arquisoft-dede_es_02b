@@ -183,7 +183,7 @@ const Carrito: React.FC= () =>{
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             ----------------------------
           </Typography>
-          <Total total={getPrecio()}/>
+          <Total price={getPrecio()}/>
           <IconButton onClick={()=>deleteCart()}><Delete/>Borrar pedido</IconButton>
       </Box>
     </Split>

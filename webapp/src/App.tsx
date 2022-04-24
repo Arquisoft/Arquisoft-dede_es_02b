@@ -12,6 +12,7 @@ import ListaPedidos from './components/pedidos/ListaPedidos';
 import AñadirProducto from './components/product/AñadirProducto';
 import Home from './components/Home';
 import HomeNavBar from './components/HomeNavBar';
+import Pago from './components/pago/Pago';
 
 function App(): JSX.Element {
 
@@ -23,9 +24,9 @@ function App(): JSX.Element {
   }
 
   
-const refreshPedidosList = async () => {
-  setPedidos(await getPedidos());
-}
+  const refreshPedidosList = async () => {
+    setPedidos(await getPedidos());
+  }
 
   useEffect(()=>{
     refreshProductList();
@@ -74,6 +75,12 @@ const refreshPedidosList = async () => {
             <AñadirProducto/>
           </div>
         }/> 
+        <Route path="/pago" element={
+          <div>
+            <NavBar/>
+            <Pago/>
+          </div>
+        }/>
 
       </Routes>
     </>
