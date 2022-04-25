@@ -1,0 +1,17 @@
+.imagenError{
+    max-width: 400px;
+    max-height: 400px;
+}
+
+.body{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.error{
+    margin: auto;
+}
+
+.imagenE{
+    margin: auto;
+}

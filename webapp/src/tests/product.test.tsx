@@ -8,7 +8,7 @@ import { BrowserRouter } from 'react-router-dom';
 import accounting from 'accounting';
 
 test('Productos', () => {
-    render(<Products products ={products.productos}/>);
+    render(<BrowserRouter><Products products ={products.productos}/></BrowserRouter>);
     //Probamos que salen todos los productos
     products.productos.forEach(element => {
       let Element = screen.getByText(element.nombre);
