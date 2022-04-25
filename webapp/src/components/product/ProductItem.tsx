@@ -223,8 +223,15 @@ const ProductItem: React.FC<ProductProp> = (productProp: ProductProp) => {
               variant="standard"
               defaultValue={1}
               value={cantidad}
+              
+              
               onChange={(e) => {
-                setCantidad(parseInt(e.target.value))
+                if(e.target.value===""){
+                    setCantidad(1)
+                }
+                else
+                  setCantidad(parseInt(e.target.value))
+                
               }
               }
             />
