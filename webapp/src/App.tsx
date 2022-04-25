@@ -66,7 +66,7 @@ function App(): JSX.Element {
             <AñadirProducto/>
           </div>
         }/> 
-
+        <Route path="*" element={<div>Error 404 - Pagina inexistente</div> }/>
       </Routes>
     </>
   );
