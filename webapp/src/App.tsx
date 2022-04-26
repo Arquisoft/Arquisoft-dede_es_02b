@@ -12,6 +12,7 @@ import ListaPedidos from './components/pedidos/ListaPedidos';
 import AñadirProducto from './components/product/AñadirProducto';
 import Home from './components/Home';
 import HomeNavBar from './components/HomeNavBar';
+import Error404 from './components/error/Error404';
 
 function App(): JSX.Element {
 
@@ -66,7 +67,7 @@ function App(): JSX.Element {
             <AñadirProducto/>
           </div>
         }/> 
-
+        <Route path="*" element={<Error404/>}/>
       </Routes>
     </>
   );
