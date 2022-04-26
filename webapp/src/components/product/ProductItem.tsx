@@ -10,7 +10,7 @@ import accounting from "accounting";
 import { Product } from '../../shared/shareddtypes';
 import { Alert, Button, Modal, Snackbar, TextField, Fade, Backdrop, TextareaAutosize, Grid } from '@mui/material';
 import { Box } from '@mui/system';
-import { addToCart } from '../../api/api';
+import { addToCart, editProducto } from '../../api/api';
 import { useState } from "react";
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
@@ -82,6 +82,8 @@ const ProductItem: React.FC<ProductProp> = (productProp: ProductProp) => {
     p.foto = foto;
     setProducto(p);
     setOpenEdit(false);
+
+    editProducto(p);
   }
 
   function acciones(): JSX.Element {

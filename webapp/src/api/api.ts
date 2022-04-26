@@ -161,6 +161,19 @@ export async function editPedido(pedido: Pedido): Promise<boolean> {
     return false;
 }
 
+export async function editProducto(producto: Product): Promise<boolean> {
+  const apiEndPoint = process.env.REACT_APP_API_URI || 'http://localhost:5000'
+  let response = await fetch(apiEndPoint + '/products/editar', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ '_id': producto._id, 'nombre': producto.nombre, 'origen': producto.origen, 'precio': producto.precio, 'descripcion': producto.descripcion, 'foto': producto.foto })
+  });
+  if (response.status === 200) {
+    return true;
+  } else
+    return false;
+}
+
 export async function isAdmin(email: string): Promise<boolean> {
   let u: User = await findUserByEmail(email);
   return u.esAdmin;

@@ -38,7 +38,11 @@ const NavBar: React.FC = () => {
     setAnchorElNav(null);
   };
 
-  function logOut(): JSX.Element {
+  if (!logueado){
+    return <Navigate to="/" />;
+  }
+
+  function menuUsuario(): JSX.Element {
     const logOutUser = () => {
       sessionStorage.clear();
 
@@ -46,14 +50,78 @@ const NavBar: React.FC = () => {
     };
 
     if (logueado) {
-      return (
-        <Button key="logout" onClick={logOutUser} sx={{ my: 1, color: '#1976d2', display: 'block' }}>
-          Log Out
-        </Button>
-      );
+      if (JSON.parse(sessionStorage.getItem("usuario")!).esAdmin) {
+        return (<Box sx={{ flexGrow: 0, marginLeft: 2 }}>
+          <Tooltip title="Open settings">
+            <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+              <Avatar alt="Remy Sharp" />
+            </IconButton>
+          </Tooltip>
+
+          <Menu
+            sx={{ mt: '45px' }}
+            id="menu-appbar"
+            anchorEl={anchorElUser}
+            anchorOrigin={{
+              vertical: 'top',
+              horizontal: 'right',
+            }}
+            keepMounted
+            transformOrigin={{
+              vertical: 'top',
+              horizontal: 'right',
+            }}
+            open={Boolean(anchorElUser)}
+            onClose={handleCloseUserMenu}
+          >
+            <MenuItem key="logout">
+              <Button key="logout" onClick={logOutUser} sx={{ my: 1, color: '#1976d2', display: 'block' }}>
+                Log Out
+              </Button>
+            </MenuItem>
+          </Menu>
+        </Box>)
+      } else {
+        return (<Box sx={{ flexGrow: 0, marginLeft: 2 }}>
+          <Tooltip title="Open settings">
+            <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+              <Avatar alt="Remy Sharp" />
+            </IconButton>
+          </Tooltip>
+
+          <Menu
+            sx={{ mt: '45px' }}
+            id="menu-appbar"
+            anchorEl={anchorElUser}
+            anchorOrigin={{
+              vertical: 'top',
+              horizontal: 'right',
+            }}
+            keepMounted
+            transformOrigin={{
+              vertical: 'top',
+              horizontal: 'right',
+            }}
+            open={Boolean(anchorElUser)}
+            onClose={handleCloseUserMenu}
+          >
+            <MenuItem key="editUser">
+              <Link to="/editUser">
+                <Button key="editUser" sx={{ my: 1, color: '#1976d2', display: 'block' }}>
+                  Editar Usuario
+                </Button>
+              </Link>
+            </MenuItem>
+            <MenuItem key="logout">
+              <Button key="logout" onClick={logOutUser} sx={{ my: 1, color: '#1976d2', display: 'block' }}>
+                Log Out
+              </Button>
+            </MenuItem>
+          </Menu>
+        </Box>)
+      }
     }
-    else
-      return <Navigate to="/" />;
+    return <div></div>
   }
 
   function botonCarrito(): JSX.Element {
@@ -162,38 +230,8 @@ const NavBar: React.FC = () => {
               {botonCarrito()}
             </Tooltip>
           </Box>
-          <Box sx={{ flexGrow: 0, marginLeft: 2 }}>
-            <Tooltip title="Open settings">
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" />
-              </IconButton>
-            </Tooltip>
-            <Menu
-              sx={{ mt: '45px' }}
-              id="menu-appbar"
-              anchorEl={anchorElUser}
-              anchorOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-              }}
-              open={Boolean(anchorElUser)}
-              onClose={handleCloseUserMenu}
-            >
-              <MenuItem key="editUser">
-                <Link to="/editUser">
-                <Button key="editUser"  sx={{ my: 1, color: '#1976d2', display: 'block' }}>
-                  Editar Usuario
-                </Button>
-                </Link>
-              </MenuItem>
-              <MenuItem key="logout"> {logOut()}</MenuItem>
-            </Menu>
-          </Box>
+
+          {menuUsuario()}
         </Toolbar>
       </Container>
     </AppBar>

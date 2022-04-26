@@ -17,16 +17,6 @@ import EditarUsuario from './components/usuario/EditarUsuario';
 
 function App(): JSX.Element {
 
-  const [products,setProducts] = useState<Product[]>([]);
-  
-  const refreshProductList = async () => {
-    setProducts(await getProducts());
-  }
-
-  useEffect(()=>{
-    refreshProductList();
-  },[]);
-
   return (
     <>
       <Routes>
@@ -35,7 +25,7 @@ function App(): JSX.Element {
         <Route path="/" element={
           <div>
             <HomeNavBar/>
-            <Home products ={products}/>
+            <Home/>
           </div>
         }/>
         <Route path="/login" element={
