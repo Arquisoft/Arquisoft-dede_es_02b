@@ -59,15 +59,15 @@ const NavBar: React.FC = () => {
     <AppBar position="static">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-        <Link to="/">
-          <Typography
-            variant="h6"
-            noWrap
-            component="div"
-            sx={{ mr: 2, display: { xs: 'none', md: 'flex' }, maxWidth:"100%", maxHeight:"100%", width:"70px", height:"70px"}}
-          >
-            <img src={logo} alt=""></img>
-          </Typography>
+          <Link to="/">
+            <Typography
+              variant="h6"
+              noWrap
+              component="div"
+              sx={{ mr: 2, display: { xs: 'none', md: 'flex' }, maxWidth: "100%", maxHeight: "100%", width: "70px", height: "70px" }}
+            >
+              <img src={logo} alt=""></img>
+            </Typography>
           </Link>
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
             <IconButton
@@ -100,27 +100,27 @@ const NavBar: React.FC = () => {
               }}
             >
               <Link to={"/pedidos"}>
-              <Typography key="pedidos" sx={{ my: 1, color: 'blue', textAlign:"center", display: 'block' }}>
-                Pedidos
-              </Typography>
-            </Link>
+                <Typography key="pedidos" sx={{ my: 1, color: 'blue', textAlign: "center", display: 'block' }}>
+                  Pedidos
+                </Typography>
+              </Link>
               <Link to={"/Products"}>
                 <MenuItem key={"Products"}>
-                  <Typography sx={{ my: 1, color: 'blue', textAlign:"center", display: 'block' }}>Productos</Typography>
+                  <Typography sx={{ my: 1, color: 'blue', textAlign: "center", display: 'block' }}>Productos</Typography>
                 </MenuItem>
               </Link>
             </Menu>
           </Box>
           <Link to="/">
-          <Typography
-            variant="h6"
-            key="dede"
-            noWrap
-            component="div"
-            sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' }, maxWidth:"100%", maxHeight:"100%", width:"70px", height:"70px" }}
-          >
-            <img src={logo} alt=""></img>
-          </Typography>
+            <Typography
+              variant="h6"
+              key="dede"
+              noWrap
+              component="div"
+              sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' }, maxWidth: "100%", maxHeight: "100%", width: "70px", height: "70px" }}
+            >
+              <img src={logo} alt=""></img>
+            </Typography>
           </Link>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             <Link to={"/Products"}>
@@ -137,7 +137,7 @@ const NavBar: React.FC = () => {
                 Pedidos
               </Button>
             </Link>
-            
+
           </Box>
 
 
@@ -152,14 +152,14 @@ const NavBar: React.FC = () => {
               </Link>
             </Tooltip>
           </Box>
-          <Box sx={{ flexGrow: 0, marginLeft:2 }}>
+          <Box sx={{ flexGrow: 0, marginLeft: 2 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp"  />
+                <Avatar alt="Remy Sharp" />
               </IconButton>
             </Tooltip>
             <Menu
-              sx={{ mt: '45px'}}
+              sx={{ mt: '45px' }}
               id="menu-appbar"
               anchorEl={anchorElUser}
               anchorOrigin={{
@@ -173,8 +173,15 @@ const NavBar: React.FC = () => {
               }}
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
-            > 
-                <MenuItem key="logout"> {logOut()}</MenuItem>
+            >
+              <MenuItem key="editUser">
+                <Link to="/editUser">
+                <Button key="editUser"  sx={{ my: 1, color: '#1976d2', display: 'block' }}>
+                  Editar Usuario
+                </Button>
+                </Link>
+              </MenuItem>
+              <MenuItem key="logout"> {logOut()}</MenuItem>
             </Menu>
           </Box>
         </Toolbar>
