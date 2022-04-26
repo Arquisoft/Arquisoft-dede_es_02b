@@ -4,6 +4,7 @@ import * as React from 'react';
 import { Link, Navigate } from 'react-router-dom';
 import { addProduct } from '../../api/api';
 import { Product } from '../../shared/shareddtypes';
+import Error403 from '../error/Error403';
 
 
 const AñadirProducto: React.FC = () => {
@@ -12,7 +13,7 @@ const AñadirProducto: React.FC = () => {
     let usuario: { email: string, esAdmin: boolean } = JSON.parse(sessionStorage.getItem("usuario")!);
 
     if (!usuario.esAdmin) {
-        return <Navigate to="/products"></Navigate>
+        return <Error403></Error403>
     }
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
