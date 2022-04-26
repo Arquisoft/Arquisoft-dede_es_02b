@@ -15,6 +15,7 @@ import { ShoppingCart } from '@mui/icons-material';
 import { Badge } from '@mui/material';
 import { Navigate, Link } from 'react-router-dom';
 import logo from "./logo.png"
+import Carrito from './carrito/Carrito';
 
 const NavBar: React.FC = () => {
   const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
@@ -37,7 +38,7 @@ const NavBar: React.FC = () => {
 
     if (logueado) {
       return (
-        <Button key="logout" onClick={logOutUser} sx={{ my: 1, color: anchorElNav===null?'white':'blue', display: 'block' }}>
+        <Button key="logout" onClick={logOutUser} sx={{ my: 1, color: anchorElNav === null ? 'white' : 'blue', display: 'block' }}>
           Log Out
         </Button>
       );
@@ -46,19 +47,34 @@ const NavBar: React.FC = () => {
       return <Navigate to="/" />;
   }
 
+  function botonCarrito(): JSX.Element {
+    if (logueado) {
+      if (!JSON.parse(logueado).esAdmin) {
+        return (<Link to="/carrito">
+          <IconButton sx={{ p: 0, color: 'white' }}>
+            <Badge badgeContent={sessionStorage.length - 1} color="secondary">
+              <ShoppingCart />
+            </Badge>
+          </IconButton>
+        </Link>)
+      }
+    }
+    return <div></div>;
+  }
+
   return (
     <AppBar position="static">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-        <Link to="/">
-          <Typography
-            variant="h6"
-            noWrap
-            component="div"
-            sx={{ mr: 2, display: { xs: 'none', md: 'flex' }, maxWidth:"100%", maxHeight:"100%", width:"70px", height:"70px"}}
-          >
-            <img src={logo} alt=""></img>
-          </Typography>
+          <Link to="/">
+            <Typography
+              variant="h6"
+              noWrap
+              component="div"
+              sx={{ mr: 2, display: { xs: 'none', md: 'flex' }, maxWidth: "100%", maxHeight: "100%", width: "70px", height: "70px" }}
+            >
+              <img src={logo} alt=""></img>
+            </Typography>
           </Link>
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
             <IconButton
@@ -91,28 +107,28 @@ const NavBar: React.FC = () => {
               }}
             >
               <Link to={"/pedidos"}>
-              <Typography key="pedidos" sx={{ my: 1, color: 'blue', textAlign:"center", display: 'block' }}>
-                Pedidos
-              </Typography>
-            </Link>
+                <Typography key="pedidos" sx={{ my: 1, color: 'blue', textAlign: "center", display: 'block' }}>
+                  Pedidos
+                </Typography>
+              </Link>
               <Link to={"/Products"}>
                 <MenuItem key={"Products"}>
-                  <Typography sx={{ my: 1, color: 'blue', textAlign:"center", display: 'block' }}>Productos</Typography>
+                  <Typography sx={{ my: 1, color: 'blue', textAlign: "center", display: 'block' }}>Productos</Typography>
                 </MenuItem>
               </Link>
               <MenuItem key="logout"> {logOut()}</MenuItem>
             </Menu>
           </Box>
           <Link to="/">
-          <Typography
-            variant="h6"
-            key="dede"
-            noWrap
-            component="div"
-            sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' }, maxWidth:"100%", maxHeight:"100%", width:"70px", height:"70px" }}
-          >
-            <img src={logo} alt=""></img>
-          </Typography>
+            <Typography
+              variant="h6"
+              key="dede"
+              noWrap
+              component="div"
+              sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' }, maxWidth: "100%", maxHeight: "100%", width: "70px", height: "70px" }}
+            >
+              <img src={logo} alt=""></img>
+            </Typography>
           </Link>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             <Link to={"/Products"}>
@@ -135,13 +151,7 @@ const NavBar: React.FC = () => {
 
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Carrito">
-              <Link to="/carrito">
-                <IconButton sx={{ p: 0, color: 'white' }}>
-                  <Badge badgeContent={sessionStorage.length - 1} color="secondary">
-                    <ShoppingCart />
-                  </Badge>
-                </IconButton>
-              </Link>
+              {botonCarrito()}
             </Tooltip>
           </Box>
         </Toolbar>
