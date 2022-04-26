@@ -12,7 +12,7 @@ const AñadirProducto: React.FC = () => {
 
     let usuario: { email: string, esAdmin: boolean } = JSON.parse(sessionStorage.getItem("usuario")!);
 
-    if (!usuario.esAdmin) {
+    if (!usuario || !usuario.esAdmin) {
         return <Error403></Error403>
     }
 
