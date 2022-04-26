@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Product } from '../../shared/shareddtypes';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
@@ -6,34 +6,41 @@ import ProductComponent from './ProductItem';
 import { Button, Typography } from '@mui/material';
 import { ShoppingBasket } from '@mui/icons-material';
 import { Link } from 'react-router-dom';
+import { getProducts } from '../../api/api';
 
+const Products: React.FC = () => {
+  const [productos, setProductos] = React.useState<Product[]>([]);
 
-type ProductProps = {
-  products: Product[];
-}
+  function botonAñadir(): JSX.Element | undefined {
+    if (JSON.parse(sessionStorage.getItem("usuario")!).esAdmin)
+      return (<Link to="/addProducts">
+        <Button variant='contained'>Añadir producto</Button>
+      </Link>)
+  }
 
-const Products: React.FC<ProductProps> = (props: ProductProps) => {
-  if (props !== null) {
-    return (
+  const refreshProductList = async () => {
+    setProductos(await getProducts());
+  }
+
+  useEffect(() => {
+    refreshProductList();
+  }, []);
+
+  return (
       <Box sx={{ flexGrow: 1, padding: 3 }}>
         <Typography variant="h1" component="h2" sx={{ fontSize: 40 }}>
           Productos <ShoppingBasket />
         </Typography>
-        <Link to="/addProducts">
-          <Button variant='contained'>Añadir producto</Button>
-        </Link>
+        {botonAñadir()}
         <Grid container spacing={3} direction="row" justifyContent="center" alignItems="center" marginTop={1}>
-          {Array.from(Array(props.products.length)).map((_, index) => (
+          {Array.from(Array(productos.length)).map((_, index) => (
             <Grid item key={index}>
-              <ProductComponent product={props.products[index]} />
+              <ProductComponent product={productos[index]} />
             </Grid>
           ))}
         </Grid>
       </Box>
     );
-  }
-  else
-    return (<></>);
 }
 
 export default Products;

@@ -1,16 +1,25 @@
-import { Button, Container, Grid, TextareaAutosize, TextField, Typography } from '@mui/material';
+import { Button, Container, CssBaseline, Grid, TextareaAutosize, TextField, Typography } from '@mui/material';
 import { Box } from '@mui/system';
 import * as React from 'react';
-import { Link } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 import { addProduct } from '../../api/api';
 import { Product } from '../../shared/shareddtypes';
+import Error403 from '../error/Error403';
 
 
 const AñadirProducto: React.FC = () => {
+    const [añadido, setAñadido] = React.useState<Boolean>(false);
+
+    let usuario: { email: string, esAdmin: boolean } = JSON.parse(sessionStorage.getItem("usuario")!);
+
+    if (!usuario.esAdmin) {
+        return <Error403></Error403>
+    }
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
+
         let producto: Product = {
             _id: '',
             nombre: data.get('nombre') as string,
@@ -19,10 +28,16 @@ const AñadirProducto: React.FC = () => {
             descripcion: data.get('descripcion') as string,
             foto: data.get('foto') as string
         }
+        
         await addProduct(producto);
+        setAñadido(true);
     };
 
+    if(añadido)
+        return <Navigate to="/products"></Navigate>
+
     return (<Container component="main" maxWidth="xs">
+        <CssBaseline />
         <Box sx={{
             marginTop: 8,
             display: 'flex',
@@ -93,16 +108,14 @@ const AñadirProducto: React.FC = () => {
                         />
                     </Grid>
                 </Grid>
-                <Link to="/products">
-                    <Button
-                        type="submit"
-                        fullWidth
-                        variant="contained"
-                        sx={{ mt: 3, mb: 2 }}
-                    >
-                        Añadir
-                    </Button>
-                </Link>
+                <Button
+                    type="submit"
+                    fullWidth
+                    variant="contained"
+                    sx={{ mt: 3, mb: 2 }}
+                >
+                    Añadir
+                </Button>
             </Box>
         </Box>
     </Container>

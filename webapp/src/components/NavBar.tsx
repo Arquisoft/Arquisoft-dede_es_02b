@@ -15,6 +15,7 @@ import { ShoppingCart } from '@mui/icons-material';
 import { Avatar, Badge } from '@mui/material';
 import { Navigate, Link } from 'react-router-dom';
 import logo from "./logo.png"
+import Carrito from './carrito/Carrito';
 
 const NavBar: React.FC = () => {
   const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
@@ -37,7 +38,11 @@ const NavBar: React.FC = () => {
     setAnchorElNav(null);
   };
 
-  function logOut(): JSX.Element {
+  if (!logueado){
+    return <Navigate to="/" />;
+  }
+
+  function menuUsuario(): JSX.Element {
     const logOutUser = () => {
       sessionStorage.clear();
 
@@ -45,14 +50,93 @@ const NavBar: React.FC = () => {
     };
 
     if (logueado) {
-      return (
-        <Button key="logout" onClick={logOutUser} sx={{ my: 1, color: '#1976d2', display: 'block' }}>
-          Log Out
-        </Button>
-      );
+      if (JSON.parse(sessionStorage.getItem("usuario")!).esAdmin) {
+        return (<Box sx={{ flexGrow: 0, marginLeft: 2 }}>
+          <Tooltip title="Open settings">
+            <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+              <Avatar alt="Remy Sharp" />
+            </IconButton>
+          </Tooltip>
+
+          <Menu
+            sx={{ mt: '45px' }}
+            id="menu-appbar"
+            anchorEl={anchorElUser}
+            anchorOrigin={{
+              vertical: 'top',
+              horizontal: 'right',
+            }}
+            keepMounted
+            transformOrigin={{
+              vertical: 'top',
+              horizontal: 'right',
+            }}
+            open={Boolean(anchorElUser)}
+            onClose={handleCloseUserMenu}
+          >
+            <MenuItem key="logout">
+              <Button key="logout" onClick={logOutUser} sx={{ my: 1, color: '#1976d2', display: 'block' }}>
+                Log Out
+              </Button>
+            </MenuItem>
+          </Menu>
+        </Box>)
+      } else {
+        return (<Box sx={{ flexGrow: 0, marginLeft: 2 }}>
+          <Tooltip title="Open settings">
+            <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+              <Avatar alt="Remy Sharp" />
+            </IconButton>
+          </Tooltip>
+
+          <Menu
+            sx={{ mt: '45px' }}
+            id="menu-appbar"
+            anchorEl={anchorElUser}
+            anchorOrigin={{
+              vertical: 'top',
+              horizontal: 'right',
+            }}
+            keepMounted
+            transformOrigin={{
+              vertical: 'top',
+              horizontal: 'right',
+            }}
+            open={Boolean(anchorElUser)}
+            onClose={handleCloseUserMenu}
+          >
+            <MenuItem key="editUser">
+              <Link to="/editUser">
+                <Button key="editUser" sx={{ my: 1, color: '#1976d2', display: 'block' }}>
+                  Editar Usuario
+                </Button>
+              </Link>
+            </MenuItem>
+            <MenuItem key="logout">
+              <Button key="logout" onClick={logOutUser} sx={{ my: 1, color: '#1976d2', display: 'block' }}>
+                Log Out
+              </Button>
+            </MenuItem>
+          </Menu>
+        </Box>)
+      }
     }
-    else
-      return <Navigate to="/" />;
+    return <div></div>
+  }
+
+  function botonCarrito(): JSX.Element {
+    if (logueado) {
+      if (!JSON.parse(logueado).esAdmin) {
+        return (<Link to="/carrito">
+          <IconButton sx={{ p: 0, color: 'white' }}>
+            <Badge badgeContent={sessionStorage.length - 1} color="secondary">
+              <ShoppingCart />
+            </Badge>
+          </IconButton>
+        </Link>)
+      }
+    }
+    return <div></div>;
   }
 
   return (
@@ -143,47 +227,11 @@ const NavBar: React.FC = () => {
 
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Carrito">
-              <Link to="/carrito">
-                <IconButton sx={{ p: 0, color: 'white' }}>
-                  <Badge badgeContent={sessionStorage.length - 1} color="secondary">
-                    <ShoppingCart />
-                  </Badge>
-                </IconButton>
-              </Link>
+              {botonCarrito()}
             </Tooltip>
           </Box>
-          <Box sx={{ flexGrow: 0, marginLeft: 2 }}>
-            <Tooltip title="Open settings">
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" />
-              </IconButton>
-            </Tooltip>
-            <Menu
-              sx={{ mt: '45px' }}
-              id="menu-appbar"
-              anchorEl={anchorElUser}
-              anchorOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-              }}
-              open={Boolean(anchorElUser)}
-              onClose={handleCloseUserMenu}
-            >
-              <MenuItem key="editUser">
-                <Link to="/editUser">
-                <Button key="editUser"  sx={{ my: 1, color: '#1976d2', display: 'block' }}>
-                  Editar Usuario
-                </Button>
-                </Link>
-              </MenuItem>
-              <MenuItem key="logout"> {logOut()}</MenuItem>
-            </Menu>
-          </Box>
+
+          {menuUsuario()}
         </Toolbar>
       </Container>
     </AppBar>

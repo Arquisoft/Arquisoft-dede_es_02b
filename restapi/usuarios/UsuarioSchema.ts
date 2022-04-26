@@ -5,7 +5,10 @@ const usuarioSchema = new mongoose.Schema({
     nombre: {
         type: String,
         required: true,
-        lowercase: true,
+    },
+    apellidos: {
+        type: String,
+        required: true,
     },
     dni: {
         type: String,
@@ -28,6 +31,10 @@ const usuarioSchema = new mongoose.Schema({
     contraseña: {
         type: String,
         required: true,
+    },
+    idSolid: {
+        type: String,
+        required: false,
     },
     esAdmin: {
         type: Boolean, 

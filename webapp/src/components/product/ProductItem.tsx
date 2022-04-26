@@ -10,7 +10,7 @@ import accounting from "accounting";
 import { Product } from '../../shared/shareddtypes';
 import { Alert, Button, Modal, Snackbar, TextField, Fade, Backdrop, TextareaAutosize, Grid } from '@mui/material';
 import { Box } from '@mui/system';
-import { addToCart } from '../../api/api';
+import { addToCart, editProducto } from '../../api/api';
 import { useState } from "react";
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
@@ -75,13 +75,62 @@ const ProductItem: React.FC<ProductProp> = (productProp: ProductProp) => {
 
   function editarProducto() {
     var p = producto;
-    p.nombre=nombre;
-    p.origen=origen;
-    p.precio=precio;
-    p.descripcion=descripcion;
-    p.foto=foto;
+    p.nombre = nombre;
+    p.origen = origen;
+    p.precio = precio;
+    p.descripcion = descripcion;
+    p.foto = foto;
     setProducto(p);
     setOpenEdit(false);
+
+    editProducto(p);
+  }
+
+  function acciones(): JSX.Element {
+    if (JSON.parse(sessionStorage.getItem("usuario")!).esAdmin) {
+      return (
+        <Box sx={{ display: 'flex', flexDirection: "row-reverse", alignItems: 'center' }}>
+          <IconButton aria-label='delete-item'>
+            <DeleteIcon />
+          </IconButton>
+          <IconButton onClick={() => setOpenEdit(true)}><EditIcon /></IconButton>
+        </Box>
+      )
+    } else {
+      return (
+        <Box sx={{ display: 'flex', flexDirection: "row-reverse", alignItems: 'center' }}>
+          <IconButton type="submit" onClick={handleClick}>
+            <AddShoppingCart />
+          </IconButton>    
+          <Typography sx={{ fontSize: 20 }}> {accounting.formatMoney(producto.precio, "€")}</Typography>
+          <IconButton onClick={() => sumarCantidad(1)}><AddIcon /></IconButton>
+          <TextField
+            id="cantidad-producto"
+            sx={{
+              width: 34,
+              paddingRight: 1,
+              paddingLeft: 1,
+              textAlign: 'center',
+            }}
+            inputProps={{ min: 1, max: 10, style: { textAlign: 'center' } }}
+            variant="standard"
+            defaultValue={1}
+            value={cantidad}
+
+            onChange={(e) => {
+              if (e.target.value === "") {
+                setCantidad(1)
+              }
+              else
+                setCantidad(parseInt(e.target.value))
+            }
+            }
+          />
+          <IconButton onClick={() => sumarCantidad(-1)}><RemoveIcon /></IconButton>
+          <Typography>Cantidad:</Typography>
+        </Box>)
+    }
+
   }
 
   return (
@@ -118,7 +167,7 @@ const ProductItem: React.FC<ProductProp> = (productProp: ProductProp) => {
                   label="Nombre del Producto"
                   autoFocus
                   defaultValue={nombre}
-                  onChange={event=>setNombre(event.target.value)}
+                  onChange={event => setNombre(event.target.value)}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -130,7 +179,7 @@ const ProductItem: React.FC<ProductProp> = (productProp: ProductProp) => {
                   name="origen"
                   autoComplete="family-name"
                   defaultValue={origen}
-                  onChange={event=>setOrigen(event.target.value)}
+                  onChange={event => setOrigen(event.target.value)}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -148,7 +197,7 @@ const ProductItem: React.FC<ProductProp> = (productProp: ProductProp) => {
 
                   }}
                   defaultValue={precio}
-                  onChange={event=>setPrecio(Number(event.target.value))}
+                  onChange={event => setPrecio(Number(event.target.value))}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -160,7 +209,7 @@ const ProductItem: React.FC<ProductProp> = (productProp: ProductProp) => {
                   id="foto"
                   autoComplete="foto"
                   defaultValue={foto}
-                  onChange={event=>setFoto(event.target.value)}
+                  onChange={event => setFoto(event.target.value)}
                 />
               </Grid >
               <Grid item xs={12}>
@@ -172,7 +221,7 @@ const ProductItem: React.FC<ProductProp> = (productProp: ProductProp) => {
                   name="descripcion"
                   id="descripcion"
                   defaultValue={descripcion}
-                  onChange={event=>setDescripcion(event.target.value)}
+                  onChange={event => setDescripcion(event.target.value)}
                 />
               </Grid>
             </Grid>
@@ -199,45 +248,7 @@ const ProductItem: React.FC<ProductProp> = (productProp: ProductProp) => {
           </Typography>
         </CardContent>
         <CardActions sx={{ flexDirection: "row-reverse", justifyContent: 'space-between' }}>
-          <Box sx={{ display: 'flex', flexDirection: "row-reverse", alignItems: 'center' }}>
-            <IconButton aria-label='delete-item'>
-              <DeleteIcon />
-            </IconButton>
-            <IconButton onClick={() => setOpenEdit(true)}><EditIcon /></IconButton>
-            <IconButton type="submit" onClick={handleClick}>
-              <AddShoppingCart />
-            </IconButton>
-            <Typography sx={{ fontSize: 20 }}> {accounting.formatMoney(producto.precio, "€")}</Typography>
-          </Box>
-          <Box sx={{ display: 'flex', flexDirection: "row-reverse", alignItems: 'center' }}>
-            <IconButton onClick={() => sumarCantidad(1)}><AddIcon /></IconButton>
-            <TextField
-              id="cantidad-producto"
-              sx={{
-                width: 34,
-                paddingRight: 1,
-                paddingLeft: 1,
-                textAlign: 'center',
-              }}
-              inputProps={{ min: 1, max: 10, style: { textAlign: 'center' } }}
-              variant="standard"
-              defaultValue={1}
-              value={cantidad}
-              
-              
-              onChange={(e) => {
-                if(e.target.value===""){
-                    setCantidad(1)
-                }
-                else
-                  setCantidad(parseInt(e.target.value))
-                
-              }
-              }
-            />
-            <IconButton onClick={() => sumarCantidad(-1)}><RemoveIcon /></IconButton>
-            <Typography>Cantidad:</Typography>
-          </Box>
+          {acciones()}
         </CardActions>
       </Card>
     </form>

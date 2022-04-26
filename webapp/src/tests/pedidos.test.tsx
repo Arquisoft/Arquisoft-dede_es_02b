@@ -1,11 +1,6 @@
-import React, { useEffect, useState } from 'react';
 import { render, screen } from '@testing-library/react';
-import Products from '../components/product/Products';
-import { addPedido, getProducts } from '../api/api';
-import { Product, Pedido, Estado } from '../shared/shareddtypes';
+import { Pedido, Estado } from '../shared/shareddtypes';
 import datos from './mockData.json';
-import { BrowserRouter } from 'react-router-dom';
-import accounting from 'accounting';
 import ListaPedidos from '../components/pedidos/ListaPedidos';
 
 test('Pedidos', () => {
