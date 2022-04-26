@@ -109,4 +109,28 @@ apiUsuarios.post(
   }
 );
 
+apiUsuarios.post(
+  "/users/editar",
+  async (req: Request, res: Response): Promise<Response> => {
+    
+    try {
+      let query = { email: req.body.email.toString() };
+      let usuario = await Usuario.findOne(query).exec();
+
+      console.log(usuario);
+
+      usuario.nombre = req.body.nombre;
+      usuario.apellido = req.body.apellido;
+      usuario.idsolid = req.body.idsolid;
+
+      console.log(usuario);
+      
+      await usuario.save();
+      return res.sendStatus(200);
+    } catch {
+      return res.sendStatus(500);
+    }
+  }
+);
+
 export default apiUsuarios;

@@ -28,6 +28,8 @@ export default function Register() {
     const user: User = {
       _id:"",
       nombre: data.get('nombre') as string,
+      apellido: data.get('apellido') as string,
+      idsolid: data.get('idsolid') as string,
       dni: data.get('dni') as string,
       email: data.get('email') as string,
       contraseña: data.get('contraseña') as string,
