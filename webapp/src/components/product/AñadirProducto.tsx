@@ -1,7 +1,7 @@
 import { Button, Container, CssBaseline, Grid, TextareaAutosize, TextField, Typography } from '@mui/material';
 import { Box } from '@mui/system';
 import * as React from 'react';
-import { Link, Navigate } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 import { addProduct } from '../../api/api';
 import { Product } from '../../shared/shareddtypes';
 import Error403 from '../error/Error403';
