@@ -16,7 +16,7 @@ const EditarUsuario: React.FC = () => {
     if(!sessionStorage.getItem("usuario"))
         return <Error403></Error403>
     else
-        if(!JSON.parse(sessionStorage.getItem("usuario")!).esAdmin)
+        if(JSON.parse(sessionStorage.getItem("usuario")!).esAdmin)
             return <Error403></Error403>
 
     return (<Container component="main" maxWidth="xs">
