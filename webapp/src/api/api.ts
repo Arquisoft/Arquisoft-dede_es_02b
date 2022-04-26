@@ -25,10 +25,10 @@ export async function getUsers(): Promise<User[]> {
 
 export async function addProduct(product: Product): Promise<boolean> {
   const apiEndPoint = process.env.REACT_APP_API_URI || 'http://localhost:5000'
-  let response = await fetch(apiEndPoint + '/users/add', {
+  let response = await fetch(apiEndPoint + '/product/add', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ 'nombre': product.nombre, 'origen': product.origen, 'descripcion': product.descripcion, 'precio': product.precio })
+    body: JSON.stringify({ 'nombre': product.nombre, 'origen': product.origen, 'descripcion': product.descripcion, 'precio': product.precio, 'foto': product.foto })
   });
   if (response.status === 200) {
     return true;
@@ -45,18 +45,19 @@ export async function getProducts(): Promise<Product[]> {
 
 export async function login(user: LoginData): Promise<boolean> {
   const apiEndPoint = process.env.REACT_APP_API_URI || 'http://localhost:5000'
-  try {
-    await fetch(apiEndPoint + '/users/login', {
+  // try {
+    let response = await fetch(apiEndPoint + '/users/login', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ 'email': user.email, 'contraseña': user.contraseña })
     }).then(handleExceptions);
 
-    sessionStorage.setItem("emailUsuario", user.email);
-    return true;
-  } catch {
+    if(response.status === 200){
+      let u: User = await response.json();
+      sessionStorage.setItem("usuario", JSON.stringify({ email:u.email, esAdmin:u.esAdmin}));
+      return true;
+    }
     return false;
-  }
 }
 
 export function addToCart(product:Product, quantity:number):boolean{
@@ -87,7 +88,7 @@ export function addToCart(product:Product, quantity:number):boolean{
 
 export async function findProductById(id: string): Promise<Product> {
   const apiEndPoint = process.env.REACT_APP_API_URI || 'http://localhost:5000'
-  let response = await fetch(apiEndPoint + '/products/' + id);
+  let response = await fetch(apiEndPoint + '/products/id=' + id);
   return response.json();
 }
 
@@ -104,9 +105,16 @@ export async function findUserByEmail(email: string): Promise<User> {
   let response = await fetch(apiEndPoint + '/users/email=' + email);
   return response.json();
 }
+
 export async function findUserByDni(dni: string): Promise<User> {
   const apiEndPoint = process.env.REACT_APP_API_URI || 'http://localhost:5000'
   let response = await fetch(apiEndPoint + '/users/dni=' + dni);
+  return response.json();
+}
+
+export async function findUserById(id: string): Promise<User> {
+  const apiEndPoint = process.env.REACT_APP_API_URI || 'http://localhost:5000'
+  let response = await fetch(apiEndPoint + '/users/id=' + id);
   return response.json();
 }
 
@@ -137,4 +145,29 @@ export async function getPedidos(): Promise<Pedido[]> {
   let response = await fetch(apiEndPoint + '/pedidos/list');
   //The objects returned by the api are directly convertible to User objects
   return response.json()
+}
+
+export async function getPedidosByUser(id: string): Promise<Pedido[]> {
+  const apiEndPoint = process.env.REACT_APP_API_URI || 'http://localhost:5000'
+  let response = await fetch(apiEndPoint + '/pedidos/id_usuario='+id);
+  //The objects returned by the api are directly convertible to User objects
+  return response.json()
+}
+
+export async function editPedido(pedido: Pedido): Promise<boolean> {
+  const apiEndPoint = process.env.REACT_APP_API_URI || 'http://localhost:5000'
+  let response = await fetch(apiEndPoint + '/pedidos/editar', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ 'numero_pedido': pedido.numero_pedido, 'estado': pedido.estado })
+  });
+  if (response.status === 200) {
+    return true;
+  } else
+    return false;
+}
+
+export async function isAdmin(email: string): Promise<boolean>{
+  let u: User = await findUserByEmail(email);
+  return u.esAdmin;
 }

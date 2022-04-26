@@ -1,39 +1,31 @@
 [[section-technical-risks]]
 == Riesgos y deudas técnicas
 
-.Riesgos
 |===
 |Riesgo |Explicación |Solución
 
-|Uso de Solid
-|Casi todos los miembros del equipo nunca antes habiamos trabajado con Solid.
-|Debemos utilizar parte de nuestro tiempo en investigar cómo funciona Solid y utilizar el foro de Solid para resolver nuestras dudas.
+| Falta de compatibilidad con otras aplicaciones.
+| Falta de compatibilidad con el resto de aplicaciones si no utilizan el mismo formato de datos para la dirección que nuestra aplicación.
+| Establecer un modelo de datos concreto.
 
-|Uso de React
-|React es un framework nuevo para nosotros, por lo que debemos aprender a trabajar con él.
-|Trabajar en entender algunos de los ejemplos que nos dan e investigar en la web.
+| Carga de trabajo superior a la que la aplicación pueda soportar.
+| La aplicación puede tener un número de peticiones superior a la que pueda soportar, lo que puede acarrear problemas.
+| Realizar pruebas en la aplicación con cargas mayores de las esperadas.
 
-|Uso de Typescript
-|Nuestro conocimiento de JavaScript es limitado y no hemos usado nunca Typescript.
-|Al igual que los puntos anteriores, la solución es trabajar en ello investigando en la web.
-
-|Uso de GitHub
-|Aunque GitHub es una gran herramienta y no es la primera vez que la usamos, algunos merges pueden generar conflictos que puedan ser difíciles de resolver.
-|Debemos tener cuidado cuando hagamos un merge de dos ramas, especialmente con master.
-
-|Trabajo en equipo
-|Trabajar en un grupo con un gran número de miembros es difícil sobretodo cuando no nos conocemos. Esto puede causar algunos problemas de comunicación y organización.
-|Tener tantas reuniones de equipo como sean necesarias.
-
-|Tiempo
-|Los plazos del curso pueden ser un problema si no nos organizamos bien como equipo. Esto puede significar que tengamos que asumir ciertas deudas técnicas.
-|Buena organización y trabajar desde el primer día.
+| Caída del sistema de PODS.
+| Inrupt puede sufrir alguna caída, haciendo que la utilización de la aplicación mediante PODS puede quedar inutilizada.
+| Para solucionarlo, la aplicación permitirá al usuario su utilización sin ser usuario de PODS.
 
 |===
 
-.Deudas Técnicas
 |===
 |Deuda Técnica | Explicación
+
+| Posibles fallos de las distintas bibliotecas que utilizamos.
+| Las distintas bibliotecas que utilizamos podrían contener ciertos errores que impliquen fallos en nustra aplicación.
+
+| Dependencia en Heroku para el despliegue.
+| Una caída de Heroku implicaría que nuestra aplicación dejaría de estar operativa mientras dure dicha caída.
 
 | Conexión con SOLID.
 | En este momento aún no conectamos en ningún momento con SOLID para acceder a los PODS de los usuarios.
@@ -41,16 +33,10 @@
 | No se pueden realizar pedidos.
 | La funcionalidad de realizar un pedido aún no está operativa.
 
-| El carrito aun no se muestra.
-| La interracción entre el back end y el front end en la funcionalidad del carrito no está realizada.
-
 | La aplicación no carga importes por distancia.
 | Funcionalidad no realizada.
 
 | No se realizan cobros de ningún tipo.
 | La aplicación no tiene implementada dicha funcionalidad.
-
-| No se han realizado pruebas.
-| La aplicación no ha sido probada mediante tests.
 
 |===

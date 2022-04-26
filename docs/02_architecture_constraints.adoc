@@ -4,6 +4,7 @@
 |===
 |Restricción           |          Explicación
 |Uso de la tecnología SOLID.   |  Debemos crear una aplicación que cuente con un sistema de persistencia descentralizado, por lo que usaremos SOLID.
+|Uso del lenguaje Typescript.   |  Utilizar este lenguaje para facilitarnos el uso de enlaces dinámicos, ya que en años anteriores se usaba Javascript.
 |Uso de GIT para el control de versiones.  |  Ya que este será un proyecto incremental en el que trabajaremos varias personas, usaremos Git para el control de versiones.
 |Uso de Arc42 para la documentación. | Usando la plantilla AsciiDoctor junto al modelo Arc42 para crear la documentación del proyecto.
 |===

@@ -17,13 +17,122 @@ beforeAll(async () => {
     app.use(apiProductos);
 
     server = createServer(app);  
-    loadDatabase(); 
+    await loadDatabase(); 
 });
 
 afterAll(async () => {
-    closeServer(server);
+    await closeServer(server);
 })
 
-describe('pruductos ', () => {
-    
+describe('añadir producto ', () => {
+    it('sin nombre', async () => {
+        await probarAddProductos({origen:'León', precio:3.2, descripcion:'Uva procendente de león.', foto:'https://i.ibb.co/HnSzg1b/reineta.jpg'}, 500);
+    });
+
+    it('nombre = ""', async () => {
+        await probarAddProductos({nombre:'', origen:'León', precio:3.2, descripcion:'Uva procendente de león.', foto:'https://i.ibb.co/HnSzg1b/reineta.jpg'}, 500);
+    });
+
+    it('sin origen', async () => {
+        await probarAddProductos({nombre:'uva', precio:3.2, descripcion:'Uva procendente de león.', foto:'https://i.ibb.co/HnSzg1b/reineta.jpg'}, 500);
+    });
+
+    it('origen = ""', async () => {
+        await probarAddProductos({nombre:'uva', origen:'', precio:3.2, descripcion:'Uva procendente de león.', foto:'https://i.ibb.co/HnSzg1b/reineta.jpg'}, 500);
+    });
+
+    it('sin precio', async () => {
+        await probarAddProductos({nombre:'uva', origen:'León', descripcion:'Uva procendente de león.', foto:'https://i.ibb.co/HnSzg1b/reineta.jpg'}, 500);
+    });
+
+    it('precio < 0', async () => {
+        await probarAddProductos({nombre:'uva', origen:'León', precio:-3.2, descripcion:'Uva procendente de león.', foto:'https://i.ibb.co/HnSzg1b/reineta.jpg'}, 500);
+    });
+
+    it('sin descripcion', async () => {
+        await probarAddProductos({nombre:'uva', origen:'León', precio:3.2, foto:'https://i.ibb.co/HnSzg1b/reineta.jpg'}, 500);
+    });
+
+    it('descripcion = ""', async () => {
+        await probarAddProductos({nombre:'uva', origen:'León', precio:3.2, descripcion:'', foto:'https://i.ibb.co/HnSzg1b/reineta.jpg'}, 500);
+    });
+
+    it('sin foto', async () => {
+        await probarAddProductos({nombre:'uva', origen:'León', precio:3.2, descripcion:'Uva procendente de león.'}, 500);
+    });
+
+    it('foto = ""', async () => {
+        await probarAddProductos({nombre:'uva', origen:'León', precio:3.2, descripcion:'Uva procendente de león.', foto:''}, 500);
+    });
+
+    it('correctamente', async () => {
+        await probarAddProductos({nombre:'uva', origen:'León', precio:3.2, descripcion:'Uva procedente de león.', foto:'https://i.ibb.co/HnSzg1b/reineta.jpg'}, 200);
+    });
 });
+
+describe('listar productos ', () => {
+    it('todos los productos',async () => {
+        var response:Response = await request(app).get("/products/list").set('Accept', 'application/json');
+        
+        expect(response.statusCode).toBe(200);
+        expect(response.body.length).toBe(4);
+        await compareResponseBody(response.body[0], {nombre:"manzana reineta", origen:"Gijón", precio:2.5, descripcion:"Manzana reineta", foto: "https://i.ibb.co/HnSzg1b/reineta.jpg"});
+        await compareResponseBody(response.body[1], {nombre:"manzana golden", origen:"Lugo", precio:3, descripcion:"Manzana golden", foto: "https://i.ibb.co/YZbKwjh/golden.jpg"});
+        await compareResponseBody(response.body[2], {nombre:"mango", origen:"Colombia", precio:5, descripcion:"mango", foto: "https://i.ibb.co/mhbdbbd/mango.jpg"});
+        await compareResponseBody(response.body[3], {nombre:"uva", origen:"León", precio:3.2, descripcion:"Uva procedente de león.", foto: "https://i.ibb.co/HnSzg1b/reineta.jpg"});
+    });
+
+    it('por id',async () => {
+        var response:Response = await request(app).get("/products/id=621f7f978600d56807483f74").set('Accept', 'application/json');
+
+        expect(response.statusCode).toBe(200);
+        await compareResponseBody(response.body, {nombre:"manzana reineta", origen:"Gijón", precio:2.5, descripcion:"Manzana reineta", foto: "https://i.ibb.co/HnSzg1b/reineta.jpg"});
+    });
+
+    it('por id - incorrecto',async () => {
+        var response:Response = await request(app).get("/products/id=6220e1c1e976d8ae3a9d3e60").set('Accept', 'application/json');
+        
+        expect(response.statusCode).toBe(200);
+        expect(response.body).toStrictEqual({});
+    });
+
+    it('por id - inválido',async () => {
+        var response:Response = await request(app).get("/products/id=jgfgkjhjg").set('Accept', 'application/json');
+        
+        expect(response.statusCode).toBe(500);
+    });
+})
+
+describe("eliminar producto ", () =>{
+    it('existente', async () => {
+        await probarDelete({_id:"621f7f978600d56807483f74"},200);
+        var response:Response = await request(app).get("/products/id=621f7f978600d56807483f74").set('Accept', 'application/json');
+        
+        expect(response.statusCode).toBe(200);
+        expect(response.body).toStrictEqual({});
+    })
+
+    it('inexistente', async () => {
+        await probarDelete({_id:"621f7f978600d56807483f74"},200);
+    })
+})
+
+async function probarAddProductos(arg0: {nombre?: string, origen?:string, precio?:number, descripcion?:string, foto?:string}, code:number):Promise<Response>{
+    const response:Response = await request(app).post('/products/add').send(arg0).set('Accept', 'application/json');
+    expect(response.statusCode).toBe(code);
+    return response;
+}
+
+async function probarDelete(arg0: { _id?: string; }, code:number): Promise<Response> {
+    const response:Response = await request(app).post('/products/delete').send(arg0).set('Accept', 'application/json');
+    expect(response.statusCode).toBe(code);
+    return response;
+}
+
+async function compareResponseBody(body: any, arg1:{nombre?: string, origen?:string, precio?:number, descripcion?:string, foto?:string}) {
+    expect(body.nombre).toBe(arg1.nombre);
+    expect(body.origen).toBe(arg1.origen);
+    expect(body.precio).toBe(arg1.precio);
+    expect(body.descripcion).toBe(arg1.descripcion);
+    expect(body.foto).toBe(arg1.foto);
+}

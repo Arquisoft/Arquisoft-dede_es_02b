@@ -17,7 +17,7 @@ export function createApp(): Application{
     let app : Application = express();
     
     const options: cors.CorsOptions = {
-        origin: [process.env.CORS_OPTIONS!]
+        origin: [process.env.CORS_OPTIONS||'http://localhost:3000']
     };
 
     app.use(cors(options));
@@ -27,7 +27,7 @@ export function createApp(): Application{
 }
 
 export function createServer(app : Application): http.Server{
-    const port: string = process.env.PORT!;
+    const port: string = process.env.PORT||'5000';
     return app.listen(port, ():void => {
         console.log('Restapi server for testing listening on '+ port);
     }).on("error",(error:Error)=>{
@@ -47,10 +47,9 @@ export async function closeServer(server: http.Server){
     server.close();
     
     try{
-        let collections = await mongoose.connection.db.collections();
-        for (let collection of collections) {
-            await collection.deleteMany({})
-        }
+        await Producto.deleteMany();
+        await Usuario.deleteMany();
+        await Pedido.deleteMany();
 
         await mongoose.disconnect();
     }catch{
@@ -76,6 +75,7 @@ async function insertUsers() {
         usuario.email = user.email;
         usuario.dni = user.dni;
         usuario.contraseña = user.contraseña;
+        usuario.esAdmin = user.esAdmin;
 
         await usuario.save();
     }

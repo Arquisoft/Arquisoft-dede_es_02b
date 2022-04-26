@@ -21,13 +21,18 @@ const usuarioSchema = new mongoose.Schema({
         lowercase: true,
         immutable: true,
         validate: {
-            validator: (v: String) => validateEmail(v),
+            validator: (v: string) => validateEmail(v),
             message: (props: { value: any; }) => `${props.value} no es un email válido`,
         }
     },
     contraseña: {
         type: String,
         required: true,
+    },
+    esAdmin: {
+        type: Boolean, 
+        required: true,
+        default: false,
     }
 })
 

@@ -15,53 +15,34 @@ import AddIcon from '@mui/icons-material/Add';
 type ProductProp = {
   product: Product;
   cantidadItem: number;
-}
-
-// const handleDeleteAllCart = async (e: React.FormEvent<HTMLFormElement>) => {
-//   e.preventDefault();
-//   await deleteAllCart(productProp.product);
-// }
-
-// const handleDeleteItemFromCart = async () => {
-//   e.preventDefault();
-//   await deleteItemFromCart(productProp.product);
-// }
-
-// const handleDeleteUnitFromCart = async (e: React.FormEvent<HTMLFormElement>) => {
-//   e.preventDefault();
-//   await deleteUnitFromCart(productProp.product, 1);
-// }
-
-function handleDeleteItemFromCart(product:Product):void{
-  var value = sessionStorage.getItem(product._id);
-    if (value != null){
-      sessionStorage.removeItem(product._id);
-    }
-}
-
-function handleDeleteUnitFromCart(product:Product):void{
-  var value = sessionStorage.getItem(product._id);
-    if (value != null){
-      var temp = JSON.parse(value);
-      if (temp.qty > 1){
-        temp.qty = temp.qty - 1;
-        sessionStorage.setItem(product._id, JSON.stringify(temp));
-      }
-    }
-}
-
-function handleAddUnitFromCart(product:Product):void{
-  var value = sessionStorage.getItem(product._id);
-    if (value != null){
-      var temp = JSON.parse(value);
-      temp.qty = temp.qty + 1;
-      sessionStorage.setItem(product._id, JSON.stringify(temp));
-    }
+  borrar: Function;
+  add: Function;
+  delete: Function;
 }
 
 const CarritoItem: React.FC<ProductProp>=(productProp : ProductProp) =>{
+  
+
+  function handleDeleteItemFromCart(product:Product):void{
+    var msg ="¿Seguro de que quieres eliminar "+ product.nombre +" del carrito?"
+    var opcion=window.confirm(msg);
+    if(opcion){
+      productProp.borrar(product);
+    }
+  }
+  
+  function handleDeleteUnitFromCart(product:Product):void{
+      productProp.delete(product);
+  }
+  
+  function handleAddUnitFromCart(product:Product):void{
+      productProp.add(product);
+  }
+
+
+
   return (
-    <Card sx={{ maxWidth: 345 }}>
+    <Card aria-label={productProp.product.nombre} id={productProp.product.nombre} sx={{ maxWidth: 345 }}>
       <CardMedia
         component="img"
         alt={productProp.product.nombre}
@@ -75,13 +56,13 @@ const CarritoItem: React.FC<ProductProp>=(productProp : ProductProp) =>{
       </CardContent>
       <CardActions sx={{flexDirection:"row-reverse", justifyContent:'space-between', paddingTop:0}}>
       <Box sx={{display:'flex', flexDirection:"row-reverse", alignItems:'center'}}>
-          <IconButton onClick={()=>handleDeleteItemFromCart(productProp.product)}>
+          <IconButton aria-label='delete-item' onClick={()=>handleDeleteItemFromCart(productProp.product)}>
               <DeleteIcon />
           </IconButton>
-          <IconButton onClick={()=>handleAddUnitFromCart(productProp.product)}>
+          <IconButton aria-label='add-item' onClick={()=>handleAddUnitFromCart(productProp.product)}>
               <AddIcon />
           </IconButton>
-          <IconButton onClick={()=>handleDeleteUnitFromCart(productProp.product)}>
+          <IconButton aria-label='subtract-item' onClick={()=>handleDeleteUnitFromCart(productProp.product)}>
               <RemoveIcon />
           </IconButton>
           <Typography sx={{fontSize:20}}> {accounting.formatMoney(productProp.product.precio *productProp.cantidadItem,"€")}</Typography>
