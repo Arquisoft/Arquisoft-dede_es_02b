@@ -13,6 +13,7 @@ import AñadirProducto from './components/product/AñadirProducto';
 import Home from './components/Home';
 import HomeNavBar from './components/HomeNavBar';
 import Error404 from './components/error/Error404';
+import EditarUsuario from './components/usuario/EditarUsuario';
 
 function App(): JSX.Element {
 
@@ -65,6 +66,12 @@ function App(): JSX.Element {
           <div>
             <NavBar/>
             <AñadirProducto/>
+          </div>
+        }/> 
+        <Route path="/editUser" element={
+          <div>
+            <NavBar/>
+            <EditarUsuario/>
           </div>
         }/> 
         <Route path="*" element={<Error404/>}/>
