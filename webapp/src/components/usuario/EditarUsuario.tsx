@@ -105,7 +105,8 @@ const EditarUsuario: React.FC = () => {
                     />
                 </Grid >
             </Grid>
-            <Button
+            <Link to={"/products"}>
+                <Button
                     type="submit"
                     fullWidth
                     variant="contained"
@@ -113,6 +114,8 @@ const EditarUsuario: React.FC = () => {
                 >
                     Editar
                 </Button>
+            </Link>
+            
             
         </Box>
      </Box>
