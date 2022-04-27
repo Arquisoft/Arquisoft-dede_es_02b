@@ -56,14 +56,14 @@ apiProductos.post(
     try {
       let query = { _id: req.body._id };
       let producto = await Producto.findOne(query).exec();
-      
+
       if(req.body.nombre)
         producto.nombre = req.body.nombre;
 
       if(req.body.origen)
         producto.origen = req.body.origen;
 
-      if(req.body.precio)
+      if(req.body.precio && req.body.precio >= 0)
         producto.precio = req.body.precio;
 
       if(req.body.descripcion)
@@ -74,7 +74,8 @@ apiProductos.post(
       
       await producto.save();
       return res.sendStatus(200);
-    } catch {
+    } catch (error){
+      console.log(error)
       return res.sendStatus(500);
     }
   }

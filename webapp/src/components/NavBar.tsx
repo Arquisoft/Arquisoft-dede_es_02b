@@ -11,11 +11,10 @@ import Container from '@mui/material/Container';
 import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
-import { LinkSharp, ShoppingCart } from '@mui/icons-material';
+import { ShoppingCart } from '@mui/icons-material';
 import { Avatar, Badge } from '@mui/material';
 import { Navigate, Link } from 'react-router-dom';
 import logo from "./logo.png"
-import Error403 from './error/Error403';
 
 const NavBar: React.FC = () => {
   const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
@@ -48,7 +47,7 @@ const NavBar: React.FC = () => {
       setLogueado("deslogueado");
     };
 
-    if (logueado && logueado != "deslogueado") {
+    if (logueado && logueado !== "deslogueado") {
       if (JSON.parse(sessionStorage.getItem("usuario")!).esAdmin) {
         return (<Box sx={{ flexGrow: 0, marginLeft: 2 }}>
           <Tooltip title="Open settings">
@@ -124,7 +123,7 @@ const NavBar: React.FC = () => {
   }
 
   function botonCarrito(): JSX.Element {
-    if (logueado && logueado != "deslogueado") {
+    if (logueado && logueado !== "deslogueado") {
       if (!JSON.parse(logueado).esAdmin) {
         return (<Link to="/carrito">
           <IconButton sx={{ p: 0, color: 'white' }}>
@@ -139,7 +138,7 @@ const NavBar: React.FC = () => {
   }
 
   function botonesEnlace(): JSX.Element {
-    if (logueado && logueado != "deslogueado")
+    if (logueado && logueado !== "deslogueado")
       return (<Menu
         key="menu"
         id="menu-appbar"
@@ -175,7 +174,7 @@ const NavBar: React.FC = () => {
   }
 
   function links(): JSX.Element {
-    if (logueado && logueado != "deslogueado")
+    if (logueado && logueado !== "deslogueado")
       return (<Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
       <Link to={"/Products"}>
         <Button

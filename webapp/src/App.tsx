@@ -1,6 +1,3 @@
-import { useState, useEffect } from 'react';
-import  {getProducts} from './api/api';
-import {Product} from './shared/shareddtypes';
 import './App.css';
 import NavBar from './components/NavBar';
 import Products from './components/product/Products';
