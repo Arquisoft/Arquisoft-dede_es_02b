@@ -1,12 +1,12 @@
 export type User = {
-    _id: string;
-    nombre: string;
-    apellidos: string;
-    email: string;
-    contraseña: string;
-    dni: string;
-    idSolid: string;
-    esAdmin: boolean;
+    _id:string;
+    nombre:string;
+    apellidos:string;
+    idSolid:string;
+    email:string;
+    contraseña:string;
+    dni:string;
+    esAdmin:boolean;
 }
 
 export type LoginData = {

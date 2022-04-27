@@ -161,6 +161,18 @@ export async function editPedido(pedido: Pedido): Promise<boolean> {
     return false;
 }
 
+export async function editUser(user: User): Promise<boolean> {
+  const apiEndPoint = process.env.REACT_APP_API_URI || 'http://localhost:5000'
+  let response = await fetch(apiEndPoint + '/users/editar', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ 'email': user.email, 'nombre': user.nombre, 'apellidos': user.apellidos, 'idSolid': user.idSolid })
+  });
+  if (response.status === 200) {
+    return true;
+  } else
+    return false;
+}
 export async function editProducto(producto: Product): Promise<boolean> {
   const apiEndPoint = process.env.REACT_APP_API_URI || 'http://localhost:5000'
   let response = await fetch(apiEndPoint + '/products/editar', {
