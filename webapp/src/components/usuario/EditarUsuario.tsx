@@ -1,15 +1,17 @@
-import { Button, Container, Grid, TextareaAutosize, TextField, Typography } from '@mui/material';
+import { Button, Container, Grid, TextField, Typography } from '@mui/material';
 import { Box } from '@mui/system';
 import * as React from 'react';
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { addProduct, editUser } from '../../api/api';
-import { Product, User } from '../../shared/shareddtypes';
+import { Link, Navigate } from 'react-router-dom';
+import { editUser } from '../../api/api';
+import { User } from '../../shared/shareddtypes';
 import Error403 from '../error/Error403';
 
 
 const EditarUsuario: React.FC = () => {
     const [errorMessage, setErrorMessage] = useState('');
+    const [editado, setEditado] = useState(false);
+
 
     async function comprobarDatos(user: User): Promise<boolean> {
         if (user.nombre.length === 0) {
@@ -51,9 +53,12 @@ const EditarUsuario: React.FC = () => {
         }
 
         if (await comprobarDatos(user)) {
-            await editUser(user);
+            setEditado(await editUser(user))
         }
     };
+
+    if(editado)
+        return <Navigate to="/products" />;
 
     if(!sessionStorage.getItem("usuario"))
         return <Error403></Error403>
@@ -105,6 +110,7 @@ const EditarUsuario: React.FC = () => {
                     />
                 </Grid >
             </Grid>
+            {errorMessage}
             <Link to={"/products"}>
                 <Button
                     type="submit"

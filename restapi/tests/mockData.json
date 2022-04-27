@@ -2,19 +2,23 @@
     "users": [{
             "_id": "6220e1b3e976d8ae3a9d3e5e",
             "nombre": "admin",
+            "apellidos": "admin",
             "email": "admin@email.com",
             "esAdmin": true,
             "dni": "00000001a",
             "contraseña": "$2b$10$I6GUXY4VDqmNfPSeYnWg1uE2NN7u5UcZJ5ozvANYKKP.nuKOb1ija",
+            "idSolid": "",
             "__v": 0
         },
         {
             "_id": "6220e1c1e976d8ae3a9d3e60",
             "nombre": "adrian",
+            "apellidos": "fernández",
             "email": "adrian@email.com",
             "esAdmin": false,
             "dni": "00000002a",
             "contraseña": "$2b$10$WdEFpZGFNu6sXaXXZ7cB6uAHDzkhpjQbCw0Abs549zrP0Mr3CG1c.",
+            "idSolid": "Adrifa",
             "__v": 0
         }
     ],

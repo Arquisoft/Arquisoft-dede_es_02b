@@ -20,7 +20,6 @@ import { Pedido, Estado, User, Product } from '../../shared/shareddtypes';
 import EditIcon from '@mui/icons-material/Edit';
 import { Autocomplete, Backdrop, Button, Fade, Modal, TextField } from '@mui/material';
 import { getPedidosByUser, findUserByEmail, getPedidos, getUsers, getProducts, editPedido } from '../../api/api';
-import { JsxElement } from 'typescript';
 import Error403 from '../error/Error403';
 
 const opcionesFiltrado = [
