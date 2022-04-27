@@ -39,6 +39,7 @@ apiUsuarios.post(
     try {
       let usuario = new Usuario();
       usuario.nombre = req.body.nombre;
+      usuario.apellidos = req.body.apellidos;
       usuario.email = req.body.email;
       usuario.dni = req.body.dni;
 
@@ -50,6 +51,12 @@ apiUsuarios.post(
         usuario._id = req.body._id;
       }
 
+      if(req.body.idSolid){
+        usuario.idSolid = req.body.idSolid;
+      }else{
+        usuario.idSolid = "";
+      }
+
       if(req.body.esAdmin !== undefined)
         usuario.esAdmin = req.body.esAdmin;
 
@@ -57,8 +64,8 @@ apiUsuarios.post(
       usuario.contraseña = hashedPass;
 
       await usuario.save();
-      return res.sendStatus(200);
-    } catch {
+      return res.status(200).send(usuario);
+    } catch (error){
       return res.sendStatus(500);
     }
   }

@@ -33,6 +33,7 @@ export default function Register() {
       dni: data.get('dni') as string,
       email: data.get('email') as string,
       contraseña: data.get('contraseña') as string,
+      idSolid: data.get('idSolid') as string,
       esAdmin: false
     }
 
@@ -51,6 +52,11 @@ export default function Register() {
 
   async function comprobarDatos(user: User): Promise<boolean> {
     if (user.nombre.length === 0) {
+      setErrorMessage("Error: El nombre no puede estar vacío");
+      return false;
+    }
+
+    if (user.apellidos.length === 0) {
       setErrorMessage("Error: El nombre no puede estar vacío");
       return false;
     }
@@ -126,9 +132,26 @@ export default function Register() {
               margin="normal"
               required
               fullWidth
+              id="apellidos"
+              label="Apellidos"
+              name="apellidos"
+              autoFocus
+            />
+            <TextField
+              margin="normal"
+              required
+              fullWidth
               id="dni"
               label="DNI"
               name="dni"
+              autoFocus
+            />
+            <TextField
+              margin="normal"
+              fullWidth
+              id="idSolid"
+              label="Solid WebId"
+              name="idSolid"
               autoFocus
             />
             <TextField

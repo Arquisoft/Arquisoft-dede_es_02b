@@ -11,10 +11,11 @@ import Container from '@mui/material/Container';
 import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
-import { ShoppingCart } from '@mui/icons-material';
+import { LinkSharp, ShoppingCart } from '@mui/icons-material';
 import { Avatar, Badge } from '@mui/material';
 import { Navigate, Link } from 'react-router-dom';
 import logo from "./logo.png"
+import Error403 from './error/Error403';
 
 const NavBar: React.FC = () => {
   const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
@@ -37,23 +38,166 @@ const NavBar: React.FC = () => {
     setAnchorElNav(null);
   };
 
-  function logOut(): JSX.Element {
+  if (logueado === "deslogueado")
+    return <Navigate to="/" />;
+
+  function menuUsuario(): JSX.Element {
     const logOutUser = () => {
       sessionStorage.clear();
 
-      setLogueado("");
+      setLogueado("deslogueado");
     };
 
-    if (logueado) {
-      return (
-        <Button key="logout" onClick={logOutUser} sx={{ my: 1, color: '#1976d2', display: 'block' }}>
-          Log Out
-        </Button>
-      );
+    if (logueado && logueado != "deslogueado") {
+      if (JSON.parse(sessionStorage.getItem("usuario")!).esAdmin) {
+        return (<Box sx={{ flexGrow: 0, marginLeft: 2 }}>
+          <Tooltip title="Open settings">
+            <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+              <Avatar alt="Remy Sharp" />
+            </IconButton>
+          </Tooltip>
+
+          <Menu
+            sx={{ mt: '45px' }}
+            id="menu-appbar"
+            anchorEl={anchorElUser}
+            anchorOrigin={{
+              vertical: 'top',
+              horizontal: 'right',
+            }}
+            keepMounted
+            transformOrigin={{
+              vertical: 'top',
+              horizontal: 'right',
+            }}
+            open={Boolean(anchorElUser)}
+            onClose={handleCloseUserMenu}
+          >
+            <MenuItem key="logout">
+              <Button key="logout" onClick={logOutUser} sx={{ my: 1, color: '#1976d2', display: 'block' }}>
+                Log Out
+              </Button>
+            </MenuItem>
+          </Menu>
+        </Box>)
+      } else {
+        return (<Box sx={{ flexGrow: 0, marginLeft: 2 }}>
+          <Tooltip title="Open settings">
+            <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+              <Avatar alt="Remy Sharp" />
+            </IconButton>
+          </Tooltip>
+
+          <Menu
+            sx={{ mt: '45px' }}
+            id="menu-appbar"
+            anchorEl={anchorElUser}
+            anchorOrigin={{
+              vertical: 'top',
+              horizontal: 'right',
+            }}
+            keepMounted
+            transformOrigin={{
+              vertical: 'top',
+              horizontal: 'right',
+            }}
+            open={Boolean(anchorElUser)}
+            onClose={handleCloseUserMenu}
+          >
+            <MenuItem key="editUser">
+              <Link to="/editUser">
+                <Button key="editUser" sx={{ my: 1, color: '#1976d2', display: 'block' }}>
+                  Editar Usuario
+                </Button>
+              </Link>
+            </MenuItem>
+            <MenuItem key="logout">
+              <Button key="logout" onClick={logOutUser} sx={{ my: 1, color: '#1976d2', display: 'block' }}>
+                Log Out
+              </Button>
+            </MenuItem>
+          </Menu>
+        </Box>)
+      }
     }
-    else
-      return <Navigate to="/" />;
+    return <div></div>
   }
+
+  function botonCarrito(): JSX.Element {
+    if (logueado && logueado != "deslogueado") {
+      if (!JSON.parse(logueado).esAdmin) {
+        return (<Link to="/carrito">
+          <IconButton sx={{ p: 0, color: 'white' }}>
+            <Badge badgeContent={sessionStorage.length - 1} color="secondary">
+              <ShoppingCart />
+            </Badge>
+          </IconButton>
+        </Link>)
+      }
+    }
+    return <div></div>;
+  }
+
+  function botonesEnlace(): JSX.Element {
+    if (logueado && logueado != "deslogueado")
+      return (<Menu
+        key="menu"
+        id="menu-appbar"
+        anchorEl={anchorElNav}
+        anchorOrigin={{
+          vertical: 'bottom',
+          horizontal: 'left',
+        }}
+        keepMounted
+        transformOrigin={{
+          vertical: 'top',
+          horizontal: 'left',
+        }}
+        open={Boolean(anchorElNav)}
+        onClose={handleCloseNavMenu}
+        sx={{
+          display: { xs: 'block', md: 'none' },
+        }}
+      >
+        <Link to={"/pedidos"}>
+          <Typography key="pedidos" sx={{ my: 1, color: 'blue', textAlign: "center", display: 'block' }}>
+            Pedidos
+          </Typography>
+        </Link>
+        <Link to={"/Products"}>
+          <MenuItem key={"Products"}>
+            <Typography sx={{ my: 1, color: 'blue', textAlign: "center", display: 'block' }}>Productos</Typography>
+          </MenuItem>
+        </Link>
+      </Menu>)
+
+      return <></>
+  }
+
+  function links(): JSX.Element {
+    if (logueado && logueado != "deslogueado")
+      return (<Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
+      <Link to={"/Products"}>
+        <Button
+          key={"Products"}
+          onClick={handleCloseNavMenu}
+          sx={{ my: 2, color: 'white', display: 'block' }}
+        >
+          Productos
+        </Button>
+      </Link>
+      <Link to={"/pedidos"}>
+        <Button key="pedidos" sx={{ my: 2, color: 'white', display: 'block' }}>
+          Pedidos
+        </Button>
+      </Link>
+
+    </Box>)
+
+      return <></>
+  }
+
+  
 
   return (
     <AppBar position="static">
@@ -80,36 +224,7 @@ const NavBar: React.FC = () => {
             >
               <MenuIcon />
             </IconButton>
-            <Menu
-              key="menu"
-              id="menu-appbar"
-              anchorEl={anchorElNav}
-              anchorOrigin={{
-                vertical: 'bottom',
-                horizontal: 'left',
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: 'top',
-                horizontal: 'left',
-              }}
-              open={Boolean(anchorElNav)}
-              onClose={handleCloseNavMenu}
-              sx={{
-                display: { xs: 'block', md: 'none' },
-              }}
-            >
-              <Link to={"/pedidos"}>
-                <Typography key="pedidos" sx={{ my: 1, color: 'blue', textAlign: "center", display: 'block' }}>
-                  Pedidos
-                </Typography>
-              </Link>
-              <Link to={"/Products"}>
-                <MenuItem key={"Products"}>
-                  <Typography sx={{ my: 1, color: 'blue', textAlign: "center", display: 'block' }}>Productos</Typography>
-                </MenuItem>
-              </Link>
-            </Menu>
+            {botonesEnlace()}
           </Box>
           <Link to="/">
             <Typography
@@ -122,68 +237,16 @@ const NavBar: React.FC = () => {
               <img src={logo} alt=""></img>
             </Typography>
           </Link>
-          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-            <Link to={"/Products"}>
-              <Button
-                key={"Products"}
-                onClick={handleCloseNavMenu}
-                sx={{ my: 2, color: 'white', display: 'block' }}
-              >
-                Productos
-              </Button>
-            </Link>
-            <Link to={"/pedidos"}>
-              <Button key="pedidos" sx={{ my: 2, color: 'white', display: 'block' }}>
-                Pedidos
-              </Button>
-            </Link>
-
-          </Box>
+          {links()}
 
 
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Carrito">
-              <Link to="/carrito">
-                <IconButton sx={{ p: 0, color: 'white' }}>
-                  <Badge badgeContent={sessionStorage.length - 1} color="secondary">
-                    <ShoppingCart />
-                  </Badge>
-                </IconButton>
-              </Link>
+              {botonCarrito()}
             </Tooltip>
           </Box>
-          <Box sx={{ flexGrow: 0, marginLeft: 2 }}>
-            <Tooltip title="Open settings">
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" />
-              </IconButton>
-            </Tooltip>
-            <Menu
-              sx={{ mt: '45px' }}
-              id="menu-appbar"
-              anchorEl={anchorElUser}
-              anchorOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-              }}
-              open={Boolean(anchorElUser)}
-              onClose={handleCloseUserMenu}
-            >
-              <MenuItem key="editUser">
-                <Link to="/editUser">
-                <Button key="editUser"  sx={{ my: 1, color: '#1976d2', display: 'block' }}>
-                  Editar Usuario
-                </Button>
-                </Link>
-              </MenuItem>
-              <MenuItem key="logout"> {logOut()}</MenuItem>
-            </Menu>
-          </Box>
+
+          {menuUsuario()}
         </Toolbar>
       </Container>
     </AppBar>

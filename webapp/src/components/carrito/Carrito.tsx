@@ -9,6 +9,7 @@ import { useState } from 'react';
 import Delete from '@mui/icons-material/Delete';
 import Total from './Total';
 import { ShoppingCart } from '@mui/icons-material';
+import Error403 from '../error/Error403';
 
 
 let cantidad:number = 0;
@@ -17,6 +18,17 @@ const Carrito: React.FC= () =>{
   var i = 0;
   let productos: Product[]=[];
   let a = new Map<Product,number>();
+
+  const [carrito, setCarrito] = useState<Map<Product, number>>(a);
+  const [productosCarrito, setProductosCarrito] = useState<Product[]>(productos);
+  const [producto, setProducto] = useState<null|Product>(null);
+  const [open, setOpen] = React.useState(false);
+
+  let usuario: { email: string, esAdmin: boolean } = JSON.parse(sessionStorage.getItem("usuario")!);
+
+  if (usuario.esAdmin) {
+      return <Error403></Error403>
+  }
 
   for (let index = 0; index < sessionStorage.length; index++) {
     const element = sessionStorage.key(index);
@@ -30,11 +42,7 @@ const Carrito: React.FC= () =>{
         a.set(obj, cantidad);
       }
     }
-    
   }
-  const [carrito, setCarrito] = useState<Map<Product, number>>(a);
-  const [productosCarrito, setProductosCarrito] = useState<Product[]>(productos);
-  const [producto, setProducto] = useState<null|Product>(null);
   
   function getPrecio():number{
     let precio = 0;
@@ -133,11 +141,9 @@ const Carrito: React.FC= () =>{
       setProductosCarrito([]);
     }
   }
-  const [open, setOpen] = React.useState(false);
+ 
 
-  
-
-  const handleClose = (event?: React.SyntheticEvent | Event, reason?: string) => {
+  const handleClose = (_event?: React.SyntheticEvent | Event, reason?: string) => {
     if (reason === 'clickaway') {
       return;
     }

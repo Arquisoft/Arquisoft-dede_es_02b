@@ -5,6 +5,7 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { addProduct, editUser } from '../../api/api';
 import { Product, User } from '../../shared/shareddtypes';
+import Error403 from '../error/Error403';
 
 
 const EditarUsuario: React.FC = () => {
@@ -35,23 +36,11 @@ const EditarUsuario: React.FC = () => {
         }
     };
 
-    async function comprobarDatos(user: User): Promise<boolean> {
-        if (user.nombre.length === 0) {
-          setErrorMessage("Error: El nombre no puede estar vacío");
-          return false;
-        }
-        if (user.apellido.length === 0) {
-            setErrorMessage("Error: El apellido no puede estar vacío");
-            return false;
-        }
-        if (user.idsolid.length === 0) {
-            setErrorMessage("Error: El id de solid no puede estar vacío");
-            return false;
-        }
-
-        setErrorMessage('');
-        return true;
-    }
+    if(!sessionStorage.getItem("usuario"))
+        return <Error403></Error403>
+    else
+        if(JSON.parse(sessionStorage.getItem("usuario")!).esAdmin)
+            return <Error403></Error403>
 
     return (<Container component="main" maxWidth="xs">
     <Box sx={{
