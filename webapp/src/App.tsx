@@ -1,6 +1,3 @@
-import React, { useState, useEffect } from 'react';
-import  {getProducts, getPedidos} from './api/api';
-import {Product, Pedido} from './shared/shareddtypes';
 import './App.css';
 import NavBar from './components/NavBar';
 import Products from './components/product/Products';
@@ -12,6 +9,8 @@ import ListaPedidos from './components/pedidos/ListaPedidos';
 import AñadirProducto from './components/product/AñadirProducto';
 import Home from './components/Home';
 import HomeNavBar from './components/HomeNavBar';
+import Error404 from './components/error/Error404';
+import EditarUsuario from './components/usuario/EditarUsuario';
 import Pago from './components/pago/Pago';
 
 function App(): JSX.Element {
@@ -24,9 +23,9 @@ function App(): JSX.Element {
   }
 
   
-  const refreshPedidosList = async () => {
-    setPedidos(await getPedidos());
-  }
+const refreshPedidosList = async () => {
+  setPedidos(await getPedidos());
+}
 
   useEffect(()=>{
     refreshProductList();
@@ -36,10 +35,9 @@ function App(): JSX.Element {
   return (
     <>
       <Routes>
-        <Route path="/" element={<Navigate to="/home" />}/>
         <Route path="/registro" element={<Navigate to="/register" />}/>
         <Route path="/productos" element={<Navigate to="/products" />}/>
-        <Route path="/home" element={
+        <Route path="/" element={
           <div>
             <HomeNavBar/>
             <Home/>
@@ -54,7 +52,7 @@ function App(): JSX.Element {
         <Route path="/products" element={
           <div>
             <NavBar/>
-            <Products products ={products}/>
+            <Products/>
           </div>
         }/> 
         <Route path="/carrito" element={
@@ -66,7 +64,7 @@ function App(): JSX.Element {
         <Route path="/pedidos" element={
           <div>
             <NavBar/>
-            <ListaPedidos pedidos={pedidos}/>
+            <ListaPedidos/>
           </div>
         }/> 
         <Route path="/addProducts" element={
@@ -82,6 +80,18 @@ function App(): JSX.Element {
           </div>
         }/>
 
+        <Route path="/editUser" element={
+          <div>
+            <NavBar/>
+            <EditarUsuario/>
+          </div>
+        }/> 
+        <Route path="*" element={
+          <div>
+            <NavBar/>
+            <Error404/>
+          </div>
+        }/>
       </Routes>
     </>
   );

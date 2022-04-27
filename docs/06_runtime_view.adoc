@@ -6,13 +6,16 @@
 [plantuml,"Diagrama Añadir producto",png]
 ----
 actor Cliente
-participant Carrito
-Cliente -> Carrito: Petición de autenticación
-Carrito -> Cliente: Respuesta de autenticación
-Cliente -> Carrito: Añadir productos al carrito
+participant DeDe
+
+skinparam responseMessageBelowArrow true
+...
+
+Cliente -> DeDe: Añadir productos al carrito
 note across: Tras hacer esto, la lista del carrito tendrá guardado dicho producto
-Cliente -> Carrito: Entrar al carrito
-Carrito -> Cliente: Visualizar carrito
+
+Cliente -> DeDe: Entrar al carrito
+DeDe --> Cliente: Visualizar carrito
 ----
 
 === Eliminar producto del carrito.
@@ -20,28 +23,42 @@ Carrito -> Cliente: Visualizar carrito
 [plantuml,"Diagrama Eliminar Producto",png]
 ----
 actor Cliente
-participant Carrito
-Cliente -> Carrito: Entrar al carrito
-Carrito -> Cliente: Mostrar carrito
-Cliente -> Carrito: Eliminar el producto seleccionado
+participant DeDe
+
+skinparam responseMessageBelowArrow true
+...
+
+Cliente -> DeDe: Entrar al carrito
+DeDe --> Cliente: Mostrar carrito
+Cliente -> DeDe: Eliminar el producto seleccionado
 note across: Tras hacer esto, la lista del carrito dejará de mostrar dicho producto
-Carrito -> Cliente: Se actualiza el carrito
+DeDe --> Cliente: Se actualiza el carrito
 ----
 
 === Inicio de sesión
 
 [plantuml,"Diagrama Inicio de sesión",png]
 ----
-actor Cliente
-participant Frontend
-participant Backend
-Cliente -> Frontend: Introducir credenciales
-Frontend -> Backend: Petición de inicio de sesión
+actor Usuario
+participant DeDe
+database POD
+
+skinparam responseMessageBelowArrow true
+...
+
+Usuario -> DeDe: Introducir credenciales
+DeDe -> POD: Petición de inicio de sesión
 alt El usuario existe
-    Backend -> Frontend: Devuelve el usuario
-    Frontend -> Cliente: Sesión iniciada
+    POD --> DeDe: Devuelve el usuario
+    group Usuario es cliente
+    DeDe --> Usuario: Sesión iniciada como cliente
+    end
+    group Usuario es Adminstrador
+    DeDe --> Usuario: Sesión iniciada como administrador
+    end
 else El usuario no existe
-    Backend -> Frontend: Error en la autenticación
+    POD --> DeDe: No vuelve nada
+    DeDe --> Usuario: Sesión iniciada como administrador
 end
 ----
 
@@ -50,19 +67,22 @@ end
 [plantuml,"Diagrama Registro",png]
 ----
 actor Cliente
-participant Frontend
-participant Backend
-Cliente -> Frontend: Introducir correo
-Frontend -> Backend: Petición de registro de correo
+participant DeDe
+database POD
+
+skinparam responseMessageBelowArrow true
+...
+
+Cliente -> DeDe: Introducir correo
+DeDe -> POD: Petición de registro de correo
 alt El usuario existe
-    Backend -> Frontend: Rechaza el correo
-    Frontend -> Cliente: Avisa al usuario
+    POD --> DeDe: Devuelve el usuario
+    DeDe --> Cliente: Avisa al usuario
 else El usuario no existe
-    Backend -> Frontend: Admite el correo
-    Frontend -> Cliente: Pide más datos
-    Frontend -> Backend: Introduce datos
-    Backend -> Frontend: Registra al usuario
-    Frontend -> Cliente: Sesión iniciada y registrado
+    POD --> DeDe: No vuelve nada
+    DeDe -> POD: Registra al usuario
+    POD --> DeDe: Devuelve el usuario
+    DeDe --> Cliente: Sesión iniciada y registrado
 end
 ----
 
@@ -72,12 +92,16 @@ end
 [plantuml,"Ver pedidos",png]
 ----
 actor Cliente
-participant "Interfaz de Usuario"
+participant DeDe
 database "POD"
-Cliente -> "Interfaz de Usuario": Ver pedidos
-"Interfaz de Usuario" -> "POD": Obtener pedidos
-"POD" -> "Interfaz de Usuario": Devolver pedidos
-"Interfaz de Usuario" -> "Interfaz de Usuario": Mostrar pedidos
+
+skinparam responseMessageBelowArrow true
+...
+
+Cliente -> DeDe: Ver pedidos
+DeDe -> "POD": Obtener pedidos
+"POD" --> DeDe: Devolver pedidos
+DeDe --> Cliente: Mostrar pedidos
 ----
 
 === Ver ventas realizadas
@@ -86,10 +110,14 @@ Cliente -> "Interfaz de Usuario": Ver pedidos
 ----
 actor Administrador
 participant "DeDe"
-database "MongoDB"
+database "POD"
+
+skinparam responseMessageBelowArrow true
+...
+
 Administrador -> "DeDe": Ver ventas realizadas
-"DeDe" -> "MongoDB": Obtener ventas
-"MongoDB" -> "DeDe": Devolver ventas
-"DeDe" -> "Administrador": Mostrar pedidos
+"DeDe" -> "POD": Obtener ventas
+"POD" --> "DeDe": Devolver ventas
+"DeDe" --> "Administrador": Mostrar pedidos
 ----
 
