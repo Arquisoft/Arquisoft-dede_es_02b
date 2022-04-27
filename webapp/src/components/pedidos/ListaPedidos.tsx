@@ -21,6 +21,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import { Autocomplete, Backdrop, Button, Fade, Modal, TextField } from '@mui/material';
 import { getPedidosByUser, findUserByEmail, getPedidos, getUsers, getProducts, editPedido } from '../../api/api';
 import { JsxElement } from 'typescript';
+import Error403 from '../error/Error403';
 
 const opcionesFiltrado = [
   { label: 'Nº Pedido' },
@@ -149,7 +150,7 @@ var palabraFiltrada: string = ""
 var tipoFiltrado: string = opcionesFiltrado[0].label
 
 const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
-  const { numSelected, filtrar} = props;
+  const { numSelected, filtrar } = props;
   const [filtrado, setFiltrado] = React.useState<boolean>(false);
   let quitarFiltrado = document.getElementById('quitarFiltrado');
   if (quitarFiltrado != null) {
@@ -179,36 +180,36 @@ const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
         </Typography>
       )}
       {(<div>
-            {filtrado ? (
-              <Typography sx={{ display: 'flex' }} component="div">
-                <Button aria-label='filtrar-button' variant="outlined" onClick={()=>filtrar()}>Filtrar</Button>
-                <Autocomplete aria-label='opciones'
-                    disablePortal
-                    id="combo-box-demo"
-                    options={opcionesFiltrado}
-                    sx={{ width: 300 }}
-                    defaultValue={opcionesFiltrado[0]}
-                    renderInput={(params) => <TextField {...params} label="Opciones" />}
-                    onChange={(event, newValue) => {
-                      if(newValue!=null)
-                          tipoFiltrado = newValue.label;
-                    }}
-                  />
-                <TextField id="outlined-basic" label="Filtrar" variant="outlined" onChange={(e)=>palabraFiltrada=e.target.value}/>
-                <Tooltip title="Filter list">
-                  <IconButton id="quitarFiltrado">
-                    <FilterListIcon />
-                  </IconButton>
-                </Tooltip>
-              </Typography>
-            ):(
-              <Tooltip title="Filter list">
-                <IconButton aria-label='filter-icon' onClick={()=>setFiltrado(true)}>
-                  <FilterListIcon/>
-                </IconButton>
-              </Tooltip>
-            )}
-          </div>
+        {filtrado ? (
+          <Typography sx={{ display: 'flex' }} component="div">
+            <Button aria-label='filtrar-button' variant="outlined" onClick={() => filtrar()}>Filtrar</Button>
+            <Autocomplete aria-label='opciones'
+              disablePortal
+              id="combo-box-demo"
+              options={opcionesFiltrado}
+              sx={{ width: 300 }}
+              defaultValue={opcionesFiltrado[0]}
+              renderInput={(params) => <TextField {...params} label="Opciones" />}
+              onChange={(event, newValue) => {
+                if (newValue != null)
+                  tipoFiltrado = newValue.label;
+              }}
+            />
+            <TextField id="outlined-basic" label="Filtrar" variant="outlined" onChange={(e) => palabraFiltrada = e.target.value} />
+            <Tooltip title="Filter list">
+              <IconButton id="quitarFiltrado">
+                <FilterListIcon />
+              </IconButton>
+            </Tooltip>
+          </Typography>
+        ) : (
+          <Tooltip title="Filter list">
+            <IconButton aria-label='filter-icon' onClick={() => setFiltrado(true)}>
+              <FilterListIcon />
+            </IconButton>
+          </Tooltip>
+        )}
+      </div>
       )}
     </Toolbar>
   );
@@ -343,9 +344,15 @@ const ListaPedidos: React.FC = () => {
     refreshProductList();
   }, []);
 
-  function botonEditar(row: Pedido): JSX.Element | undefined{
-    if (JSON.parse(sessionStorage.getItem("usuario")!).esAdmin)
-      return <TableCell><IconButton onClick={() => editar(row)}><EditIcon /></IconButton></TableCell>
+  if(!sessionStorage.getItem("usuario"))
+    return <Error403></Error403>
+
+  function botonEditar(row: Pedido): JSX.Element {
+    if (sessionStorage.getItem("usuario"))
+      if (JSON.parse(sessionStorage.getItem("usuario")!).esAdmin)
+        return <TableCell><IconButton onClick={() => editar(row)}><EditIcon /></IconButton></TableCell>
+
+    return <></>
   }
 
   function getEmail(id: string): string {
@@ -376,7 +383,7 @@ const ListaPedidos: React.FC = () => {
   return (
     <Box sx={{ width: '100%' }}>
       <Paper sx={{ width: '100%', mb: 2 }}>
-        <EnhancedTableToolbar numSelected={selected.length} seleccionados={selected} filtrar={()=>filtrar(palabraFiltrada, tipoFiltrado)}/>
+        <EnhancedTableToolbar numSelected={selected.length} seleccionados={selected} filtrar={() => filtrar(palabraFiltrada, tipoFiltrado)} />
         <TableContainer>
           <Table
             sx={{ minWidth: 750 }}
@@ -411,7 +418,7 @@ const ListaPedidos: React.FC = () => {
                       selected={isItemSelected}
                     >
                       <TableCell padding="checkbox">
-                        
+
                       </TableCell>
                       <TableCell
                         component="th"
@@ -454,12 +461,12 @@ const ListaPedidos: React.FC = () => {
                               onChange={(_event, newValue) => {
                                 if (newValue != null)
                                   estado = newValue.label;
-                            }}
-                          />
-                           <Button onClick={()=>editarEstado()}>Editar</Button>
-                        </Box>
-                      </Fade>
-                    </Modal>
+                              }}
+                            />
+                            <Button onClick={() => editarEstado()}>Editar</Button>
+                          </Box>
+                        </Fade>
+                      </Modal>
                     </TableRow>
                   );
                 })}

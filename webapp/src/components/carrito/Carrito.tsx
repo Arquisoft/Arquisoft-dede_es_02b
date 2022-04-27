@@ -9,7 +9,7 @@ import { useState } from 'react';
 import Delete from '@mui/icons-material/Delete';
 import Total from './Total';
 import { ShoppingCart } from '@mui/icons-material';
-import { Navigate } from 'react-router-dom';
+import Error403 from '../error/Error403';
 
 
 let cantidad:number = 0;
@@ -27,7 +27,7 @@ const Carrito: React.FC= () =>{
   let usuario: { email: string, esAdmin: boolean } = JSON.parse(sessionStorage.getItem("usuario")!);
 
   if (usuario.esAdmin) {
-      return <Navigate to="/products"></Navigate>
+      return <Error403></Error403>
   }
 
   for (let index = 0; index < sessionStorage.length; index++) {

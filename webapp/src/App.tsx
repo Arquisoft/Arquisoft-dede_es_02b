@@ -64,7 +64,12 @@ function App(): JSX.Element {
             <EditarUsuario/>
           </div>
         }/> 
-        <Route path="*" element={<Error404/>}/>
+        <Route path="*" element={
+          <div>
+            <NavBar/>
+            <Error404/>
+          </div>
+        }/>
       </Routes>
     </>
   );

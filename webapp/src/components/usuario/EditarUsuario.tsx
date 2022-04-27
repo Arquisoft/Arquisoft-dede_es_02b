@@ -4,6 +4,7 @@ import * as React from 'react';
 import { Link } from 'react-router-dom';
 import { addProduct } from '../../api/api';
 import { Product } from '../../shared/shareddtypes';
+import Error403 from '../error/Error403';
 
 
 const EditarUsuario: React.FC = () => {
@@ -11,6 +12,12 @@ const EditarUsuario: React.FC = () => {
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         
     };
+
+    if(!sessionStorage.getItem("usuario"))
+        return <Error403></Error403>
+    else
+        if(JSON.parse(sessionStorage.getItem("usuario")!).esAdmin)
+            return <Error403></Error403>
 
     return (<Container component="main" maxWidth="xs">
         <Box sx={{

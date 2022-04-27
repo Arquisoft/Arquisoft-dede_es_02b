@@ -7,15 +7,17 @@ import { Button, Typography } from '@mui/material';
 import { ShoppingBasket } from '@mui/icons-material';
 import { Link } from 'react-router-dom';
 import { getProducts } from '../../api/api';
+import Error403 from '../error/Error403';
 
 const Products: React.FC = () => {
   const [productos, setProductos] = React.useState<Product[]>([]);
 
   function botonAñadir(): JSX.Element | undefined {
-    if (JSON.parse(sessionStorage.getItem("usuario")!).esAdmin)
-      return (<Link to="/addProducts">
-        <Button variant='contained'>Añadir producto</Button>
-      </Link>)
+    
+      if (JSON.parse(sessionStorage.getItem("usuario")!).esAdmin)
+        return (<Link to="/addProducts">
+          <Button variant='contained'>Añadir producto</Button>
+        </Link>)
   }
 
   const refreshProductList = async () => {
@@ -25,6 +27,9 @@ const Products: React.FC = () => {
   useEffect(() => {
     refreshProductList();
   }, []);
+
+  if(!sessionStorage.getItem("usuario"))
+    return <Error403></Error403>
 
   return (
       <Box sx={{ flexGrow: 1, padding: 3 }}>

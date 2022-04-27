@@ -87,50 +87,52 @@ const ProductItem: React.FC<ProductProp> = (productProp: ProductProp) => {
   }
 
   function acciones(): JSX.Element {
-    if (JSON.parse(sessionStorage.getItem("usuario")!).esAdmin) {
-      return (
-        <Box sx={{ display: 'flex', flexDirection: "row-reverse", alignItems: 'center' }}>
-          <IconButton aria-label='delete-item'>
-            <DeleteIcon />
-          </IconButton>
-          <IconButton onClick={() => setOpenEdit(true)}><EditIcon /></IconButton>
-        </Box>
-      )
-    } else {
-      return (
-        <Box sx={{ display: 'flex', flexDirection: "row-reverse", alignItems: 'center' }}>
-          <IconButton type="submit" onClick={handleClick}>
-            <AddShoppingCart />
-          </IconButton>    
-          <Typography sx={{ fontSize: 20 }}> {accounting.formatMoney(producto.precio, "€")}</Typography>
-          <IconButton onClick={() => sumarCantidad(1)}><AddIcon /></IconButton>
-          <TextField
-            id="cantidad-producto"
-            sx={{
-              width: 34,
-              paddingRight: 1,
-              paddingLeft: 1,
-              textAlign: 'center',
-            }}
-            inputProps={{ min: 1, max: 10, style: { textAlign: 'center' } }}
-            variant="standard"
-            defaultValue={1}
-            value={cantidad}
+    if (sessionStorage.getItem("usuario"))
+      if (JSON.parse(sessionStorage.getItem("usuario")!).esAdmin) {
+        return (
+          <Box sx={{ display: 'flex', flexDirection: "row-reverse", alignItems: 'center' }}>
+            <IconButton aria-label='delete-item'>
+              <DeleteIcon />
+            </IconButton>
+            <IconButton onClick={() => setOpenEdit(true)}><EditIcon /></IconButton>
+          </Box>
+        )
+      } else {
+        return (
+          <Box sx={{ display: 'flex', flexDirection: "row-reverse", alignItems: 'center' }}>
+            <IconButton type="submit" onClick={handleClick}>
+              <AddShoppingCart />
+            </IconButton>
+            <Typography sx={{ fontSize: 20 }}> {accounting.formatMoney(producto.precio, "€")}</Typography>
+            <IconButton onClick={() => sumarCantidad(1)}><AddIcon /></IconButton>
+            <TextField
+              id="cantidad-producto"
+              sx={{
+                width: 34,
+                paddingRight: 1,
+                paddingLeft: 1,
+                textAlign: 'center',
+              }}
+              inputProps={{ min: 1, max: 10, style: { textAlign: 'center' } }}
+              variant="standard"
+              defaultValue={1}
+              value={cantidad}
 
-            onChange={(e) => {
-              if (e.target.value === "") {
-                setCantidad(1)
+              onChange={(e) => {
+                if (e.target.value === "") {
+                  setCantidad(1)
+                }
+                else
+                  setCantidad(parseInt(e.target.value))
               }
-              else
-                setCantidad(parseInt(e.target.value))
-            }
-            }
-          />
-          <IconButton onClick={() => sumarCantidad(-1)}><RemoveIcon /></IconButton>
-          <Typography>Cantidad:</Typography>
-        </Box>)
-    }
+              }
+            />
+            <IconButton onClick={() => sumarCantidad(-1)}><RemoveIcon /></IconButton>
+            <Typography>Cantidad:</Typography>
+          </Box>)
+      }
 
+      return <></>
   }
 
   return (
