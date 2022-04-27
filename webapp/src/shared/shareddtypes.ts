@@ -1,8 +1,8 @@
 export type User = {
     _id:string;
     nombre:string;
-    apellido:string;
-    idsolid:string;
+    apellidos:string;
+    idSolid:string;
     email:string;
     contraseña:string;
     dni:string;

@@ -11,6 +11,25 @@ import Error403 from '../error/Error403';
 const EditarUsuario: React.FC = () => {
     const [errorMessage, setErrorMessage] = useState('');
 
+    async function comprobarDatos(user: User): Promise<boolean> {
+        if (user.nombre.length === 0) {
+          setErrorMessage("Error: El nombre no puede estar vacío");
+          return false;
+        }
+    
+        if (user.apellidos.length === 0) {
+          setErrorMessage("Error: El apellido no puede estar vacío");
+          return false;
+        }
+    
+        if (user.idSolid.length === 0) {
+          setErrorMessage("Error: El idsolid no puede estar vacío");
+          return false;
+        }
+        setErrorMessage('');
+        return true;
+    }
+
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
@@ -23,8 +42,8 @@ const EditarUsuario: React.FC = () => {
         const user: User = {
           _id:"",
           nombre: data.get('nombre') as string,
-          apellido: data.get('apellidos') as string,
-          idsolid: data.get('idSolid') as string,
+          apellidos: data.get('apellidos') as string,
+          idSolid: data.get('idSolid') as string,
           dni: "",
           email: email,
           contraseña: "",
@@ -94,6 +113,7 @@ const EditarUsuario: React.FC = () => {
                 >
                     Editar
                 </Button>
+            
         </Box>
      </Box>
     </Container>

@@ -124,11 +124,13 @@ apiUsuarios.post(
       let query = { email: req.body.email.toString() };
       let usuario = await Usuario.findOne(query).exec();
 
-      console.log(usuario);
+      console.log(req.body.nombre);
+      console.log(req.body.apellido);
+      console.log(req.body.idsolid);
 
       usuario.nombre = req.body.nombre;
-      usuario.apellido = req.body.apellido;
-      usuario.idsolid = req.body.idsolid;
+      usuario.apellidos = req.body.apellidos;
+      usuario.idSolid = req.body.idSolid;
 
       console.log(usuario);
       

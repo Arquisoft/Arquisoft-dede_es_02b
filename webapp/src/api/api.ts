@@ -166,7 +166,7 @@ export async function editUser(user: User): Promise<boolean> {
   let response = await fetch(apiEndPoint + '/users/editar', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ 'email': user.email, 'nombre': user.nombre, 'apellido': user.apellido, 'idsolid': user.idsolid })
+    body: JSON.stringify({ 'email': user.email, 'nombre': user.nombre, 'apellido': user.apellidos, 'idsolid': user.idSolid })
   });
   if (response.status === 200) {
     return true;
