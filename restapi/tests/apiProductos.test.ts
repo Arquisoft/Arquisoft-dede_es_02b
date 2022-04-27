@@ -227,7 +227,6 @@ async function probarAddProductos(arg0: {nombre?: string, origen?:string, precio
 }
 
 async function probarEditarProducto(arg0: {_id?: string, nombre?: string, origen?:string, precio?:number, descripcion?:string, foto?:string}, code:number):Promise<Response>{
-    console.log(arg0);
     const response:Response = await request(app).post('/products/editar').send(arg0).set('Accept', 'application/json');
     expect(response.statusCode).toBe(code);
     return response;

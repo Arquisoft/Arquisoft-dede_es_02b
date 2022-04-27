@@ -174,6 +174,76 @@ describe("login ", () => {
     })
 })
 
+describe("editar usuario ", () => {
+    it('email invalido', async () =>{
+        await probarEditUsuarios({nombre: "Adri", apellidos: "Alonso", email: "adrianemail.com", idSolid: "idSolid"}, 500);
+    })
+
+    it('email incorrecto', async () =>{
+        await probarEditUsuarios({nombre: "Adri", apellidos: "Alonso", email: "adriaan@email.com", idSolid: "idSolid"}, 500);
+    })
+
+    it('sin email', async () =>{
+        await probarEditUsuarios({nombre: "Adri", apellidos: "Alonso", idSolid: "idSolid"}, 500);
+    })
+
+    it('nombre = ""', async () =>{
+        await probarEditUsuarios({nombre: "", apellidos: "Alonso", email: "adrian@email.com", idSolid: "idSolid"}, 200);
+        var response: Response = await request(app).get("/users/email=adrian@email.com").set('Accept', 'application/json');
+
+        expect(response.statusCode).toBe(200);
+        await compareResponseBody(response.body, { nombre: "adrian", apellidos:'Alonso',email: "adrian@email.com", dni: "00000002a", contraseña: "1234", idSolid: "idSolid" });
+    })
+
+    it('sin nombre', async () =>{
+        await probarEditUsuarios({apellidos: "Fernández", email: "adrian@email.com", idSolid: "webId"}, 200);
+        var response: Response = await request(app).get("/users/email=adrian@email.com").set('Accept', 'application/json');
+
+        expect(response.statusCode).toBe(200);
+        await compareResponseBody(response.body, { nombre: "adrian", apellidos:'Fernández',email: "adrian@email.com", dni: "00000002a", contraseña: "1234", idSolid: "webId" });
+    })
+
+    it('apellidos = ""', async () =>{
+        await probarEditUsuarios({nombre: "Adri", apellidos: "", email: "adrian@email.com", idSolid: "idSolid"}, 200);
+        var response: Response = await request(app).get("/users/email=adrian@email.com").set('Accept', 'application/json');
+
+        expect(response.statusCode).toBe(200);
+        await compareResponseBody(response.body, { nombre: "Adri", apellidos:'Fernández',email: "adrian@email.com", dni: "00000002a", contraseña: "1234", idSolid: "idSolid" });
+    })
+
+    it('sin apellidos', async () =>{
+        await probarEditUsuarios({nombre: "Adrián", email: "adrian@email.com", idSolid: "webId"}, 200);
+        var response: Response = await request(app).get("/users/email=adrian@email.com").set('Accept', 'application/json');
+
+        expect(response.statusCode).toBe(200);
+        await compareResponseBody(response.body, { nombre: "Adrián", apellidos:'Fernández',email: "adrian@email.com", dni: "00000002a", contraseña: "1234", idSolid: "webId" });
+    })
+
+    it('idSolid = ""', async () =>{
+        await probarEditUsuarios({nombre: "Adri", apellidos: "Alonso", email: "adrian@email.com", idSolid: ""}, 200);
+        var response: Response = await request(app).get("/users/email=adrian@email.com").set('Accept', 'application/json');
+
+        expect(response.statusCode).toBe(200);
+        await compareResponseBody(response.body, { nombre: "Adri", apellidos:'Alonso',email: "adrian@email.com", dni: "00000002a", contraseña: "1234", idSolid: "webId" });
+    })
+
+    it('sin idSolid', async () =>{
+        await probarEditUsuarios({nombre: "Adrián", apellidos: "Fernández", email: "adrian@email.com"}, 200);
+        var response: Response = await request(app).get("/users/email=adrian@email.com").set('Accept', 'application/json');
+
+        expect(response.statusCode).toBe(200);
+        await compareResponseBody(response.body, { nombre: "Adrián", apellidos:'Fernández',email: "adrian@email.com", dni: "00000002a", contraseña: "1234", idSolid: "webId" });
+    })
+    
+    it('correctamente', async () =>{
+        await probarEditUsuarios({nombre: "Adri", apellidos: "Alonso", email: "adrian@email.com", idSolid: "idSolid"}, 200);
+        var response: Response = await request(app).get("/users/email=adrian@email.com").set('Accept', 'application/json');
+
+        expect(response.statusCode).toBe(200);
+        await compareResponseBody(response.body, { nombre: "Adri", apellidos:'Alonso',email: "adrian@email.com", dni: "00000002a", contraseña: "1234", idSolid: "idSolid" });
+    })
+})
+
 describe("eliminar usuario ", () => {
     it('existente', async () => {
         await probarDelete({ _id: "6220e1c1e976d8ae3a9d3e60" }, 200);
@@ -190,6 +260,12 @@ describe("eliminar usuario ", () => {
 
 async function probarAddUsuarios(arg0: { _id?: string, nombre?: string, apellidos?: string, email?: string, esAdmin?:boolean, dni?: string, contraseña?: string, idSolid?: string }, code: number): Promise<Response> {
     const response: Response = await request(app).post('/users/add').send(arg0).set('Accept', 'application/json');
+    expect(response.statusCode).toBe(code);
+    return response;
+}
+
+async function probarEditUsuarios(arg0: { nombre?: string, apellidos?: string, email?: string, idSolid?: string }, code: number): Promise<Response> {
+    const response: Response = await request(app).post('/users/editar').send(arg0).set('Accept', 'application/json');
     expect(response.statusCode).toBe(code);
     return response;
 }
