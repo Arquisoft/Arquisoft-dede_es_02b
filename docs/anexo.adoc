@@ -1,4 +1,4 @@
-[[section-anexo]]
+:numbered!:
 == Anexo
 
 En este Anexo se mostrarán diferentes aspectos de la aplicación que ayudarán a entender partes que no hayan quedado explicadas por completo 
