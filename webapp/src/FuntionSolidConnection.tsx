@@ -17,8 +17,8 @@ async function getProfile(webId: string): Promise<Thing> {
   return getThing(myDataset, webId) as Thing;
 }
 
-export async function getAddressesFromPod(webId: string) {
-  let addressURLs = getUrlAll(await getProfile(webId), VCARD.hasAddress);
+export async function getAddressesFromPod(webId: string): Promise<string[]> {
+  let addressURLs = await getUrlAll(await getProfile(webId), VCARD.hasAddress);
   let addresses: string[] = [];
 
   for (let addressURL of addressURLs) {

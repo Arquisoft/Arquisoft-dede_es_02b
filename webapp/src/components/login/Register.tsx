@@ -29,7 +29,7 @@ export default function Register() {
       _id:"",
       nombre: data.get('nombre') as string,
       apellidos: data.get('apellidos') as string,
-      idSolid: data.get('idsolid') as string,
+      idSolid: data.get('idSolid') as string,
       dni: data.get('dni') as string,
       email: data.get('email') as string,
       contraseña: data.get('contraseña') as string,

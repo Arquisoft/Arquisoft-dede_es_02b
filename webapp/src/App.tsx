@@ -15,23 +15,6 @@ import Pago from './components/pago/Pago';
 
 function App(): JSX.Element {
 
-  const [products,setProducts] = useState<Product[]>([]);
-  const [pedidos,setPedidos] = useState<Pedido[]>([]);
-
-  const refreshProductList = async () => {
-    setProducts(await getProducts());
-  }
-
-  
-const refreshPedidosList = async () => {
-  setPedidos(await getPedidos());
-}
-
-  useEffect(()=>{
-    refreshProductList();
-    refreshPedidosList();
-  },[]);
-
   return (
     <>
       <Routes>
