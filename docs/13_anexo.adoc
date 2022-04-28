@@ -40,7 +40,9 @@ Son los usuarios registrados en la página, ya sean administradores o usuarios n
 ****
 * _id: Identificador único de cada usuario.
 * Nombre: Nombre del usuario.
+* Apellidos: Apellidos del usuario.
 * Email: Correo electrónico del usuario.
 * Dni: Dni del usuario registrado en la página.
+* idSolid: Dirección para acceder al pod del usuario. (Por ejemplo: usuario.solidcommunity.net)
 * Contraseña: Contraseña de acceso del usuario, que se guarda cifrada en la base de datos.
 ****
