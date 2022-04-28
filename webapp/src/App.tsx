@@ -11,8 +11,26 @@ import Home from './components/Home';
 import HomeNavBar from './components/HomeNavBar';
 import Error404 from './components/error/Error404';
 import EditarUsuario from './components/usuario/EditarUsuario';
+import Pago from './components/pago/Pago';
 
 function App(): JSX.Element {
+
+  const [products,setProducts] = useState<Product[]>([]);
+  const [pedidos,setPedidos] = useState<Pedido[]>([]);
+
+  const refreshProductList = async () => {
+    setProducts(await getProducts());
+  }
+
+  
+const refreshPedidosList = async () => {
+  setPedidos(await getPedidos());
+}
+
+  useEffect(()=>{
+    refreshProductList();
+    refreshPedidosList();
+  },[]);
 
   return (
     <>
@@ -55,6 +73,13 @@ function App(): JSX.Element {
             <AñadirProducto/>
           </div>
         }/> 
+        <Route path="/pago" element={
+          <div>
+            <NavBar/>
+            <Pago/>
+          </div>
+        }/>
+
         <Route path="/editUser" element={
           <div>
             <NavBar/>
