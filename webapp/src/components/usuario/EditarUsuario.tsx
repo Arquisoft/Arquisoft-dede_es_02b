@@ -7,30 +7,8 @@ import { editUser } from '../../api/api';
 import { User } from '../../shared/shareddtypes';
 import Error403 from '../error/Error403';
 
-
 const EditarUsuario: React.FC = () => {
-    const [errorMessage, setErrorMessage] = useState('');
     const [editado, setEditado] = useState(false);
-
-
-    async function comprobarDatos(user: User): Promise<boolean> {
-        if (user.nombre.length === 0) {
-          setErrorMessage("Error: El nombre no puede estar vacío");
-          return false;
-        }
-    
-        if (user.apellidos.length === 0) {
-          setErrorMessage("Error: El apellido no puede estar vacío");
-          return false;
-        }
-    
-        if (user.idSolid.length === 0) {
-          setErrorMessage("Error: El idsolid no puede estar vacío");
-          return false;
-        }
-        setErrorMessage('');
-        return true;
-    }
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -52,9 +30,7 @@ const EditarUsuario: React.FC = () => {
           esAdmin: false
         }
 
-        if (await comprobarDatos(user)) {
-            setEditado(await editUser(user))
-        }
+        setEditado(await editUser(user));
     };
 
     if(editado)
@@ -110,9 +86,7 @@ const EditarUsuario: React.FC = () => {
                     />
                 </Grid >
             </Grid>
-            {errorMessage}
-            <Link to={"/products"}>
-                <Button
+            <Button
                     type="submit"
                     fullWidth
                     variant="contained"
@@ -120,7 +94,6 @@ const EditarUsuario: React.FC = () => {
                 >
                     Editar
                 </Button>
-            </Link>
             
             
         </Box>

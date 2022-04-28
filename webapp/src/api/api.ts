@@ -169,6 +169,8 @@ export async function editUser(user: User): Promise<boolean> {
     body: JSON.stringify({ 'email': user.email, 'nombre': user.nombre, 'apellidos': user.apellidos, 'idSolid': user.idSolid })
   });
   if (response.status === 200) {
+    let u: User = await response.json();
+    sessionStorage.setItem("usuario", JSON.stringify({ email: u.email, esAdmin: u.esAdmin, webId: u.idSolid }));
     return true;
   } else
     return false;

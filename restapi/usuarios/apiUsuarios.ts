@@ -132,9 +132,9 @@ apiUsuarios.post(
 
       if(req.body.idSolid)
         usuario.idSolid = req.body.idSolid;
-
+        
       await usuario.save();
-      return res.sendStatus(200);
+      return res.status(200).send(usuario);
     } catch {
       return res.sendStatus(500);
     }
