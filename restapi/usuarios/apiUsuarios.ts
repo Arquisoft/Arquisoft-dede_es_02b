@@ -39,6 +39,7 @@ apiUsuarios.post(
     try {
       let usuario = new Usuario();
       usuario.nombre = req.body.nombre;
+      usuario.apellidos = req.body.apellidos;
       usuario.email = req.body.email;
       usuario.dni = req.body.dni;
 
@@ -50,6 +51,12 @@ apiUsuarios.post(
         usuario._id = req.body._id;
       }
 
+      if(req.body.idSolid){
+        usuario.idSolid = req.body.idSolid;
+      }else{
+        usuario.idSolid = "";
+      }
+
       if(req.body.esAdmin !== undefined)
         usuario.esAdmin = req.body.esAdmin;
 
@@ -57,8 +64,8 @@ apiUsuarios.post(
       usuario.contraseña = hashedPass;
 
       await usuario.save();
-      return res.sendStatus(200);
-    } catch {
+      return res.status(200).send(usuario);
+    } catch (error){
       return res.sendStatus(500);
     }
   }
@@ -106,6 +113,31 @@ apiUsuarios.post(
   async (req: Request, res: Response): Promise<Response> => {
     Usuario.findById(req.body._id).deleteOne().exec();
     return res.sendStatus(200);
+  }
+);
+
+apiUsuarios.post(
+  "/users/editar",
+  async (req: Request, res: Response): Promise<Response> => {
+    
+    try {
+      let query = { email: req.body.email.toString() };
+      let usuario = await Usuario.findOne(query).exec();
+
+      if(req.body.nombre)
+        usuario.nombre = req.body.nombre;
+
+      if(req.body.apellidos)
+        usuario.apellidos = req.body.apellidos;
+
+      if(req.body.idSolid)
+        usuario.idSolid = req.body.idSolid;
+        
+      await usuario.save();
+      return res.status(200).send(usuario);
+    } catch {
+      return res.sendStatus(500);
+    }
   }
 );
 

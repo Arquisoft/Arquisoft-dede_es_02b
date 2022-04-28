@@ -8,14 +8,22 @@ import { Link } from 'react-router-dom';
 import { Product } from '../shared/shareddtypes';
 import ProductHome from './ProductHome';
 import { Animator, batch, Fade, Move, MoveOut, ScrollContainer, ScrollPage, Sticky } from 'react-scroll-motion';
+import { useEffect, useState } from 'react';
+import { getProducts } from '../api/api';
 
-type ProductProps = {
-    products: Product[];
-}
+const Home: React.FC = () => {
+    const [products,setProducts] = useState<Product[]>([]);
+  
+    const refreshProductList = async () => {
+      setProducts(await getProducts());
+    }
+  
+    useEffect(()=>{
+      refreshProductList();
+    },[]);
 
-const Home: React.FC<ProductProps> = (props: ProductProps) => {
-    var productosLenght=props.products.length
-    if(props.products.length>2){
+    var productosLenght=products.length
+    if(products.length>2){
         productosLenght=2;
     }
     return (
@@ -57,7 +65,7 @@ const Home: React.FC<ProductProps> = (props: ProductProps) => {
                         <Grid container spacing={3} direction="row" justifyContent="center" alignItems="center" marginTop={1}>
                             {Array.from(Array(productosLenght)).map((_, index) => (
                                 <Grid item key={index}>
-                                    <ProductHome product={props.products[index]} />
+                                    <ProductHome product={products[index]} />
                                 </Grid>
                             ))}
                         </Grid>

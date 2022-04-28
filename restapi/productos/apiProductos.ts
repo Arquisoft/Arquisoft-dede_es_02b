@@ -50,4 +50,34 @@ apiProductos.get(
   }
 );
 
+apiProductos.post(
+  "/products/editar",
+  async (req: Request, res: Response): Promise<Response> => {
+    try {
+      let query = { _id: req.body._id };
+      let producto = await Producto.findOne(query).exec();
+
+      if(req.body.nombre)
+        producto.nombre = req.body.nombre;
+
+      if(req.body.origen)
+        producto.origen = req.body.origen;
+
+      if(req.body.precio && req.body.precio >= 0)
+        producto.precio = req.body.precio;
+
+      if(req.body.descripcion)
+        producto.descripcion = req.body.descripcion;
+
+      if(req.body.foto)
+        producto.foto = req.body.foto;
+      
+      await producto.save();
+      return res.sendStatus(200);
+    } catch (error){
+      return res.sendStatus(500);
+    }
+  }
+);
+
 export default apiProductos; 
