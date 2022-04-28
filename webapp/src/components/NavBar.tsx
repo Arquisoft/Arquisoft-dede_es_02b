@@ -104,7 +104,7 @@ const NavBar: React.FC = () => {
             onClose={handleCloseUserMenu}
           >
             <MenuItem key="editUser">
-              <Link to="/editUser">
+              <Link to="/editUser" style={{textDecoration:'none'}}>
                 <Button key="editUser" sx={{ my: 1, color: '#1976d2', display: 'block' }}>
                   Editar Usuario
                 </Button>
@@ -158,14 +158,14 @@ const NavBar: React.FC = () => {
           display: { xs: 'block', md: 'none' },
         }}
       >
-        <Link to={"/pedidos"}>
-          <Typography key="pedidos" sx={{ my: 1, color: 'blue', textAlign: "center", display: 'block' }}>
+        <Link to={"/pedidos"} style={{textDecoration:'none'}}>
+          <Typography key="pedidos" sx={{ my: 1, color: '#1976d2', textAlign: "center", display: 'block' }}>
             Pedidos
           </Typography>
         </Link>
-        <Link to={"/Products"}>
+        <Link to={"/Products"} style={{textDecoration:'none'}}>
           <MenuItem key={"Products"}>
-            <Typography sx={{ my: 1, color: 'blue', textAlign: "center", display: 'block' }}>Productos</Typography>
+            <Typography sx={{ my: 1, color: '#1976d2', textAlign: "center", display: 'block' }}>Productos</Typography>
           </MenuItem>
         </Link>
       </Menu>)
@@ -176,7 +176,7 @@ const NavBar: React.FC = () => {
   function links(): JSX.Element {
     if (logueado && logueado !== "deslogueado")
       return (<Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-      <Link to={"/Products"}>
+      <Link to={"/Products"} style={{textDecoration:'none'}}>
         <Button
           key={"Products"}
           onClick={handleCloseNavMenu}
@@ -185,7 +185,7 @@ const NavBar: React.FC = () => {
           Productos
         </Button>
       </Link>
-      <Link to={"/pedidos"}>
+      <Link to={"/pedidos"} style={{textDecoration:'none'}}>
         <Button key="pedidos" sx={{ my: 2, color: 'white', display: 'block' }}>
           Pedidos
         </Button>
