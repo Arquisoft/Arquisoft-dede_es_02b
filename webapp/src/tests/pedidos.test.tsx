@@ -4,6 +4,9 @@ import datos from './mockData.json';
 import ListaPedidos from '../components/pedidos/ListaPedidos';
 
 test('Pedidos', () => {
+    let email = "adrian@email.com";
+    let contraseña = "1234";
+    sessionStorage.setItem("usuario", JSON.stringify({ email: email, esAdmin: false, webId: "" }));
     let order = datos.pedidos[0];
     let e = Estado.entregado;
     let pedido: Pedido = {

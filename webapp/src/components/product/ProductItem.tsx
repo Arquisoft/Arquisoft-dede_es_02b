@@ -231,7 +231,7 @@ const ProductItem: React.FC<ProductProp> = (productProp: ProductProp) => {
           </Box>
         </Fade>
       </Modal>
-      <Card id="product" sx={{ maxWidth: 545 }}>
+      <Card id="product" sx={{ maxWidth: 345, width:300 }}>
         <CardMedia
           component="img"
           alt={producto.nombre}
