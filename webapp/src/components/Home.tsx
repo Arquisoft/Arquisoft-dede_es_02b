@@ -28,7 +28,7 @@ const Home: React.FC<ProductProps> = (props: ProductProps) => {
                         <Box className='Home'>
                             <Typography className='Titulo' variant='h1' sx={{ fontSize: '4em', marginRight: '20px' }}>Bienvenido a DeDe</Typography>
                             <Typography className='Descripcion' sx={{ fontSize: '1.5em' }}>La tienda Nº1 en la venta de frutas</Typography>
-                            <Link to="/login">
+                            <Link to="/login" style={{textDecoration:'none'}}>
                                 <Button variant='contained'>Entrar</Button>
                             </Link>
                         </Box>

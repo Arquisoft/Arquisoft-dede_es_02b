@@ -19,7 +19,7 @@ const Products: React.FC<ProductProps> = (props: ProductProps) => {
         <Typography variant="h1" component="h2" sx={{ fontSize: 40 }}>
           Productos <ShoppingBasket />
         </Typography>
-        <Link to="/addProducts">
+        <Link to="/addProducts" style={{textDecoration:'none'}}>
           <Button variant='contained'>Añadir producto</Button>
         </Link>
         <Grid container spacing={3} direction="row" justifyContent="center" alignItems="center" marginTop={1}>
