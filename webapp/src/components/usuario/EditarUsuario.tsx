@@ -85,15 +85,23 @@ const EditarUsuario: React.FC = () => {
                         autoComplete="idSolid"
                     />
                 </Grid >
+                <Grid item xs={12}>
+                    <TextField
+                        fullWidth
+                        name="foto"
+                        label="Foto"
+                        id="foto"
+                        autoComplete="foto"
+                    />
+                </Grid >
             </Grid>
             <Button
+                    aria-label="btEditar"
                     type="submit"
                     fullWidth
                     variant="contained"
                     sx={{ mt: 3, mb: 2 }}
-                >
-                    Editar
-                </Button>
+                >Editar</Button>
             
             
         </Box>

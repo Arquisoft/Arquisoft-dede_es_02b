@@ -26,7 +26,7 @@ export default function Register() {
     const data = new FormData(event.currentTarget);
 
     const user: User = {
-      _id:"",
+      _id: "",
       nombre: data.get('nombre') as string,
       apellidos: data.get('apellidos') as string,
       idSolid: data.get('idSolid') as string,
@@ -155,6 +155,14 @@ export default function Register() {
             />
             <TextField
               margin="normal"
+              fullWidth
+              name="foto"
+              label="Foto"
+              id="foto"
+              autoComplete="foto"
+            />
+            <TextField
+              margin="normal"
               required
               fullWidth
               id="email"
@@ -186,8 +194,8 @@ export default function Register() {
             </Button>
             <Grid container>
               <Grid item>
-              <Link to={"/login"}>
-                  <Typography key="login" sx={{ my: 1, color: 'blue', textAlign:"center", display: 'block' }}>
+                <Link to={"/login"}>
+                  <Typography key="login" sx={{ my: 1, color: 'blue', textAlign: "center", display: 'block' }}>
                     Iniciar Sesión
                   </Typography>
                 </Link>
@@ -197,7 +205,7 @@ export default function Register() {
         </Box>
       </Container>
     </ThemeProvider>
-  ); 
+  );
 }
 
 
