@@ -117,73 +117,81 @@ export default function Register() {
           <Typography component="h1" variant="h5">
             Registrarse
           </Typography>
-          <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              id="nombre"
-              label="Nombre"
-              name="nombre"
-              autoFocus
-            />
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              id="apellidos"
-              label="Apellidos"
-              name="apellidos"
-              autoFocus
-            />
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              id="dni"
-              label="DNI"
-              name="dni"
-              autoFocus
-            />
-            <TextField
-              margin="normal"
-              fullWidth
-              id="idSolid"
-              label="Solid WebId"
-              name="idSolid"
-              autoFocus
-            />
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              id="email"
-              label="Email"
-              name="email"
-              autoComplete="email"
-              autoFocus
-            />
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              name="contraseña"
-              label="Contraseña"
-              type="password"
-              id="filled-password-input"
-              autoComplete="current-contraseña"
-            />
-            {errorMessage && (
-              <p className="error"> {errorMessage} </p>
-            )}
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              sx={{ mt: 3, mb: 2 }}
-            >
-              Completar registro
-            </Button>
+            <form name="register" data-testid="register-form" onSubmit={handleSubmit}>
+              <TextField
+                margin="normal"
+                required
+                fullWidth
+                id="nombre"
+                label="Nombre"
+                name="nombre"
+                autoFocus
+                data-testid="txt-nombre"
+              />
+              <TextField
+                margin="normal"
+                required
+                fullWidth
+                id="apellidos"
+                label="Apellidos"
+                name="apellidos"
+                autoFocus
+                data-testid="txt-apellidos"
+              />
+              <TextField
+                margin="normal"
+                required
+                fullWidth
+                id="dni"
+                label="DNI"
+                name="dni"
+                autoFocus
+                data-testid="txt-dni"
+              />
+              <TextField
+                margin="normal"
+                fullWidth
+                id="idSolid"
+                label="Solid WebId"
+                name="idSolid"
+                autoFocus
+                data-testid="txt-idSolid"
+              />
+              <TextField
+                margin="normal"
+                required
+                fullWidth
+                id="email"
+                label="Email"
+                name="email"
+                autoComplete="email"
+                autoFocus
+                data-testid="txt-email"
+              />
+              <TextField
+                margin="normal"
+                required
+                fullWidth
+                name="contraseña"
+                label="Contraseña"
+                type="password"
+                id="filled-password-input"
+                autoComplete="current-contraseña"
+                data-testid="txt-contraseña"
+              />
+              {errorMessage && (
+                <p className="error"> {errorMessage} </p>
+              )}
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                sx={{ mt: 3, mb: 2 }}
+                data-testid="btn-registrarse"
+              >
+                Completar registro
+              </Button>
+            </form>
             <Grid container>
               <Grid item>
               <Link to={"/login"}>
@@ -193,7 +201,6 @@ export default function Register() {
                 </Link>
               </Grid>
             </Grid>
-          </Box>
         </Box>
       </Container>
     </ThemeProvider>
