@@ -7,6 +7,7 @@ export type User = {
     contraseña:string;
     dni:string;
     esAdmin:boolean;
+    foto:string;
 }
 
 export type LoginData = {
