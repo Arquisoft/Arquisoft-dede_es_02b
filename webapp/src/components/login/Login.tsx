@@ -78,7 +78,7 @@ const Login:React.FC=()=> {
               name="email"
               autoComplete="email"
               autoFocus
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={(e: any) => setEmail(e.target.value)}
             />
             <TextField
               margin="normal"
@@ -89,7 +89,7 @@ const Login:React.FC=()=> {
               type="password"
               id="contraseña"
               autoComplete="current-contraseña"
-              onChange={(e) => setContraseña(e.target.value)}
+              onChange={(e: any) => setContraseña(e.target.value)}
             />
             {errorMessage && (
               <p style={{color: 'red'}} className="error"> {errorMessage} </p>

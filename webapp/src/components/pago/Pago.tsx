@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Grid from '@mui/material/Grid';
@@ -9,36 +9,46 @@ import PaymentIcon from '@mui/icons-material/Payment';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Error403 from '../error/Error403';
 import { getAddressesFromPod } from '../../FuntionSolidConnection';
+import { FormPagos } from '../../shared/shareddtypes';
 
 const theme = createTheme();
 
 function Pago(): JSX.Element {
-  const [calle, setCalle] = useState("");
-  const [localidad, setLocalidad] = useState("");
-  const [provincia, setProvincia] = useState("");
-  const [pais, setPais] = useState("");
-  const [codPostal, setCodPostal] = useState("");
+  const numTarjetaRegex = /([0-9]{4}){1}( [0-9]{4}){3}/
+  const fechaTarjetaRegex = /^(0[1-9]|1[0-2])\/?([0-9]{4}|[0-9]{2})$/
+  const numSeguridadTarjetaRegex = /[0-9]{3}/
 
-  const [numTarjeta, setNumTarjeta] = useState("");
-  const [fechaTarjeta, setFechaTarjeta] = useState("");
-  const [numSeguridadTarjeta, setNumSeguridadTarjeta] = useState("");
+  const initialValues: FormPagos = {calle: "", localidad: "", provincia: "", pais: "", codigo_postal: "", 
+                                    numTarjeta: "", fechaTarjeta: "", numSeguridadTarjeta: ""};
+  const[formValues, setFormValues] = useState(initialValues);
+  const [formErrors, setFormErrors] = useState(initialValues);
+  const [isSubmit, setIsSubmit] = useState(false);
 
-  const [errorMessage, setErrorMessage] = useState('');
+  const handleChange = (e: any) => {
+    const {name, value} = e.target;
+    setFormValues({...formValues, [name]: value});
+  };
 
-  const tarjetaRegex = /([0-9]{4}){1}( [0-9]{4}){3}/
+  useEffect(() => {
+    let correct: boolean = true;
+    (Object.keys(formErrors) as (keyof typeof formErrors)[]).forEach(key => {
+      if(!(formErrors[key].length===0)){
+        correct = false;
+      }
+    });
+    
+    if(correct && isSubmit){
+
+    }else{
+      setIsSubmit(false);
+    }
+  }, [formErrors]);
 
   if (!sessionStorage.getItem("usuario"))
     return <Error403></Error403>
   else
     if (JSON.parse(sessionStorage.getItem("usuario")!).esAdmin)
       return <Error403></Error403>
-
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-
-    if (!numTarjeta.match(tarjetaRegex))
-      setErrorMessage('La tarjeta es incorrecta');
-  };
 
   function botonPod(): JSX.Element{
     if(JSON.parse(sessionStorage.getItem("usuario")!).webId){
@@ -47,28 +57,46 @@ function Pago(): JSX.Element {
     return <></>
   }
 
-  function direccionRellenado(): boolean {
-    return !((calle.trim().length==0 || calle==null) && (localidad.trim().length==0 || localidad==null) && (provincia.trim().length==0 || provincia==null)
-              && (pais.trim().length==0 || pais==null) && (codPostal.trim().length==0 || codPostal==null));
-  }
-
-  function tarjetaRellenado(): boolean {
-    return !((numTarjeta.trim().length==0 || numTarjeta==null) && (fechaTarjeta.trim().length==0 || fechaTarjeta==null)
-              && (numSeguridadTarjeta.trim().length==0 || numSeguridadTarjeta==null));
-  }
-
-  function SubmitButton(): JSX.Element {
-    if (direccionRellenado() && tarjetaRellenado()) {
-      return <Button type="submit" size="large" variant="contained" sx={{ mt: 3, mb: 2 }}>
-              Pagar
-             </Button>
-    } else {
-      return <Button type="submit" size="large" variant="contained" sx={{ mt: 3, mb: 2 }} disabled>
-              Pagar
-             </Button>
-    };
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    setFormErrors(validate(formValues));
+    setIsSubmit(true);
   };
 
+  const validate = (formValues: FormPagos) => {
+    const errors = {calle: "", localidad: "", provincia: "", pais: "", codigo_postal: "",
+                      numTarjeta: "", fechaTarjeta: "", numSeguridadTarjeta: ""};
+
+    if(!formValues.calle)
+      errors.calle = "Calle requerida";
+    if(!formValues.localidad)
+      errors.localidad = "Localidad requerida";
+    if(!formValues.provincia)
+      errors.provincia = "Provincia requerida";
+    if(!formValues.pais)
+      errors.pais = "País requerido";
+    if(!formValues.codigo_postal)
+      errors.codigo_postal = "Código postal requerido";
+
+
+    if(!formValues.numTarjeta.match(numTarjetaRegex))
+      errors.numTarjeta = "El número de tarjeta no es válido";
+    if(!formValues.fechaTarjeta.match(fechaTarjetaRegex))
+      errors.fechaTarjeta = "La fecha de caducidad de la tarjeta no es válida";
+    if(!formValues.numSeguridadTarjeta.match(numSeguridadTarjetaRegex))
+      errors.numSeguridadTarjeta = "El número de seguridad de la tarjeta no es válido";
+
+    if(!formValues.numTarjeta)
+      errors.numTarjeta = "Número de tarjeta requerido";
+    if(!formValues.fechaTarjeta)
+      errors.fechaTarjeta = "Fecha de caducidad de tarjeta requerida";
+    if(!formValues.numSeguridadTarjeta)
+      errors.numSeguridadTarjeta = "Número de seguridad de tarjeta requerido";
+
+
+    return errors;
+  }
+  
   async function handlePOD() {
     let webId: string = JSON.parse(sessionStorage.getItem("usuario")!).webId;
     let addresses: string[] = await getAddressesFromPod('https://' + webId.toLowerCase() + '/profile/card#me');
@@ -76,6 +104,14 @@ function Pago(): JSX.Element {
     if(addresses.length > 0){
       console.log(addresses);
     }
+  }
+
+  interface ErrorMessage {
+    error: string;
+  }
+
+  function Error(props: ErrorMessage) {
+    return <p style={{color: 'red', width: '20em', maxWidth: '500px'}}>{props.error}</p>;
   }
 
   return (
@@ -103,17 +139,18 @@ function Pago(): JSX.Element {
                 Dirección
               </Typography>
               <TextField
-                margin="normal"
-                required
-                fullWidth
-                id="calle"
-                label="Calle"
-                name="calle"
-                autoComplete="calle"
-                autoFocus
-                value = {calle}
-                onChange={(e: any) => setCalle(e.target.value)}
+              margin="normal"
+              required
+              fullWidth
+              id="calle"
+              label="Calle"
+              name="calle"
+              autoComplete="calle"
+              autoFocus
+              value = {formValues.calle}
+              onChange={handleChange}
               />
+              <Error error={formErrors.calle}/>
               <TextField
                 margin="normal"
                 required
@@ -123,9 +160,10 @@ function Pago(): JSX.Element {
                 name="localidad"
                 autoComplete="localidad"
                 autoFocus
-                value = {localidad}
-                onChange={(e: any) => setLocalidad(e.target.value)}
+                value = {formValues.localidad}
+                onChange={handleChange}
               />
+              <Error error={formErrors.localidad}/>
               <TextField
                 margin="normal"
                 required
@@ -135,9 +173,10 @@ function Pago(): JSX.Element {
                 name="provincia"
                 autoComplete="provincia"
                 autoFocus
-                value = {provincia}
-                onChange={(e: any) => setProvincia(e.target.value)}
+                value = {formValues.provincia}
+                onChange={handleChange}
               />
+              <Error error={formErrors.provincia}/>
               <TextField
                 margin="normal"
                 required
@@ -147,21 +186,23 @@ function Pago(): JSX.Element {
                 name="pais"
                 autoComplete="pais"
                 autoFocus
-                value = {pais}
-                onChange={(e: any) => setPais(e.target.value)}
+                value = {formValues.pais}
+                onChange={handleChange}
               />
+              <Error error={formErrors.pais}/>
               <TextField
                 margin="normal"
                 required
                 fullWidth
-                id="codPostal"
+                id="codigo_postal"
                 label="Código Postal"
-                name="codPostal"
-                autoComplete="codPostal"
+                name="codigo_postal"
+                autoComplete="codigo_postal"
                 autoFocus
-                value = {codPostal}
-                onChange={(e: any) => setCodPostal(e.target.value)}
+                value = {formValues.codigo_postal}
+                onChange={handleChange}
               />
+              <Error error={formErrors.codigo_postal}/>
               <Grid item alignItems="stretch" style={{ display: "flex" }}>
                 {botonPod()}                
               </Grid>
@@ -174,13 +215,16 @@ function Pago(): JSX.Element {
                 margin="normal"
                 required
                 fullWidth
-                name="numeroTarjeta"
+                name="numTarjeta"
                 label="Número de Tarjeta"
-                type="numeroTarjeta"
-                id="numeroTarjeta"
-                autoComplete="numeroTarjeta"
-                onChange={(e: any) => setNumTarjeta(e.target.value)}
+                type="numTarjeta"
+                id="numTarjeta"
+                autoComplete="numTarjeta"
+                placeholder="Ejemplo: 1234 1234 1234 1234"
+                value = {formValues.numTarjeta}
+                onChange={handleChange}
               />
+              <Error error={formErrors.numTarjeta}/>
               <TextField
                 margin="normal"
                 required
@@ -190,8 +234,11 @@ function Pago(): JSX.Element {
                 type="fechaTarjeta"
                 id="fechaTarjeta"
                 autoComplete="fechaTarjeta"
-                onChange={(e: any) => setFechaTarjeta(e.target.value)}
+                placeholder="Ejemplo: MM/YY"
+                value = {formValues.fechaTarjeta}
+                onChange={handleChange}
               />
+              <Error error={formErrors.fechaTarjeta}/>
               <TextField
                 margin="normal"
                 required
@@ -201,14 +248,16 @@ function Pago(): JSX.Element {
                 type="numSeguridadTarjeta"
                 id="numSeguridadTarjeta"
                 autoComplete="numSeguridadTarjeta"
-                onChange={(e: any) => setNumSeguridadTarjeta(e.target.value)}
+                placeholder="Ejemplo: 111"
+                value = {formValues.numSeguridadTarjeta}
+                onChange={handleChange}
               />
+              <Error error={formErrors.numSeguridadTarjeta}/>
             </Grid>
-          {errorMessage && (
-            <p style={{ color: 'red' }} className="error"> {errorMessage} </p>
-          )}
+            <Button type="submit" size="large" variant="contained" sx={{ mt: 3, mb: 2 }}>
+              Pagar
+            </Button>
           </Box>
-          <SubmitButton />
         </Grid>
       </ThemeProvider>
     </Box>
