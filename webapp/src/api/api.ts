@@ -6,12 +6,12 @@ export async function addUser(user: User): Promise<boolean> {
   let response = await fetch(apiEndPoint + '/users/add', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ 'nombre': user.nombre, 'apellidos': user.apellidos, 'email': user.email, 'contraseña': user.contraseña, 'dni': user.dni, 'idSolid': user.idSolid })
+    body: JSON.stringify({ 'nombre': user.nombre, 'apellidos': user.apellidos, 'email': user.email, 'contraseña': user.contraseña, 'dni': user.dni, 'idSolid': user.idSolid, 'foto': user.foto })
   });
 
   if (response.status === 200) {
     let u: User = await response.json();
-    sessionStorage.setItem("usuario", JSON.stringify({ email: u.email, esAdmin: u.esAdmin, webId: u.idSolid }));
+    sessionStorage.setItem("usuario", JSON.stringify({ email: u.email, esAdmin: u.esAdmin, webId: u.idSolid, foto: u.foto }));
     return true;
   }
   return false;
@@ -54,7 +54,7 @@ export async function login(user: LoginData): Promise<boolean> {
 
   if (response.status === 200) {
     let u: User = await response.json();
-    sessionStorage.setItem("usuario", JSON.stringify({ email: u.email, esAdmin: u.esAdmin, webId: u.idSolid }));
+    sessionStorage.setItem("usuario", JSON.stringify({ email: u.email, esAdmin: u.esAdmin, webId: u.idSolid, foto: u.foto }));
     return true;
   }
   return false;
@@ -166,11 +166,11 @@ export async function editUser(user: User): Promise<boolean> {
   let response = await fetch(apiEndPoint + '/users/editar', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ 'email': user.email, 'nombre': user.nombre, 'apellidos': user.apellidos, 'idSolid': user.idSolid })
+    body: JSON.stringify({ 'email': user.email, 'nombre': user.nombre, 'apellidos': user.apellidos, 'idSolid': user.idSolid, 'foto': user.foto})
   });
   if (response.status === 200) {
     let u: User = await response.json();
-    sessionStorage.setItem("usuario", JSON.stringify({ email: u.email, esAdmin: u.esAdmin, webId: u.idSolid }));
+    sessionStorage.setItem("usuario", JSON.stringify({ email: u.email, esAdmin: u.esAdmin, webId: u.idSolid, foto: u.foto }));
     return true;
   } else
     return false;

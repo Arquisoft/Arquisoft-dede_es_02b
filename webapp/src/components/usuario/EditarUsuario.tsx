@@ -27,7 +27,8 @@ const EditarUsuario: React.FC = () => {
           dni: "",
           email: email,
           contraseña: "",
-          esAdmin: false
+          esAdmin: false,
+          foto: data.get('foto') as string
         }
 
         setEditado(await editUser(user));
@@ -58,7 +59,6 @@ const EditarUsuario: React.FC = () => {
                     <TextField
                         autoComplete="given-name"
                         name="nombre"
-                        required
                         fullWidth
                         id="nombre"
                         label="Nombre"
@@ -67,7 +67,6 @@ const EditarUsuario: React.FC = () => {
                 </Grid>
                 <Grid item xs={12}>
                     <TextField
-                        required
                         fullWidth
                         id="apellidos"
                         label="Apellidos"
@@ -77,7 +76,6 @@ const EditarUsuario: React.FC = () => {
                 </Grid>
                 <Grid item xs={12}>
                     <TextField
-                        required
                         fullWidth
                         name="idSolid"
                         label="Id de Solid"
