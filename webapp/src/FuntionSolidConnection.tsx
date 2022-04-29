@@ -1,15 +1,12 @@
-import * as React from "react";
-
 import {
   getSolidDataset,
   getThing,
   getStringNoLocale,
   getUrlAll,
-  Thing,
-  getUrl,
+  Thing
 } from "@inrupt/solid-client";
 
-import { FOAF, VCARD } from "@inrupt/vocab-common-rdf";
+import { VCARD } from "@inrupt/vocab-common-rdf";
 
 async function getProfile(webId: string): Promise<Thing> {
   let profileDocumentURI = webId.split("#")[0];
