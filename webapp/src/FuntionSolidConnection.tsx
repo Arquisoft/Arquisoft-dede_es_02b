@@ -1,15 +1,12 @@
-import * as React from "react";
-
 import {
   getSolidDataset,
   getThing,
   getStringNoLocale,
   getUrlAll,
-  Thing,
-  getUrl,
+  Thing
 } from "@inrupt/solid-client";
 
-import { FOAF, VCARD } from "@inrupt/vocab-common-rdf";
+import { VCARD } from "@inrupt/vocab-common-rdf";
 
 async function getProfile(webId: string): Promise<Thing> {
   let profileDocumentURI = webId.split("#")[0];
@@ -17,8 +14,8 @@ async function getProfile(webId: string): Promise<Thing> {
   return getThing(myDataset, webId) as Thing;
 }
 
-export async function getAddressesFromPod(webId: string) {
-  let addressURLs = getUrlAll(await getProfile(webId), VCARD.hasAddress);
+export async function getAddressesFromPod(webId: string): Promise<string[]> {
+  let addressURLs = await getUrlAll(await getProfile(webId), VCARD.hasAddress);
   let addresses: string[] = [];
 
   for (let addressURL of addressURLs) {
