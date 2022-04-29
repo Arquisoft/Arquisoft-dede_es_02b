@@ -4,12 +4,17 @@ import products from './mockData.json';
 import accounting from 'accounting';
 import Carrito from '../components/carrito/Carrito';
 import { addToCart } from '../api/api';
+import { BrowserRouter } from 'react-router-dom';
 
 test('Carrito', () => {
+  let email = "adrian@email.com";
+  let contraseña = "1234";
+  sessionStorage.setItem("usuario", JSON.stringify({ email: email, esAdmin: false, webId: "" }));
     products.productos.forEach(element=>{
       addToCart(element,3);
     })
-    render(<Carrito/>);
+    
+    render(<BrowserRouter><Carrito/></BrowserRouter>);
     let text = screen.getByText(/Resumen del pedido/);
     expect(text).toBeInTheDocument();
     text = screen.getByText(/Total/);
