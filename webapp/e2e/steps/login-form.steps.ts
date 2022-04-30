@@ -1,7 +1,7 @@
 import { defineFeature, loadFeature } from 'jest-cucumber';
 import puppeteer from "puppeteer";
 
-const feature = loadFeature('./features/register-form.feature');
+const feature = loadFeature('./features/login-form.feature');
 
 let page: puppeteer.Page;
 let browser: puppeteer.Browser;
@@ -21,12 +21,12 @@ defineFeature(feature, test => {
       .catch((error) => {console.log(error)});
   });
 
-  test('The user is not registered in the site', ({given,when,then}) => {
+  test('The user is not logged in the site', ({given,when,then}) => {
     
     let email:string;
     let username:string;
 
-    given('An unregistered user', () => {
+    given('An registered user', () => {
       email = "admin@email.com"
       username = "1234"
     });
@@ -40,7 +40,7 @@ defineFeature(feature, test => {
       await expect(page).toClick('button', { text: 'Iniciar sesión' })
     });
 
-    then('A confirmation message should be shown in the screen', async () => {
+    then('The products page should be shown', async () => {
       // await expect(page).toMatch('You have been registered in the system!')
       await expect(page).toMatch('Productos')
     });
