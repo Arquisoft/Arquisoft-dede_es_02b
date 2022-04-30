@@ -52,7 +52,7 @@ const NavBar: React.FC = () => {
         return (<Box sx={{ flexGrow: 0, marginLeft: 2 }}>
           <Tooltip title="Open settings">
             <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-              <Avatar alt="Remy Sharp" />
+              <Avatar alt="Remy Sharp" src={JSON.parse(sessionStorage.getItem("usuario")!).foto} />
             </IconButton>
           </Tooltip>
 
@@ -83,7 +83,7 @@ const NavBar: React.FC = () => {
         return (<Box sx={{ flexGrow: 0, marginLeft: 2 }}>
           <Tooltip title="Open settings">
             <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-              <Avatar alt="Remy Sharp" />
+              <Avatar alt="Remy Sharp" src={JSON.parse(sessionStorage.getItem("usuario")!).foto}/>
             </IconButton>
           </Tooltip>
 

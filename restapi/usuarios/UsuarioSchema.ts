@@ -40,6 +40,11 @@ const usuarioSchema = new mongoose.Schema({
         type: Boolean, 
         required: true,
         default: false,
+    },
+    foto:{
+        type: String,
+        required: true,
+        default: 'https://i.ibb.co/SmQVzQw/usuario.png'
     }
 })
 

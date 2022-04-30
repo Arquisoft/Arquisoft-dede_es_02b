@@ -33,7 +33,8 @@ export default function Register() {
       dni: data.get('dni') as string,
       email: data.get('email') as string,
       contraseña: data.get('contraseña') as string,
-      esAdmin: false
+      esAdmin: false,
+      foto: data.get('foto') as string
     }
 
     if (await comprobarDatos(user)) {

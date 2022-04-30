@@ -35,7 +35,7 @@ const Login:React.FC=()=> {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if(!await login({email, contraseña}))
+    if(await login({email, contraseña}))
       setLogueado(email);
     
     if(!logueado)
