@@ -11,11 +11,11 @@ defineFeature(feature, test => {
   beforeAll(async () => {
     browser = process.env.GITHUB_ACTIONS
       ? await puppeteer.launch()
-      : await puppeteer.launch({ headless: true });
+      : await puppeteer.launch({ headless: true, slowMo:150 });
     page = await browser.newPage();
 
     await page
-      .goto("http://localhost:3000", {
+      .goto("http://localhost:3000/register", {
         waitUntil: "networkidle0",
       })
       .catch((error) => {console.log(error)});
