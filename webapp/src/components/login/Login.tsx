@@ -68,7 +68,7 @@ const Login:React.FC=()=> {
           <Typography component="h1" variant="h5">
             Inicia sesión
           </Typography>
-          <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+          <Box component="form" name='login' onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
             <TextField
               margin="normal"
               required
