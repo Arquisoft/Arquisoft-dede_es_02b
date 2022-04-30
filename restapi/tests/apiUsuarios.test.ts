@@ -87,16 +87,16 @@ describe('listar usuarios ', () => {
 
         expect(response.statusCode).toBe(200);
         expect(response.body.length).toBe(3);
-        await compareResponseBody(response.body[0], { nombre: "admin", apellidos:'admin', email: "admin@email.com", dni: "00000001a", contraseña: "1234", idSolid: "" });
-        await compareResponseBody(response.body[1], { nombre: "adrian", apellidos:'fernández', email: "adrian@email.com", dni: "00000002a", contraseña: "1234" , idSolid: "Adrifa"});
-        await compareResponseBody(response.body[2], { nombre: "pablo", apellidos:'gonzalez',email: "gonzalezgpablo@uniovi.es", dni: "12345678a", contraseña: "1234", idSolid: "idSolid" });
+        await compareResponseBody(response.body[0], { nombre: "admin", apellidos:'admin', email: "admin@email.com", dni: "00000001a", contraseña: "1234", idSolid: "", foto:'https://i.ibb.co/SmQVzQw/usuario.png' });
+        await compareResponseBody(response.body[1], { nombre: "adrian", apellidos:'fernández', email: "adrian@email.com", dni: "00000002a", contraseña: "1234" , idSolid: "Adrifa",foto:"https://i.ibb.co/SmQVzQw/usuario.png" });
+        await compareResponseBody(response.body[2], { nombre: "pablo", apellidos:'gonzalez',email: "gonzalezgpablo@uniovi.es", dni: "12345678a", contraseña: "1234", idSolid: "idSolid",foto:"https://i.ibb.co/SmQVzQw/usuario.png"  });
     });
 
     it('por email', async () => {
         var response: Response = await request(app).get("/users/email=gonzalezgpablo@uniovi.es").set('Accept', 'application/json');
 
         expect(response.statusCode).toBe(200);
-        await compareResponseBody(response.body, { nombre: "pablo", apellidos:'gonzalez',email: "gonzalezgpablo@uniovi.es", dni: "12345678a", contraseña: "1234", idSolid: "idSolid" });
+        await compareResponseBody(response.body, { nombre: "pablo", apellidos:'gonzalez',email: "gonzalezgpablo@uniovi.es", dni: "12345678a", contraseña: "1234", idSolid: "idSolid" ,foto:"https://i.ibb.co/SmQVzQw/usuario.png" });
     });
 
     it('por email - incorrecto', async () => {
@@ -110,7 +110,7 @@ describe('listar usuarios ', () => {
         var response: Response = await request(app).get("/users/dni=12345678a").set('Accept', 'application/json');
 
         expect(response.statusCode).toBe(200);
-        await compareResponseBody(response.body, { nombre: "pablo", apellidos:'gonzalez',email: "gonzalezgpablo@uniovi.es", dni: "12345678a", contraseña: "1234", idSolid: "idSolid" });
+        await compareResponseBody(response.body, { nombre: "pablo", apellidos:'gonzalez',email: "gonzalezgpablo@uniovi.es", dni: "12345678a", contraseña: "1234", idSolid: "idSolid",foto:"https://i.ibb.co/SmQVzQw/usuario.png"  });
     });
 
     it('por dni - incorrecto', async () => {
@@ -124,7 +124,7 @@ describe('listar usuarios ', () => {
         var response: Response = await request(app).get("/users/id=6220e1c1e976d8ae3a9d3e60").set('Accept', 'application/json');
 
         expect(response.statusCode).toBe(200);
-        await compareResponseBody(response.body, { nombre: "adrian", apellidos:"fernández", email: "adrian@email.com", dni: "00000002a", contraseña: "1234", idSolid: "Adrifa" });
+        await compareResponseBody(response.body, { nombre: "adrian", apellidos:"fernández", email: "adrian@email.com", dni: "00000002a", contraseña: "1234", idSolid: "Adrifa",foto:"https://i.ibb.co/SmQVzQw/usuario.png" });
     });
 
     it('por id - incorrecto', async () => {
@@ -152,6 +152,7 @@ describe("login ", () => {
             "esAdmin": true,
             "dni": "00000001a",
             "contraseña": "$2b$10$I6GUXY4VDqmNfPSeYnWg1uE2NN7u5UcZJ5ozvANYKKP.nuKOb1ija",
+            "foto":"https://i.ibb.co/SmQVzQw/usuario.png",
             "idSolid": "",
             "__v": 0
         });
@@ -192,7 +193,7 @@ describe("editar usuario ", () => {
         var response: Response = await request(app).get("/users/email=adrian@email.com").set('Accept', 'application/json');
 
         expect(response.statusCode).toBe(200);
-        await compareResponseBody(response.body, { nombre: "adrian", apellidos:'Alonso',email: "adrian@email.com", dni: "00000002a", contraseña: "1234", idSolid: "idSolid" });
+        await compareResponseBody(response.body, { nombre: "adrian", apellidos:'Alonso',email: "adrian@email.com", dni: "00000002a", contraseña: "1234", idSolid: "idSolid",foto:"https://i.ibb.co/SmQVzQw/usuario.png" });
     })
 
     it('sin nombre', async () =>{
@@ -200,7 +201,7 @@ describe("editar usuario ", () => {
         var response: Response = await request(app).get("/users/email=adrian@email.com").set('Accept', 'application/json');
 
         expect(response.statusCode).toBe(200);
-        await compareResponseBody(response.body, { nombre: "adrian", apellidos:'Fernández',email: "adrian@email.com", dni: "00000002a", contraseña: "1234", idSolid: "webId" });
+        await compareResponseBody(response.body, { nombre: "adrian", apellidos:'Fernández',email: "adrian@email.com", dni: "00000002a", contraseña: "1234", idSolid: "webId",foto:"https://i.ibb.co/SmQVzQw/usuario.png" });
     })
 
     it('apellidos = ""', async () =>{
@@ -208,7 +209,7 @@ describe("editar usuario ", () => {
         var response: Response = await request(app).get("/users/email=adrian@email.com").set('Accept', 'application/json');
 
         expect(response.statusCode).toBe(200);
-        await compareResponseBody(response.body, { nombre: "Adri", apellidos:'Fernández',email: "adrian@email.com", dni: "00000002a", contraseña: "1234", idSolid: "idSolid" });
+        await compareResponseBody(response.body, { nombre: "Adri", apellidos:'Fernández',email: "adrian@email.com", dni: "00000002a", contraseña: "1234", idSolid: "idSolid",foto:"https://i.ibb.co/SmQVzQw/usuario.png"  });
     })
 
     it('sin apellidos', async () =>{
@@ -216,7 +217,7 @@ describe("editar usuario ", () => {
         var response: Response = await request(app).get("/users/email=adrian@email.com").set('Accept', 'application/json');
 
         expect(response.statusCode).toBe(200);
-        await compareResponseBody(response.body, { nombre: "Adrián", apellidos:'Fernández',email: "adrian@email.com", dni: "00000002a", contraseña: "1234", idSolid: "webId" });
+        await compareResponseBody(response.body, { nombre: "Adrián", apellidos:'Fernández',email: "adrian@email.com", dni: "00000002a", contraseña: "1234", idSolid: "webId",foto:"https://i.ibb.co/SmQVzQw/usuario.png"  });
     })
 
     it('idSolid = ""', async () =>{
@@ -224,7 +225,7 @@ describe("editar usuario ", () => {
         var response: Response = await request(app).get("/users/email=adrian@email.com").set('Accept', 'application/json');
 
         expect(response.statusCode).toBe(200);
-        await compareResponseBody(response.body, { nombre: "Adri", apellidos:'Alonso',email: "adrian@email.com", dni: "00000002a", contraseña: "1234", idSolid: "webId" });
+        await compareResponseBody(response.body, { nombre: "Adri", apellidos:'Alonso',email: "adrian@email.com", dni: "00000002a", contraseña: "1234", idSolid: "webId" ,foto:"https://i.ibb.co/SmQVzQw/usuario.png" });
     })
 
     it('sin idSolid', async () =>{
@@ -232,7 +233,7 @@ describe("editar usuario ", () => {
         var response: Response = await request(app).get("/users/email=adrian@email.com").set('Accept', 'application/json');
 
         expect(response.statusCode).toBe(200);
-        await compareResponseBody(response.body, { nombre: "Adrián", apellidos:'Fernández',email: "adrian@email.com", dni: "00000002a", contraseña: "1234", idSolid: "webId" });
+        await compareResponseBody(response.body, { nombre: "Adrián", apellidos:'Fernández',email: "adrian@email.com", dni: "00000002a", contraseña: "1234", idSolid: "webId",foto:"https://i.ibb.co/SmQVzQw/usuario.png"  });
     })
     
     it('correctamente', async () =>{
@@ -240,7 +241,7 @@ describe("editar usuario ", () => {
         var response: Response = await request(app).get("/users/email=adrian@email.com").set('Accept', 'application/json');
 
         expect(response.statusCode).toBe(200);
-        await compareResponseBody(response.body, { nombre: "Adri", apellidos:'Alonso',email: "adrian@email.com", dni: "00000002a", contraseña: "1234", idSolid: "idSolid" });
+        await compareResponseBody(response.body, { nombre: "Adri", apellidos:'Alonso',email: "adrian@email.com", dni: "00000002a", contraseña: "1234", idSolid: "idSolid",foto:"https://i.ibb.co/SmQVzQw/usuario.png"  });
     })
 })
 
@@ -282,12 +283,13 @@ async function probarDelete(arg0: { _id?: string; }, code: number): Promise<Resp
     return response;
 }
 
-async function compareResponseBody(body: any, arg1: { nombre: string; apellidos: string; email: string; dni: string; contraseña: string; idSolid: string; }) {
+async function compareResponseBody(body: any, arg1: { nombre: string; apellidos: string; email: string; dni: string; contraseña: string; idSolid: string; foto:string; }) {
     expect(body.nombre).toBe(arg1.nombre);
     expect(body.apellidos).toBe(arg1.apellidos);
     expect(body.email).toBe(arg1.email);
     expect(body.dni).toBe(arg1.dni);
     expect(body.idSolid).toBe(arg1.idSolid);
+    expect(body.foto).toBe(arg1.foto);
 
     let contraCorrecta: boolean = await bcrypt.compare(arg1.contraseña, body.contraseña);
     expect(contraCorrecta).toBe(true);
