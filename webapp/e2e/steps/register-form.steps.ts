@@ -37,12 +37,12 @@ defineFeature(feature, test => {
     });
 
     when('Rellenamos el formulario de registro', async () => {
-      let nombreSelector ='[data-testid="txt-nombre"]';
-      let apellidosSelector = '[data-testid="txt-apellidos"]';
-      let dniSelector = '[data-testid="txt-dni"]';
-      let emailSelector = '[data-testid="txt-email"]';
-      let contraseñaSelector = '[data-testid="txt-contraseña"]';
-      let botonSelector = '[data-testid="btn-registrarse"]';
+      let nombreSelector ='[data-testid="nombre"]';
+      let apellidosSelector = '[data-testid="apellidos"]';
+      let dniSelector = '[data-testid="dni"]';
+      let emailSelector = '[data-testid="email"]';
+      let contraseñaSelector = '[data-testid="contraseña"]';
+      let botonSelector = '[data-testid="registrarse"]';
 
       await page.waitForSelector(nombreSelector);
       await page.click(nombreSelector);
