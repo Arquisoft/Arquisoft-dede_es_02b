@@ -19,6 +19,8 @@ defineFeature(feature, test => {
         waitUntil: "networkidle0",
       })
       .catch((error) => {console.log(error)});
+
+      jest.setTimeout(10000);
   });
 
   test('El usuario no esta registrado', ({given,when,then}) => {
