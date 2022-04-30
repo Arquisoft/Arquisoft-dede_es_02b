@@ -9,7 +9,8 @@ import PaymentIcon from '@mui/icons-material/Payment';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Error403 from '../error/Error403';
 import { getAddressesFromPod } from '../../FuntionSolidConnection';
-import { FormPagos } from '../../shared/shareddtypes';
+import { FormPagos, SolidDireccion } from '../../shared/shareddtypes';
+import './PopUpSolid.css';
 
 const theme = createTheme();
 
@@ -20,9 +21,15 @@ function Pago(): JSX.Element {
 
   const initialValues: FormPagos = {calle: "", localidad: "", provincia: "", pais: "", codigo_postal: "", 
                                     numTarjeta: "", fechaTarjeta: "", numSeguridadTarjeta: ""};
-  const[formValues, setFormValues] = useState(initialValues);
+  const [formValues, setFormValues] = useState(initialValues);
   const [formErrors, setFormErrors] = useState(initialValues);
   const [isSubmit, setIsSubmit] = useState(false);
+
+  const[buttonPopup, setButtonPopup] = useState(false);
+  const[solidDirecciones, setSolidDirecciones] = useState<SolidDireccion[]>();
+
+  const direccionInicialSolid: SolidDireccion = {calle: "", localidad: "", provincia: "", pais: "", codigo_postal: ""};
+  const[direccionSeleccionada, setDireccionSeleccionada] = useState<SolidDireccion>(direccionInicialSolid);
 
   const handleChange = (e: any) => {
     const {name, value} = e.target;
@@ -50,7 +57,38 @@ function Pago(): JSX.Element {
     if (JSON.parse(sessionStorage.getItem("usuario")!).esAdmin)
       return <Error403></Error403>
 
-  function botonPod(): JSX.Element{
+  async function getFromPod(callback: Function){
+    let webId: string = JSON.parse(sessionStorage.getItem("usuario")!).webId;
+    let addresses: string[] = await getAddressesFromPod('https://' + webId.toLowerCase() + '/profile/card#me');
+
+    callback(addresses);
+  }
+
+  function fillAndShowPopup(addresses: string[]){
+    let direcciones = new Array<SolidDireccion>(addresses.length);
+    if(addresses.length > 0){
+      for (let i = 0; i < addresses.length; i++) {
+        console.log(addresses[i])
+        let campos: string[] = addresses[i].split(";");
+        direcciones[i] = direccionInicialSolid;
+        direcciones[i].calle=campos[0];
+        direcciones[i].localidad=campos[1];
+        direcciones[i].provincia=campos[2];
+        direcciones[i].pais=campos[3];
+        direcciones[i].codigo_postal=campos[4];
+        console.log(direcciones[i])
+      }
+
+      setSolidDirecciones(direcciones);
+      setButtonPopup(true);
+    }
+  }
+
+  async function handlePOD() {
+    await getFromPod(fillAndShowPopup)
+  }
+
+  function BotonPod(): JSX.Element{
     if(JSON.parse(sessionStorage.getItem("usuario")!).webId){
       return <Button onClick={handlePOD} fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>Obtener de POD</Button>
     }
@@ -97,15 +135,6 @@ function Pago(): JSX.Element {
     return errors;
   }
   
-  async function handlePOD() {
-    let webId: string = JSON.parse(sessionStorage.getItem("usuario")!).webId;
-    let addresses: string[] = await getAddressesFromPod('https://' + webId.toLowerCase() + '/profile/card#me');
-    console.log(addresses)
-    if(addresses.length > 0){
-      console.log(addresses);
-    }
-  }
-
   interface ErrorMessage {
     error: string;
   }
@@ -113,6 +142,40 @@ function Pago(): JSX.Element {
   function Error(props: ErrorMessage) {
     return <p style={{color: 'red', width: '20em', maxWidth: '500px'}}>{props.error}</p>;
   }
+
+  function handleDireccionSeleccionada(index: number){
+    if(solidDirecciones!=null && solidDirecciones!=undefined)
+      setDireccionSeleccionada(solidDirecciones[index])
+      
+      let newForm = Object.assign({}, formValues);
+      newForm.calle=direccionSeleccionada.calle;
+      newForm.localidad=direccionSeleccionada.localidad;
+      newForm.provincia=direccionSeleccionada.provincia;
+      newForm.pais=direccionSeleccionada.pais;
+      newForm.codigo_postal=direccionSeleccionada.codigo_postal;
+      setFormValues(newForm)
+
+      setButtonPopup(false);
+  }
+
+  function PopUpSolid(){
+    return (buttonPopup && solidDirecciones!=null && solidDirecciones!=undefined) ? (
+        <div className="popup">
+            <div className="popup-inner">
+                <h5>Seleccione la dirección</h5>
+                  {Array.from(Array(solidDirecciones.length)).map((_, index) => (
+                      <Button onClick={() => handleDireccionSeleccionada(index)} fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
+                          {solidDirecciones[index].calle + ", " 
+                            +solidDirecciones[index].localidad + ", "
+                            +solidDirecciones[index].provincia + ", "
+                            +solidDirecciones[index].pais + ", "
+                            +solidDirecciones[index].codigo_postal}
+                      </Button>
+                  ))}
+            </div>
+        </div>
+    ): <></>;
+}
 
   return (
     <>
@@ -204,7 +267,7 @@ function Pago(): JSX.Element {
               />
               <Error error={formErrors.codigo_postal}/>
               <Grid item alignItems="stretch" style={{ display: "flex" }}>
-                {botonPod()}                
+                <BotonPod/>
               </Grid>
             </Grid>
             <Grid>
@@ -258,6 +321,7 @@ function Pago(): JSX.Element {
               Pagar
             </Button>
           </Box>
+          <PopUpSolid/>
         </Grid>
       </ThemeProvider>
     </Box>

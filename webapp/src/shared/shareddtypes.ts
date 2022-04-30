@@ -62,3 +62,11 @@ export type FormPagos = {
     fechaTarjeta: string,
     numSeguridadTarjeta: string
 }
+
+export type SolidDireccion = {
+    calle: string,
+    localidad: string,
+    provincia: string,
+    pais: string,
+    codigo_postal: string
+}
