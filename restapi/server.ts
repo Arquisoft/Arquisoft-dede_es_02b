@@ -9,10 +9,35 @@ import apiUsuarios from './usuarios/apiUsuarios';
 import apiProductos from './productos/apiProductos';
 import apiPedidos from './pedidos/apiPedidos';
 
+
 const app: Application = express();
 app.disable("x-powered-by");
 const port: string = process.env.PORT||'5000';
 const conexiondb: string = process.env.MONGO_URI!;
+
+const conexionEasypost:string = process.env.EASYPOST_API_KEY!;
+const EasyPost = require('@easypost/api');
+const api = new EasyPost(conexionEasypost);
+
+const address = new api.Address({
+  street1: 'Calle Valdes Salas',
+  street2: '11',
+  city: 'Oviedo',
+  state: 'Asturias',
+  zip: '33007',
+  country: 'ES',
+  company: 'DeDe_Es2b',
+  phone: '415-123-4567',
+});
+
+address.save();
+
+const parcel = new api.Parcel({
+  predefined_package: 'FlatRateEnvelope',
+  weight: 10,
+});
+
+parcel.save();
 
 let allowedOrigins = ['http://localhost:3000'];
 

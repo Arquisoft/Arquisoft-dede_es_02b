@@ -190,3 +190,17 @@ export async function isAdmin(email: string): Promise<boolean> {
   let u: User = await findUserByEmail(email);
   return u.esAdmin;
 }
+
+export async function calcularCostes(address: string, weight:number): Promise<boolean> {
+  const apiEndPoint = process.env.REACT_APP_API_URI || 'http://localhost:5000'
+  let addressTo = JSON.parse(address);
+  let response = await fetch(apiEndPoint + '/envio/calcular', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ 'street1': addressTo.street1, 'city': addressTo.city, 'state': addressTo.state, 'zipcode': addressTo.zipcode, 'country': addressTo.country, 'weight': weight })
+  });
+  if (response.status === 200) {
+    return true;
+  } else
+    return false;
+}
