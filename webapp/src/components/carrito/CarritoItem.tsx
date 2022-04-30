@@ -56,13 +56,13 @@ const CarritoItem: React.FC<ProductProp>=(productProp : ProductProp) =>{
       </CardContent>
       <CardActions sx={{flexDirection:"row-reverse", justifyContent:'space-between', paddingTop:0}}>
       <Box sx={{display:'flex', flexDirection:"row-reverse", alignItems:'center'}}>
-          <IconButton id={"decrease_" + productProp.product.nombre} aria-label='delete-item' onClick={()=>handleDeleteItemFromCart(productProp.product)}>
+          <IconButton id={"removeAll_" + productProp.product.nombre} aria-label='delete-item' onClick={()=>handleDeleteItemFromCart(productProp.product)}>
               <DeleteIcon />
           </IconButton>
           <IconButton id={"add_" + productProp.product.nombre} aria-label='add-item' onClick={()=>handleAddUnitFromCart(productProp.product)}>
               <AddIcon />
           </IconButton>
-          <IconButton id={"removeAll_" + productProp.product.nombre} aria-label='subtract-item' onClick={()=>handleDeleteUnitFromCart(productProp.product)}>
+          <IconButton id={"decrease_" + productProp.product.nombre} aria-label='subtract-item' onClick={()=>handleDeleteUnitFromCart(productProp.product)}>
               <RemoveIcon />
           </IconButton>
           <Typography sx={{fontSize:20}}> {accounting.formatMoney(productProp.product.precio *productProp.cantidadItem,"€")}</Typography>
