@@ -31,6 +31,8 @@ apiPedidos.post(
       if(!req.body.lista_productos)
         return res.sendStatus(412);
 
+       
+
       for(let producto of req.body.lista_productos){
         if(!producto.id_producto)
           throw new Error();
@@ -44,10 +46,11 @@ apiPedidos.post(
       pedido.lista_productos = req.body.lista_productos;
       
       pedido.direccion = req.body.direccion;
+      pedido.tarjeta = req.body.tarjeta;
       
       await pedido.save();
       return res.sendStatus(200);
-    } catch {
+    } catch{
       return res.sendStatus(500);
     }
   }
@@ -91,6 +94,19 @@ apiPedidos.get(
     try{
       let pedidos = await Pedido.find({id_usuario: req.params.id_usuario}).exec();
       return res.status(200).send(pedidos);
+    }catch(Error){
+      return res.sendStatus(500);
+    }
+  }
+);
+
+apiPedidos.get(
+  "/pedidos/nextNumber",
+  async (req: Request, res: Response): Promise<Response> => {
+    try{
+      let pedidos = await Pedido.find({}).sort({numero_pedido: 'desc'}).limit(1).exec();
+      let nextNumber = pedidos[0].numero_pedido+1;
+      return res.status(200).send(nextNumber.toString());
     }catch(Error){
       return res.sendStatus(500);
     }

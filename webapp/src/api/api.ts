@@ -124,7 +124,8 @@ export async function addPedido(pedido: Pedido): Promise<boolean> {
         "lista_productos": pedido.lista_productos,
         "precio_total": pedido.precio_total,
         "direccion": pedido.direccion,
-        "estado": pedido.estado
+        "estado": pedido.estado,
+        "tarjeta": pedido.tarjeta
       })
     });
 
@@ -204,4 +205,11 @@ export async function deleteUser(_id: string): Promise<boolean>{
     return true;
   } else
     return false;
+}
+
+export async function getNextNumberPedido(): Promise<number> {
+  const apiEndPoint = process.env.REACT_APP_API_URI || 'http://localhost:5000'
+  let response = await fetch(apiEndPoint + '/pedidos/nextNumber');
+  //The objects returned by the api are directly convertible to User objects
+  return response.json()
 }

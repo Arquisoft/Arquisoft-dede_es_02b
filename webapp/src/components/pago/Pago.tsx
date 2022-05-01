@@ -9,8 +9,9 @@ import PaymentIcon from '@mui/icons-material/Payment';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Error403 from '../error/Error403';
 import { getAddressesFromPod } from '../../FuntionSolidConnection';
-import { FormPagos, SolidDireccion, Product, Pedido } from '../../shared/shareddtypes';
+import { FormPagos, SolidDireccion, Pedido, Estado, Product } from '../../shared/shareddtypes';
 import './PopUpSolid.css';
+import { addPedido, findUserByEmail, getNextNumberPedido } from '../../api/api';
 
 const theme = createTheme();
 
@@ -23,13 +24,17 @@ function Pago(): JSX.Element {
                                     numTarjeta: "", fechaTarjeta: "", numSeguridadTarjeta: ""};
   const [formValues, setFormValues] = useState(initialValues);
   const [formErrors, setFormErrors] = useState(initialValues);
-  const [isSubmit, setIsSubmit] = useState(false);
 
   const[buttonPopup, setButtonPopup] = useState(false);
   const[solidDirecciones, setSolidDirecciones] = useState<SolidDireccion[]>();
 
   const direccionInicialSolid = {calle: "", localidad: "", provincia: "", pais: "", codigo_postal: ""};
-  const[direccionSeleccionada, setDireccionSeleccionada] = useState<SolidDireccion>(direccionInicialSolid);
+  const[, setDireccionSeleccionada] = useState<SolidDireccion>(direccionInicialSolid);
+
+  const [carrito, ] = useState<{id_producto:string,  cantidad: number, precio: number}[]>(generarCarrito());
+  const [isSubmit, setIsSubmit] = useState(false);
+
+  const [generado, setGenerado] = useState(false);
 
   const handleChange = (e: any) => {
     const {name, value} = e.target;
@@ -45,7 +50,7 @@ function Pago(): JSX.Element {
     });
     
     if(correct && isSubmit){
-
+      generarPedido(formValues);
     }else{
       setIsSubmit(false);
     }
@@ -57,11 +62,76 @@ function Pago(): JSX.Element {
     if (JSON.parse(sessionStorage.getItem("usuario")!).esAdmin)
       return <Error403></Error403>
 
+
+  if (generado){
+      return <Error403></Error403> //TODO Redirección a checkout
+  }
+
+  async function generarPedido(values: FormPagos){
+    let numero_pedido: number = await getNextNumberPedido();
+    let id_usuario: string = (await findUserByEmail(JSON.parse(sessionStorage.getItem("usuario")!).email))._id;
+    let precio_total:number = 0; 
+
+    carrito.forEach(element => {
+      precio_total+= element.precio;
+    });
+
+    console.log(carrito);
+
+    let pedido: Pedido = {
+      _id: '',
+      numero_pedido: numero_pedido,
+      id_usuario: id_usuario,
+      precio_total: precio_total,
+      estado: Estado.pendiente,
+      fecha: '',
+      lista_productos: carrito,
+      direccion: {
+        calle: values.calle,
+        localidad: values.localidad,
+        provincia: values.provincia,
+        pais: values.pais,
+        codigo_postal: Number.parseInt(values.codigo_postal) 
+      },
+      tarjeta: {
+        numero_tarjeta: Number.parseInt(values.numTarjeta),
+        fecha_caducidad: values.fechaTarjeta,
+        numero_seguridad: Number.parseInt(values.numSeguridadTarjeta),
+      }
+    };
+
+    let gen = await addPedido(pedido);
+    if(gen){
+      setGenerado(gen);
+
+      let usuario = sessionStorage.getItem("usuario")!;
+      sessionStorage.clear();
+      sessionStorage.setItem("usuario",usuario);
+      sessionStorage.setItem("pedido_generado", numero_pedido.toString());
+    }
+  }
+
   async function getFromPod(callback: Function){
     let webId: string = JSON.parse(sessionStorage.getItem("usuario")!).webId;
     let addresses: string[] = await getAddressesFromPod('https://' + webId.toLowerCase() + '/profile/card#me');
 
     callback(addresses);
+  }
+
+  function generarCarrito(): {id_producto:string, precio: number, cantidad: number}[]{
+    let carrito : {id_producto:string, precio: number, cantidad: number}[]= [];
+    
+    for(let i: number = 0; i < sessionStorage.length-1; i++){
+      let key: string = sessionStorage.key(i)!;
+
+      let id_producto = JSON.parse(sessionStorage.getItem(key)!).id;
+      let precio = JSON.parse(sessionStorage.getItem(key)!).precio;
+      let qty = Number.parseInt(JSON.parse(sessionStorage.getItem(key)!).qty);
+
+      carrito.push({id_producto: id_producto, precio:(precio*qty), cantidad:qty});
+    }
+    
+    return carrito;
   }
 
   function fillAndShowPopup(addresses: string[]){
@@ -106,7 +176,7 @@ function Pago(): JSX.Element {
         correct=false;
     });
 
-    if(correct){
+    if(correct && isSubmit){
       console.log("A");
     }
   };
@@ -115,33 +185,41 @@ function Pago(): JSX.Element {
     const errors = {calle: "", localidad: "", provincia: "", pais: "", codigo_postal: "",
                       numTarjeta: "", fechaTarjeta: "", numSeguridadTarjeta: ""};
 
-    if(!formValues.calle)
+    if(!formValues.calle){
       errors.calle = "Calle requerida";
-    if(!formValues.localidad)
+    }
+    if(!formValues.localidad){
       errors.localidad = "Localidad requerida";
-    if(!formValues.provincia)
+    }
+    if(!formValues.provincia){
       errors.provincia = "Provincia requerida";
-    if(!formValues.pais)
+    }
+    if(!formValues.pais){
       errors.pais = "País requerido";
-    if(!formValues.codigo_postal)
+    }
+    if(!formValues.codigo_postal){
       errors.codigo_postal = "Código postal requerido";
+    }
 
-
-    if(!formValues.numTarjeta.match(numTarjetaRegex))
+    if(!formValues.numTarjeta.match(numTarjetaRegex)){
       errors.numTarjeta = "El número de tarjeta no es válido";
-    if(!formValues.fechaTarjeta.match(fechaTarjetaRegex))
+    }
+    if(!formValues.fechaTarjeta.match(fechaTarjetaRegex)){
       errors.fechaTarjeta = "La fecha de caducidad de la tarjeta no es válida";
-    if(!formValues.numSeguridadTarjeta.match(numSeguridadTarjetaRegex))
+    }
+      if(!formValues.numSeguridadTarjeta.match(numSeguridadTarjetaRegex)){
       errors.numSeguridadTarjeta = "El número de seguridad de la tarjeta no es válido";
+    }
 
-    if(!formValues.numTarjeta)
+    if(!formValues.numTarjeta){
       errors.numTarjeta = "Número de tarjeta requerido";
-    if(!formValues.fechaTarjeta)
+    }
+    if(!formValues.fechaTarjeta){
       errors.fechaTarjeta = "Fecha de caducidad de tarjeta requerida";
-    if(!formValues.numSeguridadTarjeta)
+    }
+    if(!formValues.numSeguridadTarjeta){
       errors.numSeguridadTarjeta = "Número de seguridad de tarjeta requerido";
-
-    
+    }
     return errors;
   }
   
@@ -154,18 +232,21 @@ function Pago(): JSX.Element {
   }
 
   function handleDireccionSeleccionada(index: number){
-    if(solidDirecciones!=null && solidDirecciones!=undefined)
-      setDireccionSeleccionada(solidDirecciones[index])
-      
+    if(solidDirecciones!=null && solidDirecciones!=undefined){
+      let direccion = solidDirecciones[index];
+
       let newForm = Object.assign({}, formValues);
-      newForm.calle=direccionSeleccionada.calle;
-      newForm.localidad=direccionSeleccionada.localidad;
-      newForm.provincia=direccionSeleccionada.provincia;
-      newForm.pais=direccionSeleccionada.pais;
-      newForm.codigo_postal=direccionSeleccionada.codigo_postal;
+      newForm.calle=direccion.calle;
+      newForm.localidad=direccion.localidad;
+      newForm.provincia=direccion.provincia;
+      newForm.pais=direccion.pais;
+      newForm.codigo_postal=direccion.codigo_postal;
+
+      setDireccionSeleccionada(direccion)
       setFormValues(newForm)
 
       setButtonPopup(false);
+    }
   }
 
   function PopUpSolid(){
@@ -174,7 +255,7 @@ function Pago(): JSX.Element {
             <div className="popup-inner">
                 <h5>Seleccione la dirección</h5>
                   {Array.from(Array(solidDirecciones.length)).map((_, index) => (
-                      <Button onClick={() => handleDireccionSeleccionada(index)} fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
+                      <Button key={index} onClick={() => handleDireccionSeleccionada(index)} fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
                           {solidDirecciones[index].calle + ", " 
                             +solidDirecciones[index].localidad + ", "
                             +solidDirecciones[index].provincia + ", "
