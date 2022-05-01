@@ -137,6 +137,14 @@ const NavBar: React.FC = () => {
     return <div></div>;
   }
 
+  function menuUsuarios(): JSX.Element | undefined {
+    if (JSON.parse(sessionStorage.getItem("usuario")!).esAdmin)
+      return (<Link to={"/users"} style={{textDecoration:'none'}}>
+                <Button key="pedidos" sx={{ my: 2, color: 'white', display: 'block' }}>Usuarios</Button>
+              </Link>)
+  }
+
+
   function botonesEnlace(): JSX.Element {
     if (logueado && logueado !== "deslogueado")
       return (<Menu
@@ -190,6 +198,7 @@ const NavBar: React.FC = () => {
           Pedidos
         </Button>
       </Link>
+      {menuUsuarios()}
 
     </Box>)
 
