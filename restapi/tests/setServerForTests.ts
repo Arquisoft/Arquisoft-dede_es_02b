@@ -72,9 +72,12 @@ async function insertUsers() {
 
         usuario._id = user._id;
         usuario.nombre = user.nombre;
+        usuario.apellidos = user.apellidos;
         usuario.email = user.email;
         usuario.dni = user.dni;
         usuario.contraseña = user.contraseña;
+        usuario.esAdmin = user.esAdmin; 
+        usuario.idSolid = user.idSolid;
 
         await usuario.save();
     }
@@ -113,6 +116,7 @@ async function insertPedidos() {
         pedido.id_usuario = order.id_usuario;
         pedido.precio_total = order.precio_total;
         pedido.estado = order.estado;
+        pedido.tarjeta = order.tarjeta;
 
         await pedido.save();
     }

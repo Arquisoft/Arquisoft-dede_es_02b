@@ -28,7 +28,6 @@ const CarritoItem: React.FC<ProductProp>=(productProp : ProductProp) =>{
     var opcion=window.confirm(msg);
     if(opcion){
       productProp.borrar(product);
-      setOpen(true);
     }
   }
   
@@ -39,7 +38,8 @@ const CarritoItem: React.FC<ProductProp>=(productProp : ProductProp) =>{
   function handleAddUnitFromCart(product:Product):void{
       productProp.add(product);
   }
-  const [, setOpen] = React.useState(false);
+
+
 
   return (
     <Card aria-label={productProp.product.nombre} id={productProp.product.nombre} sx={{ maxWidth: 345 }}>

@@ -19,6 +19,15 @@ afterAll(async () => {
     await closeServer(server);
 })
 
+describe("sacar numero siguiente ", () =>{
+    it('correcto', async () => {
+        const response: Response = await request(app).get('/pedidos/nextNumber').set('Accept', 'application/json'); 
+        expect(response.statusCode).toBe(200);
+        console.log(response.body)
+        expect(response.body).toStrictEqual({});
+    })
+})
+
 describe('añadir pedidos ', () => {
     it('sin numero de pedido', async () => {
         await probarAddPedidos({ id_usuario: '6220e1b3e976d8ae3a9d3e5e', lista_productos: [{ id_producto: '621f7f978600d56807483f74', cantidad: 3, precio: 7.5 }], precio_total: 7.5, direccion: { calle: "calle", localidad: "localidad", provincia: "provincia", pais: "pais", codigo_postal: 1 }, estado: "Entregado" }, 500);
@@ -117,7 +126,7 @@ describe('añadir pedidos ', () => {
     });
 
     it('correctamente ', async () => {
-        await probarAddPedidos({ numero_pedido: 2, id_usuario: '6220e1b3e976d8ae3a9d3e5e', lista_productos: [{ id_producto: '621f7f978600d56807483f74', cantidad: 3, precio: 7.5 }], precio_total: 7.5, direccion: { calle: "calle", localidad: "localidad", provincia: "provincia", pais: "pais", codigo_postal: 1 }, estado: "Entregado" }, 200);
+        await probarAddPedidos({ numero_pedido: 2, id_usuario: '6220e1b3e976d8ae3a9d3e5e', lista_productos: [{ id_producto: '621f7f978600d56807483f74', cantidad: 3, precio: 7.5 }], precio_total: 7.5, direccion: { calle: "calle", localidad: "localidad", provincia: "provincia", pais: "pais", codigo_postal: 1 }, estado: "Entregado", tarjeta: {numero_tarjeta: 1234, fecha_caducidad: "02/25",numero_seguridad: 111} }, 200);
     });
 
     it('repetido ', async () => {
@@ -143,8 +152,7 @@ describe("listar pedidos ", () => {
                 precio: 3
             }]
         await compareResponseBody(response.body[0], {
-            numero_pedido: 1, id_usuario: '6220e1c1e976d8ae3a9d3e60', lista_productos: lista_productos, precio_total: 10.5, direccion: { calle: "camín de güerces 1293 15a", localidad: "gijón", provincia: "asturias", pais: "españa", codigo_postal: 33391 }, estado: "Entregado"
-        });
+            numero_pedido: 1, id_usuario: '6220e1c1e976d8ae3a9d3e60', lista_productos: lista_productos, precio_total: 10.5, direccion: { calle: "camín de güerces 1293 15a", localidad: "gijón", provincia: "asturias", pais: "españa", codigo_postal: 33391 }, estado: "Entregado", tarjeta: {numero_tarjeta: 1234, fecha_caducidad: "02/25",numero_seguridad: 111}});
         await compareResponseBody(response.body[1], { numero_pedido: 2, id_usuario: '6220e1b3e976d8ae3a9d3e5e', lista_productos: [{ id_producto: '621f7f978600d56807483f74', cantidad: 3, precio: 7.5 }], precio_total: 7.5, direccion: { calle: "calle", localidad: "localidad", provincia: "provincia", pais: "pais", codigo_postal: 1 }, estado: "Entregado" });
     });
 
@@ -213,6 +221,39 @@ describe("listar pedidos ", () => {
         
         expect(response.statusCode).toBe(500);
     });
+
+    it('por id de usuario', async () => {
+        var response: Response = await request(app).get("/pedidos/id_usuario=6220e1c1e976d8ae3a9d3e60").set('Accept', 'application/json');
+
+        expect(response.statusCode).toBe(200);
+        let lista_productos = [
+            {
+                id_producto: "621f7f978600d56807483f74",
+                cantidad: 3,
+                precio: 7.5
+            },
+            {
+                id_producto: "621f7f978600d56807483f76",
+                cantidad: 1,
+                precio: 3
+            }]
+        await compareResponseBody(response.body[0], {
+            numero_pedido: 1, id_usuario: '6220e1c1e976d8ae3a9d3e60', lista_productos: lista_productos, precio_total: 10.5, direccion: { calle: "camín de güerces 1293 15a", localidad: "gijón", provincia: "asturias", pais: "españa", codigo_postal: 33391 }, estado: "Entregado"
+        });
+    });
+
+    it('por id de usuario - incorrecto',async () => {
+        var response:Response = await request(app).get("/pedidos/id_usuario=621f7f978600d56807483f74").set('Accept', 'application/json');
+        
+        expect(response.statusCode).toBe(200);
+        expect(response.body).toStrictEqual([]);
+    });
+
+    it('por id de usuario - inválido',async () => {
+        var response:Response = await request(app).get("/pedidos/id_usuario=jgfgkjhjg").set('Accept', 'application/json');
+        
+        expect(response.statusCode).toBe(500);
+    });
 })
 
 describe("editar pedido ", () => {
@@ -254,27 +295,15 @@ describe("editar pedido ", () => {
     })
 })
 
-describe("eliminar pedido ", () =>{
-    it('existente', async () => {
-        await probarDelete({_id:"62385278aa3b8ac2580301dd"},200);
-        var response:Response = await request(app).get("/pedidos/id=6220e1c1e976d8ae3a9d3e60").set('Accept', 'application/json');
-        
-        expect(response.statusCode).toBe(200);
-        expect(response.body).toStrictEqual({});
-    })
 
-    it('inexistente', async () => {
-        await probarDelete({_id:"62385278aa3b8ac2580301dd"},200);
-    })
-})
 
-async function probarAddPedidos(arg0: { numero_pedido?: number, id_usuario?: string, lista_productos?: { id_producto?: string, cantidad?: number, precio?: number }[], precio_total?: number, direccion?: { calle?: string, localidad?: string, provincia?: string, pais?: string, codigo_postal?: number }, estado?: string }, code: number): Promise<Response> {
+async function probarAddPedidos(arg0: { numero_pedido?: number, id_usuario?: string, lista_productos?: { id_producto?: string, cantidad?: number, precio?: number }[], precio_total?: number, direccion?: { calle?: string, localidad?: string, provincia?: string, pais?: string, codigo_postal?: number }, estado?: string, tarjeta?: {numero_tarjeta?: number, fecha_caducidad?: string,numero_seguridad?: number}}, code: number): Promise<Response> {
     const response: Response = await request(app).post('/pedidos/add').send(arg0).set('Accept', 'application/json');
     expect(response.statusCode).toBe(code);
     return response;
 }
 
-async function compareResponseBody(body: any, arg1: { numero_pedido?: number, id_usuario?: string, lista_productos: { id_producto?: string, cantidad?: number, precio?: number }[], precio_total?: number, direccion: { calle?: string, localidad?: string, provincia?: string, pais?: string, codigo_postal?: number }, estado?: string }) {
+async function compareResponseBody(body: any, arg1: { numero_pedido?: number, id_usuario?: string, lista_productos: { id_producto?: string, cantidad?: number, precio?: number }[], precio_total?: number, direccion: { calle?: string, localidad?: string, provincia?: string, pais?: string, codigo_postal?: number }, estado?: string, tarjeta?: {numero_tarjeta?: number, fecha_caducidad?: string,numero_seguridad?: number} }) {
     expect(body.numero_pedido).toBe(arg1.numero_pedido);
     expect(body.id_usuario).toBe(arg1.id_usuario);
 

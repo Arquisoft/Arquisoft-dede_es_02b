@@ -26,11 +26,15 @@ export default function Register() {
     const data = new FormData(event.currentTarget);
 
     const user: User = {
-      _id:"",
+      _id: "",
       nombre: data.get('nombre') as string,
+      apellidos: data.get('apellidos') as string,
+      idSolid: data.get('idSolid') as string,
       dni: data.get('dni') as string,
       email: data.get('email') as string,
-      contraseña: data.get('contraseña') as string
+      contraseña: data.get('contraseña') as string,
+      esAdmin: false,
+      foto: data.get('foto') as string
     }
 
     if (await comprobarDatos(user)) {
@@ -40,7 +44,7 @@ export default function Register() {
     }
   };
 
-  const emailLogueado = logueado || sessionStorage.getItem("emailUsuario");
+  const emailLogueado = logueado || sessionStorage.getItem("usuario");
 
   if (emailLogueado) {
     return <Navigate to="/products" />;
@@ -48,6 +52,11 @@ export default function Register() {
 
   async function comprobarDatos(user: User): Promise<boolean> {
     if (user.nombre.length === 0) {
+      setErrorMessage("Error: El nombre no puede estar vacío");
+      return false;
+    }
+
+    if (user.apellidos.length === 0) {
       setErrorMessage("Error: El nombre no puede estar vacío");
       return false;
     }
@@ -62,7 +71,7 @@ export default function Register() {
       return false;
     }
 
-    if (await findUserByDni(user.dni)) {
+    if (JSON.stringify(await findUserByDni(user.dni)) !== "{}") {
       setErrorMessage("Error: El dni introducido ya existe");
       return false;
     }
@@ -72,7 +81,7 @@ export default function Register() {
       return false;
     }
 
-    if (await findUserByEmail(user.email)) {
+    if ((JSON.stringify(await findUserByEmail(user.email)) !== "{}")) {
       setErrorMessage("Error: El email introducido ya existe");
       return false;
     }
@@ -123,10 +132,35 @@ export default function Register() {
               margin="normal"
               required
               fullWidth
+              id="apellidos"
+              label="Apellidos"
+              name="apellidos"
+              autoFocus
+            />
+            <TextField
+              margin="normal"
+              required
+              fullWidth
               id="dni"
               label="DNI"
               name="dni"
               autoFocus
+            />
+            <TextField
+              margin="normal"
+              fullWidth
+              id="idSolid"
+              label="Solid WebId"
+              name="idSolid"
+              autoFocus
+            />
+            <TextField
+              margin="normal"
+              fullWidth
+              name="foto"
+              label="Foto"
+              id="foto"
+              autoComplete="foto"
             />
             <TextField
               margin="normal"
@@ -145,7 +179,7 @@ export default function Register() {
               name="contraseña"
               label="Contraseña"
               type="password"
-              id="filled-password-input"
+              id="contraseña"
               autoComplete="current-contraseña"
             />
             {errorMessage && (
@@ -155,14 +189,15 @@ export default function Register() {
               type="submit"
               fullWidth
               variant="contained"
+              id="registrarse"
               sx={{ mt: 3, mb: 2 }}
             >
               Completar registro
             </Button>
             <Grid container>
               <Grid item>
-              <Link to={"/login"}>
-                  <Typography key="login" sx={{ my: 1, color: 'blue', textAlign:"center", display: 'block' }}>
+                <Link to={"/login"}>
+                  <Typography key="login" sx={{ my: 1, color: 'blue', textAlign: "center", display: 'block' }}>
                     Iniciar Sesión
                   </Typography>
                 </Link>
@@ -172,7 +207,7 @@ export default function Register() {
         </Box>
       </Container>
     </ThemeProvider>
-  ); 
+  );
 }
 
 
