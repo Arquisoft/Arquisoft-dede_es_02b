@@ -11,7 +11,9 @@ import Home from './components/Home';
 import HomeNavBar from './components/HomeNavBar';
 import Error404 from './components/error/Error404';
 import EditarUsuario from './components/usuario/EditarUsuario';
+import ListaUsuarios from './components/usuario/ListaUsuarios';
 import Pago from './components/pago/Pago';
+import ResumenPedido from './components/pedidos/ResumenPedido';
 
 function App(): JSX.Element {
 
@@ -56,6 +58,13 @@ function App(): JSX.Element {
             <AñadirProducto/>
           </div>
         }/> 
+        <Route path="/users" element={
+          <div>
+            <NavBar/>
+            <ListaUsuarios/>
+          </div>
+        }/>
+
         <Route path="/pago" element={
           <div>
             <NavBar/>
@@ -67,6 +76,12 @@ function App(): JSX.Element {
           <div>
             <NavBar/>
             <EditarUsuario/>
+          </div>
+        }/> 
+        <Route path="/resumenPedido" element={
+          <div>
+            <NavBar/>
+            <ResumenPedido/>
           </div>
         }/> 
         <Route path="*" element={
