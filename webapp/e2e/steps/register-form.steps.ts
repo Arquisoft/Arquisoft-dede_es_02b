@@ -39,12 +39,12 @@ defineFeature(feature, test => {
     });
 
     when('Rellenamos el formulario de registro', async () => {
-      let nombreSelector ='[data-testid="txt-nombre"]';
-      let apellidosSelector = '[data-testid="txt-apellidos"]';
-      let dniSelector = '[data-testid="txt-dni"]';
-      let emailSelector = '[data-testid="txt-email"]';
-      let contraseñaSelector = '[data-testid="txt-contraseña"]';
-      let botonSelector = '[data-testid="btn-registrarse"]';
+      let nombreSelector ='[id="nombre"]';
+      let apellidosSelector = '[id="apellidos"]';
+      let dniSelector = '[id="dni"]';
+      let emailSelector = '[id="email"]';
+      let contraseñaSelector = '[id="contraseña"]';
+      let botonSelector = '[id="registrarse"]';
 
       await page.waitForSelector(nombreSelector);
       await page.click(nombreSelector);
@@ -71,10 +71,11 @@ defineFeature(feature, test => {
     });
 
     then('Nos redirige correctamente a la ventana de productos', async () => {
-      let productosSelector = '[data-testid="txt-productos"]';
+      /*let productosSelector = '[data-testid="txt-productos"]';
       await page.waitForSelector(productosSelector);
       const text = await page.$eval("productosSelector", (e) => e.textContent);
-      expect(text).toMatch("Productos");
+      expect(text).toMatch("Productos");*/
+      await expect(page).toMatch('Productos')
     });
   })
 
