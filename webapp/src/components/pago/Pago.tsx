@@ -9,15 +9,15 @@ import PaymentIcon from '@mui/icons-material/Payment';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Error403 from '../error/Error403';
 import { getAddressesFromPod } from '../../FuntionSolidConnection';
-import { FormPagos, SolidDireccion } from '../../shared/shareddtypes';
+import { FormPagos, SolidDireccion, Product, Pedido } from '../../shared/shareddtypes';
 import './PopUpSolid.css';
 
 const theme = createTheme();
 
 function Pago(): JSX.Element {
-  const numTarjetaRegex = /([0-9]{4}){1}( [0-9]{4}){3}/
-  const fechaTarjetaRegex = /^(0[1-9]|1[0-2])\/?([0-9]{4}|[0-9]{2})$/
-  const numSeguridadTarjetaRegex = /[0-9]{3}/
+  const numTarjetaRegex = /^([0-9]{4}){1}( [0-9]{4}){3}$/
+  const fechaTarjetaRegex = /^(0[1-9]|1[0-2])\/([0-9]{4}|[0-9]{2})$/
+  const numSeguridadTarjetaRegex = /^[0-9]{3}$/
 
   const initialValues: FormPagos = {calle: "", localidad: "", provincia: "", pais: "", codigo_postal: "", 
                                     numTarjeta: "", fechaTarjeta: "", numSeguridadTarjeta: ""};
@@ -67,7 +67,6 @@ function Pago(): JSX.Element {
   function fillAndShowPopup(addresses: string[]){
     let direcciones = new Array<SolidDireccion>(addresses.length);
     if(addresses.length > 0){
-      console.log(addresses.length)
       for (let i = 0; i < addresses.length; i++) {
         let campos: string[] = addresses[i].split(";");
         direcciones[i] = {calle: "", localidad: "", provincia: "", pais: "", codigo_postal: ""};
@@ -76,7 +75,6 @@ function Pago(): JSX.Element {
         direcciones[i].provincia=campos[2];
         direcciones[i].pais=campos[3];
         direcciones[i].codigo_postal=campos[4];
-        console.log(direcciones[i])
       }
 
       setSolidDirecciones(direcciones);
@@ -99,6 +97,18 @@ function Pago(): JSX.Element {
     event.preventDefault();
     setFormErrors(validate(formValues));
     setIsSubmit(true);
+    
+    let correct = true;
+    let values: (keyof FormPagos)[] = ['calle', 'localidad', 'provincia', 'pais', 'codigo_postal',
+                                        'numTarjeta', 'fechaTarjeta', 'numSeguridadTarjeta'];
+    values.forEach(element => {
+      if(formErrors[element]!="")
+        correct=false;
+    });
+
+    if(correct){
+      console.log("A");
+    }
   };
 
   const validate = (formValues: FormPagos) => {
@@ -131,7 +141,7 @@ function Pago(): JSX.Element {
     if(!formValues.numSeguridadTarjeta)
       errors.numSeguridadTarjeta = "Número de seguridad de tarjeta requerido";
 
-
+    
     return errors;
   }
   
