@@ -63,7 +63,7 @@ export type FormPagos = {
     numSeguridadTarjeta: string
 }
 
-export type SolidDireccion = {
+export interface SolidDireccion {
     calle: string,
     localidad: string,
     provincia: string,

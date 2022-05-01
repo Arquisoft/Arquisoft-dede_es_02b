@@ -28,7 +28,7 @@ function Pago(): JSX.Element {
   const[buttonPopup, setButtonPopup] = useState(false);
   const[solidDirecciones, setSolidDirecciones] = useState<SolidDireccion[]>();
 
-  const direccionInicialSolid: SolidDireccion = {calle: "", localidad: "", provincia: "", pais: "", codigo_postal: ""};
+  const direccionInicialSolid = {calle: "", localidad: "", provincia: "", pais: "", codigo_postal: ""};
   const[direccionSeleccionada, setDireccionSeleccionada] = useState<SolidDireccion>(direccionInicialSolid);
 
   const handleChange = (e: any) => {
@@ -67,10 +67,10 @@ function Pago(): JSX.Element {
   function fillAndShowPopup(addresses: string[]){
     let direcciones = new Array<SolidDireccion>(addresses.length);
     if(addresses.length > 0){
+      console.log(addresses.length)
       for (let i = 0; i < addresses.length; i++) {
-        console.log(addresses[i])
         let campos: string[] = addresses[i].split(";");
-        direcciones[i] = direccionInicialSolid;
+        direcciones[i] = {calle: "", localidad: "", provincia: "", pais: "", codigo_postal: ""};
         direcciones[i].calle=campos[0];
         direcciones[i].localidad=campos[1];
         direcciones[i].provincia=campos[2];
