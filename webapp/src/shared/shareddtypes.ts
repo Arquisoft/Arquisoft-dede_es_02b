@@ -52,3 +52,22 @@ export enum Estado {
     listo = "Listo para repartir",
     cancelado = "Cancelado"
 }
+
+export type FormPagos = {
+    calle: string,
+    localidad: string,
+    provincia: string,
+    pais: string,
+    codigo_postal: string,
+    numTarjeta: string,
+    fechaTarjeta: string,
+    numSeguridadTarjeta: string
+}
+
+export interface SolidDireccion {
+    calle: string,
+    localidad: string,
+    provincia: string,
+    pais: string,
+    codigo_postal: string
+}
