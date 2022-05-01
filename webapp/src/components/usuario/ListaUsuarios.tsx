@@ -8,6 +8,7 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { getUsers } from '../../api/api';
 import { User } from '../../shared/shareddtypes';
+import Error403 from '../error/Error403';
 
 function ListaUsuarios(): JSX.Element {
 
@@ -20,6 +21,12 @@ function ListaUsuarios(): JSX.Element {
     useEffect(()=>{
       getAllUsers();
     }, []);
+
+    if(!sessionStorage.getItem("usuario"))
+        return <Error403></Error403>
+    else
+        if(!JSON.parse(sessionStorage.getItem("usuario")!).esAdmin)
+            return <Error403></Error403>
 
     return (
         <TableContainer component={Paper}>
