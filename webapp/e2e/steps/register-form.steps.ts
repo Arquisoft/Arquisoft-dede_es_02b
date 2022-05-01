@@ -71,15 +71,12 @@ defineFeature(feature, test => {
     });
 
     then('Nos redirige correctamente a la ventana de productos', async () => {
-      /*let productosSelector = '[data-testid="txt-productos"]';
-      await page.waitForSelector(productosSelector);
-      const text = await page.$eval("productosSelector", (e) => e.textContent);
-      expect(text).toMatch("Productos");*/
       await expect(page).toMatch('Productos')
     });
   })
 
   afterAll(async ()=>{
+    
     browser.close()
   })
 
