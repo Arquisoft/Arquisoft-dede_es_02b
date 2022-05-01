@@ -17,6 +17,7 @@ test('Pedidos', () => {
             cantidad: order.lista_productos[0].cantidad,
             precio: order.lista_productos[0].precio
         }],
+        tarjeta: order.tarjeta,
         fecha: order.fecha,
         numero_pedido: order.numero_pedido,
         id_usuario: order.id_usuario,

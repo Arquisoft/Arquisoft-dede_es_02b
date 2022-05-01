@@ -72,7 +72,7 @@ describe('añadir usuario ', () => {
     });
 
     it('correctamente', async () => {
-        await probarAddUsuarios({ _id: '623b1d8889b169d070b43641', nombre: 'pablo', apellidos:'gonzalez', email: 'gonzalezgpablo@uniovi.es', esAdmin:true, dni: '12345678a', contraseña: '1234', idSolid: "idSolid" }, 200);
+        await probarAddUsuarios({ _id: '623b1d8889b169d070b43641', nombre: 'pablo', apellidos:'gonzalez', email: 'gonzalezgpablo@uniovi.es', esAdmin:true, dni: '12345678a', contraseña: '1234', idSolid: "idSolid", foto:"https://i.ibb.co/SmQVzQw/usuario.png" }, 200);
     });
 
     it('repetido', async () => {
@@ -237,7 +237,7 @@ describe("editar usuario ", () => {
     })
     
     it('correctamente', async () =>{
-        await probarEditUsuarios({nombre: "Adri", apellidos: "Alonso", email: "adrian@email.com", idSolid: "idSolid"}, 200);
+        await probarEditUsuarios({nombre: "Adri", apellidos: "Alonso", email: "adrian@email.com", idSolid: "idSolid",foto:"https://i.ibb.co/SmQVzQw/usuario.png"}, 200);
         var response: Response = await request(app).get("/users/email=adrian@email.com").set('Accept', 'application/json');
 
         expect(response.statusCode).toBe(200);
@@ -259,13 +259,13 @@ describe("eliminar usuario ", () => {
     })
 })
 
-async function probarAddUsuarios(arg0: { _id?: string, nombre?: string, apellidos?: string, email?: string, esAdmin?:boolean, dni?: string, contraseña?: string, idSolid?: string }, code: number): Promise<Response> {
+async function probarAddUsuarios(arg0: { _id?: string, nombre?: string, apellidos?: string, email?: string, esAdmin?:boolean, dni?: string, contraseña?: string, idSolid?: string, foto?: string }, code: number): Promise<Response> {
     const response: Response = await request(app).post('/users/add').send(arg0).set('Accept', 'application/json');
     expect(response.statusCode).toBe(code);
     return response;
 }
 
-async function probarEditUsuarios(arg0: { nombre?: string, apellidos?: string, email?: string, idSolid?: string }, code: number): Promise<Response> {
+async function probarEditUsuarios(arg0: { nombre?: string, apellidos?: string, email?: string, idSolid?: string, foto? : string }, code: number): Promise<Response> {
     const response: Response = await request(app).post('/users/editar').send(arg0).set('Accept', 'application/json');
     expect(response.statusCode).toBe(code);
     return response;

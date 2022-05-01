@@ -103,13 +103,9 @@ apiPedidos.get(
 apiPedidos.get(
   "/pedidos/nextNumber",
   async (req: Request, res: Response): Promise<Response> => {
-    try{
       let pedidos = await Pedido.find({}).sort({numero_pedido: 'desc'}).limit(1).exec();
       let nextNumber = pedidos[0].numero_pedido+1;
       return res.status(200).send(nextNumber.toString());
-    }catch(Error){
-      return res.sendStatus(500);
-    }
   }
 );
 
@@ -126,14 +122,6 @@ apiPedidos.post(
     } catch {
       return res.sendStatus(500);
     }
-  }
-);
-
-apiPedidos.post(
-  "/pedidos/delete",
-  async (req: Request, res: Response): Promise<Response> => {
-    Pedido.findById(req.body._id).deleteOne().exec();
-    return res.sendStatus(200);
   }
 );
 

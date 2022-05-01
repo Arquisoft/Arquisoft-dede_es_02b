@@ -7,7 +7,6 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { Product } from '../../shared/shareddtypes';
-import { useState } from 'react';
 import { Box, Button, Typography } from '@mui/material';
 
 const TAX_RATE = 0.04;

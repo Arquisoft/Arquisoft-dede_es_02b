@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Grid from '@mui/material/Grid';
@@ -9,7 +9,7 @@ import PaymentIcon from '@mui/icons-material/Payment';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Error403 from '../error/Error403';
 import { getAddressesFromPod } from '../../FuntionSolidConnection';
-import { FormPagos, SolidDireccion, Pedido, Estado, Product } from '../../shared/shareddtypes';
+import { FormPagos, SolidDireccion, Pedido, Estado } from '../../shared/shareddtypes';
 import './PopUpSolid.css';
 import { addPedido, findUserByEmail, getNextNumberPedido } from '../../api/api';
 
@@ -41,33 +41,7 @@ function Pago(): JSX.Element {
     setFormValues({...formValues, [name]: value});
   };
 
-  useEffect(() => {
-    let correct: boolean = true;
-    (Object.keys(formErrors) as (keyof typeof formErrors)[]).forEach(key => {
-      if(!(formErrors[key].length===0)){
-        correct = false;
-      }
-    });
-    
-    if(correct && isSubmit){
-      generarPedido(formValues);
-    }else{
-      setIsSubmit(false);
-    }
-  }, [formErrors]);
-
-  if (!sessionStorage.getItem("usuario"))
-    return <Error403></Error403>
-  else
-    if (JSON.parse(sessionStorage.getItem("usuario")!).esAdmin)
-      return <Error403></Error403>
-
-
-  if (generado){
-      return <Error403></Error403> //TODO Redirección a checkout
-  }
-
-  async function generarPedido(values: FormPagos){
+  const generarPedido = useCallback(async function (values: FormPagos){
     let numero_pedido: number = await getNextNumberPedido();
     let id_usuario: string = (await findUserByEmail(JSON.parse(sessionStorage.getItem("usuario")!).email))._id;
     let precio_total:number = 0; 
@@ -75,8 +49,6 @@ function Pago(): JSX.Element {
     carrito.forEach(element => {
       precio_total+= element.precio;
     });
-
-    console.log(carrito);
 
     let pedido: Pedido = {
       _id: '',
@@ -109,6 +81,32 @@ function Pago(): JSX.Element {
       sessionStorage.setItem("usuario",usuario);
       sessionStorage.setItem("pedido_generado", numero_pedido.toString());
     }
+  }, [carrito])
+
+  useEffect(() => {
+    let correct: boolean = true;
+    (Object.keys(formErrors) as (keyof typeof formErrors)[]).forEach(key => {
+      if(!(formErrors[key].length===0)){
+        correct = false;
+      }
+    });
+    
+    if(correct && isSubmit){
+      generarPedido(formValues);
+    }else{
+      setIsSubmit(false);
+    }
+  }, [formErrors, formValues, generarPedido, isSubmit]);
+
+  if (!sessionStorage.getItem("usuario"))
+    return <Error403></Error403>
+  else
+    if (JSON.parse(sessionStorage.getItem("usuario")!).esAdmin)
+      return <Error403></Error403>
+
+
+  if (generado){
+      return <Error403></Error403> //TODO Redirección a checkout
   }
 
   async function getFromPod(callback: Function){
@@ -172,7 +170,7 @@ function Pago(): JSX.Element {
     let values: (keyof FormPagos)[] = ['calle', 'localidad', 'provincia', 'pais', 'codigo_postal',
                                         'numTarjeta', 'fechaTarjeta', 'numSeguridadTarjeta'];
     values.forEach(element => {
-      if(formErrors[element]!="")
+      if(formErrors[element]!=="")
         correct=false;
     });
 
@@ -232,7 +230,7 @@ function Pago(): JSX.Element {
   }
 
   function handleDireccionSeleccionada(index: number){
-    if(solidDirecciones!=null && solidDirecciones!=undefined){
+    if(solidDirecciones!==null && solidDirecciones!==undefined){
       let direccion = solidDirecciones[index];
 
       let newForm = Object.assign({}, formValues);
@@ -250,7 +248,7 @@ function Pago(): JSX.Element {
   }
 
   function PopUpSolid(){
-    return (buttonPopup && solidDirecciones!=null && solidDirecciones!=undefined) ? (
+    return (buttonPopup && solidDirecciones!==null && solidDirecciones!==undefined) ? (
         <div className="popup">
             <div className="popup-inner">
                 <h5>Seleccione la dirección</h5>
@@ -421,3 +419,4 @@ function Pago(): JSX.Element {
 }
 
 export default Pago;
+
