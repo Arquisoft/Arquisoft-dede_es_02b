@@ -179,7 +179,7 @@ export default function Register() {
               name="contraseña"
               label="Contraseña"
               type="password"
-              id="filled-password-input"
+              id="contraseña"
               autoComplete="current-contraseña"
             />
             {errorMessage && (
@@ -189,6 +189,7 @@ export default function Register() {
               type="submit"
               fullWidth
               variant="contained"
+              id="registrarse"
               sx={{ mt: 3, mb: 2 }}
             >
               Completar registro

@@ -11,7 +11,7 @@ defineFeature(feature, test => {
   beforeAll(async () => {
     browser = process.env.GITHUB_ACTIONS
       ? await puppeteer.launch()
-      : await puppeteer.launch({ headless: true });
+      : await puppeteer.launch({ headless: true, slowMo:150 });
     page = await browser.newPage();
 
     await page
@@ -24,17 +24,17 @@ defineFeature(feature, test => {
   test('The user is not logged in the site', ({given,when,then}) => {
     
     let email:string;
-    let username:string;
+    let contraseña:string;
 
     given('An registered user', () => {
-      email = "admin@email.com"
-      username = "1234"
+      email = "newuser@test.com"
+      contraseña = "1234"
     });
 
     when('I fill the data in the form and press submit', async () => {
       await expect(page).toMatch('Inicia sesión')
       await expect(page).toFillForm('form[name="login"]', {
-        username: username,
+        contraseña: contraseña,
         email: email,
       })
       await expect(page).toClick('button', { text: 'Iniciar sesión' })

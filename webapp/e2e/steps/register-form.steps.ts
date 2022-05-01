@@ -11,7 +11,7 @@ defineFeature(feature, test => {
   beforeAll(async () => {
     browser = process.env.GITHUB_ACTIONS
       ? await puppeteer.launch()
-      : await puppeteer.launch({ headless: true });
+      : await puppeteer.launch({ headless: true, slowMo:150 });
     page = await browser.newPage();
 
     await page
@@ -19,6 +19,8 @@ defineFeature(feature, test => {
         waitUntil: "networkidle0",
       })
       .catch((error) => {console.log(error)});
+
+      jest.setTimeout(10000);
   });
 
   test('El usuario no esta registrado', ({given,when,then}) => {
@@ -37,12 +39,12 @@ defineFeature(feature, test => {
     });
 
     when('Rellenamos el formulario de registro', async () => {
-      let nombreSelector ='[data-testid="txt-nombre"]';
-      let apellidosSelector = '[data-testid="txt-apellidos"]';
-      let dniSelector = '[data-testid="txt-dni"]';
-      let emailSelector = '[data-testid="txt-email"]';
-      let contraseñaSelector = '[data-testid="txt-contraseña"]';
-      let botonSelector = '[data-testid="btn-registrarse"]';
+      let nombreSelector ='[id="nombre"]';
+      let apellidosSelector = '[id="apellidos"]';
+      let dniSelector = '[id="dni"]';
+      let emailSelector = '[id="email"]';
+      let contraseñaSelector = '[id="contraseña"]';
+      let botonSelector = '[id="registrarse"]';
 
       await page.waitForSelector(nombreSelector);
       await page.click(nombreSelector);
@@ -69,14 +71,12 @@ defineFeature(feature, test => {
     });
 
     then('Nos redirige correctamente a la ventana de productos', async () => {
-      let productosSelector = '[data-testid="txt-productos"]';
-      await page.waitForSelector(productosSelector);
-      const text = await page.$eval("productosSelector", (e) => e.textContent);
-      expect(text).toMatch("Productos");
+      await expect(page).toMatch('Productos')
     });
   })
 
   afterAll(async ()=>{
+    
     browser.close()
   })
 

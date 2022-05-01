@@ -192,3 +192,16 @@ export async function isAdmin(email: string): Promise<boolean> {
   let u: User = await findUserByEmail(email);
   return u.esAdmin;
 }
+
+export async function deleteUser(_id: string): Promise<boolean>{
+  const apiEndPoint = process.env.REACT_APP_API_URI || 'http://localhost:5000'
+  let response = await fetch(apiEndPoint + '/users/delete', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ '_id': _id })
+  });
+  if (response.status === 200) {
+    return true;
+  } else
+    return false;
+}
