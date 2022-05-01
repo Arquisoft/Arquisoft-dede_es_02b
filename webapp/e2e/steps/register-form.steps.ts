@@ -30,7 +30,7 @@ defineFeature(feature, test => {
     let dni:string;
     let contraseña:string;
 
-    given('Un usuario no registrado', () => {
+    given('Un usuario no registrado', async () => {
       email = "newuser@test.com"
       nombre = "new"
       apellidos = "user"
