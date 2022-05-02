@@ -1,6 +1,7 @@
 import express, { Request, Response, Router } from 'express';
 import bcrypt from 'bcrypt';
 import Usuario from './UsuarioSchema';
+import sanitizeHtml from 'sanitize-html';
 
 const apiUsuarios: Router = express.Router()
 
@@ -67,7 +68,7 @@ apiUsuarios.post(
       usuario.contraseña = hashedPass;
 
       await usuario.save();
-      return res.status(200).send(usuario);
+      return res.status(200).send(sanitizeHtml(usuario));
     } catch (error){
       return res.sendStatus(500);
     }
@@ -140,11 +141,11 @@ apiUsuarios.post(
         usuario.foto = req.body.foto;
         
       await usuario.save();
-      return res.status(200).send(usuario);
+      return res.status(200).send(sanitizeHtml(usuario));
     } catch {
       return res.sendStatus(500);
     }
   }
 );
-
+ 
 export default apiUsuarios;

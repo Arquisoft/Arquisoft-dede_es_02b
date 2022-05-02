@@ -2,8 +2,19 @@ import React from 'react';
 import { render, screen } from '@testing-library/react';
 import App from './App';
 import { BrowserRouter } from 'react-router-dom';
+import { productosHomeTest } from './components/Home';
+import { Product } from './shared/shareddtypes';
 
 test('renders learn react link', () => {
+  let producto: Product = {
+    _id: '',
+    nombre: "manzana reineta",
+    origen: "Oviedo",
+    precio: 2.00,
+    descripcion: "Manzana reineta de Gijón",
+    foto: ""
+  }
+  productosHomeTest(producto);
   render(<BrowserRouter>
     <App />
   </BrowserRouter>);
@@ -17,4 +28,8 @@ test('renders learn react link', () => {
   expect(linkElement).toBeInTheDocument();
   linkElement = screen.getByText(/Productos destacados/);
   expect(linkElement).toBeInTheDocument();
+  let Element = screen.getByText(producto.nombre+" - "+producto.precio+"€");
+    expect(Element).toBeInTheDocument();
+    Element = screen.getByAltText(producto.nombre)
+    expect(Element).toBeInTheDocument();
 });
