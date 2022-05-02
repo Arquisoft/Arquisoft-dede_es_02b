@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useState, useEffect, useCallback } from "react";
+import { useState } from "react";
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Grid from '@mui/material/Grid';
@@ -9,9 +9,8 @@ import PaymentIcon from '@mui/icons-material/Payment';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Error403 from '../error/Error403';
 import { getAddressesFromPod } from '../../FuntionSolidConnection';
-import { FormPagos, SolidDireccion, Pedido, Estado } from '../../shared/shareddtypes';
+import { FormPagos, SolidDireccion} from '../../shared/shareddtypes';
 import './PopUpSolid.css';
-import { addPedido, findUserByEmail, getNextNumberPedido } from '../../api/api';
 import ResumenPedido from '../pedidos/ResumenPedido';
 
 const theme = createTheme();
@@ -47,7 +46,7 @@ function Pago(): JSX.Element {
   const direccionInicialSolid = {calle: "", localidad: "", provincia: "", pais: "", codigo_postal: ""};
   const[, setDireccionSeleccionada] = useState<SolidDireccion>(direccionInicialSolid);
 
-  const [isSubmit, setIsSubmit] = useState(false);
+  const [isSubmit] = useState(false);
 
   const [generado, setGenerado] = useState(false);
 
@@ -223,12 +222,12 @@ function Pago(): JSX.Element {
           container
           direction="column"
           alignItems="center"
-          style={{ minHeight: '100vh' }}
+          style={{ minHeight: '100vh'}}
         >
           <Box component="form" onSubmit={handleSubmit} noValidate sx={{
             display: 'grid',
             gap: 1,
-            gridTemplateColumns: 'repeat(2, 1fr)',
+            gridTemplateColumns: 'repeat(1, 1fr)',
           }}>
             <Grid item sx={{
               display: 'grid'
@@ -305,8 +304,7 @@ function Pago(): JSX.Element {
                 <BotonPod/>
               </Grid>
             </Grid>
-
-            <Button type="submit" size="large" variant="contained" sx={{ mt: 3, mb: 2 }}>
+            <Button type="submit" variant="contained" sx={{ mt: 3, mb: 2 }}>
               Pagar
             </Button>
           </Box>

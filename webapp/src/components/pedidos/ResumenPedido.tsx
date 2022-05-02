@@ -7,11 +7,14 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { Product } from '../../shared/shareddtypes';
-import { useState } from 'react';
 import { Box, Button, Typography } from '@mui/material';
 import { Link } from 'react-router-dom';
 
 const TAX_RATE = 0.04;
+let pTotal:number=0;
+export function getTotal():number{
+    return pTotal;
+}
 
 let cantidad: number = 0;
 export default function ResumenPedido() {
@@ -32,9 +35,16 @@ export default function ResumenPedido() {
     }
     let sum = 0;
     function subtotal() {
+        //sum=0;
         Array.from(Array(productos.length)).map((_, index) => (
             sum += ((a.get(productos[index]) as number) * (productos[index].precio))
         ));
+        return sum;
+    }
+
+    function total(){
+        sum = 2 + sum + sum * TAX_RATE;
+        pTotal=sum;
         return sum;
     }
 
@@ -65,7 +75,7 @@ export default function ResumenPedido() {
                         <TableRow>
                             <TableCell rowSpan={4} />
                             <TableCell colSpan={2}>Subtotal</TableCell>
-                            <TableCell align="right">{subtotal()}</TableCell>
+                            <TableCell align="right">{subtotal().toFixed(2)}</TableCell>
                         </TableRow>
                         <TableRow>
                             <TableCell colSpan={2}>Gasto de envio</TableCell>
@@ -78,7 +88,7 @@ export default function ResumenPedido() {
                         </TableRow>
                         <TableRow>
                             <TableCell colSpan={2}>Total (€)</TableCell>
-                            <TableCell align="right">{(2 + sum + sum * TAX_RATE).toFixed(2)}</TableCell>
+                            <TableCell align="right">{total().toFixed(2)}</TableCell>
                         </TableRow>
                     </TableBody>
                 </Table>
