@@ -12,8 +12,24 @@ import { getAddressesFromPod } from '../../FuntionSolidConnection';
 import { FormPagos, SolidDireccion, Pedido, Estado } from '../../shared/shareddtypes';
 import './PopUpSolid.css';
 import { addPedido, findUserByEmail, getNextNumberPedido } from '../../api/api';
+import ResumenPedido from '../pedidos/ResumenPedido';
 
 const theme = createTheme();
+
+let pago:FormPagos={
+  calle: '',
+  localidad: '',
+  provincia: '',
+  pais: '',
+  codigo_postal: '',
+  numTarjeta: '',
+  fechaTarjeta: '',
+  numSeguridadTarjeta: ''
+};
+
+export function getDireccionPedido():FormPagos{
+    return pago;
+}
 
 function Pago(): JSX.Element {
   const numTarjetaRegex = /^([0-9]{4}){1}( [0-9]{4}){3}$/
@@ -31,7 +47,6 @@ function Pago(): JSX.Element {
   const direccionInicialSolid = {calle: "", localidad: "", provincia: "", pais: "", codigo_postal: ""};
   const[, setDireccionSeleccionada] = useState<SolidDireccion>(direccionInicialSolid);
 
-  const [carrito, ] = useState<{id_producto:string,  cantidad: number, precio: number}[]>(generarCarrito());
   const [isSubmit, setIsSubmit] = useState(false);
 
   const [generado, setGenerado] = useState(false);
@@ -41,63 +56,6 @@ function Pago(): JSX.Element {
     setFormValues({...formValues, [name]: value});
   };
 
-  const generarPedido = useCallback(async function (values: FormPagos){
-    let numero_pedido: number = await getNextNumberPedido();
-    let id_usuario: string = (await findUserByEmail(JSON.parse(sessionStorage.getItem("usuario")!).email))._id;
-    let precio_total:number = 0; 
-
-    carrito.forEach(element => {
-      precio_total+= element.precio;
-    });
-
-    let pedido: Pedido = {
-      _id: '',
-      numero_pedido: numero_pedido,
-      id_usuario: id_usuario,
-      precio_total: precio_total,
-      estado: Estado.pendiente,
-      fecha: '',
-      lista_productos: carrito,
-      direccion: {
-        calle: values.calle,
-        localidad: values.localidad,
-        provincia: values.provincia,
-        pais: values.pais,
-        codigo_postal: Number.parseInt(values.codigo_postal) 
-      },
-      tarjeta: {
-        numero_tarjeta: Number.parseInt(values.numTarjeta),
-        fecha_caducidad: values.fechaTarjeta,
-        numero_seguridad: Number.parseInt(values.numSeguridadTarjeta),
-      }
-    };
-
-    let gen = await addPedido(pedido);
-    if(gen){
-      setGenerado(gen);
-
-      let usuario = sessionStorage.getItem("usuario")!;
-      sessionStorage.clear();
-      sessionStorage.setItem("usuario",usuario);
-      sessionStorage.setItem("pedido_generado", numero_pedido.toString());
-    }
-  }, [carrito])
-
-  useEffect(() => {
-    let correct: boolean = true;
-    (Object.keys(formErrors) as (keyof typeof formErrors)[]).forEach(key => {
-      if(!(formErrors[key].length===0)){
-        correct = false;
-      }
-    });
-    
-    if(correct && isSubmit){
-      generarPedido(formValues);
-    }else{
-      setIsSubmit(false);
-    }
-  }, [formErrors, formValues, generarPedido, isSubmit]);
-
   if (!sessionStorage.getItem("usuario"))
     return <Error403></Error403>
   else
@@ -106,7 +64,8 @@ function Pago(): JSX.Element {
 
 
   if (generado){
-      return <Error403></Error403> //TODO Redirección a checkout
+      pago=formValues;
+      return <ResumenPedido/> //TODO Redirección a checkout
   }
 
   async function getFromPod(callback: Function){
@@ -116,21 +75,7 @@ function Pago(): JSX.Element {
     callback(addresses);
   }
 
-  function generarCarrito(): {id_producto:string, precio: number, cantidad: number}[]{
-    let carrito : {id_producto:string, precio: number, cantidad: number}[]= [];
-    
-    for(let i: number = 0; i < sessionStorage.length-1; i++){
-      let key: string = sessionStorage.key(i)!;
-
-      let id_producto = JSON.parse(sessionStorage.getItem(key)!).id;
-      let precio = JSON.parse(sessionStorage.getItem(key)!).precio;
-      let qty = Number.parseInt(JSON.parse(sessionStorage.getItem(key)!).qty);
-
-      carrito.push({id_producto: id_producto, precio:(precio*qty), cantidad:qty});
-    }
-    
-    return carrito;
-  }
+  
 
   function fillAndShowPopup(addresses: string[]){
     let direcciones = new Array<SolidDireccion>(addresses.length);
@@ -164,7 +109,8 @@ function Pago(): JSX.Element {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setFormErrors(validate(formValues));
-    setIsSubmit(true);
+
+    setGenerado(true)
     
     let correct = true;
     let values: (keyof FormPagos)[] = ['calle', 'localidad', 'provincia', 'pais', 'codigo_postal',
@@ -175,7 +121,7 @@ function Pago(): JSX.Element {
     });
 
     if(correct && isSubmit){
-      console.log("A");
+      console.log(sessionStorage);
     }
   };
 
@@ -359,53 +305,7 @@ function Pago(): JSX.Element {
                 <BotonPod/>
               </Grid>
             </Grid>
-            <Grid>
-              <Typography component="h2" variant="h6">
-                Tarjeta
-              </Typography>
-              <TextField
-                margin="normal"
-                required
-                fullWidth
-                name="numTarjeta"
-                label="Número de Tarjeta"
-                type="numTarjeta"
-                id="numTarjeta"
-                autoComplete="numTarjeta"
-                placeholder="Ejemplo: 1234 1234 1234 1234"
-                value = {formValues.numTarjeta}
-                onChange={handleChange}
-              />
-              <Error error={formErrors.numTarjeta}/>
-              <TextField
-                margin="normal"
-                required
-                fullWidth
-                name="fechaTarjeta"
-                label="Fecha de caducidad"
-                type="fechaTarjeta"
-                id="fechaTarjeta"
-                autoComplete="fechaTarjeta"
-                placeholder="Ejemplo: MM/YY"
-                value = {formValues.fechaTarjeta}
-                onChange={handleChange}
-              />
-              <Error error={formErrors.fechaTarjeta}/>
-              <TextField
-                margin="normal"
-                required
-                fullWidth
-                name="numSeguridadTarjeta"
-                label="Número de seguridad"
-                type="numSeguridadTarjeta"
-                id="numSeguridadTarjeta"
-                autoComplete="numSeguridadTarjeta"
-                placeholder="Ejemplo: 111"
-                value = {formValues.numSeguridadTarjeta}
-                onChange={handleChange}
-              />
-              <Error error={formErrors.numSeguridadTarjeta}/>
-            </Grid>
+
             <Button type="submit" size="large" variant="contained" sx={{ mt: 3, mb: 2 }}>
               Pagar
             </Button>

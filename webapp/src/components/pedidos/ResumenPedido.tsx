@@ -7,7 +7,9 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { Product } from '../../shared/shareddtypes';
+import { useState } from 'react';
 import { Box, Button, Typography } from '@mui/material';
+import { Link } from 'react-router-dom';
 
 const TAX_RATE = 0.04;
 
@@ -37,8 +39,8 @@ export default function ResumenPedido() {
     }
 
     return (
-        <Box sx={{ flexGrow: 1, padding: 3, display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'space-between'}}>
-            <Typography variant="h1" component="h2" sx={{ fontSize: 40, marginBottom:3 }}>
+        <Box sx={{ flexGrow: 1, padding: 3, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'space-between' }}>
+            <Typography variant="h1" component="h2" sx={{ fontSize: 40, marginBottom: 3 }}>
                 Resumen total del pedido
             </Typography>
             <TableContainer component={Paper}>
@@ -81,7 +83,9 @@ export default function ResumenPedido() {
                     </TableBody>
                 </Table>
             </TableContainer>
+            <Link to="metodoPago">
             <Button sx={{display:'flex', marginTop:3}} variant='contained'>Finalizar</Button>
+            </Link>
             </Box>
     );
 }
