@@ -60,7 +60,7 @@ test('Pedidos', () => {
     expect(Element).toBeInTheDocument();
     Element = screen.getByText(parseFecha(pedido.fecha));
     expect(Element).toBeInTheDocument();
-    Element = screen.getByText(pedido.precio_total);
+    Element = screen.getByText(pedido.precio_total.toFixed(2));
     expect(Element).toBeInTheDocument();
     Element = screen.getByLabelText(/edit-button/);
     expect(Element).toBeInTheDocument();
