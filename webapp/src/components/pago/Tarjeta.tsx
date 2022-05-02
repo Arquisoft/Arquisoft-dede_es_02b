@@ -3,21 +3,13 @@ import { useCallback, useEffect, useState } from "react";
 import { addPedido, findUserByEmail, getNextNumberPedido } from "../../api/api";
 import { Estado, FormPagos, Pedido } from "../../shared/shareddtypes";
 import Error403 from "../error/Error403";
+import { getDireccionPedido } from "./Pago";
 
 const Tarjeta: React.FC = () => {
     const numTarjetaRegex = /^([0-9]{4}){1}( [0-9]{4}){3}$/
     const fechaTarjetaRegex = /^(0[1-9]|1[0-2])\/([0-9]{4}|[0-9]{2})$/
     const numSeguridadTarjetaRegex = /^[0-9]{3}$/
-    const initialValues: FormPagos = {
-        calle: "",
-        localidad: "",
-        provincia: "",
-        pais: "",
-        codigo_postal: "",
-        numTarjeta: "",
-        fechaTarjeta: "",
-        numSeguridadTarjeta: ""
-    };
+    const initialValues: FormPagos = getDireccionPedido();
 
     const [formValues, setFormValues] = useState(initialValues);
     const [formErrors, setFormErrors] = useState(initialValues);
@@ -47,12 +39,12 @@ const Tarjeta: React.FC = () => {
     };
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-        /*event.preventDefault();
+        event.preventDefault();
         setFormErrors(validate(formValues));
         setIsSubmit(true);
 
         let correct = true;
-        let values: (keyof FormPagos)[] = ['calle', 'localidad', 'provincia', 'pais', 'codigo_postal',
+        let values: (keyof FormPagos)[] = [
             'numTarjeta', 'fechaTarjeta', 'numSeguridadTarjeta'];
         values.forEach(element => {
             if (formErrors[element] !== "")
@@ -61,8 +53,9 @@ const Tarjeta: React.FC = () => {
 
         if (correct && isSubmit) {
             console.log("A");
-        }*/
+        }
         console.log(formValues);
+        console.log(initialValues);
     };
 
     const generarPedido = useCallback(async function (values: FormPagos) {

@@ -80,7 +80,7 @@ function App(): JSX.Element {
           </div>
         }/> 
         
-        <Route path="/metodoPago" element={
+        <Route path="pago/metodoPago" element={
           <div>
             <NavBar/>
             <Tarjeta/>
