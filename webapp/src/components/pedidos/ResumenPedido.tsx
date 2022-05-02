@@ -60,7 +60,10 @@ export default function ResumenPedido() {
     }
 
     function total(){
-        sum = 2 + sum + sum * TAX_RATE;
+        if(costes!=0)
+            sum = Number(costes) + sum + sum * TAX_RATE;
+        else
+            sum = 2 + sum + sum * TAX_RATE;
         pTotal=sum;
         return sum;
     }

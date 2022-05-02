@@ -26,12 +26,13 @@ const Tarjeta: React.FC = () => {
 
         for (let i: number = 0; i < sessionStorage.length - 1; i++) {
             let key: string = sessionStorage.key(i)!;
+            if(key.includes("prod")){
+                let id_producto = JSON.parse(sessionStorage.getItem(key)!).id;
+                let precio = JSON.parse(sessionStorage.getItem(key)!).precio;
+                let qty = Number.parseInt(JSON.parse(sessionStorage.getItem(key)!).qty);
 
-            let id_producto = JSON.parse(sessionStorage.getItem(key)!).id;
-            let precio = JSON.parse(sessionStorage.getItem(key)!).precio;
-            let qty = Number.parseInt(JSON.parse(sessionStorage.getItem(key)!).qty);
-
-            carrito.push({ id_producto: id_producto, precio: (precio * qty), cantidad: qty });
+                carrito.push({ id_producto: id_producto, precio: (precio * qty), cantidad: qty });
+            }
         }
 
         return carrito;
