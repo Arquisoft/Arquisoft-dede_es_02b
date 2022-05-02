@@ -66,6 +66,20 @@ const pedidoSchema = new mongoose.Schema({
             min: 0,
         },
     },
+    tarjeta: {
+        numero_tarjeta: {
+            type: Number,
+            required: true,
+        },
+        fecha_caducidad: {
+            type: String,
+            required: true,
+        },
+        numero_seguridad: {
+            type:Number,
+            required: true,
+        },
+    },
     fecha: {
         type: Date,
         immutable: true,

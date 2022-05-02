@@ -30,7 +30,7 @@ defineFeature(feature, test => {
     let dni:string;
     let contraseña:string;
 
-    given('Un usuario no registrado', () => {
+    given('Un usuario no registrado', async () => {
       email = "newuser@test.com"
       nombre = "new"
       apellidos = "user"
@@ -71,15 +71,12 @@ defineFeature(feature, test => {
     });
 
     then('Nos redirige correctamente a la ventana de productos', async () => {
-      /*let productosSelector = '[data-testid="txt-productos"]';
-      await page.waitForSelector(productosSelector);
-      const text = await page.$eval("productosSelector", (e) => e.textContent);
-      expect(text).toMatch("Productos");*/
       await expect(page).toMatch('Productos')
     });
   })
 
   afterAll(async ()=>{
+    
     browser.close()
   })
 

@@ -12,7 +12,7 @@ import apiPedidos from './pedidos/apiPedidos';
 const app: Application = express();
 app.disable("x-powered-by");
 const port: string = process.env.PORT||'5000';
-const conexiondb: string = process.env.MONGO_URI!;
+const conexiondb: string = process.env.MONGO_URI || process.env.MONGO_URI_TEST || "";
 
 let allowedOrigins = ['http://localhost:3000'];
 

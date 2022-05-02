@@ -124,7 +124,8 @@ export async function addPedido(pedido: Pedido): Promise<boolean> {
         "lista_productos": pedido.lista_productos,
         "precio_total": pedido.precio_total,
         "direccion": pedido.direccion,
-        "estado": pedido.estado
+        "estado": pedido.estado,
+        "tarjeta": pedido.tarjeta
       })
     });
 
@@ -191,4 +192,24 @@ export async function editProducto(producto: Product): Promise<boolean> {
 export async function isAdmin(email: string): Promise<boolean> {
   let u: User = await findUserByEmail(email);
   return u.esAdmin;
+}
+
+export async function deleteUser(_id: string): Promise<boolean>{
+  const apiEndPoint = process.env.REACT_APP_API_URI || 'http://localhost:5000'
+  let response = await fetch(apiEndPoint + '/users/delete', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ '_id': _id })
+  });
+  if (response.status === 200) {
+    return true;
+  } else
+    return false;
+}
+
+export async function getNextNumberPedido(): Promise<number> {
+  const apiEndPoint = process.env.REACT_APP_API_URI || 'http://localhost:5000'
+  let response = await fetch(apiEndPoint + '/pedidos/nextNumber');
+  //The objects returned by the api are directly convertible to User objects
+  return response.json()
 }

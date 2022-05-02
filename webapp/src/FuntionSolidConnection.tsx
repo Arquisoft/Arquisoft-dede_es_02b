@@ -33,8 +33,13 @@ export async function getAddressesFromPod(webId: string): Promise<string[]> {
       VCARD.postal_code
     );
 
+    let country = getStringNoLocale(
+      await getProfile(addressURL),
+      VCARD.country_name
+    );
+
     if (address)
-      addresses.push(`${address} ; ${locality} ; ${region} ; ${postal_code}`);
+      addresses.push(`${address};${locality};${region};${country};${postal_code}`);
   }
 
   return addresses;
