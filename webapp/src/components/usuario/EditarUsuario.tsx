@@ -1,34 +1,14 @@
-import { Button, Container, Grid, TextareaAutosize, TextField, Typography } from '@mui/material';
+import { Button, Container, Grid, TextField, Typography } from '@mui/material';
 import { Box } from '@mui/system';
 import * as React from 'react';
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { addProduct, editUser } from '../../api/api';
-import { Product, User } from '../../shared/shareddtypes';
+import { Navigate } from 'react-router-dom';
+import { editUser } from '../../api/api';
+import { User } from '../../shared/shareddtypes';
 import Error403 from '../error/Error403';
 
-
 const EditarUsuario: React.FC = () => {
-    const [errorMessage, setErrorMessage] = useState('');
-
-    async function comprobarDatos(user: User): Promise<boolean> {
-        if (user.nombre.length === 0) {
-          setErrorMessage("Error: El nombre no puede estar vacío");
-          return false;
-        }
-    
-        if (user.apellidos.length === 0) {
-          setErrorMessage("Error: El apellido no puede estar vacío");
-          return false;
-        }
-    
-        if (user.idSolid.length === 0) {
-          setErrorMessage("Error: El idsolid no puede estar vacío");
-          return false;
-        }
-        setErrorMessage('');
-        return true;
-    }
+    const [editado, setEditado] = useState(false);
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -47,13 +27,15 @@ const EditarUsuario: React.FC = () => {
           dni: "",
           email: email,
           contraseña: "",
-          esAdmin: false
+          esAdmin: false,
+          foto: data.get('foto') as string
         }
 
-        if (await comprobarDatos(user)) {
-            await editUser(user);
-        }
+        setEditado(await editUser(user));
     };
+
+    if(editado)
+        return <Navigate to="/products" />;
 
     if(!sessionStorage.getItem("usuario"))
         return <Error403></Error403>
@@ -77,7 +59,6 @@ const EditarUsuario: React.FC = () => {
                     <TextField
                         autoComplete="given-name"
                         name="nombre"
-                        required
                         fullWidth
                         id="nombre"
                         label="Nombre"
@@ -86,7 +67,6 @@ const EditarUsuario: React.FC = () => {
                 </Grid>
                 <Grid item xs={12}>
                     <TextField
-                        required
                         fullWidth
                         id="apellidos"
                         label="Apellidos"
@@ -96,7 +76,6 @@ const EditarUsuario: React.FC = () => {
                 </Grid>
                 <Grid item xs={12}>
                     <TextField
-                        required
                         fullWidth
                         name="idSolid"
                         label="Id de Solid"
@@ -104,17 +83,23 @@ const EditarUsuario: React.FC = () => {
                         autoComplete="idSolid"
                     />
                 </Grid >
+                <Grid item xs={12}>
+                    <TextField
+                        fullWidth
+                        name="foto"
+                        label="Foto"
+                        id="foto"
+                        autoComplete="foto"
+                    />
+                </Grid >
             </Grid>
-            <Link to={"/products"}>
-                <Button
+            <Button
+                    aria-label="btEditar"
                     type="submit"
                     fullWidth
                     variant="contained"
                     sx={{ mt: 3, mb: 2 }}
-                >
-                    Editar
-                </Button>
-            </Link>
+                >Editar</Button>
             
             
         </Box>

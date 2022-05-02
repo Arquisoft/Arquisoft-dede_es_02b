@@ -35,7 +35,7 @@ const Login:React.FC=()=> {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if(!await login({email, contraseña}))
+    if(await login({email, contraseña}))
       setLogueado(email);
     
     if(!logueado)
@@ -68,7 +68,7 @@ const Login:React.FC=()=> {
           <Typography component="h1" variant="h5">
             Inicia sesión
           </Typography>
-          <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+          <Box component="form" name='login' onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
             <TextField
               margin="normal"
               required
@@ -78,7 +78,7 @@ const Login:React.FC=()=> {
               name="email"
               autoComplete="email"
               autoFocus
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={(e: any) => setEmail(e.target.value)}
             />
             <TextField
               margin="normal"
@@ -89,10 +89,10 @@ const Login:React.FC=()=> {
               type="password"
               id="contraseña"
               autoComplete="current-contraseña"
-              onChange={(e) => setContraseña(e.target.value)}
+              onChange={(e: any) => setContraseña(e.target.value)}
             />
             {errorMessage && (
-              <p className="error"> {errorMessage} </p>
+              <p style={{color: 'red'}} className="error"> {errorMessage} </p>
             )}
             <Button
               type="submit"

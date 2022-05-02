@@ -12,11 +12,17 @@ test('Register', () => {
     // formulario
     text = screen.getByLabelText(/Nombre/);
     expect(text).toBeVisible();
+    text = screen.getByLabelText(/Apellidos/);
+    expect(text).toBeVisible();
     text = screen.getByLabelText(/DNI/);
     expect(text).toBeVisible();
     text = screen.getByLabelText(/Email/);
     expect(text).toBeVisible();
     text = screen.getByLabelText(/Contraseña/);
+    expect(text).toBeVisible();
+    text = screen.getByLabelText(/Foto/);
+    expect(text).toBeVisible();
+    text = screen.getByLabelText(/Solid WebId/);
     expect(text).toBeVisible();
 
     // botones

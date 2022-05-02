@@ -52,6 +52,11 @@
             "pais": "españa",
             "codigo_postal": 33391
         },
+        "tarjeta": {
+            "numero_tarjeta": 1234,
+            "fecha_caducidad": "02/25",
+            "numero_seguridad": 111
+        },
         "_id": "62385278aa3b8ac2580301dd",
         "estado": "Entregado",
         "lista_productos": [{

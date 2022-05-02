@@ -92,8 +92,8 @@ include::11_technical_risks.adoc[]
 include::12_glossary.adoc[]
 
 <<<<
-// 13. Anexo
-include::13_anexo.adoc[]
+// Anexo
+include::anexo.adoc[]
 
 <<<<
 // About

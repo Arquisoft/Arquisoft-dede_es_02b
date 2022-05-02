@@ -26,14 +26,15 @@ export default function Register() {
     const data = new FormData(event.currentTarget);
 
     const user: User = {
-      _id:"",
+      _id: "",
       nombre: data.get('nombre') as string,
       apellidos: data.get('apellidos') as string,
-      idSolid: data.get('idsolid') as string,
+      idSolid: data.get('idSolid') as string,
       dni: data.get('dni') as string,
       email: data.get('email') as string,
       contraseña: data.get('contraseña') as string,
-      esAdmin: false
+      esAdmin: false,
+      foto: data.get('foto') as string
     }
 
     if (await comprobarDatos(user)) {
@@ -155,6 +156,14 @@ export default function Register() {
             />
             <TextField
               margin="normal"
+              fullWidth
+              name="foto"
+              label="Foto"
+              id="foto"
+              autoComplete="foto"
+            />
+            <TextField
+              margin="normal"
               required
               fullWidth
               id="email"
@@ -170,7 +179,7 @@ export default function Register() {
               name="contraseña"
               label="Contraseña"
               type="password"
-              id="filled-password-input"
+              id="contraseña"
               autoComplete="current-contraseña"
             />
             {errorMessage && (
@@ -180,14 +189,15 @@ export default function Register() {
               type="submit"
               fullWidth
               variant="contained"
+              id="registrarse"
               sx={{ mt: 3, mb: 2 }}
             >
               Completar registro
             </Button>
             <Grid container>
               <Grid item>
-              <Link to={"/login"}>
-                  <Typography key="login" sx={{ my: 1, color: 'blue', textAlign:"center", display: 'block' }}>
+                <Link to={"/login"}>
+                  <Typography key="login" sx={{ my: 1, color: 'blue', textAlign: "center", display: 'block' }}>
                     Iniciar Sesión
                   </Typography>
                 </Link>
@@ -197,7 +207,7 @@ export default function Register() {
         </Box>
       </Container>
     </ThemeProvider>
-  ); 
+  );
 }
 
 

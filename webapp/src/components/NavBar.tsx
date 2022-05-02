@@ -11,11 +11,10 @@ import Container from '@mui/material/Container';
 import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
-import { LinkSharp, ShoppingCart } from '@mui/icons-material';
+import { ShoppingCart } from '@mui/icons-material';
 import { Avatar, Badge } from '@mui/material';
 import { Navigate, Link } from 'react-router-dom';
 import logo from "./logo.png"
-import Error403 from './error/Error403';
 
 const NavBar: React.FC = () => {
   const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
@@ -48,12 +47,12 @@ const NavBar: React.FC = () => {
       setLogueado("deslogueado");
     };
 
-    if (logueado && logueado != "deslogueado") {
+    if (logueado && logueado !== "deslogueado") {
       if (JSON.parse(sessionStorage.getItem("usuario")!).esAdmin) {
         return (<Box sx={{ flexGrow: 0, marginLeft: 2 }}>
           <Tooltip title="Open settings">
             <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-              <Avatar alt="Remy Sharp" />
+              <Avatar alt="Remy Sharp" src={JSON.parse(sessionStorage.getItem("usuario")!).foto} />
             </IconButton>
           </Tooltip>
 
@@ -84,7 +83,7 @@ const NavBar: React.FC = () => {
         return (<Box sx={{ flexGrow: 0, marginLeft: 2 }}>
           <Tooltip title="Open settings">
             <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-              <Avatar alt="Remy Sharp" />
+              <Avatar alt="Remy Sharp" src={JSON.parse(sessionStorage.getItem("usuario")!).foto}/>
             </IconButton>
           </Tooltip>
 
@@ -105,7 +104,7 @@ const NavBar: React.FC = () => {
             onClose={handleCloseUserMenu}
           >
             <MenuItem key="editUser">
-              <Link to="/editUser">
+              <Link to="/editUser" style={{textDecoration:'none'}}>
                 <Button key="editUser" sx={{ my: 1, color: '#1976d2', display: 'block' }}>
                   Editar Usuario
                 </Button>
@@ -124,7 +123,7 @@ const NavBar: React.FC = () => {
   }
 
   function botonCarrito(): JSX.Element {
-    if (logueado && logueado != "deslogueado") {
+    if (logueado && logueado !== "deslogueado") {
       if (!JSON.parse(logueado).esAdmin) {
         return (<Link to="/carrito">
           <IconButton sx={{ p: 0, color: 'white' }}>
@@ -138,8 +137,16 @@ const NavBar: React.FC = () => {
     return <div></div>;
   }
 
+  function menuUsuarios(): JSX.Element | undefined {
+    if (JSON.parse(sessionStorage.getItem("usuario")!).esAdmin)
+      return (<Link to={"/users"} style={{textDecoration:'none'}}>
+                <Button key="pedidos" sx={{ my: 2, color: 'white', display: 'block' }}>Usuarios</Button>
+              </Link>)
+  }
+
+
   function botonesEnlace(): JSX.Element {
-    if (logueado && logueado != "deslogueado")
+    if (logueado && logueado !== "deslogueado")
       return (<Menu
         key="menu"
         id="menu-appbar"
@@ -159,14 +166,14 @@ const NavBar: React.FC = () => {
           display: { xs: 'block', md: 'none' },
         }}
       >
-        <Link to={"/pedidos"}>
-          <Typography key="pedidos" sx={{ my: 1, color: 'blue', textAlign: "center", display: 'block' }}>
+        <Link to={"/pedidos"} style={{textDecoration:'none'}}>
+          <Typography key="pedidos" sx={{ my: 1, color: '#1976d2', textAlign: "center", display: 'block' }}>
             Pedidos
           </Typography>
         </Link>
-        <Link to={"/Products"}>
+        <Link to={"/Products"} style={{textDecoration:'none'}}>
           <MenuItem key={"Products"}>
-            <Typography sx={{ my: 1, color: 'blue', textAlign: "center", display: 'block' }}>Productos</Typography>
+            <Typography sx={{ my: 1, color: '#1976d2', textAlign: "center", display: 'block' }}>Productos</Typography>
           </MenuItem>
         </Link>
       </Menu>)
@@ -175,9 +182,9 @@ const NavBar: React.FC = () => {
   }
 
   function links(): JSX.Element {
-    if (logueado && logueado != "deslogueado")
+    if (logueado && logueado !== "deslogueado")
       return (<Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-      <Link to={"/Products"}>
+      <Link to={"/Products"} style={{textDecoration:'none'}}>
         <Button
           key={"Products"}
           onClick={handleCloseNavMenu}
@@ -186,11 +193,12 @@ const NavBar: React.FC = () => {
           Productos
         </Button>
       </Link>
-      <Link to={"/pedidos"}>
+      <Link to={"/pedidos"} style={{textDecoration:'none'}}>
         <Button key="pedidos" sx={{ my: 2, color: 'white', display: 'block' }}>
           Pedidos
         </Button>
       </Link>
+      {menuUsuarios()}
 
     </Box>)
 

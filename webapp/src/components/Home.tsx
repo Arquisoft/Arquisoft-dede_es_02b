@@ -11,8 +11,13 @@ import { Animator, batch, Fade, Move, MoveOut, ScrollContainer, ScrollPage, Stic
 import { useEffect, useState } from 'react';
 import { getProducts } from '../api/api';
 
+let productoTest:Product[]=[];
+export function productosHomeTest(producto:Product){
+  productoTest[0]=producto;
+}
+
 const Home: React.FC = () => {
-    const [products,setProducts] = useState<Product[]>([]);
+    const [products,setProducts] = useState<Product[]>(productoTest);
   
     const refreshProductList = async () => {
       setProducts(await getProducts());
@@ -36,7 +41,7 @@ const Home: React.FC = () => {
                         <Box className='Home'>
                             <Typography className='Titulo' variant='h1' sx={{ fontSize: '4em', marginRight: '20px' }}>Bienvenido a DeDe</Typography>
                             <Typography className='Descripcion' sx={{ fontSize: '1.5em' }}>La tienda Nº1 en la venta de frutas</Typography>
-                            <Link to="/login">
+                            <Link to="/login" style={{textDecoration:'none'}}>
                                 <Button variant='contained'>Entrar</Button>
                             </Link>
                         </Box>

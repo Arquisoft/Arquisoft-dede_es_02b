@@ -6,12 +6,12 @@ export async function addUser(user: User): Promise<boolean> {
   let response = await fetch(apiEndPoint + '/users/add', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ 'nombre': user.nombre, 'apellidos': user.apellidos, 'email': user.email, 'contraseña': user.contraseña, 'dni': user.dni, 'idSolid': user.idSolid })
+    body: JSON.stringify({ 'nombre': user.nombre, 'apellidos': user.apellidos, 'email': user.email, 'contraseña': user.contraseña, 'dni': user.dni, 'idSolid': user.idSolid, 'foto': user.foto })
   });
 
   if (response.status === 200) {
     let u: User = await response.json();
-    sessionStorage.setItem("usuario", JSON.stringify({ email: u.email, esAdmin: u.esAdmin, webId: u.idSolid }));
+    sessionStorage.setItem("usuario", JSON.stringify({ email: u.email, esAdmin: u.esAdmin, webId: u.idSolid, foto: u.foto }));
     return true;
   }
   return false;
@@ -54,7 +54,7 @@ export async function login(user: LoginData): Promise<boolean> {
 
   if (response.status === 200) {
     let u: User = await response.json();
-    sessionStorage.setItem("usuario", JSON.stringify({ email: u.email, esAdmin: u.esAdmin, webId: u.idSolid }));
+    sessionStorage.setItem("usuario", JSON.stringify({ email: u.email, esAdmin: u.esAdmin, webId: u.idSolid, foto: u.foto }));
     return true;
   }
   return false;
@@ -124,7 +124,8 @@ export async function addPedido(pedido: Pedido): Promise<boolean> {
         "lista_productos": pedido.lista_productos,
         "precio_total": pedido.precio_total,
         "direccion": pedido.direccion,
-        "estado": pedido.estado
+        "estado": pedido.estado,
+        "tarjeta": pedido.tarjeta
       })
     });
 
@@ -166,9 +167,11 @@ export async function editUser(user: User): Promise<boolean> {
   let response = await fetch(apiEndPoint + '/users/editar', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ 'email': user.email, 'nombre': user.nombre, 'apellidos': user.apellidos, 'idSolid': user.idSolid })
+    body: JSON.stringify({ 'email': user.email, 'nombre': user.nombre, 'apellidos': user.apellidos, 'idSolid': user.idSolid, 'foto': user.foto})
   });
   if (response.status === 200) {
+    let u: User = await response.json();
+    sessionStorage.setItem("usuario", JSON.stringify({ email: u.email, esAdmin: u.esAdmin, webId: u.idSolid, foto: u.foto }));
     return true;
   } else
     return false;
@@ -203,4 +206,24 @@ export async function calcularCostes(address: string, weight:number): Promise<bo
     return true;
   } else
     return false;
+}
+
+export async function deleteUser(_id: string): Promise<boolean>{
+  const apiEndPoint = process.env.REACT_APP_API_URI || 'http://localhost:5000'
+  let response = await fetch(apiEndPoint + '/users/delete', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ '_id': _id })
+  });
+  if (response.status === 200) {
+    return true;
+  } else
+    return false;
+}
+
+export async function getNextNumberPedido(): Promise<number> {
+  const apiEndPoint = process.env.REACT_APP_API_URI || 'http://localhost:5000'
+  let response = await fetch(apiEndPoint + '/pedidos/nextNumber');
+  //The objects returned by the api are directly convertible to User objects
+  return response.json()
 }

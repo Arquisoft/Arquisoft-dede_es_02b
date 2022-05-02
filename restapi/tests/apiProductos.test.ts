@@ -103,6 +103,109 @@ describe('listar productos ', () => {
     });
 })
 
+describe("editar producto ", () =>{
+    it('id incorrecto ', async () => {
+        await probarEditarProducto({_id: '6220e1c1e976d8ae3a9d3e60', nombre:'Manzana Reineta', origen:'Asturias', precio:2, descripcion:'Manzana reineta gucci', foto:'https://i.ibb.co/HnSzg1b/golden.jpg'}, 500);
+    })
+
+    it('id inválido ', async () => {
+        await probarEditarProducto({_id: 'asdasd', nombre:'Manzana Reineta', origen:'Asturias', precio:2, descripcion:'Manzana reineta gucci', foto:'https://i.ibb.co/HnSzg1b/golden.jpg'}, 500);
+    })
+
+    it('sin id ', async () => {
+        await probarEditarProducto({ nombre:'Manzana Reineta', origen:'Asturias', precio:2, descripcion:'Manzana reineta gucci', foto:'https://i.ibb.co/HnSzg1b/golden.jpg'}, 500);
+    })
+
+    it('nombre = ""', async () => {
+        await probarEditarProducto({_id: '621f7f978600d56807483f74', nombre:'', origen:'Asturias', precio:2, descripcion:'Manzana reineta gucci', foto:'https://i.ibb.co/HnSzg1b/golden.jpg'}, 200);
+        var response:Response = await request(app).get("/products/id=621f7f978600d56807483f74").set('Accept', 'application/json');
+
+        expect(response.statusCode).toBe(200);
+        await compareResponseBody(response.body, {nombre:'manzana reineta', origen:'Asturias', precio:2, descripcion:'Manzana reineta gucci', foto:'https://i.ibb.co/HnSzg1b/golden.jpg'});
+    })
+
+    it('sin nombre ', async () => {
+        await probarEditarProducto({_id: '621f7f978600d56807483f74', origen:'Gijón', precio:2.5, descripcion:'Manzana reineta', foto:'https://i.ibb.co/HnSzg1b/reineta.jpg'}, 200);
+        var response:Response = await request(app).get("/products/id=621f7f978600d56807483f74").set('Accept', 'application/json');
+
+        expect(response.statusCode).toBe(200);
+        await compareResponseBody(response.body, {nombre:'manzana reineta', origen:'Gijón', precio:2.5, descripcion:'Manzana reineta', foto:'https://i.ibb.co/HnSzg1b/reineta.jpg'});
+    })
+
+    it('origen = "" ', async () => {
+        await probarEditarProducto({_id: '621f7f978600d56807483f74', nombre:'Manzana Reineta', origen:'', precio:2, descripcion:'Manzana reineta gucci', foto:'https://i.ibb.co/HnSzg1b/golden.jpg'}, 200);
+        var response:Response = await request(app).get("/products/id=621f7f978600d56807483f74").set('Accept', 'application/json');
+
+        expect(response.statusCode).toBe(200);
+        await compareResponseBody(response.body, {nombre:'Manzana Reineta', origen:'Gijón', precio:2, descripcion:'Manzana reineta gucci', foto:'https://i.ibb.co/HnSzg1b/golden.jpg'});
+    })
+
+    it('sin origen ', async () => {
+        await probarEditarProducto({_id: '621f7f978600d56807483f74', nombre:'manzana reineta', precio:2.5, descripcion:'Manzana reineta', foto:'https://i.ibb.co/HnSzg1b/reineta.jpg'}, 200);
+        var response:Response = await request(app).get("/products/id=621f7f978600d56807483f74").set('Accept', 'application/json');
+
+        expect(response.statusCode).toBe(200);
+        await compareResponseBody(response.body, {nombre:'manzana reineta', origen:'Gijón', precio:2.5, descripcion:'Manzana reineta', foto:'https://i.ibb.co/HnSzg1b/reineta.jpg'});
+    })
+
+    it('sin precio ', async () => {
+        await probarEditarProducto({_id: '621f7f978600d56807483f74', nombre:'Manzana Reineta', origen:'Asturias', descripcion:'Manzana reineta gucci', foto:'https://i.ibb.co/HnSzg1b/golden.jpg'}, 200);
+        var response:Response = await request(app).get("/products/id=621f7f978600d56807483f74").set('Accept', 'application/json');
+
+        expect(response.statusCode).toBe(200);
+        await compareResponseBody(response.body, {nombre:'Manzana Reineta', origen:'Asturias', precio:2.5, descripcion:'Manzana reineta gucci', foto:'https://i.ibb.co/HnSzg1b/golden.jpg'});
+    })
+
+    it('precio < 0 ', async () => {
+        await probarEditarProducto({_id: '621f7f978600d56807483f74', nombre:'manzana reineta', origen:'Gijón', precio:-2, descripcion:'Manzana reineta', foto:'https://i.ibb.co/HnSzg1b/reineta.jpg'}, 200);
+        var response:Response = await request(app).get("/products/id=621f7f978600d56807483f74").set('Accept', 'application/json');
+
+        expect(response.statusCode).toBe(200);
+        await compareResponseBody(response.body, {nombre:'manzana reineta', origen:'Gijón', precio:2.5, descripcion:'Manzana reineta', foto:'https://i.ibb.co/HnSzg1b/reineta.jpg'});
+    })
+
+    it('descripcion = "" ', async () => {
+        await probarEditarProducto({_id: '621f7f978600d56807483f74', nombre:'Manzana Reineta', origen:'Asturias', precio:2, descripcion:'', foto:'https://i.ibb.co/HnSzg1b/golden.jpg'}, 200);
+        var response:Response = await request(app).get("/products/id=621f7f978600d56807483f74").set('Accept', 'application/json');
+
+        expect(response.statusCode).toBe(200);
+        await compareResponseBody(response.body, {nombre:'Manzana Reineta', origen:'Asturias', precio:2, descripcion:'Manzana reineta', foto:'https://i.ibb.co/HnSzg1b/golden.jpg'});
+    })
+
+    it('sin descripcion ', async () => {
+        await probarEditarProducto({_id: '621f7f978600d56807483f74', nombre:'manzana reineta', origen:'Gijón', precio:2.5, foto:'https://i.ibb.co/HnSzg1b/reineta.jpg'}, 200);
+        var response:Response = await request(app).get("/products/id=621f7f978600d56807483f74").set('Accept', 'application/json');
+
+        expect(response.statusCode).toBe(200);
+        await compareResponseBody(response.body, {nombre:'manzana reineta', origen:'Gijón', precio:2.5, descripcion:'Manzana reineta', foto:'https://i.ibb.co/HnSzg1b/reineta.jpg'});        
+    })
+
+    it('foto = "" ', async () => {
+        await probarEditarProducto({_id: '621f7f978600d56807483f74', nombre:'Manzana Reineta', origen:'Asturias', precio:2, descripcion:'Manzana reineta gucci', foto:''}, 200);
+        var response:Response = await request(app).get("/products/id=621f7f978600d56807483f74").set('Accept', 'application/json');
+
+        expect(response.statusCode).toBe(200);
+        await compareResponseBody(response.body, {nombre:'Manzana Reineta', origen:'Asturias', precio:2, descripcion:'Manzana reineta gucci', foto:'https://i.ibb.co/HnSzg1b/reineta.jpg'});
+    })
+
+    it('sin foto ', async () => {
+        await probarEditarProducto({_id: '621f7f978600d56807483f74', nombre:'manzana reineta', origen:'Gijón', precio:2.5, descripcion:'Manzana reineta'}, 200);
+        var response:Response = await request(app).get("/products/id=621f7f978600d56807483f74").set('Accept', 'application/json');
+
+        expect(response.statusCode).toBe(200);
+        await compareResponseBody(response.body, {nombre:'manzana reineta', origen:'Gijón', precio:2.5, descripcion:'Manzana reineta', foto:'https://i.ibb.co/HnSzg1b/reineta.jpg'});
+    })
+
+    it('correctamente ', async () => {
+        console.log("correctamente:")
+        await probarEditarProducto({_id: '621f7f978600d56807483f74', nombre:'Manzana Reineta', origen:'Asturias', precio:2, descripcion:'Manzana reineta gucci', foto:'https://i.ibb.co/HnSzg1b/golden.jpg'}, 200);
+        var response:Response = await request(app).get("/products/id=621f7f978600d56807483f74").set('Accept', 'application/json');
+
+        expect(response.statusCode).toBe(200);
+        await compareResponseBody(response.body, {nombre:'Manzana Reineta', origen:'Asturias', precio:2, descripcion:'Manzana reineta gucci', foto:'https://i.ibb.co/HnSzg1b/golden.jpg'});
+    })
+})
+
 describe("eliminar producto ", () =>{
     it('existente', async () => {
         await probarDelete({_id:"621f7f978600d56807483f74"},200);
@@ -119,6 +222,12 @@ describe("eliminar producto ", () =>{
 
 async function probarAddProductos(arg0: {nombre?: string, origen?:string, precio?:number, descripcion?:string, foto?:string}, code:number):Promise<Response>{
     const response:Response = await request(app).post('/products/add').send(arg0).set('Accept', 'application/json');
+    expect(response.statusCode).toBe(code);
+    return response;
+}
+
+async function probarEditarProducto(arg0: {_id?: string, nombre?: string, origen?:string, precio?:number, descripcion?:string, foto?:string}, code:number):Promise<Response>{
+    const response:Response = await request(app).post('/products/editar').send(arg0).set('Accept', 'application/json');
     expect(response.statusCode).toBe(code);
     return response;
 }

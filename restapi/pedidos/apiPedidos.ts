@@ -32,6 +32,8 @@ apiPedidos.post(
       if(!req.body.lista_productos)
         return res.sendStatus(412);
 
+       
+
       for(let producto of req.body.lista_productos){
         if(!producto.id_producto)
           throw new Error();
@@ -45,10 +47,11 @@ apiPedidos.post(
       pedido.lista_productos = req.body.lista_productos;
       
       pedido.direccion = req.body.direccion;
+      pedido.tarjeta = req.body.tarjeta;
       
       await pedido.save();
       return res.sendStatus(200);
-    } catch {
+    } catch{
       return res.sendStatus(500);
     }
   }
@@ -98,6 +101,15 @@ apiPedidos.get(
   }
 );
 
+apiPedidos.get(
+  "/pedidos/nextNumber",
+  async (req: Request, res: Response): Promise<Response> => {
+      let pedidos = await Pedido.find({}).sort({numero_pedido: 'desc'}).limit(1).exec();
+      let nextNumber = pedidos[0].numero_pedido+1;
+      return res.status(200).send(nextNumber.toString());
+  }
+);
+
 apiPedidos.post(
   "/pedidos/editar",
   async (req: Request, res: Response): Promise<Response> => {
@@ -111,14 +123,6 @@ apiPedidos.post(
     } catch {
       return res.sendStatus(500);
     }
-  }
-);
-
-apiPedidos.post(
-  "/pedidos/delete",
-  async (req: Request, res: Response): Promise<Response> => {
-    Pedido.findById(req.body._id).deleteOne().exec();
-    return res.sendStatus(200);
   }
 );
 

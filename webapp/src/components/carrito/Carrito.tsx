@@ -181,7 +181,7 @@ const Carrito: React.FC= () =>{
             Resumen del pedido:
           </Typography>
           {Array.from(Array(productosCarrito.length)).map((_, index) => (
-            <Grid item xs={12} sm={6} md={4} lg={3} key={index}>
+            <Grid item xs={18} sm={6} md={4} lg={8} key={index}>
               <li>{productosCarrito[index].nombre +" ("+ carrito.get(productosCarrito[index]) + " uds)" +
                     "  -------  "+productosCarrito[index].precio*(carrito.get(productosCarrito[index])as number)+"€"}</li>
             </Grid>
@@ -189,7 +189,7 @@ const Carrito: React.FC= () =>{
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             ----------------------------
           </Typography>
-          <Total total={getPrecio()}/>
+          <Total price={getPrecio()}/>
           <IconButton onClick={()=>deleteCart()}><Delete/>Borrar pedido</IconButton>
       </Box>
     </Split>
