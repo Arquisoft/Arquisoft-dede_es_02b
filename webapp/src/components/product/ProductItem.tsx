@@ -94,17 +94,17 @@ const ProductItem: React.FC<ProductProp> = (productProp: ProductProp) => {
             <IconButton aria-label='delete-item'>
               <DeleteIcon />
             </IconButton>
-            <IconButton onClick={() => setOpenEdit(true)}><EditIcon /></IconButton>
+            <IconButton aria-label='edit-item' onClick={() => setOpenEdit(true)}><EditIcon /></IconButton>
           </Box>
         )
       } else {
         return (
           <Box sx={{ display: 'flex', flexDirection: "row-reverse", alignItems: 'center' }}>
-            <IconButton type="submit" onClick={handleClick}>
+            <IconButton aria-label='add-item' type="submit" onClick={handleClick}>
               <AddShoppingCart />
             </IconButton>
             <Typography sx={{ fontSize: 20 }}> {accounting.formatMoney(producto.precio, "€")}</Typography>
-            <IconButton onClick={() => sumarCantidad(1)}><AddIcon /></IconButton>
+            <IconButton aria-label='sumar-item' onClick={() => sumarCantidad(1)}><AddIcon /></IconButton>
             <TextField
               id="cantidad-producto"
               sx={{
@@ -127,7 +127,7 @@ const ProductItem: React.FC<ProductProp> = (productProp: ProductProp) => {
               }
               }
             />
-            <IconButton onClick={() => sumarCantidad(-1)}><RemoveIcon /></IconButton>
+            <IconButton aria-label='restar-item' onClick={() => sumarCantidad(-1)}><RemoveIcon /></IconButton>
             <Typography>Cantidad:</Typography>
           </Box>)
       }
