@@ -1,14 +1,14 @@
-var shippo = require('shippo')('shippo_test_eb019b0f79848036d9feb06d0dd864499e2ebf56');
+var shippo = require('shippo')('shippo_test_355d87774e04e4982391ff93e7d7e3293f99f42e');
 
-module.exports = function (addressTo:object, weight:number) {
+module.exports = function (addressTo:object) {
     var addressFrom = {
 
-        "name": "Escuela de Ingenieria Informatica",
-        "street1": "Calle Valdes Salas",
-        "city": "Oviedo",
-        "state": "Asturias",
-        "zip": "33007",
-        "country": "ES"
+        "name": "Shawn Ippotle",
+        "street1": "215 Clayton St.",
+        "city": "San Francisco",
+        "state": "CA",
+        "zip": "94117",
+        "country": "US"
     };
     var parcel = {
 
@@ -16,11 +16,10 @@ module.exports = function (addressTo:object, weight:number) {
         "width": "5",
         "height": "5",
         "distance_unit": "in",
-        "weight": weight,
+        "weight": 2,
         "mass_unit": "lb"
     };
     return shippo.shipment.create({
-
         "address_from": addressFrom,
         "address_to": addressTo,
         "parcels": [parcel],

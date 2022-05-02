@@ -2,8 +2,8 @@ import React from 'react';
 import { render, screen } from '@testing-library/react';
 import App from './App';
 import { BrowserRouter } from 'react-router-dom';
-import { productosHomeTest } from './components/Home';
 import { Product } from './shared/shareddtypes';
+import { productosHomeTest } from './components/Home';
 
 test('renders learn react link', () => {
   let producto: Product = {

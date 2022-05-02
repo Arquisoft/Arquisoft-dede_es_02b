@@ -7,13 +7,14 @@ import Carrito from './components/carrito/Carrito';
 import RegisterScreen from './components/login/RegisterScreen';
 import ListaPedidos from './components/pedidos/ListaPedidos';
 import AñadirProducto from './components/product/AñadirProducto';
-import Home from './components/Home';
 import HomeNavBar from './components/HomeNavBar';
 import Error404 from './components/error/Error404';
 import EditarUsuario from './components/usuario/EditarUsuario';
-import ListaUsuarios from './components/usuario/ListaUsuarios';
 import Pago from './components/pago/Pago';
 import ResumenPedido from './components/pedidos/ResumenPedido';
+import ListaUsuarios from './components/usuario/ListaUsuarios';
+import Home from './components/Home';
+import Tarjeta from './components/pago/Tarjeta';
 
 function App(): JSX.Element {
 
@@ -78,10 +79,11 @@ function App(): JSX.Element {
             <EditarUsuario/>
           </div>
         }/> 
-        <Route path="/resumenPedido" element={
+        
+        <Route path="pago/metodoPago" element={
           <div>
             <NavBar/>
-            <ResumenPedido/>
+            <Tarjeta/>
           </div>
         }/> 
         <Route path="*" element={

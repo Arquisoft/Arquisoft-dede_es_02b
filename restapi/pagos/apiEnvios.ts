@@ -5,12 +5,10 @@ const apiEnvios:Router = express.Router();
 
 
 const calculateShippementCost = async (req: Request, res: Response) => {
-  const addressTo = JSON.parse(req.body);
     let shippmentCost = 0;
-  
     try{
-      shippmentCost = await ShippingCosts(addressTo)
-  
+      shippmentCost = await ShippingCosts(req.body)
+      console.log(shippmentCost);
       return res.status(200).send({coste: shippmentCost});
     } catch (e){
       console.log(e);
@@ -18,10 +16,9 @@ const calculateShippementCost = async (req: Request, res: Response) => {
     }
   }
 
-apiEnvios.get(
+apiEnvios.post(
   "/envio/calcular",
-  async (_req: Request, res: Response): Promise<Response> => {
-    let costes = calculateShippementCost(_req, res);
-    return res.status(200).send(costes);
-  }
+  calculateShippementCost
 );
+
+export default apiEnvios;

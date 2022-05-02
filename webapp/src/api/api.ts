@@ -194,15 +194,27 @@ export async function isAdmin(email: string): Promise<boolean> {
   return u.esAdmin;
 }
 
-export async function calcularCostesEnvio(address: string, weight:number): Promise<number> {
+export async function calcularCostesEnvio(address: string): Promise<number> {
   const apiEndPoint = process.env.REACT_APP_API_URI || 'http://localhost:5000'
-  let addressTo = JSON.parse(address);
+  let temp = JSON.parse(address);
+  let addressTo = {
+    "name": "Pedido",
+    "street1": temp.street1,
+    "city": temp.city,
+    "state": temp.state,
+    "zip": temp.zipcode,
+    "country": temp.country
+};
   let response = await fetch(apiEndPoint + '/envio/calcular', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ 'street1': addressTo.street1, 'city': addressTo.city, 'state': addressTo.state, 'zipcode': addressTo.zipcode, 'country': addressTo.country, 'weight': weight })
+    body: JSON.stringify(addressTo)
   });
-  return response.json();
+  if (response.ok) {
+    let responseJSON = await response.json();
+    return responseJSON.coste;
+  }
+  throw Error("Error al calular los costes");
 }
 
 export async function deleteUser(_id: string): Promise<boolean>{

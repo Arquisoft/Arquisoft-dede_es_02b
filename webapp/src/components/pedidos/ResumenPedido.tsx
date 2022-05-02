@@ -7,8 +7,10 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { Product } from '../../shared/shareddtypes';
+import { useState } from 'react';
 import { Box, Button, Typography } from '@mui/material';
 import { calcularCostesEnvio } from '../../api/api';
+import { Link } from 'react-router-dom';
 
 const TAX_RATE = 0.04;
 
@@ -18,22 +20,15 @@ let costesEnvio: number = 0;
 export default function ResumenPedido() {
     const [costes, setCostes] = React.useState<number>(costesEnvio);
 
-    const refreshProductList = async () => {
+    const refreshEnvio = async () => {
         let value = sessionStorage.getItem('address');
-        let address = '';
         if (value !== null){
-            address = JSON.parse(value);
+            setCostes(await calcularCostesEnvio(value));
         }
-        let temp = sessionStorage.getItem('weight');
-        let weight:number = 0;
-        if (temp !== null){
-            weight = parseInt(temp);
-        } 
-
-        setCostes(await calcularCostesEnvio(address, weight));
+        
     }
     useEffect(() => {
-        refreshProductList();
+        refreshEnvio();
     }, []);
 
     let productos: Product[] = [];
@@ -41,7 +36,7 @@ export default function ResumenPedido() {
 
     for (let index = 0; index < sessionStorage.length; index++) {
         const element = sessionStorage.key(index);
-        if (element !== null && element !== "usuario") {
+        if (element !== null && element.includes('producto_')) {
             var cartItem = sessionStorage.getItem(element);
             if (cartItem !== null) {
                 var cartItem2 = JSON.parse(cartItem);
@@ -61,8 +56,8 @@ export default function ResumenPedido() {
     }
 
     return (
-        <Box sx={{ flexGrow: 1, padding: 3, display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'space-between'}}>
-            <Typography variant="h1" component="h2" sx={{ fontSize: 40, marginBottom:3 }}>
+        <Box sx={{ flexGrow: 1, padding: 3, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'space-between' }}>
+            <Typography variant="h1" component="h2" sx={{ fontSize: 40, marginBottom: 3 }}>
                 Resumen total del pedido
             </Typography>
             <TableContainer component={Paper}>
@@ -105,7 +100,9 @@ export default function ResumenPedido() {
                     </TableBody>
                 </Table>
             </TableContainer>
+            <Link to="metodoPago">
             <Button sx={{display:'flex', marginTop:3}} variant='contained'>Finalizar</Button>
+            </Link>
             </Box>
     );
 }
