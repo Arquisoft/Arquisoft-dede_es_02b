@@ -6,17 +6,26 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import { getUsers } from '../../api/api';
+import { getUsers, deleteUser } from '../../api/api';
 import { User } from '../../shared/shareddtypes';
 import Error403 from '../error/Error403';
+import { Box, Typography } from '@mui/material';
+import DeleteIcon from '@mui/icons-material/Delete';
+import IconButton from '@mui/material/IconButton';
+
+let usuarioTest:User[]=[];
+export function usuariosTest(usuario:User){
+    usuarioTest[0]=usuario;
+}
 
 function ListaUsuarios(): JSX.Element {
 
-    const [usuarios, setUsuarios] = useState<User[]>([])
+    const [usuarios, setUsuarios] = useState<User[]>(usuarioTest)
 
     async function getAllUsers(){
         setUsuarios(await getUsers());
     }
+
 
     useEffect(()=>{
       getAllUsers();
@@ -28,7 +37,15 @@ function ListaUsuarios(): JSX.Element {
         if(!JSON.parse(sessionStorage.getItem("usuario")!).esAdmin)
             return <Error403></Error403>
 
+    function borrarUsuario(id:string){
+        deleteUser(id);
+    }
+
     return (
+      <Box sx={{ flexGrow: 1, padding: 3}}>
+        <Typography variant="h1" component="h2" sx={{ fontSize: 40, marginBottom:3 }}>
+                Listado de usuarios
+            </Typography>
         <TableContainer component={Paper}>
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
         <TableHead>
@@ -40,6 +57,7 @@ function ListaUsuarios(): JSX.Element {
             <TableCell align="right">Email</TableCell>
             <TableCell align="right">DNI</TableCell>
             <TableCell align="right">Admin/Cliente</TableCell>
+            <TableCell align="right">Eliminar</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -55,11 +73,13 @@ function ListaUsuarios(): JSX.Element {
               <TableCell align="right">{usuario.email}</TableCell>
               <TableCell align="right">{usuario.dni}</TableCell>
               <TableCell align="right">{usuario.esAdmin ? "Admin": "Cliente"}</TableCell>
+              <TableCell align="right"><IconButton aria-label='delete-icon'onClick={()=>borrarUsuario(usuario._id)}><DeleteIcon/></IconButton></TableCell>
             </TableRow>
           ))}
         </TableBody>
       </Table>
     </TableContainer>
+    </Box>
     );
 }
 

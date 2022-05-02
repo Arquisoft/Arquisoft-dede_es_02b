@@ -214,6 +214,13 @@ const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
   );
 };
 
+let pedidoTest:Pedido[]=[];
+
+export function pedidosTest(pedido:Pedido){
+  pedidoTest[0]=pedido;
+}
+
+
 const ListaPedidos: React.FC = () => {
 
   const [order, setOrder] = React.useState<Order>('asc');
@@ -221,7 +228,7 @@ const ListaPedidos: React.FC = () => {
   const [selected, setSelected] = React.useState<readonly string[]>([]);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
-  const [state, setState] = React.useState<Pedido[]>([]);
+  const [state, setState] = React.useState<Pedido[]>(pedidoTest);
   const [lastState,] = React.useState<Pedido[]>(state);
   const [rowState, setRowState] = React.useState<Pedido>(state[0]);
   const [users, setUsers] = React.useState<User[]>([]);
@@ -349,7 +356,7 @@ const ListaPedidos: React.FC = () => {
   function botonEditar(row: Pedido): JSX.Element {
     if (sessionStorage.getItem("usuario"))
       if (JSON.parse(sessionStorage.getItem("usuario")!).esAdmin)
-        return <TableCell><IconButton onClick={() => editar(row)}><EditIcon /></IconButton></TableCell>
+        return <TableCell><IconButton aria-label='edit-button'onClick={() => editar(row)}><EditIcon /></IconButton></TableCell>
 
     return <></>
   }

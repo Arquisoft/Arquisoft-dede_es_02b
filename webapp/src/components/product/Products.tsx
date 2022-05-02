@@ -9,8 +9,13 @@ import { Link } from 'react-router-dom';
 import { getProducts } from '../../api/api';
 import Error403 from '../error/Error403';
 
+let productoTest:Product[]=[];
+export function productosTest(producto:Product){
+  productoTest[0]=producto;
+}
+
 const Products: React.FC = () => {
-  const [productos, setProductos] = React.useState<Product[]>([]);
+  const [productos, setProductos] = React.useState<Product[]>(productoTest);
 
   function botonAñadir(): JSX.Element | undefined {
     
