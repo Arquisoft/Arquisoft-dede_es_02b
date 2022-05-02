@@ -22,6 +22,7 @@ function Pago(): JSX.Element {
 
   const initialValues: FormPagos = {calle: "", localidad: "", provincia: "", pais: "", codigo_postal: "", 
                                     numTarjeta: "", fechaTarjeta: "", numSeguridadTarjeta: ""};
+
   const [formValues, setFormValues] = useState(initialValues);
   const [formErrors, setFormErrors] = useState(initialValues);
 
@@ -169,6 +170,20 @@ function Pago(): JSX.Element {
     let correct = true;
     let values: (keyof FormPagos)[] = ['calle', 'localidad', 'provincia', 'pais', 'codigo_postal',
                                         'numTarjeta', 'fechaTarjeta', 'numSeguridadTarjeta'];
+           
+    let address = {street1: formValues.calle, city: formValues.localidad, state: formValues.provincia, 
+                  country: formValues.pais, zipcode: formValues.codigo_postal};  
+    sessionStorage.setItem('address', JSON.stringify(address));
+    let i = 0;
+    let weight = 0;
+    for(i = 0; i<sessionStorage.length; i++){
+      let value = sessionStorage.key(i);
+      if(value !== null && value.includes('producto_')){
+        let product = JSON.parse(value);
+        weight += product.qty;
+      }
+    }
+    sessionStorage.setItem('weight', weight.toString());
     values.forEach(element => {
       if(formErrors[element]!=="")
         correct=false;

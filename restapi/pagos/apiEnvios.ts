@@ -17,3 +17,11 @@ const calculateShippementCost = async (req: Request, res: Response) => {
       res.status(400).send({msg:"Fallo al calcular costes de envio"});
     }
   }
+
+apiEnvios.get(
+  "/envio/calcular",
+  async (_req: Request, res: Response): Promise<Response> => {
+    let costes = calculateShippementCost(_req, res);
+    return res.status(200).send(costes);
+  }
+);

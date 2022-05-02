@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useEffect } from 'react';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -8,13 +8,37 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { Product } from '../../shared/shareddtypes';
 import { Box, Button, Typography } from '@mui/material';
+import { calcularCostesEnvio } from '../../api/api';
 
 const TAX_RATE = 0.04;
 
 let cantidad: number = 0;
+let costesEnvio: number = 0;
+
 export default function ResumenPedido() {
+    const [costes, setCostes] = React.useState<number>(costesEnvio);
+
+    const refreshProductList = async () => {
+        let value = sessionStorage.getItem('address');
+        let address = '';
+        if (value !== null){
+            address = JSON.parse(value);
+        }
+        let temp = sessionStorage.getItem('weight');
+        let weight:number = 0;
+        if (temp !== null){
+            weight = parseInt(temp);
+        } 
+
+        setCostes(await calcularCostesEnvio(address, weight));
+    }
+    useEffect(() => {
+        refreshProductList();
+    }, []);
+
     let productos: Product[] = [];
     let a = new Map<Product, number>();
+
     for (let index = 0; index < sessionStorage.length; index++) {
         const element = sessionStorage.key(index);
         if (element !== null && element !== "usuario") {
@@ -67,7 +91,7 @@ export default function ResumenPedido() {
                         </TableRow>
                         <TableRow>
                             <TableCell colSpan={2}>Gasto de envio</TableCell>
-                            <TableCell align="right">{2}</TableCell>
+                            <TableCell align="right">{ costes }</TableCell>
                         </TableRow>
                         <TableRow>
                             <TableCell>IVA</TableCell>

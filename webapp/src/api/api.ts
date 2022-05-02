@@ -74,15 +74,15 @@ export function addToCart(product: Product, quantity: number): boolean {
     'qty': quantity
   };
 
-  var value = sessionStorage.getItem(product._id);
+  var value = sessionStorage.getItem('producto_' + product._id);
   if (value != null) {
     var temp = JSON.parse(value);
     temp.qty = temp.qty + quantity;
-    sessionStorage.setItem(product._id, JSON.stringify(temp));
+    sessionStorage.setItem('producto_'+product._id, JSON.stringify(temp));
 
   }
   else {
-    sessionStorage.setItem(product._id, JSON.stringify(item));
+    sessionStorage.setItem('producto_' + product._id, JSON.stringify(item));
   }
 
   return true;
@@ -194,7 +194,7 @@ export async function isAdmin(email: string): Promise<boolean> {
   return u.esAdmin;
 }
 
-export async function calcularCostes(address: string, weight:number): Promise<boolean> {
+export async function calcularCostesEnvio(address: string, weight:number): Promise<number> {
   const apiEndPoint = process.env.REACT_APP_API_URI || 'http://localhost:5000'
   let addressTo = JSON.parse(address);
   let response = await fetch(apiEndPoint + '/envio/calcular', {
@@ -202,10 +202,7 @@ export async function calcularCostes(address: string, weight:number): Promise<bo
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ 'street1': addressTo.street1, 'city': addressTo.city, 'state': addressTo.state, 'zipcode': addressTo.zipcode, 'country': addressTo.country, 'weight': weight })
   });
-  if (response.status === 200) {
-    return true;
-  } else
-    return false;
+  return response.json();
 }
 
 export async function deleteUser(_id: string): Promise<boolean>{
