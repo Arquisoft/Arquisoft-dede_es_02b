@@ -15,7 +15,7 @@ test('Carrito', () => {
       addToCart(element,5);
     })
     
-   // render(<BrowserRouter><ResumenPedido/></BrowserRouter>);
+    render(<BrowserRouter><ResumenPedido/></BrowserRouter>);
     let text = screen.getByText(/Resumen total del pedido/);
     expect(text).toBeInTheDocument();
     text = screen.getByText("Total (€)");

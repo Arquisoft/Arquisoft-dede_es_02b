@@ -39,8 +39,8 @@ export default function ResumenPedido() {
     }
 
     return (
-        <Box sx={{ flexGrow: 1, padding: 3, display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'space-between'}}>
-            <Typography variant="h1" component="h2" sx={{ fontSize: 40, marginBottom:3 }}>
+        <Box sx={{ flexGrow: 1, padding: 3, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'space-between' }}>
+            <Typography variant="h1" component="h2" sx={{ fontSize: 40, marginBottom: 3 }}>
                 Resumen total del pedido
             </Typography>
             <TableContainer component={Paper}>
