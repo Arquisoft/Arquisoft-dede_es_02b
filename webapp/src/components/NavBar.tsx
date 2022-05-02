@@ -20,6 +20,13 @@ const NavBar: React.FC = () => {
   const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
   const [logueado, setLogueado] = useState(sessionStorage.getItem("usuario"));
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
+  let c =0
+  for (let i: number = 0; i < sessionStorage.length - 1; i++) {
+    let key: string = sessionStorage.key(i)!;
+    if(key.includes("prod")){
+        c+=1
+    }
+  }
 
   const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElUser(event.currentTarget);
@@ -127,7 +134,7 @@ const NavBar: React.FC = () => {
       if (!JSON.parse(logueado).esAdmin) {
         return (<Link to="/carrito">
           <IconButton sx={{ p: 0, color: 'white' }}>
-            <Badge badgeContent={sessionStorage.length - 1} color="secondary">
+            <Badge badgeContent={c} color="secondary">
               <ShoppingCart />
             </Badge>
           </IconButton>

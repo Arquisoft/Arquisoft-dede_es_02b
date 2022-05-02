@@ -1,9 +1,13 @@
-import { Box, Button, Grid, TextField, Typography } from "@mui/material";
+import { Box, Button, createTheme, Grid, TextField, ThemeProvider, Typography } from "@mui/material";
 import { useCallback, useEffect, useState } from "react";
 import { addPedido, findUserByEmail, getNextNumberPedido } from "../../api/api";
 import { Estado, FormPagos, Pedido } from "../../shared/shareddtypes";
 import Error403 from "../error/Error403";
 import { getDireccionPedido } from "./Pago";
+import PaymentIcon from '@mui/icons-material/Payment';
+import { getTotal } from "../pedidos/ResumenPedido";
+
+const theme = createTheme();
 
 const Tarjeta: React.FC = () => {
     const numTarjetaRegex = /^([0-9]{4}){1}( [0-9]{4}){3}$/
@@ -22,12 +26,13 @@ const Tarjeta: React.FC = () => {
 
         for (let i: number = 0; i < sessionStorage.length - 1; i++) {
             let key: string = sessionStorage.key(i)!;
+            if(key.includes("prod")){
+                let id_producto = JSON.parse(sessionStorage.getItem(key)!).id;
+                let precio = JSON.parse(sessionStorage.getItem(key)!).precio;
+                let qty = Number.parseInt(JSON.parse(sessionStorage.getItem(key)!).qty);
 
-            let id_producto = JSON.parse(sessionStorage.getItem(key)!).id;
-            let precio = JSON.parse(sessionStorage.getItem(key)!).precio;
-            let qty = Number.parseInt(JSON.parse(sessionStorage.getItem(key)!).qty);
-
-            carrito.push({ id_producto: id_producto, precio: (precio * qty), cantidad: qty });
+                carrito.push({ id_producto: id_producto, precio: (precio * qty), cantidad: qty });
+            }
         }
 
         return carrito;
@@ -54,8 +59,6 @@ const Tarjeta: React.FC = () => {
         if (correct && isSubmit) {
             console.log("A");
         }
-        console.log(formValues);
-        console.log(initialValues);
     };
 
     const generarPedido = useCallback(async function (values: FormPagos) {
@@ -71,7 +74,7 @@ const Tarjeta: React.FC = () => {
             _id: '',
             numero_pedido: numero_pedido,
             id_usuario: id_usuario,
-            precio_total: precio_total,
+            precio_total: getTotal(),
             estado: Estado.pendiente,
             fecha: '',
             lista_productos: carrito,
@@ -163,12 +166,25 @@ const Tarjeta: React.FC = () => {
         return <p style={{ color: 'red', width: '20em', maxWidth: '500px' }}>{props.error}</p>;
     }
     return (
-        <Box component="form" onSubmit={handleSubmit} noValidate sx={{
+        <Box sx={{ flexGrow: 1, padding: 3}}>
+      <ThemeProvider theme={theme}>
+        <Typography variant="h1" component="h2" sx={{fontSize:40}}>
+          Pago <PaymentIcon/>
+        </Typography>
+        <Grid
+          container
+          direction="column"
+          alignItems="center"
+          style={{ minHeight: '100vh'}}
+        >
+          <Box component="form" onSubmit={handleSubmit} noValidate sx={{
             display: 'grid',
             gap: 1,
-            gridTemplateColumns: 'repeat(2, 1fr)',
-        }}>
-            <Grid>
+            gridTemplateColumns: 'repeat(1, 1fr)',
+          }}>
+            <Grid item sx={{
+              display: 'grid'
+            }}>
                 <Typography component="h2" variant="h6">
                     Tarjeta
                 </Typography>
@@ -218,7 +234,10 @@ const Tarjeta: React.FC = () => {
             <Button type="submit" size="large" variant="contained" sx={{ mt: 3, mb: 2 }}>
                 Pagar
             </Button>
-        </Box>
+            </Box>
+        </Grid>
+      </ThemeProvider>
+    </Box>
     );
 }
 
