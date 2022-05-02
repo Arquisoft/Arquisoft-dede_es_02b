@@ -12,6 +12,7 @@ import { getAddressesFromPod } from '../../FuntionSolidConnection';
 import { FormPagos, SolidDireccion, Pedido, Estado } from '../../shared/shareddtypes';
 import './PopUpSolid.css';
 import { addPedido, findUserByEmail, getNextNumberPedido } from '../../api/api';
+import ResumenPedido from '../pedidos/ResumenPedido';
 
 const theme = createTheme();
 
@@ -92,11 +93,12 @@ function Pago(): JSX.Element {
     });
     
     if(correct && isSubmit){
-      generarPedido(formValues);
+      //generarPedido(formValues);
+      setGenerado(true)
     }else{
       setIsSubmit(false);
     }
-  }, [formErrors, formValues, generarPedido, isSubmit]);
+  }, [formErrors, formValues, isSubmit]);
 
   if (!sessionStorage.getItem("usuario"))
     return <Error403></Error403>
@@ -106,7 +108,7 @@ function Pago(): JSX.Element {
 
 
   if (generado){
-      return <Error403></Error403> //TODO Redirección a checkout
+      return <ResumenPedido calle={formValues.calle} localidad={formValues.localidad} provincia={formValues.provincia} pais={formValues.pais} codigo_postal={formValues.codigo_postal} numTarjeta={formValues.numTarjeta} fechaTarjeta={formValues.fechaTarjeta} numSeguridadTarjeta={formValues.numSeguridadTarjeta} /> //TODO Redirección a checkout
   }
 
   async function getFromPod(callback: Function){

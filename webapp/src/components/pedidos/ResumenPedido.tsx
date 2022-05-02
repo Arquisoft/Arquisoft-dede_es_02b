@@ -6,13 +6,15 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import { Product } from '../../shared/shareddtypes';
+import { Estado, FormPagos, Pedido, Product } from '../../shared/shareddtypes';
+import { useCallback, useState } from 'react';
 import { Box, Button, Typography } from '@mui/material';
+import { addPedido, findUserByEmail, getNextNumberPedido } from '../../api/api';
 
 const TAX_RATE = 0.04;
 
 let cantidad: number = 0;
-export default function ResumenPedido() {
+export default function ResumenPedido(formValues: FormPagos) {
     let productos: Product[] = [];
     let a = new Map<Product, number>();
     for (let index = 0; index < sessionStorage.length; index++) {
@@ -36,9 +38,64 @@ export default function ResumenPedido() {
         return sum;
     }
 
+    const [carrito,] = useState<{ id_producto: string, cantidad: number, precio: number }[]>(generarCarrito());
+    const [generado, setGenerado] = useState(false);
+    function generarCarrito(): { id_producto: string, precio: number, cantidad: number }[] {
+        let carrito: { id_producto: string, precio: number, cantidad: number }[] = [];
+
+        for (let i: number = 0; i < sessionStorage.length - 1; i++) {
+            let key: string = sessionStorage.key(i)!;
+
+            let id_producto = JSON.parse(sessionStorage.getItem(key)!).id;
+            let precio = JSON.parse(sessionStorage.getItem(key)!).precio;
+            let qty = Number.parseInt(JSON.parse(sessionStorage.getItem(key)!).qty);
+
+            carrito.push({ id_producto: id_producto, precio: (precio * qty), cantidad: qty });
+        }
+
+        return carrito;
+    }
+    const generarPedido = useCallback(async function (values: FormPagos) {
+        console.log(values)
+        let numero_pedido: number = await getNextNumberPedido();
+        let id_usuario: string = (await findUserByEmail(JSON.parse(sessionStorage.getItem("usuario")!).email))._id;
+        let precio_total: number = Number.parseFloat((2 + sum + sum * TAX_RATE).toFixed(2));
+        let pedido: Pedido = {
+            _id: '',
+            numero_pedido: numero_pedido,
+            id_usuario: id_usuario,
+            precio_total: precio_total,
+            estado: Estado.pendiente,
+            fecha: '',
+            lista_productos: carrito,
+            direccion: {
+                calle: values.calle,
+                localidad: values.localidad,
+                provincia: values.provincia,
+                pais: values.pais,
+                codigo_postal: Number.parseInt(values.codigo_postal)
+            },
+            tarjeta: {
+                numero_tarjeta: Number.parseInt(values.numTarjeta),
+                fecha_caducidad: values.fechaTarjeta,
+                numero_seguridad: Number.parseInt(values.numSeguridadTarjeta),
+            }
+        };
+
+        let gen = await addPedido(pedido);
+        if (gen) {
+            setGenerado(gen);
+
+            let usuario = sessionStorage.getItem("usuario")!;
+            sessionStorage.clear();
+            sessionStorage.setItem("usuario", usuario);
+            sessionStorage.setItem("pedido_generado", numero_pedido.toString());
+        }
+    }, [carrito])
+
     return (
-        <Box sx={{ flexGrow: 1, padding: 3, display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'space-between'}}>
-            <Typography variant="h1" component="h2" sx={{ fontSize: 40, marginBottom:3 }}>
+        <Box sx={{ flexGrow: 1, padding: 3, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'space-between' }}>
+            <Typography variant="h1" component="h2" sx={{ fontSize: 40, marginBottom: 3 }}>
                 Resumen total del pedido
             </Typography>
             <TableContainer component={Paper}>
@@ -81,7 +138,7 @@ export default function ResumenPedido() {
                     </TableBody>
                 </Table>
             </TableContainer>
-            <Button sx={{display:'flex', marginTop:3}} variant='contained'>Finalizar</Button>
-            </Box>
+            <Button sx={{ display: 'flex', marginTop: 3 }} variant='contained' onClick={() => generarPedido(formValues)}>Finalizar</Button>
+        </Box>
     );
 }
