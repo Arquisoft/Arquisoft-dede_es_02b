@@ -311,7 +311,7 @@ function Pago(): JSX.Element {
               </Grid>
             </Grid>
             <Button type="submit" variant="contained" sx={{ mt: 3, mb: 2 }}>
-              Pagar
+              Siguiente
             </Button>
           </Box>
           <PopUpSolid/>
