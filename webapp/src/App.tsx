@@ -11,7 +11,6 @@ import HomeNavBar from './components/HomeNavBar';
 import Error404 from './components/error/Error404';
 import EditarUsuario from './components/usuario/EditarUsuario';
 import Pago from './components/pago/Pago';
-import ResumenPedido from './components/pedidos/ResumenPedido';
 import ListaUsuarios from './components/usuario/ListaUsuarios';
 import Home from './components/Home';
 import Tarjeta from './components/pago/Tarjeta';

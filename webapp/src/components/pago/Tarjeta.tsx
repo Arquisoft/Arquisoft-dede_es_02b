@@ -64,11 +64,6 @@ const Tarjeta: React.FC = () => {
     const generarPedido = useCallback(async function (values: FormPagos) {
         let numero_pedido: number = await getNextNumberPedido();
         let id_usuario: string = (await findUserByEmail(JSON.parse(sessionStorage.getItem("usuario")!).email))._id;
-        let precio_total: number = 0;
-
-        carrito.forEach(element => {
-            precio_total += element.precio;
-        });
 
         let pedido: Pedido = {
             _id: '',

@@ -10,7 +10,6 @@ import Delete from '@mui/icons-material/Delete';
 import Total from './Total';
 import { ShoppingCart } from '@mui/icons-material';
 import Error403 from '../error/Error403';
-import {findProductById} from '../../api/api';
 
 let cantidad:number = 0;
 
