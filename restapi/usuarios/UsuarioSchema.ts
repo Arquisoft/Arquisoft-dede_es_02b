@@ -5,7 +5,10 @@ const usuarioSchema = new mongoose.Schema({
     nombre: {
         type: String,
         required: true,
-        lowercase: true,
+    },
+    apellidos: {
+        type: String,
+        required: true,
     },
     dni: {
         type: String,
@@ -21,13 +24,22 @@ const usuarioSchema = new mongoose.Schema({
         lowercase: true,
         immutable: true,
         validate: {
-            validator: (v: String) => validateEmail(v),
+            validator: (v: string) => validateEmail(v),
             message: (props: { value: any; }) => `${props.value} no es un email válido`,
         }
     },
     contraseña: {
         type: String,
         required: true,
+    },
+    idSolid: {
+        type: String,
+        required: false,
+    },
+    esAdmin: {
+        type: Boolean, 
+        required: true,
+        default: false,
     }
 })
 

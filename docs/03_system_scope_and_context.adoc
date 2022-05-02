@@ -1,7 +1,7 @@
 [[section-system-scope-and-context]]
 == Alcance del sistema y contexto
 
-image:3_Diagrama_Contexto_Empresarial.png["Diagrama de contexto empresarial"]
+image:3_Diagrama_Contexto_Empresarial.PNG["Diagrama de contexto empresarial"]
 
 === Contexto empresarial
 

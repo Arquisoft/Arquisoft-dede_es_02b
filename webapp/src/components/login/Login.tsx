@@ -4,7 +4,7 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
-import Link from '@mui/material/Link';
+import LinkMui from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
@@ -12,14 +12,14 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import  {login} from '../../api/api';
-import { Navigate } from "react-router-dom";
+import { Navigate, Link } from "react-router-dom";
 
 function Copyright(props: any) {
   return (
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
-      <Link color="inherit" href="https://github.com/Arquisoft/dede_es2b">
+      <LinkMui color="inherit" href="https://github.com/Arquisoft/dede_es2b">
         Código fuente 
-      </Link>
+      </LinkMui>
     </Typography>
   );
 }
@@ -44,7 +44,7 @@ const Login:React.FC=()=> {
       setErrorMessage('');
   };
 
-  const emailLogueado = logueado || sessionStorage.getItem("emailUsuario");
+  const emailLogueado = logueado || sessionStorage.getItem("usuario");
 
   if (emailLogueado){
     return <Navigate to="/products" />;
@@ -78,7 +78,7 @@ const Login:React.FC=()=> {
               name="email"
               autoComplete="email"
               autoFocus
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={(e: any) => setEmail(e.target.value)}
             />
             <TextField
               margin="normal"
@@ -89,10 +89,10 @@ const Login:React.FC=()=> {
               type="password"
               id="contraseña"
               autoComplete="current-contraseña"
-              onChange={(e) => setContraseña(e.target.value)}
+              onChange={(e: any) => setContraseña(e.target.value)}
             />
             {errorMessage && (
-              <p className="error"> {errorMessage} </p>
+              <p style={{color: 'red'}} className="error"> {errorMessage} </p>
             )}
             <Button
               type="submit"
@@ -104,8 +104,10 @@ const Login:React.FC=()=> {
             </Button>
             <Grid container>
               <Grid item>
-                <Link href="/register" variant="body2">
-                  {"Registrarse"}
+                <Link to={"/register"}>
+                  <Typography key="registro" sx={{ my: 1, color: 'blue', textAlign:"center", display: 'block' }}>
+                    Registrarse
+                  </Typography>
                 </Link>
               </Grid>
             </Grid>

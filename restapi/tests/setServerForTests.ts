@@ -72,9 +72,12 @@ async function insertUsers() {
 
         usuario._id = user._id;
         usuario.nombre = user.nombre;
+        usuario.apellidos = user.apellidos;
         usuario.email = user.email;
         usuario.dni = user.dni;
         usuario.contraseña = user.contraseña;
+        usuario.esAdmin = user.esAdmin; 
+        usuario.idSolid = user.idSolid;
 
         await usuario.save();
     }

@@ -1,6 +1,6 @@
 # This is a basic workflow to help you get started with Actions
 
-name: CI prueba
+name: CI for ASW2122
 
 # Controls when the workflow will run
 on:
@@ -66,6 +66,12 @@ jobs:
     needs: [e2e-tests]
     steps:
     - uses: actions/checkout@v2
+    - name: Create env file 📝
+      run: |
+          cd webapp
+          touch .env
+          echo REACT_APP_API_URI="https://dede2b-restapi.herokuapp.com" >> .env
+          cat .env
     - name: Publish to Registry
       uses: elgohr/Publish-Docker-Github-Action@3.04
       with:
@@ -80,6 +86,15 @@ jobs:
     needs: [e2e-tests]
     steps:
     - uses: actions/checkout@v2
+    - name: Create env file 📝
+      run: |
+          cd restapi
+          touch .env
+          echo MONGO_URI_TEST=${{ secrets.MONGO_URI_TEST }} >> .env
+          echo MONGO_URI=${{ secrets.MONGO_URI }} >> .env
+          echo CORS_OPTIONS1="http://dede2b-webapp.herokuapp.com" >> .env
+          echo CORS_OPTIONS2="https://dede2b-webapp.herokuapp.com" >> .env
+          cat .env
     - name: Publish to Registry
       uses: elgohr/Publish-Docker-Github-Action@3.04
       with:
@@ -88,14 +103,45 @@ jobs:
           password: ${{ secrets.DOCKER_PUSH_TOKEN }}
           registry: ghcr.io
           workdir: restapi
-  deploy-heroku:
+  deploy-webapp:
+    needs: [e2e-tests]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      - name: Create env file 📝
+        run: |
+          cd webapp
+          touch .env
+          echo REACT_APP_API_URI="https://dede2b-restapi.herokuapp.com" >> .env
+          cat .env
       - uses: akhileshns/heroku-deploy@v3.12.12 # This is the action
         with:
           heroku_api_key: ${{secrets.HEROKU_API_KEY}}
-          heroku_app_name: "dede2b" #Must be unique in Heroku
-          heroku_email: "uo269855@uniovi.es"
+          heroku_app_name: "dede2b-webapp" #Must be unique in Heroku
+          heroku_email: ${{secrets.HEROKU_EMAIL}}
           usedocker: true
+          appdir: "webapp"
+          env_file: .env
+  deploy-restapi:
+    needs: [e2e-tests]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Create env file 📝
+        run: |
+          cd restapi
+          touch .env
+          echo MONGO_URI_TEST=${{ secrets.MONGO_URI_TEST }} >> .env
+          echo MONGO_URI=${{ secrets.MONGO_URI }} >> .env
+          echo CORS_OPTIONS1="http://dede2b-webapp.herokuapp.com" >> .env
+          echo CORS_OPTIONS2="https://dede2b-webapp.herokuapp.com" >> .env
+          cat .env
+      - uses: akhileshns/heroku-deploy@v3.12.12 # This is the action
+        with:
+          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+          heroku_app_name: "dede2b-restapi" #Must be unique in Heroku
+          heroku_email: ${{secrets.HEROKU_EMAIL}}
+          usedocker: true
+          appdir: "restapi"
+          env_file: .env
 

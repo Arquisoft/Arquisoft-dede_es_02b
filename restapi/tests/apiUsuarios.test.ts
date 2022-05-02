@@ -1,24 +1,19 @@
-import path from 'path';
-
-var dotenvPath = path.resolve('../.env');
-require("dotenv").config({path: dotenvPath});
-
-import request, {Response} from 'supertest';
+import request, { Response } from 'supertest';
 import { Application } from 'express';
 import * as http from 'http';
-import bcrypt, { compare } from 'bcrypt';
-import {createApp, createServer, closeServer, loadDatabase} from './setServerForTests';
+import bcrypt from 'bcrypt';
+import { createApp, createServer, closeServer, loadDatabase } from './setServerForTests';
 import apiUsuarios from '../usuarios/apiUsuarios';
 
-let app:Application;
-let server:http.Server;
+let app: Application;
+let server: http.Server;
 
 beforeAll(async () => {
     app = createApp();
     app.use(apiUsuarios);
 
-    server = createServer(app);  
-    await loadDatabase(); 
+    server = createServer(app);
+    await loadDatabase();
 });
 
 afterAll(async () => {
@@ -27,139 +22,273 @@ afterAll(async () => {
 
 describe('añadir usuario ', () => {
     it('nombre = ""', async () => {
-        await probarAddUsuarios({nombre:'', email:'gonzalezgpablo@uniovi.com', dni:'12345678a',contraseña:'1234'}, 500);
+        await probarAddUsuarios({ nombre: '', apellidos:'apellido', email: 'gonzalezgpablo@uniovi.com', dni: '12345678a', contraseña: '1234' }, 500);
     });
 
     it('sin nombre', async () => {
-        await probarAddUsuarios({email:'gonzalezgpablo@uniovi.com', dni:'12345678a',contraseña:'1234'}, 500);
+        await probarAddUsuarios({ apellidos:'apellido', email: 'gonzalezgpablo@uniovi.com', dni: '12345678a', contraseña: '1234' }, 500);
+    });
+    it('apellidos = ""', async () => {
+        await probarAddUsuarios({ nombre: 'Pablo', apellidos:'', email: 'gonzalezgpablo@uniovi.com', dni: '12345678a', contraseña: '1234' }, 500);
+    });
+    it('sin apellidos', async () => {
+        await probarAddUsuarios({ nombre: 'Pablo', email: 'gonzalezgpablo@uniovi.com', dni: '12345678a', contraseña: '1234' }, 500);
     });
 
     it('email = ""', async () => {
-        await probarAddUsuarios({nombre:'Pablo', email:'', dni:'12345678a',contraseña:'1234'}, 500);
+        await probarAddUsuarios({ nombre: 'Pablo', apellidos:'apellido', email: '', dni: '12345678a', contraseña: '1234' }, 500);
     });
 
     it('sin email', async () => {
-        await probarAddUsuarios({nombre:'Pablo', dni:'12345678a', contraseña:'1234'}, 500);
+        await probarAddUsuarios({ nombre: 'Pablo',apellidos:'apellido', dni: '12345678a', contraseña: '1234' }, 500);
     });
 
     it('dni = ""', async () => {
-        await probarAddUsuarios({nombre:'Pablo', email:'gonzalezgpablo@uniovi.com', dni:'',contraseña:'1234'}, 500);
+        await probarAddUsuarios({ nombre: 'Pablo', apellidos:'apellido',email: 'gonzalezgpablo@uniovi.com', dni: '', contraseña: '1234' }, 500);
     });
 
     it('sin dni', async () => {
-        await probarAddUsuarios({nombre:'Pablo', email:'gonzalezgpablo@uniovi.com', contraseña:'1234'}, 500);
+        await probarAddUsuarios({ nombre: 'Pablo', apellidos:'apellido',email: 'gonzalezgpablo@uniovi.com', contraseña: '1234' }, 500);
     });
 
     it('contraseña = ""', async () => {
-        await probarAddUsuarios({nombre:'Pablo', email:'gonzalezgpablo@uniovi.com', dni:'12345678a',contraseña:''}, 500);
+        await probarAddUsuarios({ nombre: 'Pablo', apellidos:'apellido',email: 'gonzalezgpablo@uniovi.com', dni: '12345678a', contraseña: '' }, 500);
     });
 
     it('sin contraseña', async () => {
-        await probarAddUsuarios({nombre:'Pablo', email:'gonzalezgpablo@uniovi.com', dni:'12345678a'}, 500);
+        await probarAddUsuarios({ nombre: 'Pablo', apellidos:'apellido',email: 'gonzalezgpablo@uniovi.com', dni: '12345678a' }, 500);
     });
 
     it('con email sin .es ni .com', async () => {
-        await probarAddUsuarios({nombre:'Pablo', email:'gonzalezgpablo@uniovi', dni:'12345678a',contraseña:'1234'}, 500);
+        await probarAddUsuarios({ nombre: 'Pablo', apellidos:'apellido',email: 'gonzalezgpablo@uniovi', dni: '12345678a', contraseña: '1234' }, 500);
     });
 
     it('con email sin @', async () => {
-        await probarAddUsuarios({nombre:'Pablo', email:'gonzalezgpablouniovi.com', dni:'12345678a',contraseña:'1234'}, 500);
+        await probarAddUsuarios({ nombre: 'Pablo', apellidos:'apellido',email: 'gonzalezgpablouniovi.com', dni: '12345678a', contraseña: '1234' }, 500);
     });
 
     it('con dni invalido', async () => {
-        await probarAddUsuarios({nombre:'Pablo', email:'gonzalezgpablo@uniovi.com', dni:'1234',contraseña:'1234'}, 500);
+        await probarAddUsuarios({ nombre: 'Pablo', apellidos:'apellido',email: 'gonzalezgpablo@uniovi.com', dni: '1234', contraseña: '1234' }, 500);
     });
 
     it('correctamente', async () => {
-        await probarAddUsuarios({_id: '623b1d8889b169d070b43641', nombre:'Pablo', email:'gonzalezgpablo@uniovi.es', dni:'12345678a', contraseña:'1234'}, 200);
+        await probarAddUsuarios({ _id: '623b1d8889b169d070b43641', nombre: 'pablo', apellidos:'gonzalez', email: 'gonzalezgpablo@uniovi.es', esAdmin:true, dni: '12345678a', contraseña: '1234', idSolid: "idSolid" }, 200);
     });
 
     it('repetido', async () => {
-        await probarAddUsuarios({nombre:'Pablo', email:'gonzalezgpablo@uniovi.es', dni:'12345678a',contraseña:'1234'}, 500);
+        await probarAddUsuarios({ nombre: 'Pablo', apellidos:'apellido',email: 'gonzalezgpablo@uniovi.es', dni: '12345678a', contraseña: '1234' }, 500);
     });
-    
+
 });
 
 describe('listar usuarios ', () => {
-    it('todos los usuarios',async () => {
-        var response:Response = await request(app).get("/users/list").set('Accept', 'application/json');
-        
+    it('todos los usuarios', async () => {
+        var response: Response = await request(app).get("/users/list").set('Accept', 'application/json');
+
         expect(response.statusCode).toBe(200);
         expect(response.body.length).toBe(3);
-        await compareResponseBody(response.body[0], {nombre:"admin", email:"admin@email.com", dni:"00000001a", contraseña:"1234"});
-        await compareResponseBody(response.body[1], {nombre:"adrian", email:"adrian@email.com", dni:"00000002a", contraseña:"1234"});
-        await compareResponseBody(response.body[2], {nombre:"pablo", email:"gonzalezgpablo@uniovi.es", dni:"12345678a", contraseña:"1234"});
+        await compareResponseBody(response.body[0], { nombre: "admin", apellidos:'admin', email: "admin@email.com", dni: "00000001a", contraseña: "1234", idSolid: "" });
+        await compareResponseBody(response.body[1], { nombre: "adrian", apellidos:'fernández', email: "adrian@email.com", dni: "00000002a", contraseña: "1234" , idSolid: "Adrifa"});
+        await compareResponseBody(response.body[2], { nombre: "pablo", apellidos:'gonzalez',email: "gonzalezgpablo@uniovi.es", dni: "12345678a", contraseña: "1234", idSolid: "idSolid" });
     });
 
-    it('por email',async () => {
-        var response:Response = await request(app).get("/users/email=gonzalezgpablo@uniovi.es").set('Accept', 'application/json');
-        
+    it('por email', async () => {
+        var response: Response = await request(app).get("/users/email=gonzalezgpablo@uniovi.es").set('Accept', 'application/json');
+
         expect(response.statusCode).toBe(200);
-        await compareResponseBody(response.body, {nombre:"pablo", email:"gonzalezgpablo@uniovi.es", dni:"12345678a", contraseña:"1234"});
+        await compareResponseBody(response.body, { nombre: "pablo", apellidos:'gonzalez',email: "gonzalezgpablo@uniovi.es", dni: "12345678a", contraseña: "1234", idSolid: "idSolid" });
     });
 
-    it('por email - incorrecto',async () => {
-        var response:Response = await request(app).get("/users/email=gonzgpablo@uniovi.es").set('Accept', 'application/json');
-        
+    it('por email - incorrecto', async () => {
+        var response: Response = await request(app).get("/users/email=gonzgpablo@uniovi.es").set('Accept', 'application/json');
+
+        expect(response.statusCode).toBe(200);
+        expect(response.body).toStrictEqual({});
+    });
+
+    it('por dni', async () => {
+        var response: Response = await request(app).get("/users/dni=12345678a").set('Accept', 'application/json');
+
+        expect(response.statusCode).toBe(200);
+        await compareResponseBody(response.body, { nombre: "pablo", apellidos:'gonzalez',email: "gonzalezgpablo@uniovi.es", dni: "12345678a", contraseña: "1234", idSolid: "idSolid" });
+    });
+
+    it('por dni - incorrecto', async () => {
+        var response: Response = await request(app).get("/users/dni=125678a").set('Accept', 'application/json');
+
         expect(response.statusCode).toBe(200);
         expect(response.body).toStrictEqual({});
     });
 
-    it('por dni',async () => {
-        var response:Response = await request(app).get("/users/dni=12345678a").set('Accept', 'application/json');
+    it('por id', async () => {
+        var response: Response = await request(app).get("/users/id=6220e1c1e976d8ae3a9d3e60").set('Accept', 'application/json');
 
         expect(response.statusCode).toBe(200);
-        await compareResponseBody(response.body, {nombre:"pablo", email:"gonzalezgpablo@uniovi.es", dni:"12345678a", contraseña:"1234"});
+        await compareResponseBody(response.body, { nombre: "adrian", apellidos:"fernández", email: "adrian@email.com", dni: "00000002a", contraseña: "1234", idSolid: "Adrifa" });
     });
 
-    it('por dni - incorrecto',async () => {
-        var response:Response = await request(app).get("/users/dni=125678a").set('Accept', 'application/json');
-        
+    it('por id - incorrecto', async () => {
+        var response: Response = await request(app).get("/users/id=621f7f978600d56807483f74").set('Accept', 'application/json');
+
         expect(response.statusCode).toBe(200);
         expect(response.body).toStrictEqual({});
+    });
+
+    it('por id - inválido', async () => {
+        var response: Response = await request(app).get("/users/id=jgfgkjhjg").set('Accept', 'application/json');
+
+        expect(response.statusCode).toBe(500);
     });
 })
 
 describe("login ", () => {
     it("correcto", async () => {
-        const response:Response = await probarLogin({email:"admin@email.com",contraseña:"1234"}, 200);
-        expect(response.body).toBe("admin@email.com");
+        const response: Response = await probarLogin({ email: "admin@email.com", contraseña: "1234" }, 200);
+        expect(response.body).toStrictEqual({
+            "_id": "6220e1b3e976d8ae3a9d3e5e",
+            "nombre": "admin",
+            "apellidos": "admin",
+            "email": "admin@email.com",
+            "esAdmin": true,
+            "dni": "00000001a",
+            "contraseña": "$2b$10$I6GUXY4VDqmNfPSeYnWg1uE2NN7u5UcZJ5ozvANYKKP.nuKOb1ija",
+            "idSolid": "",
+            "__v": 0
+        });
     })
 
     it("incorrecto - mala contraseña", async () => {
-        await probarLogin({email:"admin@email.com",contraseña:"asdr"}, 412);
+        await probarLogin({ email: "admin@email.com", contraseña: "asdr" }, 412);
     })
 
     it("incorrecto - mal usuario", async () => {
-        await probarLogin({email:"incorrecto@email.com",contraseña:"1234"}, 412);
+        await probarLogin({ email: "incorrecto@email.com", contraseña: "1234" }, 412);
     })
 
     it("incorrecto - falta contraseña", async () => {
-        await probarLogin({email:"admin@email.com"}, 500);
+        await probarLogin({ email: "admin@email.com" }, 500);
     })
 
     it("incorrecto - falta email", async () => {
-        await probarLogin({contraseña:"1234"}, 500);
+        await probarLogin({ contraseña: "1234" }, 500);
     })
 })
 
-async function probarAddUsuarios(arg0: {_id?:string, nombre?: string, email?:string, dni?:string, contraseña?:string}, code:number):Promise<Response>{
-    const response:Response = await request(app).post('/users/add').send(arg0).set('Accept', 'application/json');
+describe("editar usuario ", () => {
+    it('email invalido', async () =>{
+        await probarEditUsuarios({nombre: "Adri", apellidos: "Alonso", email: "adrianemail.com", idSolid: "idSolid"}, 500);
+    })
+
+    it('email incorrecto', async () =>{
+        await probarEditUsuarios({nombre: "Adri", apellidos: "Alonso", email: "adriaan@email.com", idSolid: "idSolid"}, 500);
+    })
+
+    it('sin email', async () =>{
+        await probarEditUsuarios({nombre: "Adri", apellidos: "Alonso", idSolid: "idSolid"}, 500);
+    })
+
+    it('nombre = ""', async () =>{
+        await probarEditUsuarios({nombre: "", apellidos: "Alonso", email: "adrian@email.com", idSolid: "idSolid"}, 200);
+        var response: Response = await request(app).get("/users/email=adrian@email.com").set('Accept', 'application/json');
+
+        expect(response.statusCode).toBe(200);
+        await compareResponseBody(response.body, { nombre: "adrian", apellidos:'Alonso',email: "adrian@email.com", dni: "00000002a", contraseña: "1234", idSolid: "idSolid" });
+    })
+
+    it('sin nombre', async () =>{
+        await probarEditUsuarios({apellidos: "Fernández", email: "adrian@email.com", idSolid: "webId"}, 200);
+        var response: Response = await request(app).get("/users/email=adrian@email.com").set('Accept', 'application/json');
+
+        expect(response.statusCode).toBe(200);
+        await compareResponseBody(response.body, { nombre: "adrian", apellidos:'Fernández',email: "adrian@email.com", dni: "00000002a", contraseña: "1234", idSolid: "webId" });
+    })
+
+    it('apellidos = ""', async () =>{
+        await probarEditUsuarios({nombre: "Adri", apellidos: "", email: "adrian@email.com", idSolid: "idSolid"}, 200);
+        var response: Response = await request(app).get("/users/email=adrian@email.com").set('Accept', 'application/json');
+
+        expect(response.statusCode).toBe(200);
+        await compareResponseBody(response.body, { nombre: "Adri", apellidos:'Fernández',email: "adrian@email.com", dni: "00000002a", contraseña: "1234", idSolid: "idSolid" });
+    })
+
+    it('sin apellidos', async () =>{
+        await probarEditUsuarios({nombre: "Adrián", email: "adrian@email.com", idSolid: "webId"}, 200);
+        var response: Response = await request(app).get("/users/email=adrian@email.com").set('Accept', 'application/json');
+
+        expect(response.statusCode).toBe(200);
+        await compareResponseBody(response.body, { nombre: "Adrián", apellidos:'Fernández',email: "adrian@email.com", dni: "00000002a", contraseña: "1234", idSolid: "webId" });
+    })
+
+    it('idSolid = ""', async () =>{
+        await probarEditUsuarios({nombre: "Adri", apellidos: "Alonso", email: "adrian@email.com", idSolid: ""}, 200);
+        var response: Response = await request(app).get("/users/email=adrian@email.com").set('Accept', 'application/json');
+
+        expect(response.statusCode).toBe(200);
+        await compareResponseBody(response.body, { nombre: "Adri", apellidos:'Alonso',email: "adrian@email.com", dni: "00000002a", contraseña: "1234", idSolid: "webId" });
+    })
+
+    it('sin idSolid', async () =>{
+        await probarEditUsuarios({nombre: "Adrián", apellidos: "Fernández", email: "adrian@email.com"}, 200);
+        var response: Response = await request(app).get("/users/email=adrian@email.com").set('Accept', 'application/json');
+
+        expect(response.statusCode).toBe(200);
+        await compareResponseBody(response.body, { nombre: "Adrián", apellidos:'Fernández',email: "adrian@email.com", dni: "00000002a", contraseña: "1234", idSolid: "webId" });
+    })
+    
+    it('correctamente', async () =>{
+        await probarEditUsuarios({nombre: "Adri", apellidos: "Alonso", email: "adrian@email.com", idSolid: "idSolid"}, 200);
+        var response: Response = await request(app).get("/users/email=adrian@email.com").set('Accept', 'application/json');
+
+        expect(response.statusCode).toBe(200);
+        await compareResponseBody(response.body, { nombre: "Adri", apellidos:'Alonso',email: "adrian@email.com", dni: "00000002a", contraseña: "1234", idSolid: "idSolid" });
+    })
+})
+
+describe("eliminar usuario ", () => {
+    it('existente', async () => {
+        await probarDelete({ _id: "6220e1c1e976d8ae3a9d3e60" }, 200);
+        var response: Response = await request(app).get("/users/id=6220e1c1e976d8ae3a9d3e60").set('Accept', 'application/json');
+
+        expect(response.statusCode).toBe(200);
+        expect(response.body).toStrictEqual({});
+    })
+
+    it('inexistente', async () => {
+        await probarDelete({ _id: "6220e1c1e976d8ae3a9d3e60" }, 200);
+    })
+})
+
+async function probarAddUsuarios(arg0: { _id?: string, nombre?: string, apellidos?: string, email?: string, esAdmin?:boolean, dni?: string, contraseña?: string, idSolid?: string }, code: number): Promise<Response> {
+    const response: Response = await request(app).post('/users/add').send(arg0).set('Accept', 'application/json');
     expect(response.statusCode).toBe(code);
     return response;
 }
 
-async function probarLogin(arg0: { email?: string; contraseña?: string; }, code:number): Promise<Response> {
-    const response:Response = await request(app).post('/users/login').send(arg0).set('Accept', 'application/json');
+async function probarEditUsuarios(arg0: { nombre?: string, apellidos?: string, email?: string, idSolid?: string }, code: number): Promise<Response> {
+    const response: Response = await request(app).post('/users/editar').send(arg0).set('Accept', 'application/json');
     expect(response.statusCode).toBe(code);
     return response;
 }
 
-async function compareResponseBody(body: any, arg1: { nombre: string; email: string; dni: string; contraseña: string; }) {
+async function probarLogin(arg0: { email?: string; contraseña?: string; }, code: number): Promise<Response> {
+    const response: Response = await request(app).post('/users/login').send(arg0).set('Accept', 'application/json');
+    expect(response.statusCode).toBe(code);
+    return response;
+}
+
+async function probarDelete(arg0: { _id?: string; }, code: number): Promise<Response> {
+    const response: Response = await request(app).post('/users/delete').send(arg0).set('Accept', 'application/json');
+    expect(response.statusCode).toBe(code);
+    return response;
+}
+
+async function compareResponseBody(body: any, arg1: { nombre: string; apellidos: string; email: string; dni: string; contraseña: string; idSolid: string; }) {
     expect(body.nombre).toBe(arg1.nombre);
+    expect(body.apellidos).toBe(arg1.apellidos);
     expect(body.email).toBe(arg1.email);
     expect(body.dni).toBe(arg1.dni);
-    
+    expect(body.idSolid).toBe(arg1.idSolid);
+
     let contraCorrecta: boolean = await bcrypt.compare(arg1.contraseña, body.contraseña);
     expect(contraCorrecta).toBe(true);
 }

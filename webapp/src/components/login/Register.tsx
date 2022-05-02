@@ -4,14 +4,13 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
-import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { Navigate } from "react-router-dom";
+import { Navigate, Link } from "react-router-dom";
 import { addUser, findUserByEmail, findUserByDni } from '../../api/api';
 import { User } from '../../shared/shareddtypes';
 
@@ -29,9 +28,12 @@ export default function Register() {
     const user: User = {
       _id:"",
       nombre: data.get('nombre') as string,
+      apellidos: data.get('apellidos') as string,
+      idSolid: data.get('idSolid') as string,
       dni: data.get('dni') as string,
       email: data.get('email') as string,
-      contraseña: data.get('contraseña') as string
+      contraseña: data.get('contraseña') as string,
+      esAdmin: false
     }
 
     if (await comprobarDatos(user)) {
@@ -41,7 +43,7 @@ export default function Register() {
     }
   };
 
-  const emailLogueado = logueado || sessionStorage.getItem("emailUsuario");
+  const emailLogueado = logueado || sessionStorage.getItem("usuario");
 
   if (emailLogueado) {
     return <Navigate to="/products" />;
@@ -49,6 +51,11 @@ export default function Register() {
 
   async function comprobarDatos(user: User): Promise<boolean> {
     if (user.nombre.length === 0) {
+      setErrorMessage("Error: El nombre no puede estar vacío");
+      return false;
+    }
+
+    if (user.apellidos.length === 0) {
       setErrorMessage("Error: El nombre no puede estar vacío");
       return false;
     }
@@ -63,7 +70,7 @@ export default function Register() {
       return false;
     }
 
-    if (await findUserByDni(user.dni)) {
+    if (JSON.stringify(await findUserByDni(user.dni)) !== "{}") {
       setErrorMessage("Error: El dni introducido ya existe");
       return false;
     }
@@ -73,7 +80,7 @@ export default function Register() {
       return false;
     }
 
-    if (await findUserByEmail(user.email)) {
+    if ((JSON.stringify(await findUserByEmail(user.email)) !== "{}")) {
       setErrorMessage("Error: El email introducido ya existe");
       return false;
     }
@@ -124,9 +131,26 @@ export default function Register() {
               margin="normal"
               required
               fullWidth
+              id="apellidos"
+              label="Apellidos"
+              name="apellidos"
+              autoFocus
+            />
+            <TextField
+              margin="normal"
+              required
+              fullWidth
               id="dni"
               label="DNI"
               name="dni"
+              autoFocus
+            />
+            <TextField
+              margin="normal"
+              fullWidth
+              id="idSolid"
+              label="Solid WebId"
+              name="idSolid"
               autoFocus
             />
             <TextField
@@ -162,8 +186,10 @@ export default function Register() {
             </Button>
             <Grid container>
               <Grid item>
-                <Link href="/" variant="body2">
-                  {"Iniciar sesión"}
+              <Link to={"/login"}>
+                  <Typography key="login" sx={{ my: 1, color: 'blue', textAlign:"center", display: 'block' }}>
+                    Iniciar Sesión
+                  </Typography>
                 </Link>
               </Grid>
             </Grid>
@@ -171,7 +197,7 @@ export default function Register() {
         </Box>
       </Container>
     </ThemeProvider>
-  );
+  ); 
 }
 
 

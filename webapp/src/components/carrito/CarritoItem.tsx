@@ -11,7 +11,6 @@ import { Box } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import RemoveIcon from '@mui/icons-material/Remove';
 import AddIcon from '@mui/icons-material/Add';
-import { useState } from 'react';
 
 type ProductProp = {
   product: Product;
@@ -21,27 +20,15 @@ type ProductProp = {
   delete: Function;
 }
 
-// const handleDeleteAllCart = async (e: React.FormEvent<HTMLFormElement>) => {
-//   e.preventDefault();
-//   await deleteAllCart(productProp.product);
-// }
-
-// const handleDeleteItemFromCart = async () => {
-//   e.preventDefault();
-//   await deleteItemFromCart(productProp.product);
-// }
-
-// const handleDeleteUnitFromCart = async (e: React.FormEvent<HTMLFormElement>) => {
-//   e.preventDefault();
-//   await deleteUnitFromCart(productProp.product, 1);
-// }
-
-
 const CarritoItem: React.FC<ProductProp>=(productProp : ProductProp) =>{
   
 
   function handleDeleteItemFromCart(product:Product):void{
+    var msg ="¿Seguro de que quieres eliminar "+ product.nombre +" del carrito?"
+    var opcion=window.confirm(msg);
+    if(opcion){
       productProp.borrar(product);
+    }
   }
   
   function handleDeleteUnitFromCart(product:Product):void{
@@ -52,8 +39,10 @@ const CarritoItem: React.FC<ProductProp>=(productProp : ProductProp) =>{
       productProp.add(product);
   }
 
+
+
   return (
-    <Card id={productProp.product.nombre} sx={{ maxWidth: 345 }}>
+    <Card aria-label={productProp.product.nombre} id={productProp.product.nombre} sx={{ maxWidth: 345 }}>
       <CardMedia
         component="img"
         alt={productProp.product.nombre}
@@ -67,13 +56,13 @@ const CarritoItem: React.FC<ProductProp>=(productProp : ProductProp) =>{
       </CardContent>
       <CardActions sx={{flexDirection:"row-reverse", justifyContent:'space-between', paddingTop:0}}>
       <Box sx={{display:'flex', flexDirection:"row-reverse", alignItems:'center'}}>
-          <IconButton onClick={()=>handleDeleteItemFromCart(productProp.product)}>
+          <IconButton aria-label='delete-item' onClick={()=>handleDeleteItemFromCart(productProp.product)}>
               <DeleteIcon />
           </IconButton>
-          <IconButton onClick={()=>handleAddUnitFromCart(productProp.product)}>
+          <IconButton aria-label='add-item' onClick={()=>handleAddUnitFromCart(productProp.product)}>
               <AddIcon />
           </IconButton>
-          <IconButton onClick={()=>handleDeleteUnitFromCart(productProp.product)}>
+          <IconButton aria-label='subtract-item' onClick={()=>handleDeleteUnitFromCart(productProp.product)}>
               <RemoveIcon />
           </IconButton>
           <Typography sx={{fontSize:20}}> {accounting.formatMoney(productProp.product.precio *productProp.cantidadItem,"€")}</Typography>
