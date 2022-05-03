@@ -52,40 +52,41 @@ defineFeature(feature, test => {
       })
 
       await expect(page).toClick('button', { text: 'Completar registro' })
-      // let nombreSelector ='[id="nombre"]';
-      // let apellidosSelector = '[id="apellidos"]';
-      // let dniSelector = '[id="dni"]';
-      // let emailSelector = '[id="email"]';
-      // let contraseñaSelector = '[id="contraseña"]';
-      // let botonSelector = '[id="registrarse"]';
+      let nombreSelector ='[id="nombre"]';
+      let apellidosSelector = '[id="apellidos"]';
+      let dniSelector = '[id="dni"]';
+      let emailSelector = '[id="email"]';
+      let contraseñaSelector = '[id="contraseña"]';
+      let botonSelector = '[id="registrarse"]';
 
-      // await page.waitForSelector(nombreSelector);
-      // await page.click(nombreSelector);
-      // await page.keyboard.type(nombre);
+      await page.waitForSelector(nombreSelector);
+      await page.click(nombreSelector);
+      await page.keyboard.type(nombre);
 
-      // await page.waitForSelector(apellidosSelector);
-      // await page.click(apellidosSelector);
-      // await page.keyboard.type(apellidos);
+      await page.waitForSelector(apellidosSelector);
+      await page.click(apellidosSelector);
+      await page.keyboard.type(apellidos);
 
-      // await page.waitForSelector(dniSelector);
-      // await page.click(dniSelector);
-      // await page.keyboard.type(dni);
+      await page.waitForSelector(dniSelector);
+      await page.click(dniSelector);
+      await page.keyboard.type(dni);
 
-      // await page.waitForSelector(emailSelector);
-      // await page.click(emailSelector);
-      // await page.keyboard.type(email);
+      await page.waitForSelector(emailSelector);
+      await page.click(emailSelector);
+      await page.keyboard.type(email);
 
-      // await page.waitForSelector(contraseñaSelector);
-      // await page.click(contraseñaSelector);
-      // await page.keyboard.type(contraseña);
+      await page.waitForSelector(contraseñaSelector);
+      await page.click(contraseñaSelector);
+      await page.keyboard.type(contraseña);
 
-      // await page.waitForSelector(botonSelector);
-      // await page.click(botonSelector);
+      await page.waitForSelector(botonSelector);
+      await page.click(botonSelector);
     });
 
     then('Nos redirige correctamente a la ventana de productos', async () => {
       await new Promise((r) => setTimeout(r, 2000));
       await expect(page).toMatch('Productos')
+
     });
   })
 
