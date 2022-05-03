@@ -220,6 +220,11 @@ export function pedidosTest(pedido:Pedido){
   pedidoTest[0]=pedido;
 }
 
+let isAdminTest:boolean=false;
+
+export function setTestAdminPedidos(admin:boolean){
+      isAdminTest=admin;
+}
 
 const ListaPedidos: React.FC = () => {
 
@@ -233,7 +238,7 @@ const ListaPedidos: React.FC = () => {
   const [rowState, setRowState] = useState<Pedido>(state[0]);
   const [users, setUsers] = useState<User[]>([]);
   const [productos, setProductos] = useState<Product[]>([]);
-  const [esAdmin, setEsAdmin] = useState(false);
+  const [esAdmin, setEsAdmin] = useState(isAdminTest);
 
   const refreshPedidosList = useCallback(async () => {
     let uString = sessionStorage.getItem("usuario");
