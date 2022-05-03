@@ -52,20 +52,15 @@ export default function ResumenPedido() {
     }
     let sum = 0;
     function subtotal() {
-        //sum=0;
-        Array.from(Array(productos.length)).map((_, index) => (
-            sum += ((a.get(productos[index]) as number) * (productos[index].precio))
-        ));
+        productos.forEach(element => {
+            sum += ((a.get(element) as number) * (element.precio))
+        })
         return sum;
     }
 
     function total(){
-        if(costes!==0)
-            sum = Number(costes) + sum + sum * TAX_RATE;
-        else
-            sum = 2 + sum + sum * TAX_RATE;
-        pTotal=sum;
-        return sum;
+         sum = (Number(costes)/10) + sum + sum * TAX_RATE;
+         return sum;
     }
 
     return (
@@ -89,7 +84,7 @@ export default function ResumenPedido() {
                                 <TableCell>{producto.nombre}</TableCell>
                                 <TableCell align="right">{a.get(producto) as number}</TableCell>
                                 <TableCell align="right">{producto.precio}</TableCell>
-                                <TableCell align="right">{(a.get(producto) as number) * producto.precio}</TableCell>
+                                <TableCell align="right">{((a.get(producto) as number) * producto.precio).toFixed(2)}</TableCell>
                             </TableRow>
                         ))}
                         <TableRow>
@@ -99,7 +94,7 @@ export default function ResumenPedido() {
                         </TableRow>
                         <TableRow>
                             <TableCell colSpan={2}>Gasto de envio</TableCell>
-                            <TableCell align="right">{ costes }</TableCell>
+                            <TableCell align="right">{ (Number(costes)/10).toFixed(2) }</TableCell>
                         </TableRow>
                         <TableRow>
                             <TableCell>IVA</TableCell>

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Grid from '@mui/material/Grid';
@@ -8,10 +8,11 @@ import Typography from '@mui/material/Typography';
 import PaymentIcon from '@mui/icons-material/Payment';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Error403 from '../error/Error403';
-import { getAddressesFromPod } from '../../FuntionSolidConnection';
 import { FormPagos, SolidDireccion} from '../../shared/shareddtypes';
 import './PopUpSolid.css';
+import { getAddressesFromPod } from '../../api/api';
 import ResumenPedido from '../pedidos/ResumenPedido';
+import { isAdmin } from '../../api/api';
 
 const theme = createTheme();
 
@@ -50,16 +51,25 @@ function Pago(): JSX.Element {
   const [isSubmit] = useState(false);
 
   const [generado, setGenerado] = useState(false);
+  const [esAdmin, setEsAdmin] = useState(false);
 
   const handleChange = (e: any) => {
     const {name, value} = e.target;
     setFormValues({...formValues, [name]: value});
   };
 
+  const actualizarEsAdmin = useCallback(async () => {
+    setEsAdmin(await isAdmin(JSON.parse(sessionStorage.getItem("usuario")!).email))
+  }, []);
+
+  useEffect(() => {
+    actualizarEsAdmin()
+  }, [esAdmin, actualizarEsAdmin])
+
   if (!sessionStorage.getItem("usuario"))
     return <Error403></Error403>
   else
-    if (JSON.parse(sessionStorage.getItem("usuario")!).esAdmin)
+    if (esAdmin)
       return <Error403></Error403>
 
 
@@ -70,12 +80,9 @@ function Pago(): JSX.Element {
 
   async function getFromPod(callback: Function){
     let webId: string = JSON.parse(sessionStorage.getItem("usuario")!).webId;
-    let addresses: string[] = await getAddressesFromPod('https://' + webId.toLowerCase() + '/profile/card#me');
-
+    let addresses: string[] = await getAddressesFromPod(webId.toLowerCase());
     callback(addresses);
   }
-
-  
 
   function fillAndShowPopup(addresses: string[]){
     let direcciones = new Array<SolidDireccion>(addresses.length);
