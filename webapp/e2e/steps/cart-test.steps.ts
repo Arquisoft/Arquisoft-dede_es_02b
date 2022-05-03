@@ -19,6 +19,7 @@ defineFeature(feature, test => {
         waitUntil: "networkidle0",
       })
       .catch((error) => {console.log(error)});
+
   });
 
   test('The shopping cart is empty', ({given,when,then}) => {
@@ -64,23 +65,25 @@ defineFeature(feature, test => {
 
       await page.waitForSelector(botonSelector);
       await page.click(botonSelector);
+
+      await page.waitForSelector("[data-testid=txt-productos]")
       await expect(page).toMatch('Productos')
     });
 
     when('I add some products in the cart', async () => {
-      let nombreSelector ='[id="addToCart_Pera"]';
+      let nombreSelector ='[id="addtocartpera"]';
       await page.waitForSelector(nombreSelector);
       await page.click(nombreSelector);
 
-      nombreSelector ='[id="addUnit_Sandía"]';
+      nombreSelector ='[id="addunitmango"]';
       await page.waitForSelector(nombreSelector);
       await page.click(nombreSelector);
 
-      nombreSelector ='[id="addUnit_Sandía"]';
+      nombreSelector ='[id="addunitmango"]';
       await page.waitForSelector(nombreSelector);
       await page.click(nombreSelector);
 
-      nombreSelector ='[id="addToCart_Sandía"]';
+      nombreSelector ='[id="addtocartmango"]';
       await page.waitForSelector(nombreSelector);
       await page.click(nombreSelector);
     });
