@@ -1,3 +1,5 @@
+import { wait } from '@testing-library/user-event/dist/utils';
+import { match } from 'assert';
 import { defineFeature, loadFeature } from 'jest-cucumber';
 import puppeteer from "puppeteer";
 
@@ -24,6 +26,7 @@ defineFeature(feature, test => {
   });
 
   test('El usuario no esta registrado', ({given,when,then}) => {
+    jest.setTimeout(100000);
     let email:string;
     let nombre:string;
     let apellidos:string;
@@ -39,6 +42,16 @@ defineFeature(feature, test => {
     });
 
     when('Rellenamos el formulario de registro', async () => {
+      await expect(page).toMatch('Registrarse')
+
+      await expect(page).toFillForm('form[name="registro"]', {
+        email: email,
+        nombre: nombre,
+        apellidos: apellidos,
+        dni: dni,
+        contraseña: contraseña,
+      })
+
       let nombreSelector ='[id="nombre"]';
       let apellidosSelector = '[id="apellidos"]';
       let dniSelector = '[id="dni"]';
@@ -71,7 +84,9 @@ defineFeature(feature, test => {
     });
 
     then('Nos redirige correctamente a la ventana de productos', async () => {
+      await new Promise((r) => setTimeout(r, 3000));
       await expect(page).toMatch('Productos')
+
     });
   })
 

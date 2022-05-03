@@ -64,29 +64,20 @@ const Products: React.FC = () => {
   }
 
   return (
-    <Box sx={{ flexGrow: 1, padding: 3 }}>
-      <Typography data-testid="txt-productos" variant="h1" component="h2" sx={{ fontSize: 40 }}>
-        Productos <ShoppingBasket />
-      </Typography>
-      {botonAñadir()}
-      <TextField
-        margin="normal"
-        required
-        id="buscarNombre"
-        label="Buscar por nombre"
-        name="buscarNombre"
-        autoComplete="buscarNombre"
-        autoFocus
-        onChange={(e: any) => filtrarNombre(e.target.value)}
-      />
-      <Grid container spacing={3} direction="row" justifyContent="center" alignItems="center" marginTop={1}>
-        {Array.from(Array(productos.length)).map((_, index) => (
-          
-          getProductos(productos[index].nombre, index)
-        ))}
-      </Grid>
-    </Box>
-  );
+      <Box sx={{ flexGrow: 1, padding: 3 }}>
+        <Typography data-testid="txt-productos" variant="h1" component="h2" sx={{ fontSize: 40 }}>
+          Productos<ShoppingBasket />
+        </Typography>
+        {botonAñadir()}
+        <Grid container spacing={3} direction="row" justifyContent="center" alignItems="center" marginTop={1}>
+          {Array.from(Array(productos.length)).map((_, index) => (
+            <Grid item key={index}>
+              <ProductComponent product={productos[index]} />
+            </Grid>
+          ))}
+        </Grid>
+      </Box>
+    );
 }
 
 export default Products;

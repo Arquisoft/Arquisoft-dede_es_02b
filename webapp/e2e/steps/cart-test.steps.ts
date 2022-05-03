@@ -15,65 +15,92 @@ defineFeature(feature, test => {
     page = await browser.newPage();
 
     await page
-      .goto("http://localhost:3000/login", {
+      .goto("http://localhost:3000/register", {
         waitUntil: "networkidle0",
       })
       .catch((error) => {console.log(error)});
+
   });
 
-  test('The user is not logged in the site', ({given,when,then}) => {
-    
+  test('The shopping cart is empty', ({given,when,then}) => {
+    jest.setTimeout(100000);
     let email:string;
+    let nombre:string;
+    let apellidos:string;
+    let dni:string;
     let contraseña:string;
 
-    given('An registered user', () => {
-      email = "newuser@test.com"
+    given('An empty cart', async() => {
+      email = "alextests@test.com"
+      nombre = "alex"
+      apellidos = "caso"
+      dni = "12345678n"
       contraseña = "1234"
+      // await expect(page).toClick('button', { text: 'Completar registro' })
     });
 
-    when('I fill the data in the form and press submit', async () => {
-      await expect(page).toMatch('Inicia sesión')
-      await expect(page).toFillForm('form[name="login"]', {
-        contraseña: contraseña,
-        email: email,
-      })
-      await expect(page).toClick('button', { text: 'Iniciar sesión' })
-    });
+    when('I add some products in the cart', async () => { 
+      let nombreSelector ='[id="nombre"]';
+      let apellidosSelector = '[id="apellidos"]';
+      let dniSelector = '[id="dni"]';
+      let emailSelector = '[id="email"]';
+      let contraseñaSelector = '[id="contraseña"]';
+      let botonSelector = '[id="registrarse"]';
 
-    then('The products page should be shown', async () => {
-      // await expect(page).toMatch('You have been registered in the system!')
-      await expect(page).toMatch('Productos')
-    });
-  })
-
-  test('The shopping cart is empty', ({given,when,then}) => {
-
-    given('An empty cart', () => {
-      
-    });
-
-    when('I add some products in the cart', async () => {
-      let nombreSelector ='[id="addToCart_Mango"]';
-      await expect(page).toMatch('Productos')
+      await page.waitForSelector(nombreSelector);
       await page.click(nombreSelector);
+      await page.keyboard.type(nombre);
 
-      nombreSelector ='[id="addToCart_Pera"]';
-      await page.click(nombreSelector);
+      await page.waitForSelector(apellidosSelector);
+      await page.click(apellidosSelector);
+      await  page.keyboard.type(apellidos);
 
-      nombreSelector ='[id="addUnit_Sandía"]';
-      await page.click(nombreSelector);
+      await page.waitForSelector(dniSelector);
+      await page.click(dniSelector);
+      await page.keyboard.type(dni);
 
-      nombreSelector ='[id="addUnit_Sandía"]';
-      await page.click(nombreSelector);
+      await page.waitForSelector(emailSelector);
+      await page.click(emailSelector);
+      await page.keyboard.type(email);
 
-      nombreSelector ='[id="addToCart_Sandía"]';
-      await page.click(nombreSelector);
+      await page.waitForSelector(contraseñaSelector);
+      await page.click(contraseñaSelector);
+      await page.keyboard.type(contraseña);
+
+      await page.waitForSelector(botonSelector);
+      await page.click(botonSelector);
     });
 
     then('The products should appear in the cart window', async () => {
       // await expect(page).toMatch('You have been registered in the system!')
+      await new Promise((r) => setTimeout(r, 3000));
+      await expect(page).toMatch('Productos')
+      // await expect(page.url()).toMatch('http://localhost:3000/products')
+
+      await expect(page).toMatch('Pera')
+      await expect(page).toMatch('Sandía')
+      
+      let botonPeraSelector ='[aria-label="addtocart_pera"]';
+      let botonSandiaSelector ='[aria-label="addunit_sandía"]';
+      let botonSandiaSelector2 = '[aria-label="addtocart_sandía"]';
+
+      await page.waitForSelector(botonPeraSelector);
+      await page.click(botonPeraSelector);
+
+      await page.waitForSelector(botonSandiaSelector);
+      await page.click(botonSandiaSelector);
+
+      await page.waitForSelector(botonSandiaSelector);
+      await page.click(botonSandiaSelector);
+
+      await page.waitForSelector(botonSandiaSelector2);
+      await page.click(botonSandiaSelector2);
+
+
+
       let nombreSelector ='[id="goToCart"]';
-      await page.click(nombreSelector);    
+      await page.click(nombreSelector);  
+      await new Promise((r) => setTimeout(r, 3000));  
       await expect(page).toMatch('Carrito')
       await expect(page).toMatch('Pera');
       await expect(page).toMatch('Sandía');

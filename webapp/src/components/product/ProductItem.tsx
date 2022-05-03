@@ -115,11 +115,11 @@ const ProductItem: React.FC<ProductProp> = (productProp: ProductProp) => {
       } else {
         return (
           <Box sx={{ display: 'flex', flexDirection: "row-reverse", alignItems: 'center' }}>
-            <IconButton id={"addToCart_" + productProp.product.nombre} aria-label="add-item" type="submit" onClick={handleClick}>
+            <IconButton aria-label={"addtocart_" + productProp.product.nombre.toLowerCase()} id={"addtocart_" + productProp.product.nombre.toLowerCase()} type="submit" onClick={handleClick}>
               <AddShoppingCart />
             </IconButton>
             <Typography sx={{ fontSize: 20 }}> {accounting.formatMoney(producto.precio, "€")}</Typography>
-            <IconButton id={"addUnit_" + productProp.product.nombre} aria-label="sumar-item" onClick={() => sumarCantidad(1)}><AddIcon /></IconButton>
+            <IconButton aria-label={"addunit_" + productProp.product.nombre.toLowerCase()} id={"addunit_" + productProp.product.nombre.toLowerCase()} onClick={() => sumarCantidad(1)}><AddIcon /></IconButton>
             <TextField
               id="cantidad-producto"
               sx={{
@@ -141,7 +141,7 @@ const ProductItem: React.FC<ProductProp> = (productProp: ProductProp) => {
               }
               }
             />
-            <IconButton id={"removeUnit_" + productProp.product.nombre} aria-label="restar-item" onClick={() => sumarCantidad(-1)}><RemoveIcon /></IconButton>
+            <IconButton aria-label={"removeUnit_" + productProp.product.nombre} id={"removeUnit_" + productProp.product.nombre} onClick={() => sumarCantidad(-1)}><RemoveIcon /></IconButton>
             <Typography>Cantidad:</Typography>
           </Box>)
       }
