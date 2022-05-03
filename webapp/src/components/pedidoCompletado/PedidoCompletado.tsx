@@ -10,7 +10,6 @@ const PedidoCompletado: React.FC = () => {
 
   if(volver){
     return <Navigate to="/products" />;
-    setVolver(false);
   }
 
   function handleButton(){
