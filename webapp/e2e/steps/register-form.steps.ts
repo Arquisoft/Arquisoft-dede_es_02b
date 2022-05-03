@@ -31,7 +31,7 @@ defineFeature(feature, test => {
     let contraseña:string;
 
     given('Un usuario no registrado', async () => {
-      email = "newuser2@test.com"
+      email = "newuser@test.com"
       nombre = "new"
       apellidos = "user"
       dni = "12345678z"
@@ -44,6 +44,7 @@ defineFeature(feature, test => {
       let dniSelector = '[id="dni"]';
       let emailSelector = '[id="email"]';
       let contraseñaSelector = '[id="contraseña"]';
+      let botonSelector = '[id="registrarse"]';
 
       await page.waitForSelector(nombreSelector);
       await page.click(nombreSelector);
@@ -65,17 +66,12 @@ defineFeature(feature, test => {
       await page.click(contraseñaSelector);
       await page.keyboard.type(contraseña);
 
-      await expect(page).toClick('button', { text: 'Completar registro' })
+      await page.waitForSelector(botonSelector);
+      await page.click(botonSelector);
     });
 
     then('Nos redirige correctamente a la ventana de productos', async () => {
-      await page
-      .goto("http://localhost:3000/products", {
-        waitUntil: "networkidle0",
-      })
-      .catch((error) => {console.log(error)});
       await expect(page).toMatch('Productos')
-      await expect(page.url()).toMatch('http://localhost:3000/products')
     });
   })
 
