@@ -1,20 +1,28 @@
 import { Button, Container, CssBaseline, Grid, TextareaAutosize, TextField, Typography } from '@mui/material';
 import { Box } from '@mui/system';
 import * as React from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { Navigate } from 'react-router-dom';
-import { addProduct } from '../../api/api';
+import { addProduct, isAdmin } from '../../api/api';
 import { Product } from '../../shared/shareddtypes';
 import Error403 from '../error/Error403';
 
 
 const AñadirProducto: React.FC = () => {
-    const [añadido, setAñadido] = React.useState<Boolean>(false);
+    const [añadido, setAñadido] = useState<Boolean>(false);
+    const [esAdmin, setEsAdmin] = useState(false);
 
-    let usuario: { email: string, esAdmin: boolean } = JSON.parse(sessionStorage.getItem("usuario")!);
+    
 
-    if (!usuario || !usuario.esAdmin) {
-        return <Error403></Error403>
-    }
+    
+
+    const actualizarEsAdmin = useCallback(async () => {
+        setEsAdmin(await isAdmin(JSON.parse(sessionStorage.getItem("usuario")!).email))
+      }, []);
+    
+      useEffect(() => {
+        actualizarEsAdmin()
+      }, [esAdmin, actualizarEsAdmin])
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -32,6 +40,12 @@ const AñadirProducto: React.FC = () => {
         await addProduct(producto);
         setAñadido(true);
     };
+
+    let usuario: { email: string } = JSON.parse(sessionStorage.getItem("usuario")!);
+
+    if (!usuario || esAdmin) {
+        return <Error403></Error403>
+    }
 
     if(añadido)
         return <Navigate to="/products"></Navigate>
