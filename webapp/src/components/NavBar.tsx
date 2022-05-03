@@ -22,12 +22,11 @@ const NavBar: React.FC = () => {
   const [logueado, setLogueado] = useState(sessionStorage.getItem("usuario"));
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
   const [esAdmin, setEsAdmin] = useState(false);
-
-  let c =0
+  const [c, setC] = useState(0);
   for (let i: number = 0; i < sessionStorage.length - 1; i++) {
     let key: string = sessionStorage.key(i)!;
     if(key.includes("prod")){
-        c+=1
+        setC(c++);
     }
   }
 
