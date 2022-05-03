@@ -38,9 +38,11 @@ function Pago(): JSX.Element {
 
   const initialValues: FormPagos = {calle: "", localidad: "", provincia: "", pais: "", codigo_postal: "", 
                                     numTarjeta: "", fechaTarjeta: "", numSeguridadTarjeta: ""};
+  const erroresIniciales =  {calle: "", localidad: "", provincia: "", pais: "", codigo_postal: "", 
+  numTarjeta: "", fechaTarjeta: "", numSeguridadTarjeta: ""};
 
   const [formValues, setFormValues] = useState(initialValues);
-  const [formErrors, setFormErrors] = useState(initialValues);
+  const [formErrors, setFormErrors] = useState(erroresIniciales);
 
   const[buttonPopup, setButtonPopup] = useState(false);
   const[solidDirecciones, setSolidDirecciones] = useState<SolidDireccion[]>();
@@ -119,66 +121,56 @@ function Pago(): JSX.Element {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setFormErrors(validate(formValues));
-
-    setGenerado(true)
     
     let correct = true;
     let values: (keyof FormPagos)[] = ['calle', 'localidad', 'provincia', 'pais', 'codigo_postal',
-                                        'numTarjeta', 'fechaTarjeta', 'numSeguridadTarjeta'];
-           
-    let address = {street1: formValues.calle, city: formValues.localidad, state: formValues.provincia, 
-                  country: formValues.pais, zipcode: formValues.codigo_postal};  
-    sessionStorage.setItem('address', JSON.stringify(address));
-    
+                                        'numTarjeta', 'fechaTarjeta', 'numSeguridadTarjeta'];                          
     values.forEach(element => {
-      if(formErrors[element]!=="")
+      if(formErrors[element].toString().length!=0)
         correct=false;
     });
+    console.log(correct)
 
+    if(correct){
+      setGenerado(true)
+      let address = {street1: formValues.calle, city: formValues.localidad, state: formValues.provincia, 
+                    country: formValues.pais, zipcode: formValues.codigo_postal};  
+      sessionStorage.setItem('address', JSON.stringify(address));
+    }
+    
     if(correct && isSubmit){
       console.log(sessionStorage);
     }
   };
 
   const validate = (formValues: FormPagos) => {
-    const errors = {calle: "", localidad: "", provincia: "", pais: "", codigo_postal: "",
-                      numTarjeta: "", fechaTarjeta: "", numSeguridadTarjeta: ""};
+    const errors = formErrors;
 
-    if(!formValues.calle){
+    if(!formValues.calle)
       errors.calle = "Calle requerida";
-    }
-    if(!formValues.localidad){
+    else
+      errors.calle = "";
+
+    if(!formValues.localidad)
       errors.localidad = "Localidad requerida";
-    }
-    if(!formValues.provincia){
+    else
+      errors.localidad = "";
+
+    if(!formValues.provincia)
       errors.provincia = "Provincia requerida";
-    }
-    if(!formValues.pais){
+    else
+      errors.provincia = "";
+
+    if(!formValues.pais)
       errors.pais = "País requerido";
-    }
-    if(!formValues.codigo_postal){
+    else
+      errors.pais = "";
+
+    if(!formValues.codigo_postal)
       errors.codigo_postal = "Código postal requerido";
-    }
+    else
+      errors.codigo_postal = "";
 
-    if(!formValues.numTarjeta.match(numTarjetaRegex)){
-      errors.numTarjeta = "El número de tarjeta no es válido";
-    }
-    if(!formValues.fechaTarjeta.match(fechaTarjetaRegex)){
-      errors.fechaTarjeta = "La fecha de caducidad de la tarjeta no es válida";
-    }
-      if(!formValues.numSeguridadTarjeta.match(numSeguridadTarjetaRegex)){
-      errors.numSeguridadTarjeta = "El número de seguridad de la tarjeta no es válido";
-    }
-
-    if(!formValues.numTarjeta){
-      errors.numTarjeta = "Número de tarjeta requerido";
-    }
-    if(!formValues.fechaTarjeta){
-      errors.fechaTarjeta = "Fecha de caducidad de tarjeta requerida";
-    }
-    if(!formValues.numSeguridadTarjeta){
-      errors.numSeguridadTarjeta = "Número de seguridad de tarjeta requerido";
-    }
     return errors;
   }
   
