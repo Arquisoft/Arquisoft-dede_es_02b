@@ -36,6 +36,10 @@ export function createServer(app : Application): http.Server{
 }
 
 export async function loadDatabase(){
+    const conexiondb: string = process.env.MONGO_URI_TEST!;
+    await mongoose.connect(conexiondb) 
+    .then(() => console.log("BD conectada"))
+
     try{
         await Producto.deleteMany();
         await Usuario.deleteMany();
@@ -45,10 +49,6 @@ export async function loadDatabase(){
     }catch{
 
     }
-
-    const conexiondb: string = process.env.MONGO_URI_TEST!;
-    await mongoose.connect(conexiondb) 
-    .then(() => console.log("BD conectada"))
 
     await mockData();
 }
