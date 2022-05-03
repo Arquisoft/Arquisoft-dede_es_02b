@@ -1,3 +1,4 @@
+import { wait } from '@testing-library/user-event/dist/utils';
 import { defineFeature, loadFeature } from 'jest-cucumber';
 import puppeteer from "puppeteer";
 
@@ -83,6 +84,7 @@ defineFeature(feature, test => {
 
     then('Nos redirige correctamente a la ventana de productos', async () => {
       console.log(page.url());
+      wait(2000);
       await expect(page.url()).toMatch('http://localhost:3000/products')
     });
   })
