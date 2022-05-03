@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -15,11 +15,14 @@ import { ShoppingCart } from '@mui/icons-material';
 import { Avatar, Badge } from '@mui/material';
 import { Navigate, Link } from 'react-router-dom';
 import logo from "./logo.png"
+import { isAdmin } from '../api/api';
 
 const NavBar: React.FC = () => {
   const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
   const [logueado, setLogueado] = useState(sessionStorage.getItem("usuario"));
-  const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
+  const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
+  const [esAdmin, setEsAdmin] = useState(false);
+
   let c =0
   for (let i: number = 0; i < sessionStorage.length - 1; i++) {
     let key: string = sessionStorage.key(i)!;
@@ -44,6 +47,14 @@ const NavBar: React.FC = () => {
     setAnchorElNav(null);
   };
 
+  const actualizarEsAdmin = useCallback(async () => {
+    setEsAdmin(await isAdmin(JSON.parse(sessionStorage.getItem("usuario")!).email))
+  }, []);
+
+  useEffect(() => {
+    actualizarEsAdmin()
+  }, [esAdmin, actualizarEsAdmin])
+
   if (logueado === "deslogueado")
     return <Navigate to="/" />;
 
@@ -55,7 +66,7 @@ const NavBar: React.FC = () => {
     };
 
     if (logueado && logueado !== "deslogueado") {
-      if (JSON.parse(sessionStorage.getItem("usuario")!).esAdmin) {
+      if (esAdmin) {
         return (<Box sx={{ flexGrow: 0, marginLeft: 2 }}>
           <Tooltip title="Open settings">
             <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
@@ -131,7 +142,7 @@ const NavBar: React.FC = () => {
 
   function botonCarrito(): JSX.Element {
     if (logueado && logueado !== "deslogueado") {
-      if (!JSON.parse(logueado).esAdmin) {
+      if (esAdmin) {
         return (<Link to="/carrito">
           <IconButton aria-label="Carrito" sx={{ p: 0, color: 'white' }}>
             <Badge badgeContent={c} color="secondary">
@@ -145,7 +156,7 @@ const NavBar: React.FC = () => {
   }
 
   function menuUsuarios(): JSX.Element | undefined {
-    if (JSON.parse(sessionStorage.getItem("usuario")!).esAdmin)
+    if (esAdmin)
       return (<Link to={"/users"} style={{textDecoration:'none'}}>
                 <Button key="pedidos" aria-label='Usuarios' sx={{ my: 2, color: 'white', display: 'block' }}>Usuarios</Button>
               </Link>)
@@ -271,3 +282,7 @@ const NavBar: React.FC = () => {
   );
 };
 export default NavBar;
+
+
+
+

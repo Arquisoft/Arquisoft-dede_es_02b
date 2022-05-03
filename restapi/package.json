@@ -21,7 +21,7 @@
         "express-validator": "^6.14.0",
         "mongoose": "^6.2.3",
         "prom-client": "^14.0.1",
-        "sanitize-html": "^2.7.0"
+        "sanitize-html": "^2.7.0",
         "shippo": "^1.7.1"
     },
     "devDependencies": {

@@ -1,6 +1,6 @@
 import { Box, Button, createTheme, Grid, TextField, ThemeProvider, Typography } from "@mui/material";
 import { useCallback, useEffect, useState } from "react";
-import { addPedido, findUserByEmail, getNextNumberPedido } from "../../api/api";
+import { addPedido, findUserByEmail, getNextNumberPedido, isAdmin } from "../../api/api";
 import { Estado, FormPagos, Pedido } from "../../shared/shareddtypes";
 import Error403 from "../error/Error403";
 import { getDireccionPedido } from "./Pago";
@@ -20,6 +20,7 @@ const Tarjeta: React.FC = () => {
     const [isSubmit, setIsSubmit] = useState(false);
     const [carrito,] = useState<{ id_producto: string, cantidad: number, precio: number }[]>(generarCarrito());
     const [generado, setGenerado] = useState(false);
+    const [esAdmin, setEsAdmin] = useState(false);
 
     function generarCarrito(): { id_producto: string, precio: number, cantidad: number }[] {
         let carrito: { id_producto: string, precio: number, cantidad: number }[] = [];
@@ -98,6 +99,14 @@ const Tarjeta: React.FC = () => {
         }
     }, [carrito])
 
+    const actualizarEsAdmin = useCallback(async () => {
+        setEsAdmin(await isAdmin(JSON.parse(sessionStorage.getItem("usuario")!).email))
+      }, []);
+    
+    useEffect(() => {
+    actualizarEsAdmin()
+    }, [esAdmin, actualizarEsAdmin])
+
     useEffect(() => {
         let correct: boolean = true;
         (Object.keys(formErrors) as (keyof typeof formErrors)[]).forEach(key => {
@@ -116,7 +125,7 @@ const Tarjeta: React.FC = () => {
     if (!sessionStorage.getItem("usuario"))
         return <Error403></Error403>
     else
-        if (JSON.parse(sessionStorage.getItem("usuario")!).esAdmin)
+        if (esAdmin)
             return <Error403></Error403>
 
 
