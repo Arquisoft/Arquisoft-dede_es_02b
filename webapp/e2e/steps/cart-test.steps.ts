@@ -21,35 +21,22 @@ defineFeature(feature, test => {
       .catch((error) => {console.log(error)});
   });
 
-  test('The user is not logged in the site', ({given,when,then}) => {
-    
+  test('The shopping cart is empty', ({given,when,then}) => {
     let email:string;
     let contraseña:string;
 
-    given('An registered user', () => {
+    given('An empty cart', () => {
       email = "newuser@test.com"
       contraseña = "1234"
-    });
 
-    when('I fill the data in the form and press submit', async () => {
-      await expect(page).toMatch('Inicia sesión')
-      await expect(page).toFillForm('form[name="login"]', {
+      expect(page).toMatch('Inicia sesión')
+      expect(page).toFillForm('form[name="login"]', {
         contraseña: contraseña,
         email: email,
       })
-      await expect(page).toClick('button', { text: 'Iniciar sesión' })
-    });
+      expect(page).toClick('button', { text: 'Iniciar sesión' })
 
-    then('The products page should be shown', async () => {
-      // await expect(page).toMatch('You have been registered in the system!')
-      await expect(page).toMatch('Productos')
-    });
-  })
-
-  test('The shopping cart is empty', ({given,when,then}) => {
-
-    given('An empty cart', () => {
-      
+      expect(page).toMatch('Productos')
     });
 
     when('I add some products in the cart', async () => {
