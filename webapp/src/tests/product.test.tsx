@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { render, screen } from '@testing-library/react';
-import Products, { productosTest } from '../components/product/Products';
+import Products, { productosTest, setTestAdminProductos } from '../components/product/Products';
 import { Product } from '../shared/shareddtypes';
 import products from './mockData.json';
 import { BrowserRouter } from 'react-router-dom';
 import accounting from 'accounting';
+import { setTestAdminProductosItem } from '../components/product/ProductItem';
 
 test('Productos de usuarios', () => {
   let producto: Product = {
@@ -17,7 +18,7 @@ test('Productos de usuarios', () => {
   }
   productosTest(producto);
   let email = "adrian@email.com";
-  sessionStorage.setItem("usuario", JSON.stringify({ email: email, esAdmin: false, webId: "" }));
+  sessionStorage.setItem("usuario", JSON.stringify({ email: email, webId: "" }));
     render(<BrowserRouter><Products/></BrowserRouter>);
     let Element = screen.getByText(producto.nombre);
     expect(Element).toBeInTheDocument();
@@ -27,11 +28,11 @@ test('Productos de usuarios', () => {
     expect(Element).toBeInTheDocument();
     Element = screen.getByText(accounting.formatMoney(producto.precio, "€"));
     expect(Element).toBeInTheDocument();
-    Element = screen.getByLabelText(/restar-item/);
+    Element = screen.getByTestId(/addunit_manzana reineta/);
     expect(Element).toBeInTheDocument();
-    Element = screen.getByLabelText(/sumar-item/);
+    Element = screen.getByLabelText(/addtocart_manzana reineta/);
     expect(Element).toBeInTheDocument();
-    Element = screen.getByLabelText(/add-item/);
+    Element = screen.getByLabelText(/removeUnit_manzana reineta/);
     expect(Element).toBeInTheDocument();
     Element = screen.getByText(/Cantidad:/);
     expect(Element).toBeInTheDocument();
@@ -51,8 +52,10 @@ test('Productos de admin', () => {
     foto: ""
   }
   productosTest(producto);
+  setTestAdminProductos(true);
+  setTestAdminProductosItem(true);
   let email = "adrian@email.com";
-  sessionStorage.setItem("usuario", JSON.stringify({ email: email, esAdmin: true, webId: "" }));
+  sessionStorage.setItem("usuario", JSON.stringify({ email: email, webId: "" }));
     render(<BrowserRouter><Products/></BrowserRouter>);
     let Element = screen.getByText(producto.nombre);
     expect(Element).toBeInTheDocument();

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { alpha } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Table from '@mui/material/Table';
@@ -15,11 +15,10 @@ import Paper from '@mui/material/Paper';
 import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
 import FilterListIcon from '@mui/icons-material/FilterList';
-import { visuallyHidden } from '@mui/utils';
 import { Pedido, Estado, User, Product } from '../../shared/shareddtypes';
 import EditIcon from '@mui/icons-material/Edit';
 import { Autocomplete, Backdrop, Button, Fade, Modal, TextField } from '@mui/material';
-import { getPedidosByUser, findUserByEmail, getPedidos, getUsers, getProducts, editPedido } from '../../api/api';
+import { getPedidosByUser, findUserByEmail, getPedidos, getUsers, getProducts, editPedido, isAdmin } from '../../api/api';
 import Error403 from '../error/Error403';
 
 const opcionesFiltrado = [
@@ -37,7 +36,6 @@ const opcionesEstado = [
   { label: Estado.cancelado },
 ]
 
-type Order = 'asc' | 'desc';
 
 interface HeadCell {
   disablePadding: boolean;
@@ -93,20 +91,11 @@ const headCells: readonly HeadCell[] = [
 
 interface EnhancedTableProps {
   numSelected: number;
-  onRequestSort: (event: React.MouseEvent<unknown>, property: keyof Pedido) => void;
   onSelectAllClick: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  order: Order;
-  orderBy: string;
   rowCount: number;
 }
 
 function EnhancedTableHead(props: EnhancedTableProps) {
-  const { order, orderBy, onRequestSort } =
-    props;
-  const createSortHandler =
-    (property: keyof Pedido) => (event: React.MouseEvent<unknown>) => {
-      onRequestSort(event, property);
-    };
 
   return (
     <TableHead>
@@ -118,19 +107,13 @@ function EnhancedTableHead(props: EnhancedTableProps) {
             key={headCell.id}
             align={headCell.numeric ? 'right' : 'left'}
             padding={headCell.disablePadding ? 'none' : 'normal'}
-            sortDirection={orderBy === headCell.id ? order : false}
+            
           >
             <TableSortLabel
-              active={orderBy === headCell.id}
-              direction={orderBy === headCell.id ? order : 'asc'}
-              onClick={createSortHandler(headCell.id)}
+              disabled
             >
               {headCell.label}
-              {orderBy === headCell.id ? (
-                <Box component="span" sx={visuallyHidden}>
-                  {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
-                </Box>
-              ) : null}
+
             </TableSortLabel>
           </TableCell>
         ))}
@@ -220,35 +203,38 @@ export function pedidosTest(pedido:Pedido){
   pedidoTest[0]=pedido;
 }
 
+let isAdminTest:boolean=false;
+
+export function setTestAdminPedidos(admin:boolean){
+      isAdminTest=admin;
+}
 
 const ListaPedidos: React.FC = () => {
+  const [selected, setSelected] = useState<readonly string[]>([]);
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [state, setState] = useState<Pedido[]>(pedidoTest);
+  const [lastState,] = useState<Pedido[]>(state);
+  const [rowState, setRowState] = useState<Pedido>(state[0]);
+  const [users, setUsers] = useState<User[]>([]);
+  const [productos, setProductos] = useState<Product[]>([]);
+  const [esAdmin, setEsAdmin] = useState(isAdminTest);
 
-  const [order, setOrder] = React.useState<Order>('asc');
-  const [orderBy, setOrderBy] = React.useState<keyof Pedido>('numero_pedido');
-  const [selected, setSelected] = React.useState<readonly string[]>([]);
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(5);
-  const [state, setState] = React.useState<Pedido[]>(pedidoTest);
-  const [lastState,] = React.useState<Pedido[]>(state);
-  const [rowState, setRowState] = React.useState<Pedido>(state[0]);
-  const [users, setUsers] = React.useState<User[]>([]);
-  const [productos, setProductos] = React.useState<Product[]>([]);
-
-  const refreshPedidosList = async () => {
+  const refreshPedidosList = useCallback(async () => {
     let uString = sessionStorage.getItem("usuario");
-
     if (uString) {
-      let uJson: { email: string, esAdmin: boolean } = JSON.parse(uString!);
-
-      if (!uJson.esAdmin) {
+      let uJson: { email: string, foto: string, webId: string } = JSON.parse(uString!);
+      if (!esAdmin) {
         let user: User = await findUserByEmail(uJson.email);
         setState(await getPedidosByUser(user._id));
         return;
+      }else{
+        setState(await getPedidos());
       }
     }
 
     setState(await getPedidos());
-  }
+  }, [esAdmin])
 
   const refreshUsers = async () => {
     setUsers(await getUsers());
@@ -273,15 +259,6 @@ const ListaPedidos: React.FC = () => {
     }
     setState(lista);
   }
-
-  const handleRequestSort = (
-    _event: React.MouseEvent<unknown>,
-    property: keyof Pedido,
-  ) => {
-    const isAsc = orderBy === property && order === 'asc';
-    setOrder(isAsc ? 'desc' : 'asc');
-    setOrderBy(property);
-  };
 
   const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.checked) {
@@ -343,19 +320,27 @@ const ListaPedidos: React.FC = () => {
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - state.length) : 0;
+    
+    const actualizarEsAdmin = useCallback(async () => {
+      setEsAdmin(await isAdmin(JSON.parse(sessionStorage.getItem("usuario")!).email))
+    }, []);
+  
+    useEffect(() => {
+      actualizarEsAdmin()
+    }, [esAdmin, actualizarEsAdmin])
 
   useEffect(() => {
     refreshPedidosList();
     refreshUsers();
     refreshProductList();
-  }, []);
+  }, [refreshPedidosList]);
 
   if(!sessionStorage.getItem("usuario"))
     return <Error403></Error403>
 
   function botonEditar(row: Pedido): JSX.Element {
     if (sessionStorage.getItem("usuario"))
-      if (JSON.parse(sessionStorage.getItem("usuario")!).esAdmin)
+      if (esAdmin)
         return <TableCell><IconButton aria-label='edit-button'onClick={() => editar(row)}><EditIcon /></IconButton></TableCell>
 
     return <></>
@@ -398,10 +383,9 @@ const ListaPedidos: React.FC = () => {
           >
             <EnhancedTableHead
               numSelected={selected.length}
-              order={order}
-              orderBy={orderBy}
+              //order={order}
+              //orderBy={orderBy}
               onSelectAllClick={handleSelectAllClick}
-              onRequestSort={handleRequestSort}
               rowCount={1}
             />
             <TableBody>
@@ -435,7 +419,7 @@ const ListaPedidos: React.FC = () => {
                         {String(row.numero_pedido)}
                       </TableCell>
                       <TableCell align="left">{parseFecha(row.fecha)}</TableCell>
-                      <TableCell align="left">{row.precio_total}</TableCell>
+                      <TableCell align="left">{row.precio_total.toFixed(2)}</TableCell>
                       <TableCell align="left">{row.estado}</TableCell>
                       <TableCell align="left">{getEmail(row.id_usuario)}</TableCell>
                       <TableCell align="left">{row.direccion.calle + ", " + row.direccion.localidad + ", " + row.direccion.provincia + ", " + row.direccion.pais + ", " + row.direccion.codigo_postal}</TableCell>

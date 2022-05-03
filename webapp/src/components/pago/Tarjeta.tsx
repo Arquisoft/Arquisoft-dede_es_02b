@@ -1,9 +1,14 @@
-import { Box, Button, Grid, TextField, Typography } from "@mui/material";
+import { Box, Button, createTheme, Grid, TextField, ThemeProvider, Typography } from "@mui/material";
 import { useCallback, useEffect, useState } from "react";
-import { addPedido, findUserByEmail, getNextNumberPedido } from "../../api/api";
+import { addPedido, findUserByEmail, getNextNumberPedido, isAdmin } from "../../api/api";
 import { Estado, FormPagos, Pedido } from "../../shared/shareddtypes";
 import Error403 from "../error/Error403";
 import { getDireccionPedido } from "./Pago";
+import PaymentIcon from '@mui/icons-material/Payment';
+import { getTotal } from "../pedidos/ResumenPedido";
+import PedidoCompletado from "../pedidoCompletado/PedidoCompletado";
+
+const theme = createTheme();
 
 const Tarjeta: React.FC = () => {
     const numTarjetaRegex = /^([0-9]{4}){1}( [0-9]{4}){3}$/
@@ -16,18 +21,20 @@ const Tarjeta: React.FC = () => {
     const [isSubmit, setIsSubmit] = useState(false);
     const [carrito,] = useState<{ id_producto: string, cantidad: number, precio: number }[]>(generarCarrito());
     const [generado, setGenerado] = useState(false);
+    const [esAdmin, setEsAdmin] = useState(false);
 
     function generarCarrito(): { id_producto: string, precio: number, cantidad: number }[] {
         let carrito: { id_producto: string, precio: number, cantidad: number }[] = [];
 
         for (let i: number = 0; i < sessionStorage.length - 1; i++) {
             let key: string = sessionStorage.key(i)!;
+            if(key.includes("prod")){
+                let id_producto = JSON.parse(sessionStorage.getItem(key)!).id;
+                let precio = JSON.parse(sessionStorage.getItem(key)!).precio;
+                let qty = Number.parseInt(JSON.parse(sessionStorage.getItem(key)!).qty);
 
-            let id_producto = JSON.parse(sessionStorage.getItem(key)!).id;
-            let precio = JSON.parse(sessionStorage.getItem(key)!).precio;
-            let qty = Number.parseInt(JSON.parse(sessionStorage.getItem(key)!).qty);
-
-            carrito.push({ id_producto: id_producto, precio: (precio * qty), cantidad: qty });
+                carrito.push({ id_producto: id_producto, precio: (precio * qty), cantidad: qty });
+            }
         }
 
         return carrito;
@@ -43,33 +50,24 @@ const Tarjeta: React.FC = () => {
         setFormErrors(validate(formValues));
         setIsSubmit(true);
 
-        let correct = true;
-        let values: (keyof FormPagos)[] = [
-            'numTarjeta', 'fechaTarjeta', 'numSeguridadTarjeta'];
-        values.forEach(element => {
-            if (formErrors[element] !== "")
-                correct = false;
-        });
-
-        if (correct && isSubmit) {
-            console.log("A");
-        }
+        // let correct = true;
+        // let values: (keyof FormPagos)[] = [
+        //     'numTarjeta', 'fechaTarjeta', 'numSeguridadTarjeta'];
+        // values.forEach(element => {
+        //     if (formErrors[element] !== "")
+        //         correct = false;
+        // });
     };
 
     const generarPedido = useCallback(async function (values: FormPagos) {
         let numero_pedido: number = await getNextNumberPedido();
         let id_usuario: string = (await findUserByEmail(JSON.parse(sessionStorage.getItem("usuario")!).email))._id;
-        let precio_total: number = 0;
-
-        carrito.forEach(element => {
-            precio_total += element.precio;
-        });
 
         let pedido: Pedido = {
             _id: '',
             numero_pedido: numero_pedido,
             id_usuario: id_usuario,
-            precio_total: precio_total,
+            precio_total: getTotal(),
             estado: Estado.pendiente,
             fecha: '',
             lista_productos: carrito,
@@ -98,6 +96,14 @@ const Tarjeta: React.FC = () => {
         }
     }, [carrito])
 
+    const actualizarEsAdmin = useCallback(async () => {
+        setEsAdmin(await isAdmin(JSON.parse(sessionStorage.getItem("usuario")!).email))
+      }, []);
+    
+    useEffect(() => {
+    actualizarEsAdmin()
+    }, [esAdmin, actualizarEsAdmin])
+
     useEffect(() => {
         let correct: boolean = true;
         (Object.keys(formErrors) as (keyof typeof formErrors)[]).forEach(key => {
@@ -116,12 +122,12 @@ const Tarjeta: React.FC = () => {
     if (!sessionStorage.getItem("usuario"))
         return <Error403></Error403>
     else
-        if (JSON.parse(sessionStorage.getItem("usuario")!).esAdmin)
+        if (esAdmin)
             return <Error403></Error403>
 
 
     if (generado) {
-        return <Error403></Error403> //TODO Redirección a checkout
+        return <PedidoCompletado></PedidoCompletado>
     }
 
     const validate = (formValues: FormPagos) => {
@@ -131,23 +137,34 @@ const Tarjeta: React.FC = () => {
         };
 
 
-        if (!formValues.numTarjeta.match(numTarjetaRegex)) {
+        if(!numTarjetaRegex.test(formValues.numTarjeta)){
             errors.numTarjeta = "El número de tarjeta no es válido";
         }
-        if (!formValues.fechaTarjeta.match(fechaTarjetaRegex)) {
+        if(!fechaTarjetaRegex.test(formValues.fechaTarjeta)){
             errors.fechaTarjeta = "La fecha de caducidad de la tarjeta no es válida";
         }
-        if (!formValues.numSeguridadTarjeta.match(numSeguridadTarjetaRegex)) {
-            errors.numSeguridadTarjeta = "El número de seguridad de la tarjeta no es válido";
+        let mesTarjeta: number = Number.parseInt(formValues.fechaTarjeta.split("/")[0]);
+        let añoTarjeta: number = Number.parseInt(formValues.fechaTarjeta.split("/")[1]);
+
+        let diasMes: number[] = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+        let fechaTarjeta: Date = new Date("20"+añoTarjeta+"-"+mesTarjeta+"-"+diasMes[mesTarjeta-1])
+        let fechaActual: Date = new Date();
+      
+        if(!(fechaTarjeta>fechaActual)){
+            errors.fechaTarjeta = "La tarjeta está caducada";
         }
 
-        if (!formValues.numTarjeta) {
+        if(!numSeguridadTarjetaRegex.test(formValues.numSeguridadTarjeta)){
+            errors.numSeguridadTarjeta = "El número de seguridad de la tarjeta no es válido";
+        }
+    
+        if(!formValues.numTarjeta){
             errors.numTarjeta = "Número de tarjeta requerido";
         }
-        if (!formValues.fechaTarjeta) {
+        if(!formValues.fechaTarjeta){
             errors.fechaTarjeta = "Fecha de caducidad de tarjeta requerida";
         }
-        if (!formValues.numSeguridadTarjeta) {
+        if(!formValues.numSeguridadTarjeta){
             errors.numSeguridadTarjeta = "Número de seguridad de tarjeta requerido";
         }
         return errors;
@@ -161,12 +178,25 @@ const Tarjeta: React.FC = () => {
         return <p style={{ color: 'red', width: '20em', maxWidth: '500px' }}>{props.error}</p>;
     }
     return (
-        <Box component="form" onSubmit={handleSubmit} noValidate sx={{
+        <Box sx={{ flexGrow: 1, padding: 3}}>
+      <ThemeProvider theme={theme}>
+        <Typography variant="h1" component="h2" sx={{fontSize:40}}>
+          Pago <PaymentIcon/>
+        </Typography>
+        <Grid
+          container
+          direction="column"
+          alignItems="center"
+          style={{ minHeight: '100vh'}}
+        >
+          <Box component="form" onSubmit={handleSubmit} noValidate sx={{
             display: 'grid',
             gap: 1,
-            gridTemplateColumns: 'repeat(2, 1fr)',
-        }}>
-            <Grid>
+            gridTemplateColumns: 'repeat(1, 1fr)',
+          }}>
+            <Grid item sx={{
+              display: 'grid'
+            }}>
                 <Typography component="h2" variant="h6">
                     Tarjeta
                 </Typography>
@@ -216,7 +246,10 @@ const Tarjeta: React.FC = () => {
             <Button type="submit" size="large" variant="contained" sx={{ mt: 3, mb: 2 }}>
                 Pagar
             </Button>
-        </Box>
+            </Box>
+        </Grid>
+      </ThemeProvider>
+    </Box>
     );
 }
 

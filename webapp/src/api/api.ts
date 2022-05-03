@@ -11,7 +11,7 @@ export async function addUser(user: User): Promise<boolean> {
 
   if (response.status === 200) {
     let u: User = await response.json();
-    sessionStorage.setItem("usuario", JSON.stringify({ email: u.email, esAdmin: u.esAdmin, webId: u.idSolid, foto: u.foto }));
+    sessionStorage.setItem("usuario", JSON.stringify({ email: u.email, webId: u.idSolid, foto: u.foto }));
     return true;
   }
   return false;
@@ -54,7 +54,7 @@ export async function login(user: LoginData): Promise<boolean> {
 
   if (response.status === 200) {
     let u: User = await response.json();
-    sessionStorage.setItem("usuario", JSON.stringify({ email: u.email, esAdmin: u.esAdmin, webId: u.idSolid, foto: u.foto }));
+    sessionStorage.setItem("usuario", JSON.stringify({ email: u.email, webId: u.idSolid, foto: u.foto }));
     return true;
   }
   return false;
@@ -171,7 +171,7 @@ export async function editUser(user: User): Promise<boolean> {
   });
   if (response.status === 200) {
     let u: User = await response.json();
-    sessionStorage.setItem("usuario", JSON.stringify({ email: u.email, esAdmin: u.esAdmin, webId: u.idSolid, foto: u.foto }));
+    sessionStorage.setItem("usuario", JSON.stringify({ email: u.email, webId: u.idSolid, foto: u.foto }));
     return true;
   } else
     return false;

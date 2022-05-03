@@ -1,11 +1,10 @@
 import { render, screen } from '@testing-library/react';
 import { Pedido, Estado } from '../shared/shareddtypes';
 import datos from './mockData.json';
-import ListaPedidos, { pedidosTest } from '../components/pedidos/ListaPedidos';
+import ListaPedidos, { pedidosTest, setTestAdminPedidos } from '../components/pedidos/ListaPedidos';
 
 test('Pedidos', () => {
-    let email = "adrian@email.com";
-    sessionStorage.setItem("usuario", JSON.stringify({ email: email, esAdmin: true, webId: "" }));
+
     let order = datos.pedidos[0];
     let e = Estado.entregado;
     let pedido: Pedido = {
@@ -23,8 +22,10 @@ test('Pedidos', () => {
         precio_total: order.precio_total,
         estado: e
     };
-
+    let email = "adrian@email.com";
+    sessionStorage.setItem("usuario", JSON.stringify({ email: email, webId: "" }));
     pedidosTest(pedido);
+    setTestAdminPedidos(true);
     render(<ListaPedidos />);
     //Probamos que salen todas las columnas
     let text = screen.getByText(/Nº Pedido/);
@@ -60,7 +61,7 @@ test('Pedidos', () => {
     expect(Element).toBeInTheDocument();
     Element = screen.getByText(parseFecha(pedido.fecha));
     expect(Element).toBeInTheDocument();
-    Element = screen.getByText(pedido.precio_total);
+    Element = screen.getByText(pedido.precio_total.toFixed(2));
     expect(Element).toBeInTheDocument();
     Element = screen.getByLabelText(/edit-button/);
     expect(Element).toBeInTheDocument();

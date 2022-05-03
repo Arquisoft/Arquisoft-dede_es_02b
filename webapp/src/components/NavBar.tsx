@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -12,15 +12,24 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import { ShoppingCart } from '@mui/icons-material';
-import { Avatar, Badge } from '@mui/material';
+import { Avatar } from '@mui/material';
 import { Navigate, Link } from 'react-router-dom';
 import logo from "./logo.png"
+import { isAdmin } from '../api/api';
+
+let isAdminTest:boolean=false;
+
+export function setTestAdmin(admin:boolean){
+      isAdminTest=admin;
+}
+
 
 const NavBar: React.FC = () => {
   const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
   const [logueado, setLogueado] = useState(sessionStorage.getItem("usuario"));
-  const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
-
+  const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
+  const [esAdmin, setEsAdmin] = useState(isAdminTest);
+ 
   const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElUser(event.currentTarget);
   };
@@ -37,6 +46,15 @@ const NavBar: React.FC = () => {
     setAnchorElNav(null);
   };
 
+
+  const actualizarEsAdmin = useCallback(async () => {
+    setEsAdmin(await isAdmin(JSON.parse(sessionStorage.getItem("usuario")!).email))
+  }, []);
+
+  useEffect(() => {
+    actualizarEsAdmin()
+  }, [esAdmin, actualizarEsAdmin])
+
   if (logueado === "deslogueado")
     return <Navigate to="/" />;
 
@@ -48,7 +66,7 @@ const NavBar: React.FC = () => {
     };
 
     if (logueado && logueado !== "deslogueado") {
-      if (JSON.parse(sessionStorage.getItem("usuario")!).esAdmin) {
+      if (esAdmin) {
         return (<Box sx={{ flexGrow: 0, marginLeft: 2 }}>
           <Tooltip title="Open settings">
             <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
@@ -124,12 +142,10 @@ const NavBar: React.FC = () => {
 
   function botonCarrito(): JSX.Element {
     if (logueado && logueado !== "deslogueado") {
-      if (!JSON.parse(logueado).esAdmin) {
+      if (!esAdmin) {
         return (<Link to="/carrito">
-          <IconButton id={"goToCart"} sx={{ p: 0, color: 'white' }}>
-            <Badge badgeContent={sessionStorage.length - 1} color="secondary">
+          <IconButton aria-label="Carrito" sx={{ p: 0, color: 'white' }}>
               <ShoppingCart />
-            </Badge>
           </IconButton>
         </Link>)
       }
@@ -138,9 +154,9 @@ const NavBar: React.FC = () => {
   }
 
   function menuUsuarios(): JSX.Element | undefined {
-    if (JSON.parse(sessionStorage.getItem("usuario")!).esAdmin)
+    if (esAdmin)
       return (<Link to={"/users"} style={{textDecoration:'none'}}>
-                <Button key="pedidos" sx={{ my: 2, color: 'white', display: 'block' }}>Usuarios</Button>
+                <Button key="pedidos" aria-label='Usuarios' sx={{ my: 2, color: 'white', display: 'block' }}>Usuarios</Button>
               </Link>)
   }
 
@@ -167,9 +183,11 @@ const NavBar: React.FC = () => {
         }}
       >
         <Link to={"/pedidos"} style={{textDecoration:'none'}}>
-          <Typography key="pedidos" sx={{ my: 1, color: '#1976d2', textAlign: "center", display: 'block' }}>
+        <MenuItem key={"pedidos"}>
+          <Typography sx={{ my: 1, color: '#1976d2', textAlign: "center", display: 'block' }}>
             Pedidos
           </Typography>
+          </MenuItem>
         </Link>
         <Link to={"/Products"} style={{textDecoration:'none'}}>
           <MenuItem key={"Products"}>
@@ -189,12 +207,13 @@ const NavBar: React.FC = () => {
           key={"Products"}
           onClick={handleCloseNavMenu}
           sx={{ my: 2, color: 'white', display: 'block' }}
+          aria-label="Productos"
         >
           Productos
         </Button>
       </Link>
       <Link to={"/pedidos"} style={{textDecoration:'none'}}>
-        <Button key="pedidos" sx={{ my: 2, color: 'white', display: 'block' }}>
+        <Button key="pedidos" aria-label="Pedidos" sx={{ my: 2, color: 'white', display: 'block' }}>
           Pedidos
         </Button>
       </Link>
@@ -261,3 +280,7 @@ const NavBar: React.FC = () => {
   );
 };
 export default NavBar;
+
+
+
+
