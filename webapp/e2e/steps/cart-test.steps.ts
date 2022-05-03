@@ -80,7 +80,7 @@ defineFeature(feature, test => {
     then('The products should appear in the cart window', async () => {
       // await expect(page).toMatch('You have been registered in the system!')
       await new Promise((r) => setTimeout(r, 3000));
-      console.log(sessionStorage);
+      await expect(page).toMatch('Error')
       await expect(page).toMatch('Productos')
 
       await expect(page).toMatch('Pera')
