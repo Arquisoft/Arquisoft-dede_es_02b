@@ -11,7 +11,6 @@ import Total from './Total';
 import { ShoppingCart } from '@mui/icons-material';
 import Error403 from '../error/Error403';
 
-
 let cantidad:number = 0;
 
 const Carrito: React.FC= () =>{
@@ -32,7 +31,7 @@ const Carrito: React.FC= () =>{
 
   for (let index = 0; index < sessionStorage.length; index++) {
     const element = sessionStorage.key(index);
-    if(element!==null && element!=="usuario"){
+    if(element !== null && element.includes('producto_')){
       var cartItem = sessionStorage.getItem(element);
       if(cartItem!==null){
         var cartItem2 = JSON.parse(cartItem);    

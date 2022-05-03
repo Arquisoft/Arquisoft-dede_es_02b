@@ -435,7 +435,7 @@ const ListaPedidos: React.FC = () => {
                         {String(row.numero_pedido)}
                       </TableCell>
                       <TableCell align="left">{parseFecha(row.fecha)}</TableCell>
-                      <TableCell align="left">{row.precio_total}</TableCell>
+                      <TableCell align="left">{row.precio_total.toFixed(2)}</TableCell>
                       <TableCell align="left">{row.estado}</TableCell>
                       <TableCell align="left">{getEmail(row.id_usuario)}</TableCell>
                       <TableCell align="left">{row.direccion.calle + ", " + row.direccion.localidad + ", " + row.direccion.provincia + ", " + row.direccion.pais + ", " + row.direccion.codigo_postal}</TableCell>

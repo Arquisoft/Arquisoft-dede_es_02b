@@ -20,6 +20,13 @@ const NavBar: React.FC = () => {
   const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
   const [logueado, setLogueado] = useState(sessionStorage.getItem("usuario"));
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
+  let c =0
+  for (let i: number = 0; i < sessionStorage.length - 1; i++) {
+    let key: string = sessionStorage.key(i)!;
+    if(key.includes("prod")){
+        c+=1
+    }
+  }
 
   const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElUser(event.currentTarget);
@@ -126,8 +133,8 @@ const NavBar: React.FC = () => {
     if (logueado && logueado !== "deslogueado") {
       if (!JSON.parse(logueado).esAdmin) {
         return (<Link to="/carrito">
-          <IconButton sx={{ p: 0, color: 'white' }}>
-            <Badge badgeContent={sessionStorage.length - 1} color="secondary">
+          <IconButton aria-label="Carrito" sx={{ p: 0, color: 'white' }}>
+            <Badge badgeContent={c} color="secondary">
               <ShoppingCart />
             </Badge>
           </IconButton>
@@ -140,7 +147,7 @@ const NavBar: React.FC = () => {
   function menuUsuarios(): JSX.Element | undefined {
     if (JSON.parse(sessionStorage.getItem("usuario")!).esAdmin)
       return (<Link to={"/users"} style={{textDecoration:'none'}}>
-                <Button key="pedidos" sx={{ my: 2, color: 'white', display: 'block' }}>Usuarios</Button>
+                <Button key="pedidos" aria-label='Usuarios' sx={{ my: 2, color: 'white', display: 'block' }}>Usuarios</Button>
               </Link>)
   }
 
@@ -167,9 +174,11 @@ const NavBar: React.FC = () => {
         }}
       >
         <Link to={"/pedidos"} style={{textDecoration:'none'}}>
-          <Typography key="pedidos" sx={{ my: 1, color: '#1976d2', textAlign: "center", display: 'block' }}>
+        <MenuItem key={"pedidos"}>
+          <Typography sx={{ my: 1, color: '#1976d2', textAlign: "center", display: 'block' }}>
             Pedidos
           </Typography>
+          </MenuItem>
         </Link>
         <Link to={"/Products"} style={{textDecoration:'none'}}>
           <MenuItem key={"Products"}>
@@ -189,12 +198,13 @@ const NavBar: React.FC = () => {
           key={"Products"}
           onClick={handleCloseNavMenu}
           sx={{ my: 2, color: 'white', display: 'block' }}
+          aria-label="Productos"
         >
           Productos
         </Button>
       </Link>
       <Link to={"/pedidos"} style={{textDecoration:'none'}}>
-        <Button key="pedidos" sx={{ my: 2, color: 'white', display: 'block' }}>
+        <Button key="pedidos" aria-label="Pedidos" sx={{ my: 2, color: 'white', display: 'block' }}>
           Pedidos
         </Button>
       </Link>
