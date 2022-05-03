@@ -19,6 +19,7 @@ defineFeature(feature, test => {
         waitUntil: "networkidle0",
       })
       .catch((error) => {console.log(error)});
+      jest.setTimeout(1000000);
   });
 
   test('The user is not logged in the site', ({given,when,then}) => {
@@ -42,6 +43,7 @@ defineFeature(feature, test => {
 
     then('The products page should be shown', async () => {
       // await expect(page).toMatch('You have been registered in the system!')
+      await new Promise((r) => setTimeout(r, 3000));
       await expect(page).toMatch('Productos')
     });
   })

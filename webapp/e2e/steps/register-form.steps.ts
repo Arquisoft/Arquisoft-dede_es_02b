@@ -22,11 +22,11 @@ defineFeature(feature, test => {
       })
       .catch((error) => {console.log(error)});
 
-      jest.setTimeout(100000);
+      jest.setTimeout(1000000);
   });
 
   test('El usuario no esta registrado', ({given,when,then}) => {
-    jest.setTimeout(100000);
+    jest.setTimeout(1000000);
     let email:string;
     let nombre:string;
     let apellidos:string;
@@ -44,13 +44,13 @@ defineFeature(feature, test => {
     when('Rellenamos el formulario de registro', async () => {
       await expect(page).toMatch('Registrarse')
 
-      await expect(page).toFillForm('form[name="registro"]', {
-        email: email,
-        nombre: nombre,
-        apellidos: apellidos,
-        dni: dni,
-        contraseña: contraseña,
-      })
+      // await expect(page).toFillForm('form[name="registro"]', {
+      //   email: email,
+      //   nombre: nombre,
+      //   apellidos: apellidos,
+      //   dni: dni,
+      //   contraseña: contraseña,
+      // })
 
       let nombreSelector ='[id="nombre"]';
       let apellidosSelector = '[id="apellidos"]';
@@ -96,4 +96,3 @@ defineFeature(feature, test => {
   })
 
 });
-
