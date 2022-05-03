@@ -10,8 +10,8 @@ defineFeature(feature, test => {
   
   beforeAll(async () => {
     browser = process.env.GITHUB_ACTIONS
-      ? await puppeteer.launch()
-      : await puppeteer.launch({ headless: true, slowMo:150 });
+      ? await puppeteer.launch({userDataDir: '/tmp/myChromeSession'})
+      : await puppeteer.launch({ headless: true, slowMo:150, userDataDir: '/tmp/myChromeSession'});
     page = await browser.newPage();
 
     await page
