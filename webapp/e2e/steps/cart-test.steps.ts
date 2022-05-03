@@ -30,7 +30,7 @@ defineFeature(feature, test => {
     let contraseña:string;
 
     given('An empty cart', async() => {
-      email = "alextests4@test.com"
+      email = "alextests6@test.com"
       nombre = "alex"
       apellidos = "caso"
       dni = "12345678n"
@@ -72,9 +72,9 @@ defineFeature(feature, test => {
     when('I add some products in the cart', async () => {
 
       await expect(page).toMatch('Productos')
-      let botonPeraSelector ='[id="addtocart_Pera"]';
-      let botonSandiaSelector ='[id="addunit_Sandía"]';
-      let botonSandiaSelector2 = '[id="addtocart_Sandía"]';
+      let botonPeraSelector ='[id="addtocart_pera"]';
+      let botonSandiaSelector ='[id="addunit_sandía"]';
+      let botonSandiaSelector2 = '[id="addtocart_sandía"]';
 
       await page.waitForSelector(botonPeraSelector);
       await page.click(botonPeraSelector);
