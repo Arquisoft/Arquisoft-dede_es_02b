@@ -10,8 +10,8 @@ import ResumenPedido from '../components/pedidos/ResumenPedido';
 test('Carrito', () => {
   let email = "adrian@email.com";
   let contraseña = "1234";
-  sessionStorage.setItem("usuario", JSON.stringify({ email: email, esAdmin: false, webId: "" }));
-    products.productos.forEach(element=>{
+  sessionStorage.setItem("usuario", JSON.stringify({ email: email, webId: "" }));
+  products.productos.forEach(element=>{
       addToCart(element,5);
     })
     
@@ -38,7 +38,7 @@ test('Carrito', () => {
     products.productos.forEach(element => {
       let Element = screen.getByText(element.nombre);
       expect(Element).toBeInTheDocument();
-      Element = screen.getByText(element.precio*5);
+      Element = screen.getByText((element.precio*5).toFixed(2));
       expect(Element).toBeInTheDocument();
   });
 

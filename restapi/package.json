@@ -3,13 +3,15 @@
     "version": "1.0.0",
     "scripts": {
         "start": "ts-node-dev ./server.ts",
-        "test": "cd tests && jest --runInBand"
+        "test": "cd tests && jest --runInBand --detectOpenHandles"
     },
     "keywords": [],
     "author": "",
     "license": "ISC",
     "dependencies": {
         "@easypost/api": "^5.0.0",
+        "@inrupt/solid-client": "^1.22.0",
+        "@inrupt/vocab-common-rdf": "^1.0.3",
         "@types/express-session": "^1.17.4",
         "bcrypt": "^5.0.1",
         "body-parser": "^1.19.1",
@@ -21,6 +23,7 @@
         "express-validator": "^6.14.0",
         "mongoose": "^6.2.3",
         "prom-client": "^14.0.1",
+        "sanitize-html": "^2.7.0",
         "shippo": "^1.7.1"
     },
     "devDependencies": {
@@ -29,6 +32,7 @@
         "@types/express": "^4.17.13",
         "@types/jest": "^27.4.0",
         "@types/node": "^17.0.2",
+        "@types/sanitize-html": "^2.6.2",
         "@types/supertest": "^2.0.11",
         "jest": "^27.4.7",
         "supertest": "^6.1.6",

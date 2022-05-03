@@ -54,7 +54,7 @@ apiProductos.post(
   "/products/editar",
   async (req: Request, res: Response): Promise<Response> => {
     try {
-      let query = { _id: req.body._id };
+      let query = { _id: req.body._id.toString() };
       let producto = await Producto.findOne(query).exec();
 
       if(req.body.nombre)

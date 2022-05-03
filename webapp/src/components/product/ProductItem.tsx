@@ -10,8 +10,8 @@ import accounting from "accounting";
 import { Product } from '../../shared/shareddtypes';
 import { Alert, Button, Modal, Snackbar, TextField, Fade, Backdrop, TextareaAutosize, Grid } from '@mui/material';
 import { Box } from '@mui/system';
-import { addToCart, editProducto } from '../../api/api';
-import { useState } from "react";
+import { addToCart, editProducto, isAdmin } from '../../api/api';
+import { useCallback, useEffect, useState } from "react";
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -23,6 +23,12 @@ type ProductProp = {
   product: Product;
 }
 
+let isAdminTest:boolean=false;
+
+export function setTestAdminProductosItem(admin:boolean){
+      isAdminTest=admin;
+}
+
 const ProductItem: React.FC<ProductProp> = (productProp: ProductProp) => {
   const [cantidad, setCantidad] = useState(1);
   const [producto, setProducto] = useState<Product>(productProp.product);
@@ -31,6 +37,7 @@ const ProductItem: React.FC<ProductProp> = (productProp: ProductProp) => {
   const [precio, setPrecio] = useState<number>(productProp.product.precio);
   const [foto, setFoto] = useState<string>(productProp.product.foto);
   const [descripcion, setDescripcion] = useState<string>(productProp.product.descripcion);
+  const [esAdmin, setEsAdmin] = useState(isAdminTest);
 
   const handleAddCart = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -86,9 +93,17 @@ const ProductItem: React.FC<ProductProp> = (productProp: ProductProp) => {
     editProducto(p);
   }
 
+  const actualizarEsAdmin = useCallback(async () => {
+    setEsAdmin(await isAdmin(JSON.parse(sessionStorage.getItem("usuario")!).email))
+  }, []);
+
+  useEffect(() => {
+    actualizarEsAdmin()
+  }, [esAdmin, actualizarEsAdmin])
+
   function acciones(): JSX.Element {
     if (sessionStorage.getItem("usuario"))
-      if (JSON.parse(sessionStorage.getItem("usuario")!).esAdmin) {
+      if (esAdmin) {
         return (
           <Box sx={{ display: 'flex', flexDirection: "row-reverse", alignItems: 'center' }}>
             <IconButton aria-label='delete-item'>

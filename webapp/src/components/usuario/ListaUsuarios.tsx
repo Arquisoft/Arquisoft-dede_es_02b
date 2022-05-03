@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -6,7 +6,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import { getUsers, deleteUser } from '../../api/api';
+import { getUsers, deleteUser, isAdmin } from '../../api/api';
 import { User } from '../../shared/shareddtypes';
 import Error403 from '../error/Error403';
 import { Box, Typography } from '@mui/material';
@@ -17,24 +17,35 @@ let usuarioTest: User[] = [];
 export function usuariosTest(usuario: User) {
   usuarioTest[0] = usuario;
 }
+let isAdminTest:boolean=false;
 
+export function setTestAdminListaUsuarios(admin:boolean){
+      isAdminTest=admin;
+}
 const ListaUsuarios: React.FC= () =>{
-
   const [usuarios, setUsuarios] = useState<User[]>(usuarioTest)
+  const [esAdmin, setEsAdmin] = useState(isAdminTest);
 
   async function getAllUsers() {
     setUsuarios(await getUsers());
   }
 
-
   useEffect(() => {
     getAllUsers();
   }, []);
 
+  const actualizarEsAdmin = useCallback(async () => {
+    setEsAdmin(await isAdmin(JSON.parse(sessionStorage.getItem("usuario")!).email))
+  }, []);
+
+  useEffect(() => {
+    actualizarEsAdmin()
+  }, [esAdmin, actualizarEsAdmin])
+
   if (!sessionStorage.getItem("usuario"))
     return <Error403></Error403>
   else
-    if (!JSON.parse(sessionStorage.getItem("usuario")!).esAdmin)
+    if (!esAdmin)
       return <Error403></Error403>
 
   function borrarUsuario(id: string) {
@@ -84,7 +95,7 @@ const ListaUsuarios: React.FC= () =>{
                 <TableCell align="right">{usuario.idSolid}</TableCell>
                 <TableCell align="right">{usuario.email}</TableCell>
                 <TableCell align="right">{usuario.dni}</TableCell>
-                <TableCell align="right">{usuario.esAdmin ? "Admin" : "Cliente"}</TableCell>
+                <TableCell align="right">{esAdmin ? "Admin" : "Cliente"}</TableCell>
                 <TableCell align="right"><IconButton aria-label='delete-icon' onClick={() => borrarUsuario(usuario._id)}><DeleteIcon /></IconButton></TableCell>
               </TableRow>
             ))}
