@@ -23,7 +23,6 @@ describe("sacar numero siguiente ", () =>{
     it('correcto', async () => {
         const response: Response = await request(app).get('/pedidos/nextNumber').set('Accept', 'application/json'); 
         expect(response.statusCode).toBe(200);
-        console.log(response.body)
         expect(response.body).toStrictEqual({});
     })
 })

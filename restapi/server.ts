@@ -9,6 +9,7 @@ import apiUsuarios from './usuarios/apiUsuarios';
 import apiProductos from './productos/apiProductos';
 import apiPedidos from './pedidos/apiPedidos';
 import apiEnvios from './pagos/apiEnvios';
+import apiSolid from './solid/apiSolid';
 
 
 const app: Application = express();
@@ -43,6 +44,7 @@ app.use(apiUsuarios);
 app.use(apiPedidos);
 app.use(apiProductos);
 app.use(apiEnvios);
+app.use(apiSolid);
 
 app.listen(port, ():void => {
     console.log('Restapi listening on '+ port);

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { alpha } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Table from '@mui/material/Table';
@@ -19,7 +19,7 @@ import { visuallyHidden } from '@mui/utils';
 import { Pedido, Estado, User, Product } from '../../shared/shareddtypes';
 import EditIcon from '@mui/icons-material/Edit';
 import { Autocomplete, Backdrop, Button, Fade, Modal, TextField } from '@mui/material';
-import { getPedidosByUser, findUserByEmail, getPedidos, getUsers, getProducts, editPedido } from '../../api/api';
+import { getPedidosByUser, findUserByEmail, getPedidos, getUsers, getProducts, editPedido, isAdmin } from '../../api/api';
 import Error403 from '../error/Error403';
 
 const opcionesFiltrado = [
@@ -223,32 +223,33 @@ export function pedidosTest(pedido:Pedido){
 
 const ListaPedidos: React.FC = () => {
 
-  const [order, setOrder] = React.useState<Order>('asc');
-  const [orderBy, setOrderBy] = React.useState<keyof Pedido>('numero_pedido');
-  const [selected, setSelected] = React.useState<readonly string[]>([]);
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(5);
-  const [state, setState] = React.useState<Pedido[]>(pedidoTest);
-  const [lastState,] = React.useState<Pedido[]>(state);
-  const [rowState, setRowState] = React.useState<Pedido>(state[0]);
-  const [users, setUsers] = React.useState<User[]>([]);
-  const [productos, setProductos] = React.useState<Product[]>([]);
+  const [order, setOrder] = useState<Order>('asc');
+  const [orderBy, setOrderBy] = useState<keyof Pedido>('numero_pedido');
+  const [selected, setSelected] = useState<readonly string[]>([]);
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [state, setState] = useState<Pedido[]>(pedidoTest);
+  const [lastState,] = useState<Pedido[]>(state);
+  const [rowState, setRowState] = useState<Pedido>(state[0]);
+  const [users, setUsers] = useState<User[]>([]);
+  const [productos, setProductos] = useState<Product[]>([]);
+  const [esAdmin, setEsAdmin] = useState(false);
 
-  const refreshPedidosList = async () => {
+  const refreshPedidosList = useCallback(async () => {
     let uString = sessionStorage.getItem("usuario");
-
     if (uString) {
-      let uJson: { email: string, esAdmin: boolean } = JSON.parse(uString!);
-
-      if (!uJson.esAdmin) {
+      let uJson: { email: string, foto: string, webId: string } = JSON.parse(uString!);
+      if (!esAdmin) {
         let user: User = await findUserByEmail(uJson.email);
         setState(await getPedidosByUser(user._id));
         return;
+      }else{
+        setState(await getPedidos());
       }
     }
 
     setState(await getPedidos());
-  }
+  }, [esAdmin])
 
   const refreshUsers = async () => {
     setUsers(await getUsers());
@@ -343,19 +344,27 @@ const ListaPedidos: React.FC = () => {
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - state.length) : 0;
+    
+    const actualizarEsAdmin = useCallback(async () => {
+      setEsAdmin(await isAdmin(JSON.parse(sessionStorage.getItem("usuario")!).email))
+    }, []);
+  
+    useEffect(() => {
+      actualizarEsAdmin()
+    }, [esAdmin, actualizarEsAdmin])
 
   useEffect(() => {
     refreshPedidosList();
     refreshUsers();
     refreshProductList();
-  }, []);
+  }, [refreshPedidosList]);
 
   if(!sessionStorage.getItem("usuario"))
     return <Error403></Error403>
 
   function botonEditar(row: Pedido): JSX.Element {
     if (sessionStorage.getItem("usuario"))
-      if (JSON.parse(sessionStorage.getItem("usuario")!).esAdmin)
+      if (esAdmin)
         return <TableCell><IconButton aria-label='edit-button'onClick={() => editar(row)}><EditIcon /></IconButton></TableCell>
 
     return <></>
