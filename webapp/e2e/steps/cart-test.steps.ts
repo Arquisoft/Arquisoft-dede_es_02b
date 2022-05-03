@@ -66,7 +66,6 @@ defineFeature(feature, test => {
       await page.waitForSelector(botonSelector);
       await page.click(botonSelector);
 
-      await page.waitForSelector("[data-testid=txt-productos]")
       await expect(page).toMatch('Productos')
     });
 
