@@ -1,7 +1,7 @@
 import path from 'path';
 
 var dotenvPath = path.resolve('../.env');
-require("dotenv").config({path: dotenvPath});
+require("dotenv").config({ path: dotenvPath });
 
 import express, { Application } from 'express';
 import * as http from 'http';
@@ -13,11 +13,11 @@ import Usuario from '../usuarios/UsuarioSchema';
 import Producto from '../productos/ProductoSchema';
 import Pedido from '../pedidos/PedidoSchema';
 
-export function createApp(): Application{
-    let app : Application = express();
-    
+export function createApp(): Application {
+    let app: Application = express();
+
     const options: cors.CorsOptions = {
-        origin: [process.env.CORS_OPTIONS||'http://localhost:3000']
+        origin: [process.env.CORS_OPTIONS || 'http://localhost:3000']
     };
 
     app.use(cors(options));
@@ -26,34 +26,35 @@ export function createApp(): Application{
     return app;
 }
 
-export function createServer(app : Application): http.Server{
-    const port: string = process.env.PORT||'5000';
-    return app.listen(port, ():void => {
-        console.log('Restapi server for testing listening on '+ port);
-    }).on("error",(error:Error)=>{
+export function createServer(app: Application): http.Server {
+    const port: string = process.env.PORT || '5000';
+    return app.listen(port, (): void => {
+        console.log('Restapi server for testing listening on ' + port);
+    }).on("error", (error: Error) => {
         console.error('Error occured: ' + error.message);
     });
 }
 
-export async function loadDatabase(){
-    const conexiondb: string = process.env.MONGO_URI_TEST!;
-    await mongoose.connect(conexiondb) 
-    .then(() => console.log("BD conectada"))
 
-    try{
+export async function loadDatabase() {
+    const conexiondb: string = process.env.MONGO_URI_TEST!;
+
+    await mongoose.connect(conexiondb)
+        .then(async () => { console.log("BD conectada")});
+
+    try {
         await Producto.deleteMany();
         await Usuario.deleteMany();
         await Pedido.deleteMany();
-
-        await mongoose.disconnect();
-    }catch{
+    } catch {
 
     }
 
     await mockData();
 }
 
-export async function closeServer(server: http.Server){
+export async function closeServer(server: http.Server) {
+    await mongoose.disconnect();
     server.close();
 }
 
@@ -64,9 +65,9 @@ async function mockData() {
 }
 
 async function insertUsers() {
-    let i :number;
+    let i: number;
 
-    for(i=0; i<data.users.length;i++){
+    for (i = 0; i < data.users.length; i++) {
         let user = data.users[i];
         let usuario = new Usuario();
 
@@ -76,7 +77,7 @@ async function insertUsers() {
         usuario.email = user.email;
         usuario.dni = user.dni;
         usuario.contraseña = user.contraseña;
-        usuario.esAdmin = user.esAdmin; 
+        usuario.esAdmin = user.esAdmin;
         usuario.idSolid = user.idSolid;
 
         await usuario.save();
@@ -84,9 +85,9 @@ async function insertUsers() {
 }
 
 async function insertProductos() {
-    let i :number;
+    let i: number;
 
-    for(i=0; i<data.productos.length;i++){
+    for (i = 0; i < data.productos.length; i++) {
         let product = data.productos[i];
         let producto = new Producto();
 
@@ -102,9 +103,9 @@ async function insertProductos() {
 }
 
 async function insertPedidos() {
-    let i :number;
+    let i: number;
 
-    for(i=0; i<data.pedidos.length;i++){
+    for (i = 0; i < data.pedidos.length; i++) {
         let order = data.pedidos[i];
         let pedido = new Pedido();
 
