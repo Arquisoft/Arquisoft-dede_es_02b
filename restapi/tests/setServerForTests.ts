@@ -40,12 +40,6 @@ export async function loadDatabase(){
     await mongoose.connect(conexiondb) 
     .then(() => console.log("BD conectada"))
 
-    await mockData();
-}
-
-export async function closeServer(server: http.Server){
-    server.close();
-    
     try{
         await Producto.deleteMany();
         await Usuario.deleteMany();
@@ -55,6 +49,12 @@ export async function closeServer(server: http.Server){
     }catch{
 
     }
+
+    await mockData();
+}
+
+export async function closeServer(server: http.Server){
+    server.close();
 }
 
 async function mockData() {

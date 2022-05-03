@@ -90,7 +90,6 @@ jobs:
           cd restapi
           touch .env
           echo MONGO_URI_TEST=${{ secrets.MONGO_URI_TEST }} >> .env
-          echo MONGO_URI=${{ secrets.MONGO_URI }} >> .env
           echo CORS_OPTIONS1="http://dede2b-webapp.herokuapp.com" >> .env
           echo CORS_OPTIONS2="https://dede2b-webapp.herokuapp.com" >> .env
           cat .env
