@@ -29,7 +29,7 @@ defineFeature(feature, test => {
     let contraseña:string;
 
     given('An empty cart', async() => {
-      email = "alextests2@test.com"
+      email = "alextests4@test.com"
       nombre = "alex"
       apellidos = "caso"
       dni = "12345678n"
@@ -68,21 +68,23 @@ defineFeature(feature, test => {
     });
 
     when('I add some products in the cart', async () => {
-      let nombreSelector ='[id="addToCart_Pera"]';
-      await page.waitForSelector(nombreSelector);
-      await page.click(nombreSelector);
 
-      nombreSelector ='[id="addUnit_Sandía"]';
-      await page.waitForSelector(nombreSelector);
-      await page.click(nombreSelector);
+      await expect(page).toMatch('Productos')
+      let botonPeraSelector ='[id="addToCart_Pera"]';
+      let botonSandiaSelector ='[id="addUnit_Sandía"]';
+      let botonSandiaSelector2 = '[id="addToCart_Sandía"]';
 
-      nombreSelector ='[id="addUnit_Sandía"]';
-      await page.waitForSelector(nombreSelector);
-      await page.click(nombreSelector);
+      await page.waitForSelector(botonPeraSelector);
+      await page.click(botonPeraSelector);
 
-      nombreSelector ='[id="addToCart_Sandía"]';
-      await page.waitForSelector(nombreSelector);
-      await page.click(nombreSelector);
+      await page.waitForSelector(botonSandiaSelector);
+      await page.click(botonSandiaSelector);
+
+      await page.waitForSelector(botonSandiaSelector);
+      await page.click(botonSandiaSelector);
+
+      await page.waitForSelector(botonSandiaSelector2);
+      await page.click(botonSandiaSelector2);
     });
 
     then('The products should appear in the cart window', async () => {
