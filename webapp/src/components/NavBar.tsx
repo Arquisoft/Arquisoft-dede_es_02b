@@ -23,13 +23,7 @@ const NavBar: React.FC = () => {
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
   const [esAdmin, setEsAdmin] = useState(false);
   const [c, setC] = useState(0);
-  for (let i: number = 0; i < sessionStorage.length - 1; i++) {
-    let key: string = sessionStorage.key(i)!;
-    if(key.includes("prod")){
-        setC(c+1);
-    }
-  }
-
+ 
   const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElUser(event.currentTarget);
   };
@@ -45,6 +39,21 @@ const NavBar: React.FC = () => {
   const handleCloseNavMenu = () => {
     setAnchorElNav(null);
   };
+
+  function actualizarC(){
+    let a = 0;
+    for (let i: number = 0; i < sessionStorage.length - 1; i++) {
+      let key: string = sessionStorage.key(i)!;
+      if(key.includes("prod")){
+          a++
+      }
+    }
+    setC(a);
+  }
+
+  useEffect(() => {
+    actualizarC()
+  },[])
 
   const actualizarEsAdmin = useCallback(async () => {
     setEsAdmin(await isAdmin(JSON.parse(sessionStorage.getItem("usuario")!).email))
