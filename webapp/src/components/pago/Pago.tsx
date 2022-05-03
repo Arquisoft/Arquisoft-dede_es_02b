@@ -32,9 +32,9 @@ export function getDireccionPedido():FormPagos{
 }
 
 function Pago(): JSX.Element {
-  const numTarjetaRegex = /^([0-9]{4}){1}( [0-9]{4}){3}$/
-  const fechaTarjetaRegex = /^(0[1-9]|1[0-2])\/([0-9]{4}|[0-9]{2})$/
-  const numSeguridadTarjetaRegex = /^[0-9]{3}$/
+  // const numTarjetaRegex = /^([0-9]{4}){1}( [0-9]{4}){3}$/
+  // const fechaTarjetaRegex = /^(0[1-9]|1[0-2])\/([0-9]{4}|[0-9]{2})$/
+  // const numSeguridadTarjetaRegex = /^[0-9]{3}$/
 
   const initialValues: FormPagos = {calle: "", localidad: "", provincia: "", pais: "", codigo_postal: "", 
                                     numTarjeta: "", fechaTarjeta: "", numSeguridadTarjeta: ""};
@@ -126,7 +126,7 @@ function Pago(): JSX.Element {
     let values: (keyof FormPagos)[] = ['calle', 'localidad', 'provincia', 'pais', 'codigo_postal',
                                         'numTarjeta', 'fechaTarjeta', 'numSeguridadTarjeta'];                          
     values.forEach(element => {
-      if(formErrors[element].toString().length!=0)
+      if(formErrors[element].toString().length!==0)
         correct=false;
     });
     console.log(correct)

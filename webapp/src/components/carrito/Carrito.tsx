@@ -3,7 +3,6 @@ import { Product } from '../../shared/shareddtypes';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import ProductComponent from './CarritoItem';
-import Split from 'react-split';
 import { Alert, IconButton, Snackbar, Typography } from '@mui/material';
 import { useCallback, useEffect, useState } from 'react';
 import Delete from '@mui/icons-material/Delete';

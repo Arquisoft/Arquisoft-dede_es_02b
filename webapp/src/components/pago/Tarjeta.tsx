@@ -50,13 +50,13 @@ const Tarjeta: React.FC = () => {
         setFormErrors(validate(formValues));
         setIsSubmit(true);
 
-        let correct = true;
-        let values: (keyof FormPagos)[] = [
-            'numTarjeta', 'fechaTarjeta', 'numSeguridadTarjeta'];
-        values.forEach(element => {
-            if (formErrors[element] !== "")
-                correct = false;
-        });
+        // let correct = true;
+        // let values: (keyof FormPagos)[] = [
+        //     'numTarjeta', 'fechaTarjeta', 'numSeguridadTarjeta'];
+        // values.forEach(element => {
+        //     if (formErrors[element] !== "")
+        //         correct = false;
+        // });
     };
 
     const generarPedido = useCallback(async function (values: FormPagos) {

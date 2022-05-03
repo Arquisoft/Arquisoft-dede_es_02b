@@ -22,7 +22,7 @@ defineFeature(feature, test => {
       })
       .catch((error) => {console.log(error)});
 
-      jest.setTimeout(10000);
+      jest.setTimeout(100000);
   });
 
   test('El usuario no esta registrado', ({given,when,then}) => {

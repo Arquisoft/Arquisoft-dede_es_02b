@@ -19,7 +19,7 @@ defineFeature(feature, test => {
         waitUntil: "networkidle0",
       })
       .catch((error) => {console.log(error)});
-
+      jest.setTimeout(100000);
   });
 
   test('The shopping cart is empty', ({given,when,then}) => {
@@ -69,23 +69,25 @@ defineFeature(feature, test => {
 
       await page.waitForSelector(botonSelector);
       await page.click(botonSelector);
+      await page
+      .goto("http://localhost:3000/products", {
+        waitUntil: "networkidle0",
+      })
+      .catch((error) => {console.log(error)});
+
     });
 
     then('The products should appear in the cart window', async () => {
       // await expect(page).toMatch('You have been registered in the system!')
       await new Promise((r) => setTimeout(r, 3000));
+      console.log(sessionStorage);
       await expect(page).toMatch('Productos')
-      // await expect(page.url()).toMatch('http://localhost:3000/products')
 
       await expect(page).toMatch('Pera')
       await expect(page).toMatch('Sandía')
       
-      let botonPeraSelector ='[aria-label="addtocart_pera"]';
-      let botonSandiaSelector ='[aria-label="addunit_sandía"]';
-      let botonSandiaSelector2 = '[aria-label="addtocart_sandía"]';
-
-      await page.waitForSelector(botonPeraSelector);
-      await page.click(botonPeraSelector);
+      let botonSandiaSelector ='[aria-label="addunit_mango"]';
+      let botonSandiaSelector2 = '[aria-label="addunit_mango"]';
 
       await page.waitForSelector(botonSandiaSelector);
       await page.click(botonSandiaSelector);
@@ -102,14 +104,9 @@ defineFeature(feature, test => {
       await page.click(nombreSelector);  
       await new Promise((r) => setTimeout(r, 3000));  
       await expect(page).toMatch('Carrito')
-      await expect(page).toMatch('Pera');
-      await expect(page).toMatch('Sandía');
+      await expect(page).toMatch('Mango');
 
-      await expect(page).toMatch('Total: €7.32')
-
-      nombreSelector ='[id="removeAll_Pera"]';
-      await page.click(nombreSelector);  
-      await expect(page).toMatch('Total: €5.97');
+      await expect(page).toMatch('Total: €10')
 
       nombreSelector ='[id="clearCart"]';
       await page.click(nombreSelector);  
