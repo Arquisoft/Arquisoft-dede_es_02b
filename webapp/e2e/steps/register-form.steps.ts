@@ -22,11 +22,11 @@ defineFeature(feature, test => {
       })
       .catch((error) => {console.log(error)});
 
-      jest.setTimeout(10000);
+      jest.setTimeout(1000000);
   });
 
   test('El usuario no esta registrado', ({given,when,then}) => {
-    jest.setTimeout(100000);
+    jest.setTimeout(1000000);
     let email:string;
     let nombre:string;
     let apellidos:string;
