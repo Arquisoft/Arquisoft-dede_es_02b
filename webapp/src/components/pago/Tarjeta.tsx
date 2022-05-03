@@ -6,6 +6,7 @@ import Error403 from "../error/Error403";
 import { getDireccionPedido } from "./Pago";
 import PaymentIcon from '@mui/icons-material/Payment';
 import { getTotal } from "../pedidos/ResumenPedido";
+import PedidoCompletado from "../pedidoCompletado/PedidoCompletado";
 
 const theme = createTheme();
 
@@ -121,7 +122,7 @@ const Tarjeta: React.FC = () => {
 
 
     if (generado) {
-        return <Error403></Error403> //TODO Redirección a checkout
+        return <PedidoCompletado></PedidoCompletado> //TODO Redirección a checkout
     }
 
     const validate = (formValues: FormPagos) => {
