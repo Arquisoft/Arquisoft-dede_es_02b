@@ -41,7 +41,6 @@ defineFeature(feature, test => {
       let dniSelector = '[id="dni"]';
       let emailSelector = '[id="email"]';
       let contraseñaSelector = '[id="contraseña"]';
-      let botonSelector = '[id="registrarse"]';
 
       await page.waitForSelector(nombreSelector);
       await page.click(nombreSelector);
@@ -63,8 +62,7 @@ defineFeature(feature, test => {
       await page.click(contraseñaSelector);
       await page.keyboard.type(contraseña);
 
-      await page.waitForSelector(botonSelector);
-      await page.click(botonSelector);
+      await expect(page).toClick('button', { text: 'Completar registro' })
     });
 
     when('I add some products in the cart', async () => {
