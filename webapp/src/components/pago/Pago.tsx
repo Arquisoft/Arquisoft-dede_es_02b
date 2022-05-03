@@ -47,7 +47,7 @@ function Pago(): JSX.Element {
   const direccionInicialSolid = {calle: "", localidad: "", provincia: "", pais: "", codigo_postal: ""};
   const[, setDireccionSeleccionada] = useState<SolidDireccion>(direccionInicialSolid);
 
-  const [isSubmit, setIsSubmit] = useState(false);
+  const [isSubmit,] = useState(false);
 
   const [generado, setGenerado] = useState(false);
 
