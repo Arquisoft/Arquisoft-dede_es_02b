@@ -80,7 +80,6 @@ defineFeature(feature, test => {
       await page.keyboard.type(contraseña);
 
       await page.waitForSelector(botonSelector);
-      await new Promise((r) => setTimeout(r, 3000));
       await page.click(botonSelector);
     });
 
