@@ -7,6 +7,7 @@ import Pago from '../components/pago/Pago';
 test('Pago', () => {
     let email = "pedro@email.com";
     sessionStorage.setItem("usuario", JSON.stringify({ email: email, esAdmin: false, webId: "" }));
+    sessionStorage.setItem("prod_", JSON.stringify({ email: email, esAdmin: false, webId: "" }));
     render(<MemoryRouter><Pago/></MemoryRouter>);
     let text = screen.getByText(/Dirección/);
     expect(text).toBeInTheDocument();
