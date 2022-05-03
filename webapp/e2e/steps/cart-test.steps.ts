@@ -29,7 +29,7 @@ defineFeature(feature, test => {
     let contraseña:string;
 
     given('An empty cart', async() => {
-      email = "alextests@test.com"
+      email = "alextests2@test.com"
       nombre = "alex"
       apellidos = "caso"
       dni = "12345678n"
