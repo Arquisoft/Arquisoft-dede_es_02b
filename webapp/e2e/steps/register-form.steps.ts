@@ -84,7 +84,7 @@ defineFeature(feature, test => {
     });
 
     then('Nos redirige correctamente a la ventana de productos', async () => {
-      await page.goto("http://localhost:3000/register");
+      await page.goto("http://localhost:3000/products");
       await expect(page).toMatch('Productos')
     });
   })
