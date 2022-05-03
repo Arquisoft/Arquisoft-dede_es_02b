@@ -58,15 +58,6 @@ export default function ResumenPedido() {
         return sum;
     }
 
-    function total(){
-        if(costes!==0)
-            sum = Number(costes) + sum + sum * TAX_RATE;
-        else
-            sum = 2 + sum + sum * TAX_RATE;
-        pTotal=sum;
-        return sum;
-    }
-
     return (
         <Box sx={{ flexGrow: 1, padding: 3, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'space-between' }}>
             <Typography variant="h1" component="h2" sx={{ fontSize: 40, marginBottom: 3 }}>

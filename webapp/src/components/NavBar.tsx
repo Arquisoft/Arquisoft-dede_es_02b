@@ -26,7 +26,7 @@ const NavBar: React.FC = () => {
   for (let i: number = 0; i < sessionStorage.length - 1; i++) {
     let key: string = sessionStorage.key(i)!;
     if(key.includes("prod")){
-        setC(c++);
+        setC(c+1);
     }
   }
 

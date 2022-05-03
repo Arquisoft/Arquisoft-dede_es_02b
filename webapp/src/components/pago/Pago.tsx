@@ -8,9 +8,9 @@ import Typography from '@mui/material/Typography';
 import PaymentIcon from '@mui/icons-material/Payment';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Error403 from '../error/Error403';
-import { FormPagos, SolidDireccion, Pedido, Estado } from '../../shared/shareddtypes';
+import { FormPagos, SolidDireccion} from '../../shared/shareddtypes';
 import './PopUpSolid.css';
-import { addPedido, findUserByEmail, getNextNumberPedido, getAddressesFromPod } from '../../api/api';
+import { getAddressesFromPod } from '../../api/api';
 import ResumenPedido from '../pedidos/ResumenPedido';
 import { isAdmin } from '../../api/api';
 
