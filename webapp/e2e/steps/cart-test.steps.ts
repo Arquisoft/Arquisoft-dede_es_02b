@@ -68,11 +68,7 @@ defineFeature(feature, test => {
     });
 
     when('I add some products in the cart', async () => {
-      let nombreSelector ='[id="addToCart_Mango"]';
-      await expect(page).toMatch('Productos')
-      await page.click(nombreSelector);
-
-      nombreSelector ='[id="addToCart_Pera"]';
+      let nombreSelector ='[id="addToCart_Pera"]';
       await page.click(nombreSelector);
 
       nombreSelector ='[id="addUnit_Sandía"]';
