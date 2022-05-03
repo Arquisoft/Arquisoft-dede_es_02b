@@ -38,8 +38,8 @@ Desarrollo de cajas negras del nivel 2:
 [cols="1,2" options="header"]
 |===
 | **Nombre** | **Responsabilidad**
-| _WebApp_ | _Gestionan la comunicación visual con el usuario_
-| _RestApi_ | _Trata los datos obtenidos de la WebApi_
+| _GUI_ | _Gestionan la comunicación visual con el usuario_
+| _Capa de Datos_ | _Trata los datos obtenidos de la GUI_
 |===
 ****
 
@@ -47,7 +47,7 @@ Desarrollo de cajas negras del nivel 2:
 
 image:05_diagrama_nivel_3.jpg["Diagrama nivel 3"]
 
-==== WebApi
+==== GUI (Interfaz Gráfica de Usuario)
 ****
 Desarrollo de cajas negras del nivel 3:
 
@@ -62,7 +62,7 @@ Desarrollo de cajas negras del nivel 3:
 
 ****
 
-==== RestApi
+==== Capa de Datos
 ****
 Desarrollo de cajas negras del nivel 3:
 
