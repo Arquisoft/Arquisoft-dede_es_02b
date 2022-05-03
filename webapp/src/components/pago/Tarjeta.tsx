@@ -131,7 +131,7 @@ const Tarjeta: React.FC = () => {
 
 
     if (generado) {
-        return <PedidoCompletado></PedidoCompletado> //TODO Redirección a checkout
+        return <PedidoCompletado></PedidoCompletado>
     }
 
     const validate = (formValues: FormPagos) => {
