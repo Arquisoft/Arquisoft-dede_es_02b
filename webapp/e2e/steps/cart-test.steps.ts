@@ -1,7 +1,7 @@
 import { defineFeature, loadFeature } from 'jest-cucumber';
 import puppeteer from "puppeteer";
 
-const feature = loadFeature('./features/login-form.feature');
+const feature = loadFeature('./features/cart-test.feature');
 
 let page: puppeteer.Page;
 let browser: puppeteer.Browser;
@@ -42,6 +42,42 @@ defineFeature(feature, test => {
 
     then('The products page should be shown', async () => {
       // await expect(page).toMatch('You have been registered in the system!')
+      await expect(page).toMatch('Productos')
+    });
+  })
+
+  test('The user is not logged in the site', ({given,when,then}) => {
+    
+    let email:string;
+    let contraseña:string;
+
+    given('An empty cart', () => {
+      
+    });
+
+    when('I add some products in the cart', async () => {
+      let nombreSelector ='[id="addToCart_Mango"]';
+      await expect(page).toMatch('Productos')
+      await page.click(nombreSelector);
+
+      nombreSelector ='[id="addToCart_Pera"]';
+      await page.click(nombreSelector);
+
+      nombreSelector ='[id="addUnit_Sandía"]';
+      await page.click(nombreSelector);
+
+      nombreSelector ='[id="addUnit_Sandía"]';
+      await page.click(nombreSelector);
+
+      nombreSelector ='[id="addToCart_Sandía"]';
+      await page.click(nombreSelector);
+    });
+
+    then('The products should appear in the cart window', async () => {
+      // await expect(page).toMatch('You have been registered in the system!')
+      let nombreSelector ='[id="goToCart"]';
+      await page.click(nombreSelector);
+    
       await expect(page).toMatch('Productos')
     });
   })

@@ -1,14 +1,15 @@
 import { Button, Container, Grid, TextField, Typography } from '@mui/material';
 import { Box } from '@mui/system';
 import * as React from 'react';
-import { useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { Navigate } from 'react-router-dom';
-import { editUser } from '../../api/api';
+import { editUser, isAdmin } from '../../api/api';
 import { User } from '../../shared/shareddtypes';
 import Error403 from '../error/Error403';
 
 const EditarUsuario: React.FC = () => {
     const [editado, setEditado] = useState(false);
+    const [esAdmin, setEsAdmin] = useState(false);
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -34,13 +35,21 @@ const EditarUsuario: React.FC = () => {
         setEditado(await editUser(user));
     };
 
+    const actualizarEsAdmin = useCallback(async () => {
+        setEsAdmin(await isAdmin(JSON.parse(sessionStorage.getItem("usuario")!).email))
+      }, []);
+    
+      useEffect(() => {
+        actualizarEsAdmin()
+      }, [esAdmin, actualizarEsAdmin])
+
     if(editado)
         return <Navigate to="/products" />;
 
     if(!sessionStorage.getItem("usuario"))
         return <Error403></Error403>
     else
-        if(JSON.parse(sessionStorage.getItem("usuario")!).esAdmin)
+        if(esAdmin)
             return <Error403></Error403>
 
     return (<Container component="main" maxWidth="xs">

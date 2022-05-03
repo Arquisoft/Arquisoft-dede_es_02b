@@ -11,7 +11,7 @@ test('Carrito', () => {
   let email = "adrian@email.com";
   let contraseña = "1234";
   sessionStorage.setItem("usuario", JSON.stringify({ email: email, esAdmin: false, webId: "" }));
-    products.productos.forEach(element=>{
+  products.productos.forEach(element=>{
       addToCart(element,5);
     })
     
