@@ -39,7 +39,7 @@ const Products: React.FC = () => {
   return (
       <Box sx={{ flexGrow: 1, padding: 3 }}>
         <Typography data-testid="txt-productos" variant="h1" component="h2" sx={{ fontSize: 40 }}>
-          Productos <ShoppingBasket />
+          Productos<ShoppingBasket />
         </Typography>
         {botonAñadir()}
         <Grid container spacing={3} direction="row" justifyContent="center" alignItems="center" marginTop={1}>
