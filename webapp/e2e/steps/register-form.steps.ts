@@ -68,6 +68,7 @@ defineFeature(feature, test => {
 
       await page.waitForSelector(botonSelector);
       await page.click(botonSelector);
+      console.log('ACABA DE HACER CLICK');
     });
 
     then('Nos redirige correctamente a la ventana de productos', async () => {
