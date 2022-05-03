@@ -26,7 +26,7 @@ defineFeature(feature, test => {
     let contraseña:string;
 
     given('An empty cart', () => {
-      email = "newuser@test.com"
+      email = "alex@email.com"
       contraseña = "1234"
 
       expect(page).toMatch('Inicia sesión')
