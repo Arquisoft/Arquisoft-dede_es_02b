@@ -1,11 +1,11 @@
 
 import React from 'react';
 import { render, screen } from '@testing-library/react';
-import Register from '../components/login/Register';
 import { MemoryRouter } from 'react-router-dom';
+import RegisterScreen from '../components/login/RegisterScreen';
 
 test('Register', () => {
-    render(<MemoryRouter><Register/></MemoryRouter>);
+    render(<MemoryRouter><RegisterScreen/></MemoryRouter>);
     let text = screen.getByText(/Registrarse/);
     expect(text).toBeInTheDocument();
     
