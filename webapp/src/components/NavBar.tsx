@@ -142,7 +142,7 @@ const NavBar: React.FC = () => {
 
   function botonCarrito(): JSX.Element {
     if (logueado && logueado !== "deslogueado") {
-      if (esAdmin) {
+      if (!esAdmin) {
         return (<Link to="/carrito">
           <IconButton aria-label="Carrito" sx={{ p: 0, color: 'white' }}>
             <Badge badgeContent={c} color="secondary">
