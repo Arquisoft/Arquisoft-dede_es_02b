@@ -197,7 +197,6 @@ describe("editar producto ", () =>{
     })
 
     it('correctamente ', async () => {
-        console.log("correctamente:")
         await probarEditarProducto({_id: '621f7f978600d56807483f74', nombre:'Manzana Reineta', origen:'Asturias', precio:2, descripcion:'Manzana reineta gucci', foto:'https://i.ibb.co/HnSzg1b/golden.jpg'}, 200);
         var response:Response = await request(app).get("/products/id=621f7f978600d56807483f74").set('Accept', 'application/json');
 

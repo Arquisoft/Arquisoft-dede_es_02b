@@ -58,15 +58,6 @@ export default function ResumenPedido() {
         return sum;
     }
 
-    function total(){
-        if(costes!==0)
-            sum = Number(costes) + sum + sum * TAX_RATE;
-        else
-            sum = 2 + sum + sum * TAX_RATE;
-        pTotal=sum;
-        return sum;
-    }
-
     return (
         <Box sx={{ flexGrow: 1, padding: 3, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'space-between' }}>
             <Typography variant="h1" component="h2" sx={{ fontSize: 40, marginBottom: 3 }}>
@@ -88,7 +79,7 @@ export default function ResumenPedido() {
                                 <TableCell>{producto.nombre}</TableCell>
                                 <TableCell align="right">{a.get(producto) as number}</TableCell>
                                 <TableCell align="right">{producto.precio}</TableCell>
-                                <TableCell align="right">{(a.get(producto) as number) * producto.precio}</TableCell>
+                                <TableCell align="right">{((a.get(producto) as number) * producto.precio).toFixed(2)}</TableCell>
                             </TableRow>
                         ))}
                         <TableRow>
@@ -98,7 +89,7 @@ export default function ResumenPedido() {
                         </TableRow>
                         <TableRow>
                             <TableCell colSpan={2}>Gasto de envio</TableCell>
-                            <TableCell align="right">{ costes }</TableCell>
+                            <TableCell align="right">{ (costes/10).toFixed(2) }</TableCell>
                         </TableRow>
                         <TableRow>
                             <TableCell>IVA</TableCell>
@@ -107,7 +98,7 @@ export default function ResumenPedido() {
                         </TableRow>
                         <TableRow>
                             <TableCell colSpan={2}>Total (€)</TableCell>
-                            <TableCell align="right">{total().toFixed(2)}</TableCell>
+                            <TableCell align="right">{((costes/10) + sum + sum * TAX_RATE).toFixed(2)}</TableCell>
                         </TableRow>
                     </TableBody>
                 </Table>

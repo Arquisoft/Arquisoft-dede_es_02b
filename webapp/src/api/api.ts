@@ -203,7 +203,7 @@ export async function calcularCostesEnvio(address: string): Promise<number> {
     "city": temp.city,
     "state": temp.state,
     "zip": temp.zipcode,
-    "country": temp.country
+    "country": "ES"
 };
   let response = await fetch(apiEndPoint + '/envio/calcular', {
     method: 'POST',
@@ -233,6 +233,13 @@ export async function deleteUser(_id: string): Promise<boolean>{
 export async function getNextNumberPedido(): Promise<number> {
   const apiEndPoint = process.env.REACT_APP_API_URI || 'http://localhost:5000'
   let response = await fetch(apiEndPoint + '/pedidos/nextNumber');
+  //The objects returned by the api are directly convertible to User objects
+  return response.json()
+}
+
+export async function getAddressesFromPod(webId: string): Promise<string[]> {
+  const apiEndPoint = process.env.REACT_APP_API_URI || 'http://localhost:5000'
+  let response = await fetch(apiEndPoint + '/solidUser/webId=' + webId);
   //The objects returned by the api are directly convertible to User objects
   return response.json()
 }
