@@ -28,7 +28,7 @@ defineFeature(feature, test => {
     let dni:string;
     let contraseña:string;
 
-    given('An empty cart', () => {
+    given('An empty cart', async() => {
       email = "alextests@test.com"
       nombre = "alex"
       apellidos = "caso"
@@ -42,29 +42,29 @@ defineFeature(feature, test => {
       let contraseñaSelector = '[id="contraseña"]';
       let botonSelector = '[id="registrarse"]';
 
-      page.waitForSelector(nombreSelector);
-      page.click(nombreSelector);
-      page.keyboard.type(nombre);
+      await page.waitForSelector(nombreSelector);
+      await page.click(nombreSelector);
+      await page.keyboard.type(nombre);
 
-      page.waitForSelector(apellidosSelector);
-      page.click(apellidosSelector);
-      page.keyboard.type(apellidos);
+      await page.waitForSelector(apellidosSelector);
+      await page.click(apellidosSelector);
+      await  page.keyboard.type(apellidos);
 
-      page.waitForSelector(dniSelector);
-      page.click(dniSelector);
-      page.keyboard.type(dni);
+      await page.waitForSelector(dniSelector);
+      await page.click(dniSelector);
+      await page.keyboard.type(dni);
 
-      page.waitForSelector(emailSelector);
-      page.click(emailSelector);
-      page.keyboard.type(email);
+      await page.waitForSelector(emailSelector);
+      await page.click(emailSelector);
+      await page.keyboard.type(email);
 
-      page.waitForSelector(contraseñaSelector);
-      page.click(contraseñaSelector);
-      page.keyboard.type(contraseña);
+      await page.waitForSelector(contraseñaSelector);
+      await page.click(contraseñaSelector);
+      await page.keyboard.type(contraseña);
 
-      page.waitForSelector(botonSelector);
-      page.click(botonSelector);
-      expect(page).toMatch('Productos')
+      await page.waitForSelector(botonSelector);
+      await page.click(botonSelector);
+      await expect(page).toMatch('Productos')
     });
 
     when('I add some products in the cart', async () => {
