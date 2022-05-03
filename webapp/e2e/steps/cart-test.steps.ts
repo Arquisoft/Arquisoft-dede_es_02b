@@ -19,7 +19,7 @@ defineFeature(feature, test => {
         waitUntil: "networkidle0",
       })
       .catch((error) => {console.log(error)});
-
+      jest.setTimeout(1000000);
   });
 
   test('The shopping cart is empty', ({given,when,then}) => {
