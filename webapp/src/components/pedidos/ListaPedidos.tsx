@@ -15,7 +15,6 @@ import Paper from '@mui/material/Paper';
 import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
 import FilterListIcon from '@mui/icons-material/FilterList';
-import { visuallyHidden } from '@mui/utils';
 import { Pedido, Estado, User, Product } from '../../shared/shareddtypes';
 import EditIcon from '@mui/icons-material/Edit';
 import { Autocomplete, Backdrop, Button, Fade, Modal, TextField } from '@mui/material';
@@ -37,7 +36,6 @@ const opcionesEstado = [
   { label: Estado.cancelado },
 ]
 
-type Order = 'asc' | 'desc';
 
 interface HeadCell {
   disablePadding: boolean;
@@ -93,20 +91,11 @@ const headCells: readonly HeadCell[] = [
 
 interface EnhancedTableProps {
   numSelected: number;
-  onRequestSort: (event: React.MouseEvent<unknown>, property: keyof Pedido) => void;
   onSelectAllClick: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  order: Order;
-  orderBy: string;
   rowCount: number;
 }
 
 function EnhancedTableHead(props: EnhancedTableProps) {
-  const { order, orderBy, onRequestSort } =
-    props;
-  const createSortHandler =
-    (property: keyof Pedido) => (event: React.MouseEvent<unknown>) => {
-      onRequestSort(event, property);
-    };
 
   return (
     <TableHead>
@@ -118,19 +107,13 @@ function EnhancedTableHead(props: EnhancedTableProps) {
             key={headCell.id}
             align={headCell.numeric ? 'right' : 'left'}
             padding={headCell.disablePadding ? 'none' : 'normal'}
-            sortDirection={orderBy === headCell.id ? order : false}
+            
           >
             <TableSortLabel
-              active={orderBy === headCell.id}
-              direction={orderBy === headCell.id ? order : 'asc'}
-              onClick={createSortHandler(headCell.id)}
+              disabled
             >
               {headCell.label}
-              {orderBy === headCell.id ? (
-                <Box component="span" sx={visuallyHidden}>
-                  {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
-                </Box>
-              ) : null}
+
             </TableSortLabel>
           </TableCell>
         ))}
@@ -227,9 +210,6 @@ export function setTestAdminPedidos(admin:boolean){
 }
 
 const ListaPedidos: React.FC = () => {
-
-  const [order, setOrder] = useState<Order>('asc');
-  const [orderBy, setOrderBy] = useState<keyof Pedido>('numero_pedido');
   const [selected, setSelected] = useState<readonly string[]>([]);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
@@ -279,15 +259,6 @@ const ListaPedidos: React.FC = () => {
     }
     setState(lista);
   }
-
-  const handleRequestSort = (
-    _event: React.MouseEvent<unknown>,
-    property: keyof Pedido,
-  ) => {
-    const isAsc = orderBy === property && order === 'asc';
-    setOrder(isAsc ? 'desc' : 'asc');
-    setOrderBy(property);
-  };
 
   const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.checked) {
@@ -412,10 +383,9 @@ const ListaPedidos: React.FC = () => {
           >
             <EnhancedTableHead
               numSelected={selected.length}
-              order={order}
-              orderBy={orderBy}
+              //order={order}
+              //orderBy={orderBy}
               onSelectAllClick={handleSelectAllClick}
-              onRequestSort={handleRequestSort}
               rowCount={1}
             />
             <TableBody>
