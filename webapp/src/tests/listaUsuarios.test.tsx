@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
-import ListaUsuarios, { usuariosTest } from '../components/usuario/ListaUsuarios';
+import ListaUsuarios, { setTestAdminListaUsuarios, usuariosTest } from '../components/usuario/ListaUsuarios';
 import { User } from '../shared/shareddtypes';
 
 test('Lista de usuarios', () => {
@@ -16,8 +16,9 @@ test('Lista de usuarios', () => {
         foto: ''
     }
     usuariosTest(usuario)
+    setTestAdminListaUsuarios(true);
     let email = "pedro@email.com";
-    sessionStorage.setItem("usuario", JSON.stringify({ email: email, esAdmin: true, webId: "" }));
+    sessionStorage.setItem("usuario", JSON.stringify({ email: email, webId: "" }));
     render(<BrowserRouter><ListaUsuarios/></BrowserRouter>);
     //Probamos que salen todos los productos
     let Element = screen.getByText(/Nombre/);
@@ -65,9 +66,10 @@ test('Lista de usuarios (intenta acceder un usuario)', () => {
         esAdmin: false,
         foto: ''
     }
-    usuariosTest(usuario)
+    usuariosTest(usuario);
+    setTestAdminListaUsuarios(false);
     let email = "pedro@email.com";
-    sessionStorage.setItem("usuario", JSON.stringify({ email: email, esAdmin: false, webId: "" }));
+    sessionStorage.setItem("usuario", JSON.stringify({ email: email, webId: "" }));
     render(<BrowserRouter><ListaUsuarios/></BrowserRouter>);
     let text = screen.getByText(/Error 403 - Prohibido/);
     expect(text).toBeInTheDocument();

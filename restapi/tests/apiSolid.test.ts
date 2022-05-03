@@ -13,6 +13,7 @@ beforeAll(async () => {
 
     server = createServer(app);
     await loadDatabase();
+    jest.setTimeout(10000);
 });
 
 afterAll(async () => {
