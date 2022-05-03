@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useEffect } from 'react';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -6,20 +6,40 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import { Estado, FormPagos, Pedido, Product } from '../../shared/shareddtypes';
-import { useCallback, useState } from 'react';
+import { Product } from '../../shared/shareddtypes';
 import { Box, Button, Typography } from '@mui/material';
-import { addPedido, findUserByEmail, getNextNumberPedido } from '../../api/api';
+import { calcularCostesEnvio } from '../../api/api';
+import { Link } from 'react-router-dom';
 
 const TAX_RATE = 0.04;
+let pTotal:number=0;
+export function getTotal():number{
+    return pTotal;
+}
 
 let cantidad: number = 0;
-export default function ResumenPedido(formValues: FormPagos) {
+let costesEnvio: number = 0;
+
+export default function ResumenPedido() {
+    const [costes, setCostes] = React.useState<number>(costesEnvio);
+
+    const refreshEnvio = async () => {
+        let value = sessionStorage.getItem('address');
+        if (value !== null){
+            setCostes(await calcularCostesEnvio(value));
+        }
+        
+    }
+    useEffect(() => {
+        refreshEnvio();
+    }, []);
+
     let productos: Product[] = [];
     let a = new Map<Product, number>();
+
     for (let index = 0; index < sessionStorage.length; index++) {
         const element = sessionStorage.key(index);
-        if (element !== null && element !== "usuario") {
+        if (element !== null && element.includes('producto_')) {
             var cartItem = sessionStorage.getItem(element);
             if (cartItem !== null) {
                 var cartItem2 = JSON.parse(cartItem);
@@ -38,60 +58,14 @@ export default function ResumenPedido(formValues: FormPagos) {
         return sum;
     }
 
-    const [carrito,] = useState<{ id_producto: string, cantidad: number, precio: number }[]>(generarCarrito());
-    const [generado, setGenerado] = useState(false);
-    function generarCarrito(): { id_producto: string, precio: number, cantidad: number }[] {
-        let carrito: { id_producto: string, precio: number, cantidad: number }[] = [];
-
-        for (let i: number = 0; i < sessionStorage.length - 1; i++) {
-            let key: string = sessionStorage.key(i)!;
-
-            let id_producto = JSON.parse(sessionStorage.getItem(key)!).id;
-            let precio = JSON.parse(sessionStorage.getItem(key)!).precio;
-            let qty = Number.parseInt(JSON.parse(sessionStorage.getItem(key)!).qty);
-
-            carrito.push({ id_producto: id_producto, precio: (precio * qty), cantidad: qty });
-        }
-
-        return carrito;
+    function total(){
+        if(costes!==0)
+            sum = Number(costes) + sum + sum * TAX_RATE;
+        else
+            sum = 2 + sum + sum * TAX_RATE;
+        pTotal=sum;
+        return sum;
     }
-    const generarPedido = useCallback(async function (values: FormPagos) {
-        console.log(values)
-        let numero_pedido: number = await getNextNumberPedido();
-        let id_usuario: string = (await findUserByEmail(JSON.parse(sessionStorage.getItem("usuario")!).email))._id;
-        let precio_total: number = Number.parseFloat((2 + sum + sum * TAX_RATE).toFixed(2));
-        let pedido: Pedido = {
-            _id: '',
-            numero_pedido: numero_pedido,
-            id_usuario: id_usuario,
-            precio_total: precio_total,
-            estado: Estado.pendiente,
-            fecha: '',
-            lista_productos: carrito,
-            direccion: {
-                calle: values.calle,
-                localidad: values.localidad,
-                provincia: values.provincia,
-                pais: values.pais,
-                codigo_postal: Number.parseInt(values.codigo_postal)
-            },
-            tarjeta: {
-                numero_tarjeta: Number.parseInt(values.numTarjeta),
-                fecha_caducidad: values.fechaTarjeta,
-                numero_seguridad: Number.parseInt(values.numSeguridadTarjeta),
-            }
-        };
-
-        let gen = await addPedido(pedido);
-        if (gen) {
-            setGenerado(gen);
-
-            let usuario = sessionStorage.getItem("usuario")!;
-            sessionStorage.clear();
-            sessionStorage.setItem("usuario", usuario);
-            sessionStorage.setItem("pedido_generado", numero_pedido.toString());
-        }
-    }, [carrito])
 
     return (
         <Box sx={{ flexGrow: 1, padding: 3, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'space-between' }}>
@@ -120,11 +94,11 @@ export default function ResumenPedido(formValues: FormPagos) {
                         <TableRow>
                             <TableCell rowSpan={4} />
                             <TableCell colSpan={2}>Subtotal</TableCell>
-                            <TableCell align="right">{subtotal()}</TableCell>
+                            <TableCell align="right">{subtotal().toFixed(2)}</TableCell>
                         </TableRow>
                         <TableRow>
                             <TableCell colSpan={2}>Gasto de envio</TableCell>
-                            <TableCell align="right">{2}</TableCell>
+                            <TableCell align="right">{ costes }</TableCell>
                         </TableRow>
                         <TableRow>
                             <TableCell>IVA</TableCell>
@@ -133,12 +107,14 @@ export default function ResumenPedido(formValues: FormPagos) {
                         </TableRow>
                         <TableRow>
                             <TableCell colSpan={2}>Total (€)</TableCell>
-                            <TableCell align="right">{(2 + sum + sum * TAX_RATE).toFixed(2)}</TableCell>
+                            <TableCell align="right">{total().toFixed(2)}</TableCell>
                         </TableRow>
                     </TableBody>
                 </Table>
             </TableContainer>
-            <Button sx={{ display: 'flex', marginTop: 3 }} variant='contained' onClick={() => generarPedido(formValues)}>Finalizar</Button>
-        </Box>
+            <Link to="metodoPago">
+            <Button sx={{display:'flex', marginTop:3}} variant='contained'>Finalizar</Button>
+            </Link>
+            </Box>
     );
 }

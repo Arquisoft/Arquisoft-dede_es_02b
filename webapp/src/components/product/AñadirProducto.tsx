@@ -112,6 +112,7 @@ const AñadirProducto: React.FC = () => {
                     type="submit"
                     fullWidth
                     variant="contained"
+                    aria-label='Añadir'
                     sx={{ mt: 3, mb: 2 }}
                 >
                     Añadir
