@@ -73,7 +73,7 @@ defineFeature(feature, test => {
 
     then('The products should appear in the cart window', async () => {
       // await expect(page).toMatch('You have been registered in the system!')
-
+      await page.goto("http://localhost:3000/register");
       await expect(page).toMatch('Productos')
       // await expect(page.url()).toMatch('http://localhost:3000/products')
       
