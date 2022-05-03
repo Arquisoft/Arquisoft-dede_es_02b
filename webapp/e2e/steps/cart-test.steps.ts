@@ -46,10 +46,7 @@ defineFeature(feature, test => {
     });
   })
 
-  test('The user is not logged in the site', ({given,when,then}) => {
-    
-    let email:string;
-    let contraseña:string;
+  test('The shopping cart is empty', ({given,when,then}) => {
 
     given('An empty cart', () => {
       
@@ -76,9 +73,21 @@ defineFeature(feature, test => {
     then('The products should appear in the cart window', async () => {
       // await expect(page).toMatch('You have been registered in the system!')
       let nombreSelector ='[id="goToCart"]';
-      await page.click(nombreSelector);
-    
-      await expect(page).toMatch('Productos')
+      await page.click(nombreSelector);    
+      await expect(page).toMatch('Carrito')
+      await expect(page).toMatch('Pera');
+      await expect(page).toMatch('Sandía');
+
+      await expect(page).toMatch('Total: €7.32')
+
+      nombreSelector ='[id="removeAll_Pera"]';
+      await page.click(nombreSelector);  
+      await expect(page).toMatch('Total: €5.97');
+
+      nombreSelector ='[id="clearCart"]';
+      await page.click(nombreSelector);  
+
+      await expect(page).toMatch('Total: €0.00');
     });
   })
 
