@@ -19,6 +19,7 @@ defineFeature(feature, test => {
         waitUntil: "networkidle0",
       })
       .catch((error) => {console.log(error)});
+
   });
 
   test('The shopping cart is empty', ({given,when,then}) => {
@@ -64,6 +65,8 @@ defineFeature(feature, test => {
 
       await page.waitForSelector(botonSelector);
       await page.click(botonSelector);
+
+      await page.waitForSelector("[data-testid=txt-productos]")
       await expect(page).toMatch('Productos')
     });
 
