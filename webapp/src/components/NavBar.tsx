@@ -17,11 +17,17 @@ import { Navigate, Link } from 'react-router-dom';
 import logo from "./logo.png"
 import { isAdmin } from '../api/api';
 
+let isAdminTest:boolean=false;
+
+export function setTestAdmin(admin:boolean){
+      isAdminTest=admin;
+}
+
 const NavBar: React.FC = () => {
   const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
   const [logueado, setLogueado] = useState(sessionStorage.getItem("usuario"));
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
-  const [esAdmin, setEsAdmin] = useState(false);
+  const [esAdmin, setEsAdmin] = useState(isAdminTest);
   const [c, setC] = useState(0);
  
   const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {

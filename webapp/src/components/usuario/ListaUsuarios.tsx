@@ -17,10 +17,14 @@ let usuarioTest: User[] = [];
 export function usuariosTest(usuario: User) {
   usuarioTest[0] = usuario;
 }
+let isAdminTest:boolean=false;
 
+export function setTestAdminListaUsuarios(admin:boolean){
+      isAdminTest=admin;
+}
 const ListaUsuarios: React.FC= () =>{
   const [usuarios, setUsuarios] = useState<User[]>(usuarioTest)
-  const [esAdmin, setEsAdmin] = useState(false);
+  const [esAdmin, setEsAdmin] = useState(isAdminTest);
 
   async function getAllUsers() {
     setUsuarios(await getUsers());
@@ -41,7 +45,7 @@ const ListaUsuarios: React.FC= () =>{
   if (!sessionStorage.getItem("usuario"))
     return <Error403></Error403>
   else
-    if (esAdmin)
+    if (!esAdmin)
       return <Error403></Error403>
 
   function borrarUsuario(id: string) {

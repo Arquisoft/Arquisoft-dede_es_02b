@@ -14,9 +14,15 @@ export function productosTest(producto:Product){
   productoTest[0]=producto;
 }
 
+let isAdminTest:boolean=false;
+
+export function setTestAdminProductos(admin:boolean){
+      isAdminTest=admin;
+}
+
 const Products: React.FC = () => {
   const [productos, setProductos] = useState<Product[]>(productoTest);
-  const [esAdmin, setEsAdmin] = useState(false);
+  const [esAdmin, setEsAdmin] = useState(isAdminTest);
 
   function botonAñadir(): JSX.Element | undefined {
     
