@@ -60,6 +60,7 @@ export default function ResumenPedido() {
 
     function total(){
          sum = (Number(costes)/10) + sum + sum * TAX_RATE;
+         pTotal=sum;
          return sum;
     }
 
