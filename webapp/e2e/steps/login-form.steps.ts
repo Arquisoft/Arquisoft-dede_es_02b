@@ -22,32 +22,7 @@ defineFeature(feature, test => {
   });
 
   test('The user is not logged in the site', ({given,when,then}) => {
-    
-    let email:string;
-    let contraseña:string;
-
-    given('An registered user', () => {
-      email = "newuser@test.com"
-      contraseña = "1234"
-    });
-
-    when('I fill the data in the form and press submit', async () => {
-      await expect(page).toMatch('Inicia sesión')
-      await expect(page).toFillForm('form[name="login"]', {
-        contraseña: contraseña,
-        email: email,
-      })
-      await expect(page).toClick('button', { text: 'Iniciar sesión' })
-    });
-
-    then('The products page should be shown', async () => {
-      // await expect(page).toMatch('You have been registered in the system!')
-      await expect(page).toMatch('Productos')
-    });
-  })
-
-  test('The user is not logged in the site', ({given,when,then}) => {
-    
+    jest.setTimeout(100000);
     let email:string;
     let contraseña:string;
 

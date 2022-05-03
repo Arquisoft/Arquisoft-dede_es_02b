@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useCallback, useEffect, useState } from "react";
+import { useState} from "react";
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Grid from '@mui/material/Grid';
@@ -10,7 +10,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Error403 from '../error/Error403';
 import { FormPagos, SolidDireccion} from '../../shared/shareddtypes';
 import './PopUpSolid.css';
-import { getAddressesFromPod } from '../../api/api';
+import {getAddressesFromPod } from '../../api/api';
 import ResumenPedido from '../pedidos/ResumenPedido';
 import { isAdmin } from '../../api/api';
 
@@ -48,7 +48,7 @@ function Pago(): JSX.Element {
   const direccionInicialSolid = {calle: "", localidad: "", provincia: "", pais: "", codigo_postal: ""};
   const[, setDireccionSeleccionada] = useState<SolidDireccion>(direccionInicialSolid);
 
-  const [isSubmit] = useState(false);
+  const [isSubmit,] = useState(false);
 
   const [generado, setGenerado] = useState(false);
   const [esAdmin, setEsAdmin] = useState(false);
