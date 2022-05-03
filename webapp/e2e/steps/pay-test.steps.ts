@@ -55,7 +55,7 @@ defineFeature(feature, test => {
     });
 
 
-    then('Nos redirige correctamente a la ventana de productos', async () => {
+    then('No nos deja realizar la compra y se nos indica los campos obligatorios a rellenar', async () => {
       await expect(page).toMatch('metodoPago')
     });
   })
