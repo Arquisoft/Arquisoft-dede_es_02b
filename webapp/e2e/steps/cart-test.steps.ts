@@ -36,7 +36,10 @@ defineFeature(feature, test => {
       apellidos = "caso"
       dni = "12345678n"
       contraseña = "1234"
+      // await expect(page).toClick('button', { text: 'Completar registro' })
+    });
 
+    when('I add some products in the cart', async () => { 
       let nombreSelector ='[id="nombre"]';
       let apellidosSelector = '[id="apellidos"]';
       let dniSelector = '[id="dni"]';
@@ -66,11 +69,11 @@ defineFeature(feature, test => {
 
       await page.waitForSelector(botonSelector);
       await page.click(botonSelector);
-
-      // await expect(page).toClick('button', { text: 'Completar registro' })
     });
 
-    when('I add some products in the cart', async () => {
+    then('The products should appear in the cart window', async () => {
+      // await expect(page).toMatch('You have been registered in the system!')
+
       await expect(page).toMatch('Productos')
       // await expect(page.url()).toMatch('http://localhost:3000/products')
       
@@ -89,10 +92,7 @@ defineFeature(feature, test => {
 
       await page.waitForSelector(botonSandiaSelector2);
       await page.click(botonSandiaSelector2);
-    });
 
-    then('The products should appear in the cart window', async () => {
-      // await expect(page).toMatch('You have been registered in the system!')
       let nombreSelector ='[id="goToCart"]';
       await page.click(nombreSelector);    
       await expect(page).toMatch('Carrito')
