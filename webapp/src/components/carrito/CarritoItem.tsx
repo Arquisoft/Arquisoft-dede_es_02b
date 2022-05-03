@@ -65,9 +65,9 @@ const CarritoItem: React.FC<ProductProp>=(productProp : ProductProp) =>{
           <IconButton id={"decrease_" + productProp.product.nombre} aria-label='subtract-item' onClick={()=>handleDeleteUnitFromCart(productProp.product)}>
               <RemoveIcon />
           </IconButton>
-          <Typography sx={{fontSize:20}}> {accounting.formatMoney(productProp.product.precio *productProp.cantidadItem,"€")}</Typography>
+          <Typography id={"precioTotal_" + productProp.product.nombre} sx={{fontSize:20}}> {accounting.formatMoney(productProp.product.precio *productProp.cantidadItem,"€")}</Typography>
         </Box>
-        <Box sx={{display:'flex', flexDirection:"row-reverse", alignItems:'center'}}>
+        <Box id={"cantidad_" + productProp.product.nombre} sx={{display:'flex', flexDirection:"row-reverse", alignItems:'center'}}>
           <Typography>
             {productProp.cantidadItem}
           </Typography>

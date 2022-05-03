@@ -190,7 +190,7 @@ const Carrito: React.FC= () =>{
             ----------------------------
           </Typography>
           <Total price={getPrecio()}/>
-          <IconButton onClick={()=>deleteCart()}><Delete/>Borrar pedido</IconButton>
+          <IconButton id={"clearCart"} onClick={()=>deleteCart()}><Delete/>Borrar pedido</IconButton>
       </Box>
     </Split>
   ); 
