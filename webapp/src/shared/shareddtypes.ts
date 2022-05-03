@@ -7,6 +7,7 @@ export type User = {
     contraseña:string;
     dni:string;
     esAdmin:boolean;
+    foto:string;
 }
 
 export type LoginData = {
@@ -30,11 +31,7 @@ export type Pedido = {
     precio_total: number;
     estado: Estado;
     fecha: string;
-    lista_productos: [{
-        id_producto: string,
-        cantidad: number,
-        precio: number,
-    }];
+    lista_productos: {id_producto:string, cantidad:number, precio:number}[];
     direccion: {
         calle: string,
         localidad: string,
@@ -42,6 +39,11 @@ export type Pedido = {
         pais: string,
         codigo_postal: number,
     };
+    tarjeta: {
+        numero_tarjeta: number,
+        fecha_caducidad: string,
+        numero_seguridad: number,
+    }
 }
 
 export enum Estado {

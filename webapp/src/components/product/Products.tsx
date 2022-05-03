@@ -9,8 +9,13 @@ import { Link } from 'react-router-dom';
 import { getProducts } from '../../api/api';
 import Error403 from '../error/Error403';
 
+let productoTest:Product[]=[];
+export function productosTest(producto:Product){
+  productoTest[0]=producto;
+}
+
 const Products: React.FC = () => {
-  const [productos, setProductos] = React.useState<Product[]>([]);
+  const [productos, setProductos] = React.useState<Product[]>(productoTest);
 
   function botonAñadir(): JSX.Element | undefined {
     
@@ -33,7 +38,7 @@ const Products: React.FC = () => {
 
   return (
       <Box sx={{ flexGrow: 1, padding: 3 }}>
-        <Typography variant="h1" component="h2" sx={{ fontSize: 40 }}>
+        <Typography data-testid="txt-productos" variant="h1" component="h2" sx={{ fontSize: 40 }}>
           Productos <ShoppingBasket />
         </Typography>
         {botonAñadir()}

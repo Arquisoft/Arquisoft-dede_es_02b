@@ -6,12 +6,12 @@ export async function addUser(user: User): Promise<boolean> {
   let response = await fetch(apiEndPoint + '/users/add', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ 'nombre': user.nombre, 'apellidos': user.apellidos, 'email': user.email, 'contraseña': user.contraseña, 'dni': user.dni, 'idSolid': user.idSolid })
+    body: JSON.stringify({ 'nombre': user.nombre, 'apellidos': user.apellidos, 'email': user.email, 'contraseña': user.contraseña, 'dni': user.dni, 'idSolid': user.idSolid, 'foto': user.foto })
   });
 
   if (response.status === 200) {
     let u: User = await response.json();
-    sessionStorage.setItem("usuario", JSON.stringify({ email: u.email, esAdmin: u.esAdmin, webId: u.idSolid }));
+    sessionStorage.setItem("usuario", JSON.stringify({ email: u.email, esAdmin: u.esAdmin, webId: u.idSolid, foto: u.foto }));
     return true;
   }
   return false;
@@ -54,7 +54,7 @@ export async function login(user: LoginData): Promise<boolean> {
 
   if (response.status === 200) {
     let u: User = await response.json();
-    sessionStorage.setItem("usuario", JSON.stringify({ email: u.email, esAdmin: u.esAdmin, webId: u.idSolid }));
+    sessionStorage.setItem("usuario", JSON.stringify({ email: u.email, esAdmin: u.esAdmin, webId: u.idSolid, foto: u.foto }));
     return true;
   }
   return false;
@@ -74,15 +74,15 @@ export function addToCart(product: Product, quantity: number): boolean {
     'qty': quantity
   };
 
-  var value = sessionStorage.getItem(product._id);
+  var value = sessionStorage.getItem('producto_' + product._id);
   if (value != null) {
     var temp = JSON.parse(value);
     temp.qty = temp.qty + quantity;
-    sessionStorage.setItem(product._id, JSON.stringify(temp));
+    sessionStorage.setItem('producto_'+product._id, JSON.stringify(temp));
 
   }
   else {
-    sessionStorage.setItem(product._id, JSON.stringify(item));
+    sessionStorage.setItem('producto_' + product._id, JSON.stringify(item));
   }
 
   return true;
@@ -124,7 +124,8 @@ export async function addPedido(pedido: Pedido): Promise<boolean> {
         "lista_productos": pedido.lista_productos,
         "precio_total": pedido.precio_total,
         "direccion": pedido.direccion,
-        "estado": pedido.estado
+        "estado": pedido.estado,
+        "tarjeta": pedido.tarjeta
       })
     });
 
@@ -166,11 +167,11 @@ export async function editUser(user: User): Promise<boolean> {
   let response = await fetch(apiEndPoint + '/users/editar', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ 'email': user.email, 'nombre': user.nombre, 'apellidos': user.apellidos, 'idSolid': user.idSolid })
+    body: JSON.stringify({ 'email': user.email, 'nombre': user.nombre, 'apellidos': user.apellidos, 'idSolid': user.idSolid, 'foto': user.foto})
   });
   if (response.status === 200) {
     let u: User = await response.json();
-    sessionStorage.setItem("usuario", JSON.stringify({ email: u.email, esAdmin: u.esAdmin, webId: u.idSolid }));
+    sessionStorage.setItem("usuario", JSON.stringify({ email: u.email, esAdmin: u.esAdmin, webId: u.idSolid, foto: u.foto }));
     return true;
   } else
     return false;
@@ -191,4 +192,47 @@ export async function editProducto(producto: Product): Promise<boolean> {
 export async function isAdmin(email: string): Promise<boolean> {
   let u: User = await findUserByEmail(email);
   return u.esAdmin;
+}
+
+export async function calcularCostesEnvio(address: string): Promise<number> {
+  const apiEndPoint = process.env.REACT_APP_API_URI || 'http://localhost:5000'
+  let temp = JSON.parse(address);
+  let addressTo = {
+    "name": "Pedido",
+    "street1": temp.street1,
+    "city": temp.city,
+    "state": temp.state,
+    "zip": temp.zipcode,
+    "country": temp.country
+};
+  let response = await fetch(apiEndPoint + '/envio/calcular', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(addressTo)
+  });
+  if (response.ok) {
+    let responseJSON = await response.json();
+    return responseJSON.coste;
+  }
+  throw Error("Error al calular los costes");
+}
+
+export async function deleteUser(_id: string): Promise<boolean>{
+  const apiEndPoint = process.env.REACT_APP_API_URI || 'http://localhost:5000'
+  let response = await fetch(apiEndPoint + '/users/delete', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ '_id': _id })
+  });
+  if (response.status === 200) {
+    return true;
+  } else
+    return false;
+}
+
+export async function getNextNumberPedido(): Promise<number> {
+  const apiEndPoint = process.env.REACT_APP_API_URI || 'http://localhost:5000'
+  let response = await fetch(apiEndPoint + '/pedidos/nextNumber');
+  //The objects returned by the api are directly convertible to User objects
+  return response.json()
 }

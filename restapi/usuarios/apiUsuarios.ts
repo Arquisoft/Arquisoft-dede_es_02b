@@ -60,6 +60,9 @@ apiUsuarios.post(
       if(req.body.esAdmin !== undefined)
         usuario.esAdmin = req.body.esAdmin;
 
+      if(req.body.foto)
+        usuario.foto = req.body.foto;
+
       const hashedPass = await bcrypt.hash(req.body.contraseña, 10);
       usuario.contraseña = hashedPass;
 
@@ -132,6 +135,9 @@ apiUsuarios.post(
 
       if(req.body.idSolid)
         usuario.idSolid = req.body.idSolid;
+
+      if(req.body.foto)
+        usuario.foto = req.body.foto;
         
       await usuario.save();
       return res.status(200).send(usuario);

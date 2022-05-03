@@ -1,12 +1,11 @@
 import { render, screen } from '@testing-library/react';
 import { Pedido, Estado } from '../shared/shareddtypes';
 import datos from './mockData.json';
-import ListaPedidos from '../components/pedidos/ListaPedidos';
+import ListaPedidos, { pedidosTest } from '../components/pedidos/ListaPedidos';
 
 test('Pedidos', () => {
     let email = "adrian@email.com";
-    let contraseña = "1234";
-    sessionStorage.setItem("usuario", JSON.stringify({ email: email, esAdmin: false, webId: "" }));
+    sessionStorage.setItem("usuario", JSON.stringify({ email: email, esAdmin: true, webId: "" }));
     let order = datos.pedidos[0];
     let e = Estado.entregado;
     let pedido: Pedido = {
@@ -17,6 +16,7 @@ test('Pedidos', () => {
             cantidad: order.lista_productos[0].cantidad,
             precio: order.lista_productos[0].precio
         }],
+        tarjeta: order.tarjeta,
         fecha: order.fecha,
         numero_pedido: order.numero_pedido,
         id_usuario: order.id_usuario,
@@ -24,7 +24,7 @@ test('Pedidos', () => {
         estado: e
     };
 
-    let pedidos: Pedido[] = [pedido];
+    pedidosTest(pedido);
     render(<ListaPedidos />);
     //Probamos que salen todas las columnas
     let text = screen.getByText(/Nº Pedido/);
@@ -44,14 +44,26 @@ test('Pedidos', () => {
     text = screen.getByText(/Rows per page:/);
     expect(text).toBeInTheDocument();
     //Probamos que salen todos los pedidos
-    pedidos.forEach(element => {
-        //let Element = screen.getByText(element.numero_pedido);
-        //expect(Element).toBeInTheDocument();
-       //let Element = screen.getByText(element.estado);
-       // expect(Element).toBeInTheDocument();
-       //let Element = screen.getByText(element.fecha);
-       // expect(Element).toBeInTheDocument();
-    });
+    
+    function parseFecha(fecha: string): string {
+        let date: string[] = fecha.split('T');
+        let hora: string[] = date[1].split(':');
+        let result: string = date[0] + " " + hora[0] + ":" + hora[1];
+        return result;
+      }
+
+    let Element = screen.getByText(pedido.numero_pedido);
+    expect(Element).toBeInTheDocument();
+    Element = screen.getByText(pedido.estado);
+    expect(Element).toBeInTheDocument();
+    Element = screen.getByText(pedido.direccion.calle + ", " + pedido.direccion.localidad + ", " + pedido.direccion.provincia + ", " + pedido.direccion.pais + ", " + pedido.direccion.codigo_postal);
+    expect(Element).toBeInTheDocument();
+    Element = screen.getByText(parseFecha(pedido.fecha));
+    expect(Element).toBeInTheDocument();
+    Element = screen.getByText(pedido.precio_total.toFixed(2));
+    expect(Element).toBeInTheDocument();
+    Element = screen.getByLabelText(/edit-button/);
+    expect(Element).toBeInTheDocument();
 
     let elements = screen.getByLabelText(/filter-icon/);
     expect(elements).toBeInTheDocument();

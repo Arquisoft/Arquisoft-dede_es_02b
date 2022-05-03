@@ -11,7 +11,7 @@ type Price = {
   
 const Total: React.FC<Price>= (total: Price) => {
   const [botonPagarActivo, setPagar] = useState(total.price>0);
-  const navigate = useNavigate();
+  const navigate = useNavigate(); 
 
   useEffect(()=>{
     setPagar(total.price>0);

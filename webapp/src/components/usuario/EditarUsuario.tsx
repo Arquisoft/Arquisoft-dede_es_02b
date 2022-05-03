@@ -27,7 +27,8 @@ const EditarUsuario: React.FC = () => {
           dni: "",
           email: email,
           contraseña: "",
-          esAdmin: false
+          esAdmin: false,
+          foto: data.get('foto') as string
         }
 
         setEditado(await editUser(user));
@@ -58,7 +59,6 @@ const EditarUsuario: React.FC = () => {
                     <TextField
                         autoComplete="given-name"
                         name="nombre"
-                        required
                         fullWidth
                         id="nombre"
                         label="Nombre"
@@ -67,7 +67,6 @@ const EditarUsuario: React.FC = () => {
                 </Grid>
                 <Grid item xs={12}>
                     <TextField
-                        required
                         fullWidth
                         id="apellidos"
                         label="Apellidos"
@@ -77,7 +76,6 @@ const EditarUsuario: React.FC = () => {
                 </Grid>
                 <Grid item xs={12}>
                     <TextField
-                        required
                         fullWidth
                         name="idSolid"
                         label="Id de Solid"
@@ -85,15 +83,23 @@ const EditarUsuario: React.FC = () => {
                         autoComplete="idSolid"
                     />
                 </Grid >
+                <Grid item xs={12}>
+                    <TextField
+                        fullWidth
+                        name="foto"
+                        label="Foto"
+                        id="foto"
+                        autoComplete="foto"
+                    />
+                </Grid >
             </Grid>
             <Button
+                    aria-label="btEditar"
                     type="submit"
                     fullWidth
                     variant="contained"
                     sx={{ mt: 3, mb: 2 }}
-                >
-                    Editar
-                </Button>
+                >Editar</Button>
             
             
         </Box>

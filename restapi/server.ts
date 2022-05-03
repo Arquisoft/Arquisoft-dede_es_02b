@@ -8,11 +8,13 @@ import mongoose from 'mongoose';
 import apiUsuarios from './usuarios/apiUsuarios';
 import apiProductos from './productos/apiProductos';
 import apiPedidos from './pedidos/apiPedidos';
+import apiEnvios from './pagos/apiEnvios';
+
 
 const app: Application = express();
 app.disable("x-powered-by");
 const port: string = process.env.PORT||'5000';
-const conexiondb: string = process.env.MONGO_URI!;
+const conexiondb: string = process.env.MONGO_URI || process.env.MONGO_URI_TEST || "";
 
 let allowedOrigins = ['http://localhost:3000'];
 
@@ -40,6 +42,7 @@ app.use(bp.json());
 app.use(apiUsuarios);
 app.use(apiPedidos);
 app.use(apiProductos);
+app.use(apiEnvios);
 
 app.listen(port, ():void => {
     console.log('Restapi listening on '+ port);
