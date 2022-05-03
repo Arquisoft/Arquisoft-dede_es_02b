@@ -160,13 +160,7 @@ const Carrito: React.FC = () => {
   };
 
   return (
-    <Split
-      sizes={[75, 25]}
-      direction="horizontal"
-      cursor="col-resize"
-      className="split-flex"
-      minSize={[1000, 500]}
-    >
+    <Grid container spacing={1} direction="row" justifyContent="center" alignItems="center" >
       <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
         <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
           {producto?.nombre} borrado del carrito
@@ -184,7 +178,7 @@ const Carrito: React.FC = () => {
           ))}
         </Grid>
       </Box>
-      <Box sx={{ flexGrow: 1, padding: 3 }}>
+      <Box sx={{ padding: 3, display:'flex', flexDirection:'column' }}>
         <Typography variant="h4" component="div" sx={{ flexGrow: 1 }}>
           Resumen del pedido:
         </Typography>
@@ -200,7 +194,7 @@ const Carrito: React.FC = () => {
         <Total price={getPrecio()} />
         <IconButton id={"clearCart"} onClick={() => deleteCart()}><Delete />Borrar pedido</IconButton>
       </Box>
-    </Split>
+      </Grid>
   );
 }
 
