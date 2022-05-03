@@ -68,6 +68,11 @@ defineFeature(feature, test => {
     });
 
     when('I add some products in the cart', async () => {
+      await page
+      .goto("http://localhost:3000/products", {
+        waitUntil: "networkidle0",
+      })
+      .catch((error) => {console.log(error)});
       await expect(page).toMatch('Productos')
       await expect(page.url()).toMatch('http://localhost:3000/products')
       
