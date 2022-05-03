@@ -13,9 +13,8 @@ los pods previamente explicados, solo se almacenará información imprescindible
 * Los usuarios podrán iniciar sesión en la aplicación antes de acceder a ella.
 * Los usuarios podrán editar sus datos en la tienda.
 * Los usuarios podrán filtrar los productos de la tienda.
-* Los clientes podrán ver el historial de pedidos que han realizado.
+* Los usuarios podrán ver el historial de pedidos que han realizado.
 * Los usuarios podrán comprar productos de la tienda y realizar pedidos.
-* Los administradores podrán ver el historial de pedidos de todos los usuarios.
 ****
 
 === Objetivos de calidad.
@@ -37,6 +36,6 @@ los pods previamente explicados, solo se almacenará información imprescindible
 |===
 |Rol/Nombre|Descripción|Expectativas
 | Equipo de desarrollo | Adrián Fernández Alonso, Álex Caso Díaz, Diego Martínez Menéndez, Diego Villa García y Pedro Zahonero Mangas | Encargados de realizar la aplicación intentando cumplir los requisitos. Es importante la comunicación y el compromiso con el proyecto.
-| Usuarios | Personas que testearán la aplicación | Usarán nuestra aplicación y poder realizar todas las acciones que se les ha prometido. Además es importante que el funcionamiento de la aplicación sea fluído para que estos usuarios estén contentos. Gracias a estas pruebas se podrá sacar la aplicación a un publico más amplio.
-| Profesorado | Hugo Lebrado Buján y José Emilio Labra Gallo | Encargados de supervisar el desarrollo de nuesta tienda.
+| Usuarios | Cuaquier usuario al repositorio y testeadores del proyecto utilizados para las pruebas de usabilidad. | Se podrán realizar todos requisitos básicos. Además es importante que el funcionamiento de la aplicación sea fluído para que estos usuarios estén contentos.
+| Profesorado |Pablo González González, José Emilio Labra Gayo, Irene Cid Rico y Hugo Lebrado Bujan y  | Encargados de supervisar el desarrollo de nuesta tienda.
 |===
