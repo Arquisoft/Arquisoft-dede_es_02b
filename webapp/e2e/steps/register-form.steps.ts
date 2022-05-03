@@ -33,7 +33,7 @@ defineFeature(feature, test => {
     let contraseña:string;
 
     given('Un usuario no registrado', async () => {
-      email = "newuser2@test.com"
+      email = "newuser@test.com"
       nombre = "new"
       apellidos = "user"
       dni = "12345678z"

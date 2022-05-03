@@ -31,7 +31,7 @@ defineFeature(feature, test => {
     let contraseña:string;
 
     given('An empty cart', async() => {
-      email = "alextests8@test.com"
+      email = "alextests@test.com"
       nombre = "alex"
       apellidos = "caso"
       dni = "12345678n"
@@ -42,6 +42,7 @@ defineFeature(feature, test => {
       let dniSelector = '[id="dni"]';
       let emailSelector = '[id="email"]';
       let contraseñaSelector = '[id="contraseña"]';
+      let botonSelector = '[id="registrarse"]';
 
       await page.waitForSelector(nombreSelector);
       await page.click(nombreSelector);
@@ -63,17 +64,15 @@ defineFeature(feature, test => {
       await page.click(contraseñaSelector);
       await page.keyboard.type(contraseña);
 
-      await expect(page).toClick('button', { text: 'Completar registro' })
+      await page.waitForSelector(botonSelector);
+      await page.click(botonSelector);
+
+      // await expect(page).toClick('button', { text: 'Completar registro' })
     });
 
     when('I add some products in the cart', async () => {
-      await page
-      .goto("http://localhost:3000/products", {
-        waitUntil: "networkidle0",
-      })
-      .catch((error) => {console.log(error)});
       await expect(page).toMatch('Productos')
-      await expect(page.url()).toMatch('http://localhost:3000/products')
+      // await expect(page.url()).toMatch('http://localhost:3000/products')
       
       let botonPeraSelector ='[id="addtocart_pera"]';
       let botonSandiaSelector ='[id="addunit_sandía"]';
