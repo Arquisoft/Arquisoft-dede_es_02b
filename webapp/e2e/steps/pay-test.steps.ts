@@ -91,7 +91,7 @@ defineFeature(feature, test => {
 
 
     then('Nos redirige correctamente a la ventana de productos', async () => {
-      await expect(page).toMatch('Pagos')
+      await expect(page).toMatch('Pago')
     });
   })
 
@@ -165,7 +165,7 @@ defineFeature(feature, test => {
 
 
     then('No nos deja realizar la compra y se nos indica los campos obligatorios a rellenar', async () => {
-      await expect(page).toMatch('Pagos')
+      await expect(page).toMatch('Pago')
     });
   })
 
@@ -239,7 +239,7 @@ defineFeature(feature, test => {
 
 
     then('Nos deja realizar la compra y se nos realiza el pedido', async () => {
-      await expect(page).toMatch('Pagos')
+      await expect(page).toMatch('Pago')
     });
   })
 
