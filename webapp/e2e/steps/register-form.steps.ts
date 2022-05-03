@@ -15,7 +15,6 @@ defineFeature(feature, test => {
       ? await puppeteer.launch()
       : await puppeteer.launch({ headless: true, slowMo:150 });
     page = await browser.newPage();
-
     await page
       .goto("http://localhost:3000/register", {
         waitUntil: "networkidle0",
@@ -43,14 +42,6 @@ defineFeature(feature, test => {
 
     when('Rellenamos el formulario de registro', async () => {
       await expect(page).toMatch('Registrarse')
-
-      // await expect(page).toFillForm('form[name="registro"]', {
-      //   email: email,
-      //   nombre: nombre,
-      //   apellidos: apellidos,
-      //   dni: dni,
-      //   contraseña: contraseña,
-      // })
 
       let nombreSelector ='[id="nombre"]';
       let apellidosSelector = '[id="apellidos"]';

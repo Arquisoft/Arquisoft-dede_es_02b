@@ -10,8 +10,8 @@ defineFeature(feature, test => {
   
   beforeAll(async () => {
     browser = process.env.GITHUB_ACTIONS
-      ? await puppeteer.launch({userDataDir: '/tmp/myChromeSession'})
-      : await puppeteer.launch({ headless: true, slowMo:150, userDataDir: '/tmp/myChromeSession'});
+      ? await puppeteer.launch()//{userDataDir: '/tmp/myChromeSession'}
+      : await puppeteer.launch({ headless: true, slowMo:150});
     page = await browser.newPage();
 
     await page
@@ -69,18 +69,15 @@ defineFeature(feature, test => {
 
       await page.waitForSelector(botonSelector);
       await page.click(botonSelector);
-      await page
-      .goto("http://localhost:3000/products", {
-        waitUntil: "networkidle0",
-      })
-      .catch((error) => {console.log(error)});
 
+      await page.evaluate(() => {
+        window.sessionStorage.setItem("usuario",'{"email":"adrian@email.com}')
+      })
     });
 
     then('The products should appear in the cart window', async () => {
       // await expect(page).toMatch('You have been registered in the system!')
       await new Promise((r) => setTimeout(r, 3000));
-      await expect(page).toMatch('Error')
       await expect(page).toMatch('Productos')
 
       await expect(page).toMatch('Pera')
