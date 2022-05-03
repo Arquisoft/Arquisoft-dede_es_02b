@@ -23,6 +23,12 @@ type ProductProp = {
   product: Product;
 }
 
+let isAdminTest:boolean=false;
+
+export function setTestAdminProductosItem(admin:boolean){
+      isAdminTest=admin;
+}
+
 const ProductItem: React.FC<ProductProp> = (productProp: ProductProp) => {
   const [cantidad, setCantidad] = useState(1);
   const [producto, setProducto] = useState<Product>(productProp.product);
@@ -31,7 +37,7 @@ const ProductItem: React.FC<ProductProp> = (productProp: ProductProp) => {
   const [precio, setPrecio] = useState<number>(productProp.product.precio);
   const [foto, setFoto] = useState<string>(productProp.product.foto);
   const [descripcion, setDescripcion] = useState<string>(productProp.product.descripcion);
-  const [esAdmin, setEsAdmin] = useState(false);
+  const [esAdmin, setEsAdmin] = useState(isAdminTest);
 
   const handleAddCart = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();

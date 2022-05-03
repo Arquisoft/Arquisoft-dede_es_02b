@@ -2,11 +2,12 @@ import React from 'react';
 import { render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import AñadirProducto from '../components/product/AñadirProducto';
-import NavBar from '../components/NavBar';
+import NavBar, { setTestAdmin } from '../components/NavBar';
 
 test('NavBar(Admin)', () => {
     let email = "pedro@email.com";
-    sessionStorage.setItem("usuario", JSON.stringify({ email: email, esAdmin: true, webId: "" }));
+    sessionStorage.setItem("usuario", JSON.stringify({ email: email, webId: "" }));
+    setTestAdmin(true);
     render(<MemoryRouter><NavBar/></MemoryRouter>);
     let element = screen.getByLabelText(/Productos/);
     expect(element).toBeVisible();
@@ -19,8 +20,8 @@ test('NavBar(Admin)', () => {
 });
 
 test('NavBar(Usuario)', () => {
-    let email = "pedro@email.com";
-    sessionStorage.setItem("usuario", JSON.stringify({ email: email, esAdmin: false, webId: "" }));
+    let email = "zaho@email.com";
+    sessionStorage.setItem("usuario", JSON.stringify({ email: email, webId: "" }));
     render(<MemoryRouter><NavBar/></MemoryRouter>);
     let element = screen.getByLabelText(/Productos/);
     expect(element).toBeVisible();
