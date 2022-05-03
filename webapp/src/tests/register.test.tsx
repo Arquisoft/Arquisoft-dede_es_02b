@@ -30,4 +30,6 @@ test('Register', () => {
     expect(text).toBeInTheDocument();
     text = screen.getByText(/Iniciar Sesión/);
     expect(text).toBeInTheDocument();
+    text = screen.getByText(/¿No tienes cuenta en SOLID?/);
+    expect(text).toBeInTheDocument();
 });

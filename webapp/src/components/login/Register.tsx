@@ -194,7 +194,7 @@ export default function Register() {
             >
               Completar registro
             </Button>
-            <Grid container>
+            <Grid container sx={{display:'flex', flexDirection:'column', alignContent:'center'}}>
               <Grid item>
                 <Link to={"/login"}>
                   <Typography key="login" sx={{ my: 1, color: 'blue', textAlign: "center", display: 'block' }}>
@@ -202,6 +202,7 @@ export default function Register() {
                   </Typography>
                 </Link>
               </Grid>
+              <a href='https://solidcommunity.net/register'>¿No tienes cuenta en SOLID?</a>
             </Grid>
           </Box>
         </Box>
