@@ -69,15 +69,19 @@ defineFeature(feature, test => {
 
     when('I add some products in the cart', async () => {
       let nombreSelector ='[id="addToCart_Pera"]';
+      await page.waitForSelector(nombreSelector);
       await page.click(nombreSelector);
 
       nombreSelector ='[id="addUnit_Sandía"]';
+      await page.waitForSelector(nombreSelector);
       await page.click(nombreSelector);
 
       nombreSelector ='[id="addUnit_Sandía"]';
+      await page.waitForSelector(nombreSelector);
       await page.click(nombreSelector);
 
       nombreSelector ='[id="addToCart_Sandía"]';
+      await page.waitForSelector(nombreSelector);
       await page.click(nombreSelector);
     });
 
