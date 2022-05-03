@@ -71,7 +71,7 @@ defineFeature(feature, test => {
     });
 
     then('Nos redirige correctamente a la ventana de productos', async () => {
-      await expect(page).toMatch('Productos')
+      await expect(page.url).toMatch('http://localhost:3000/products')
     });
   })
 

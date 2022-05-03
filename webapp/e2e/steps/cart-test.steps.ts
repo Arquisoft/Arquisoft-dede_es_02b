@@ -66,8 +66,7 @@ defineFeature(feature, test => {
       await page.waitForSelector(botonSelector);
       await page.click(botonSelector);
 
-      await page.waitForSelector("[data-testid=txt-productos]")
-      await expect(page).toMatch('Productos')
+      await expect(page.url).toMatch('http://localhost:3000/products')
     });
 
     when('I add some products in the cart', async () => {
