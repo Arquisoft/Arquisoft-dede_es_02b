@@ -66,6 +66,9 @@ function Pago(): JSX.Element {
     actualizarEsAdmin()
   }, [esAdmin, actualizarEsAdmin])
 
+  if(sessionStorage.length < 2)
+    return <Error403></Error403>
+
   if (!sessionStorage.getItem("usuario"))
     return <Error403></Error403>
   else
