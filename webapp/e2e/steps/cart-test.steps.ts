@@ -15,7 +15,7 @@ defineFeature(feature, test => {
     page = await browser.newPage();
 
     await page
-      .goto("http://localhost:3000/login", {
+      .goto("http://localhost:3000/register", {
         waitUntil: "networkidle0",
       })
       .catch((error) => {console.log(error)});
