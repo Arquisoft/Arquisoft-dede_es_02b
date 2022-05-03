@@ -76,6 +76,9 @@ defineFeature(feature, test => {
       await new Promise((r) => setTimeout(r, 3000));
       await expect(page).toMatch('Productos')
       // await expect(page.url()).toMatch('http://localhost:3000/products')
+
+      await expect(page).toMatch('Pera')
+      await expect(page).toMatch('Sandía')
       
       let botonPeraSelector ='[aria-label="addtocart_pera"]';
       let botonSandiaSelector ='[aria-label="addunit_sandía"]';
