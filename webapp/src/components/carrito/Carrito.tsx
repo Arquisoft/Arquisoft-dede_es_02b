@@ -5,11 +5,12 @@ import Grid from '@mui/material/Grid';
 import ProductComponent from './CarritoItem';
 import Split from 'react-split';
 import { Alert, IconButton, Snackbar, Typography } from '@mui/material';
-import { useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import Delete from '@mui/icons-material/Delete';
 import Total from './Total';
 import { ShoppingCart } from '@mui/icons-material';
 import Error403 from '../error/Error403';
+import { isAdmin } from '../../api/api';
 
 let cantidad:number = 0;
 
@@ -22,10 +23,16 @@ const Carrito: React.FC= () =>{
   const [productosCarrito, setProductosCarrito] = useState<Product[]>(productos);
   const [producto, setProducto] = useState<null|Product>(null);
   const [open, setOpen] = React.useState(false);
+  const [esAdmin, setEsAdmin] = useState(false);
 
-  let usuario: { email: string, esAdmin: boolean } = JSON.parse(sessionStorage.getItem("usuario")!);
+  const actualizarEsAdmin = useCallback(async () => {
+    setEsAdmin(await isAdmin(JSON.parse(sessionStorage.getItem("usuario")!).email))
+  }, []);
 
-  if (usuario.esAdmin) {
+  useEffect(() => {
+    actualizarEsAdmin()
+  }, [esAdmin, actualizarEsAdmin])
+  if (esAdmin) {
       return <Error403></Error403>
   }
 

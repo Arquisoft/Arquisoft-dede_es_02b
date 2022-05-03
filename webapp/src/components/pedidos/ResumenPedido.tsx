@@ -52,10 +52,9 @@ export default function ResumenPedido() {
     }
     let sum = 0;
     function subtotal() {
-        //sum=0;
-        Array.from(Array(productos.length)).map((_, index) => (
-            sum += ((a.get(productos[index]) as number) * (productos[index].precio))
-        ));
+        productos.forEach(element => {
+            sum += ((a.get(element) as number) * (element.precio))
+        })
         return sum;
     }
 
