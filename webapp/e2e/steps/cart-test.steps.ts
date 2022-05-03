@@ -73,9 +73,9 @@ defineFeature(feature, test => {
     when('I add some products in the cart', async () => {
 
       await expect(page).toMatch('Productos')
-      let botonPeraSelector ='[id="addToCart_Pera"]';
-      let botonSandiaSelector ='[id="addUnit_Sandía"]';
-      let botonSandiaSelector2 = '[id="addToCart_Sandía"]';
+      let botonPeraSelector ='[id="addtocart_Pera"]';
+      let botonSandiaSelector ='[id="addunit_Sandía"]';
+      let botonSandiaSelector2 = '[id="addtocart_Sandía"]';
 
       await page.waitForSelector(botonPeraSelector);
       await page.click(botonPeraSelector);
