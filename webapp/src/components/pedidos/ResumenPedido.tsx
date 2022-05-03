@@ -88,7 +88,7 @@ export default function ResumenPedido() {
                                 <TableCell>{producto.nombre}</TableCell>
                                 <TableCell align="right">{a.get(producto) as number}</TableCell>
                                 <TableCell align="right">{producto.precio}</TableCell>
-                                <TableCell align="right">{(a.get(producto) as number) * producto.precio}</TableCell>
+                                <TableCell align="right">{((a.get(producto) as number) * producto.precio).toFixed(2)}</TableCell>
                             </TableRow>
                         ))}
                         <TableRow>
@@ -98,7 +98,7 @@ export default function ResumenPedido() {
                         </TableRow>
                         <TableRow>
                             <TableCell colSpan={2}>Gasto de envio</TableCell>
-                            <TableCell align="right">{ costes }</TableCell>
+                            <TableCell align="right">{ (costes/10).toFixed(2) }</TableCell>
                         </TableRow>
                         <TableRow>
                             <TableCell>IVA</TableCell>
@@ -107,7 +107,7 @@ export default function ResumenPedido() {
                         </TableRow>
                         <TableRow>
                             <TableCell colSpan={2}>Total (€)</TableCell>
-                            <TableCell align="right">{total().toFixed(2)}</TableCell>
+                            <TableCell align="right">{((costes/10) + sum + sum * TAX_RATE).toFixed(2)}</TableCell>
                         </TableRow>
                     </TableBody>
                 </Table>

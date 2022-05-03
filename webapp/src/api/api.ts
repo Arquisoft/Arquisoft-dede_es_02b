@@ -146,7 +146,6 @@ export async function getPedidosByUser(id: string): Promise<Pedido[]> {
   const apiEndPoint = process.env.REACT_APP_API_URI || 'http://localhost:5000'
   let response = await fetch(apiEndPoint + '/pedidos/id_usuario=' + id);
   //The objects returned by the api are directly convertible to User objects
-  console.log('response' + response);
   return response.json()
 }
 
@@ -204,7 +203,7 @@ export async function calcularCostesEnvio(address: string): Promise<number> {
     "city": temp.city,
     "state": temp.state,
     "zip": temp.zipcode,
-    "country": temp.country
+    "country": "ES"
 };
   let response = await fetch(apiEndPoint + '/envio/calcular', {
     method: 'POST',
@@ -242,7 +241,5 @@ export async function getAddressesFromPod(webId: string): Promise<string[]> {
   const apiEndPoint = process.env.REACT_APP_API_URI || 'http://localhost:5000'
   let response = await fetch(apiEndPoint + '/solidUser/webId=' + webId);
   //The objects returned by the api are directly convertible to User objects
-  console.log(response.json());
-
   return response.json()
 }
