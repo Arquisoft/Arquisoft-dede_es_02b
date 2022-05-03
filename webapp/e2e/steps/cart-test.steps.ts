@@ -96,6 +96,8 @@ defineFeature(feature, test => {
       await page.waitForSelector(botonSandiaSelector2);
       await page.click(botonSandiaSelector2);
 
+      await new Promise((r) => setTimeout(r, 3000));
+
       let nombreSelector ='[id="goToCart"]';
       await page.click(nombreSelector);    
       await expect(page).toMatch('Carrito')
@@ -103,14 +105,14 @@ defineFeature(feature, test => {
       await expect(page).toMatch('Sandía');
 
       await expect(page).toMatch('Total: €7.32')
-
+      await new Promise((r) => setTimeout(r, 3000));
       nombreSelector ='[id="removeAll_Pera"]';
       await page.click(nombreSelector);  
       await expect(page).toMatch('Total: €5.97');
-
+      await new Promise((r) => setTimeout(r, 3000));
       nombreSelector ='[id="clearCart"]';
       await page.click(nombreSelector);  
-
+      await new Promise((r) => setTimeout(r, 3000));
       await expect(page).toMatch('Total: €0.00');
     });
   })

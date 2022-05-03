@@ -52,7 +52,6 @@ defineFeature(feature, test => {
         contraseña: contraseña,
       })
 
-      await expect(page).toClick('button', { text: 'Completar registro' })
       let nombreSelector ='[id="nombre"]';
       let apellidosSelector = '[id="apellidos"]';
       let dniSelector = '[id="dni"]';
@@ -81,6 +80,7 @@ defineFeature(feature, test => {
       await page.keyboard.type(contraseña);
 
       await page.waitForSelector(botonSelector);
+      await new Promise((r) => setTimeout(r, 3000));
       await page.click(botonSelector);
     });
 
