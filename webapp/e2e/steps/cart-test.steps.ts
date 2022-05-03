@@ -23,19 +23,47 @@ defineFeature(feature, test => {
 
   test('The shopping cart is empty', ({given,when,then}) => {
     let email:string;
+    let nombre:string;
+    let apellidos:string;
+    let dni:string;
     let contraseña:string;
 
     given('An empty cart', () => {
-      email = "alex@email.com"
+      email = "alextests@test.com"
+      nombre = "alex"
+      apellidos = "caso"
+      dni = "12345678n"
       contraseña = "1234"
 
-      expect(page).toMatch('Inicia sesión')
-      expect(page).toFillForm('form[name="login"]', {
-        contraseña: contraseña,
-        email: email,
-      })
-      expect(page).toClick('button', { text: 'Iniciar sesión' })
+      let nombreSelector ='[id="nombre"]';
+      let apellidosSelector = '[id="apellidos"]';
+      let dniSelector = '[id="dni"]';
+      let emailSelector = '[id="email"]';
+      let contraseñaSelector = '[id="contraseña"]';
+      let botonSelector = '[id="registrarse"]';
 
+      page.waitForSelector(nombreSelector);
+      page.click(nombreSelector);
+      page.keyboard.type(nombre);
+
+      page.waitForSelector(apellidosSelector);
+      page.click(apellidosSelector);
+      page.keyboard.type(apellidos);
+
+      page.waitForSelector(dniSelector);
+      page.click(dniSelector);
+      page.keyboard.type(dni);
+
+      page.waitForSelector(emailSelector);
+      page.click(emailSelector);
+      page.keyboard.type(email);
+
+      page.waitForSelector(contraseñaSelector);
+      page.click(contraseñaSelector);
+      page.keyboard.type(contraseña);
+
+      page.waitForSelector(botonSelector);
+      page.click(botonSelector);
       expect(page).toMatch('Productos')
     });
 
