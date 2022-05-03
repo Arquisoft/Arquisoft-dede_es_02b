@@ -1,4 +1,5 @@
 import { wait } from '@testing-library/user-event/dist/utils';
+import { match } from 'assert';
 import { defineFeature, loadFeature } from 'jest-cucumber';
 import puppeteer from "puppeteer";
 
@@ -85,6 +86,15 @@ defineFeature(feature, test => {
 
     then('Nos redirige correctamente a la ventana de productos', async () => {
       await new Promise((r) => setTimeout(r, 2000));
+
+      
+      console.log(match('Error: El dni no puede estar vacío',/pass/))
+      console.log(match('Error: El dni debe contener 9 carácteres',/pass/))
+      console.log(match('Error: El dni introducido ya existe',/pass/))
+      console.log(match('Error: El email no puede estar vacío',/pass/))
+      console.log(match('Error: El email introducido ya existe',/pass/))
+      console.log(match('Error: El formato del email no es válido',/pass/))
+      console.log(match('Error: La contraseña no puede estar vacía',/pass/))
       await expect(page).toMatch('Productos')
 
     });
