@@ -36,7 +36,7 @@ defineFeature(feature, test => {
       apellidos = "caso"
       dni = "12345678n"
       contraseña = "1234"
-      // await expect(page).toClick('button', { text: 'Completar registro' })
+      
     });
 
     when('I add some products in the cart', async () => { 
