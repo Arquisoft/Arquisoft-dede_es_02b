@@ -21,7 +21,7 @@ defineFeature(feature, test => {
         .catch((error) => {console.log(error)});
   });
 
-  test('El usuario quiere comprar: Empty form', ({given,when,then}) => {
+  test('Empty form', ({given,when,then}) => {
     let numTarjeta:string;
     let fechaTarjeta:string;
     let numSeguridadTarjeta:string;
@@ -60,7 +60,7 @@ defineFeature(feature, test => {
     });
   })
 
-  test('El usuario quiere comprar: Incorrect Date', ({given,when,then}) => {
+  test('Incorrect Date', ({given,when,then}) => {
     let numTarjeta:string;
     let fechaTarjeta:string;
     let numSeguridadTarjeta:string;
@@ -99,7 +99,7 @@ defineFeature(feature, test => {
     });
   })
 
-  test('El usuario quiere comprar : All form correct', ({given,when,then}) => {
+  test('All form correct', ({given,when,then}) => {
     let numTarjeta:string;
     let fechaTarjeta:string;
     let numSeguridadTarjeta:string;
