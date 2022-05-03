@@ -25,6 +25,7 @@ defineFeature(feature, test => {
   });
 
   test('El usuario no esta registrado', ({given,when,then}) => {
+    jest.setTimeout(100000);
     let email:string;
     let nombre:string;
     let apellidos:string;
@@ -83,8 +84,6 @@ defineFeature(feature, test => {
     });
 
     then('Nos redirige correctamente a la ventana de productos', async () => {
-      console.log(page.url());
-      wait(2000);
       await expect(page.url()).toMatch('http://localhost:3000/products')
     });
   })

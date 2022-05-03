@@ -23,6 +23,7 @@ defineFeature(feature, test => {
   });
 
   test('The shopping cart is empty', ({given,when,then}) => {
+    jest.setTimeout(100000);
     let email:string;
     let nombre:string;
     let apellidos:string;

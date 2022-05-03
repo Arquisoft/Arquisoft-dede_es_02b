@@ -22,7 +22,7 @@ defineFeature(feature, test => {
   });
 
   test('The user is not logged in the site', ({given,when,then}) => {
-    
+    jest.setTimeout(100000);
     let email:string;
     let contraseña:string;
 
