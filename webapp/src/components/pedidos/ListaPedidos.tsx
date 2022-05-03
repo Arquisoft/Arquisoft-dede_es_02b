@@ -239,11 +239,12 @@ const ListaPedidos: React.FC = () => {
     let uString = sessionStorage.getItem("usuario");
     if (uString) {
       let uJson: { email: string, foto: string, webId: string } = JSON.parse(uString!);
-
       if (!esAdmin) {
         let user: User = await findUserByEmail(uJson.email);
         setState(await getPedidosByUser(user._id));
         return;
+      }else{
+        setState(await getPedidos());
       }
     }
 
