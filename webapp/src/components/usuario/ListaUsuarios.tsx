@@ -63,7 +63,7 @@ const ListaUsuarios: React.FC= () =>{
       console.log(usuarios)
     }
   }
-
+  
   return (
     <Box sx={{ flexGrow: 1, padding: 3 }}>
       <Typography variant="h1" component="h2" sx={{ fontSize: 40, marginBottom: 3 }}>
@@ -95,7 +95,7 @@ const ListaUsuarios: React.FC= () =>{
                 <TableCell align="right">{usuario.idSolid}</TableCell>
                 <TableCell align="right">{usuario.email}</TableCell>
                 <TableCell align="right">{usuario.dni}</TableCell>
-                <TableCell align="right">{esAdmin ? "Admin" : "Cliente"}</TableCell>
+                <TableCell align="right">{usuario.esAdmin ? "Admin" : "Cliente"}</TableCell>
                 <TableCell align="right"><IconButton aria-label='delete-icon' onClick={() => borrarUsuario(usuario._id)}><DeleteIcon /></IconButton></TableCell>
               </TableRow>
             ))}
