@@ -135,7 +135,7 @@ const Carrito: React.FC = () => {
   }
 
   function deleteCart() {
-    if (productosCarrito.length != 0) {
+    if (productosCarrito.length !== 0) {
       var msg = "¿Seguro de que quieres eliminar todos los productos del carrito?"
       var opcion = window.confirm(msg);
       if (opcion) {

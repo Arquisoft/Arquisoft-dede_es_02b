@@ -71,7 +71,6 @@ const Products: React.FC = () => {
       {botonAñadir()}
       <TextField
         margin="normal"
-        required
         id="buscarNombre"
         label="Buscar por nombre"
         name="buscarNombre"
