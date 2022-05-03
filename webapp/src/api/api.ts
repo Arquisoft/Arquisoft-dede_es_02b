@@ -146,6 +146,7 @@ export async function getPedidosByUser(id: string): Promise<Pedido[]> {
   const apiEndPoint = process.env.REACT_APP_API_URI || 'http://localhost:5000'
   let response = await fetch(apiEndPoint + '/pedidos/id_usuario=' + id);
   //The objects returned by the api are directly convertible to User objects
+  console.log('response' + response);
   return response.json()
 }
 
@@ -234,5 +235,14 @@ export async function getNextNumberPedido(): Promise<number> {
   const apiEndPoint = process.env.REACT_APP_API_URI || 'http://localhost:5000'
   let response = await fetch(apiEndPoint + '/pedidos/nextNumber');
   //The objects returned by the api are directly convertible to User objects
+  return response.json()
+}
+
+export async function getAddressesFromPod(webId: string): Promise<string[]> {
+  const apiEndPoint = process.env.REACT_APP_API_URI || 'http://localhost:5000'
+  let response = await fetch(apiEndPoint + '/solidUser/webId=' + webId);
+  //The objects returned by the api are directly convertible to User objects
+  console.log(response.json());
+
   return response.json()
 }

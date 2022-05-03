@@ -10,6 +10,8 @@
     "license": "ISC",
     "dependencies": {
         "@easypost/api": "^5.0.0",
+        "@inrupt/solid-client": "^1.22.0",
+        "@inrupt/vocab-common-rdf": "^1.0.3",
         "@types/express-session": "^1.17.4",
         "bcrypt": "^5.0.1",
         "body-parser": "^1.19.1",

@@ -126,7 +126,7 @@ const NavBar: React.FC = () => {
     if (logueado && logueado !== "deslogueado") {
       if (!JSON.parse(logueado).esAdmin) {
         return (<Link to="/carrito">
-          <IconButton sx={{ p: 0, color: 'white' }}>
+          <IconButton id={"goToCart"} sx={{ p: 0, color: 'white' }}>
             <Badge badgeContent={sessionStorage.length - 1} color="secondary">
               <ShoppingCart />
             </Badge>

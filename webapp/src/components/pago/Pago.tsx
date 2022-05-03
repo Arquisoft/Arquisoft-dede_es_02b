@@ -8,10 +8,9 @@ import Typography from '@mui/material/Typography';
 import PaymentIcon from '@mui/icons-material/Payment';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Error403 from '../error/Error403';
-import { getAddressesFromPod } from '../../FuntionSolidConnection';
 import { FormPagos, SolidDireccion, Pedido, Estado } from '../../shared/shareddtypes';
 import './PopUpSolid.css';
-import { addPedido, findUserByEmail, getNextNumberPedido } from '../../api/api';
+import { addPedido, findUserByEmail, getNextNumberPedido, getAddressesFromPod } from '../../api/api';
 import ResumenPedido from '../pedidos/ResumenPedido';
 
 const theme = createTheme();
@@ -71,12 +70,9 @@ function Pago(): JSX.Element {
 
   async function getFromPod(callback: Function){
     let webId: string = JSON.parse(sessionStorage.getItem("usuario")!).webId;
-    let addresses: string[] = await getAddressesFromPod('https://' + webId.toLowerCase() + '/profile/card#me');
-
+    let addresses: string[] = await getAddressesFromPod(webId.toLowerCase());
     callback(addresses);
   }
-
-  
 
   function fillAndShowPopup(addresses: string[]){
     let direcciones = new Array<SolidDireccion>(addresses.length);

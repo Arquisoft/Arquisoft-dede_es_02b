@@ -54,8 +54,6 @@ const Tarjeta: React.FC = () => {
         if (correct && isSubmit) {
             console.log("A");
         }
-        console.log(formValues);
-        console.log(initialValues);
     };
 
     const generarPedido = useCallback(async function (values: FormPagos) {
