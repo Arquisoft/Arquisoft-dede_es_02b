@@ -27,7 +27,7 @@ defineFeature(feature, test => {
     let contraseña:string;
 
     given('An registered user', () => {
-      email = "newuser@test.com"
+      email = "newuser2@test.com"
       contraseña = "1234"
     });
 
