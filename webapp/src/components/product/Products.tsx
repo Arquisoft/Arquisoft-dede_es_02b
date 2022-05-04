@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Product } from '../../shared/shareddtypes';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
@@ -6,15 +6,27 @@ import ProductComponent from './ProductItem';
 import { Button, Typography } from '@mui/material';
 import { ShoppingBasket } from '@mui/icons-material';
 import { Link } from 'react-router-dom';
-import { getProducts } from '../../api/api';
+import { getProducts, isAdmin } from '../../api/api';
 import Error403 from '../error/Error403';
 
+let productoTest:Product[]=[];
+export function productosTest(producto:Product){
+  productoTest[0]=producto;
+}
+
+let isAdminTest:boolean=false;
+
+export function setTestAdminProductos(admin:boolean){
+      isAdminTest=admin;
+}
+
 const Products: React.FC = () => {
-  const [productos, setProductos] = React.useState<Product[]>([]);
+  const [productos, setProductos] = useState<Product[]>(productoTest);
+  const [esAdmin, setEsAdmin] = useState(isAdminTest);
 
   function botonAñadir(): JSX.Element | undefined {
     
-      if (JSON.parse(sessionStorage.getItem("usuario")!).esAdmin)
+      if (esAdmin)
         return (<Link to="/addProducts">
           <Button variant='contained'>Añadir producto</Button>
         </Link>)
@@ -28,12 +40,20 @@ const Products: React.FC = () => {
     refreshProductList();
   }, []);
 
+  const actualizarEsAdmin = useCallback(async () => {
+    setEsAdmin(await isAdmin(JSON.parse(sessionStorage.getItem("usuario")!).email))
+  }, []);
+
+  useEffect(() => {
+    actualizarEsAdmin()
+  }, [esAdmin, actualizarEsAdmin])
+
   if(!sessionStorage.getItem("usuario"))
     return <Error403></Error403>
 
   return (
       <Box sx={{ flexGrow: 1, padding: 3 }}>
-        <Typography variant="h1" component="h2" sx={{ fontSize: 40 }}>
+        <Typography data-testid="txt-productos" variant="h1" component="h2" sx={{ fontSize: 40 }}>
           Productos <ShoppingBasket />
         </Typography>
         {botonAñadir()}

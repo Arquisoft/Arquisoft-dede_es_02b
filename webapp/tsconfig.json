@@ -22,5 +22,5 @@
   },
   "include": [
     "src","e2e"
-  ]
+, "../restapi/solid/FuntionSolidConnection.tsx"  ]
 }

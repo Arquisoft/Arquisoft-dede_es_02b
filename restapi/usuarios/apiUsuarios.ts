@@ -1,6 +1,7 @@
 import express, { Request, Response, Router } from 'express';
 import bcrypt from 'bcrypt';
 import Usuario from './UsuarioSchema';
+import sanitizeHtml from 'sanitize-html';
 
 const apiUsuarios: Router = express.Router()
 
@@ -60,11 +61,14 @@ apiUsuarios.post(
       if(req.body.esAdmin !== undefined)
         usuario.esAdmin = req.body.esAdmin;
 
+      if(req.body.foto)
+        usuario.foto = req.body.foto;
+
       const hashedPass = await bcrypt.hash(req.body.contraseña, 10);
       usuario.contraseña = hashedPass;
 
       await usuario.save();
-      return res.status(200).send(usuario);
+      return res.status(200).send(sanitizeHtml(usuario));
     } catch (error){
       return res.sendStatus(500);
     }
@@ -132,13 +136,16 @@ apiUsuarios.post(
 
       if(req.body.idSolid)
         usuario.idSolid = req.body.idSolid;
+
+      if(req.body.foto)
+        usuario.foto = req.body.foto;
         
       await usuario.save();
-      return res.status(200).send(usuario);
+      return res.status(200).send(sanitizeHtml(usuario));
     } catch {
       return res.sendStatus(500);
     }
   }
 );
-
+ 
 export default apiUsuarios;

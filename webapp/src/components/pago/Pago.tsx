@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useState, useEffect } from "react";
+import { useCallback, useEffect, useState } from "react";
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Grid from '@mui/material/Grid';
@@ -8,11 +8,28 @@ import Typography from '@mui/material/Typography';
 import PaymentIcon from '@mui/icons-material/Payment';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Error403 from '../error/Error403';
-import { getAddressesFromPod } from '../../FuntionSolidConnection';
-import { FormPagos, SolidDireccion, Product, Pedido } from '../../shared/shareddtypes';
+import { FormPagos, SolidDireccion} from '../../shared/shareddtypes';
 import './PopUpSolid.css';
+import { getAddressesFromPod } from '../../api/api';
+import ResumenPedido from '../pedidos/ResumenPedido';
+import { isAdmin } from '../../api/api';
 
 const theme = createTheme();
+
+let pago:FormPagos={
+  calle: '',
+  localidad: '',
+  provincia: '',
+  pais: '',
+  codigo_postal: '',
+  numTarjeta: '',
+  fechaTarjeta: '',
+  numSeguridadTarjeta: ''
+};
+
+export function getDireccionPedido():FormPagos{
+    return pago;
+}
 
 function Pago(): JSX.Element {
   const numTarjetaRegex = /^([0-9]{4}){1}( [0-9]{4}){3}$/
@@ -21,46 +38,49 @@ function Pago(): JSX.Element {
 
   const initialValues: FormPagos = {calle: "", localidad: "", provincia: "", pais: "", codigo_postal: "", 
                                     numTarjeta: "", fechaTarjeta: "", numSeguridadTarjeta: ""};
+
   const [formValues, setFormValues] = useState(initialValues);
   const [formErrors, setFormErrors] = useState(initialValues);
-  const [isSubmit, setIsSubmit] = useState(false);
 
   const[buttonPopup, setButtonPopup] = useState(false);
   const[solidDirecciones, setSolidDirecciones] = useState<SolidDireccion[]>();
 
   const direccionInicialSolid = {calle: "", localidad: "", provincia: "", pais: "", codigo_postal: ""};
-  const[direccionSeleccionada, setDireccionSeleccionada] = useState<SolidDireccion>(direccionInicialSolid);
+  const[, setDireccionSeleccionada] = useState<SolidDireccion>(direccionInicialSolid);
+
+  const [isSubmit] = useState(false);
+
+  const [generado, setGenerado] = useState(false);
+  const [esAdmin, setEsAdmin] = useState(false);
 
   const handleChange = (e: any) => {
     const {name, value} = e.target;
     setFormValues({...formValues, [name]: value});
   };
 
-  useEffect(() => {
-    let correct: boolean = true;
-    (Object.keys(formErrors) as (keyof typeof formErrors)[]).forEach(key => {
-      if(!(formErrors[key].length===0)){
-        correct = false;
-      }
-    });
-    
-    if(correct && isSubmit){
+  const actualizarEsAdmin = useCallback(async () => {
+    setEsAdmin(await isAdmin(JSON.parse(sessionStorage.getItem("usuario")!).email))
+  }, []);
 
-    }else{
-      setIsSubmit(false);
-    }
-  }, [formErrors]);
+  useEffect(() => {
+    actualizarEsAdmin()
+  }, [esAdmin, actualizarEsAdmin])
 
   if (!sessionStorage.getItem("usuario"))
     return <Error403></Error403>
   else
-    if (JSON.parse(sessionStorage.getItem("usuario")!).esAdmin)
+    if (esAdmin)
       return <Error403></Error403>
+
+
+  if (generado){
+      pago=formValues;
+      return <ResumenPedido/> //TODO Redirección a checkout
+  }
 
   async function getFromPod(callback: Function){
     let webId: string = JSON.parse(sessionStorage.getItem("usuario")!).webId;
-    let addresses: string[] = await getAddressesFromPod('https://' + webId.toLowerCase() + '/profile/card#me');
-
+    let addresses: string[] = await getAddressesFromPod(webId.toLowerCase());
     callback(addresses);
   }
 
@@ -96,18 +116,24 @@ function Pago(): JSX.Element {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setFormErrors(validate(formValues));
-    setIsSubmit(true);
+
+    setGenerado(true)
     
     let correct = true;
     let values: (keyof FormPagos)[] = ['calle', 'localidad', 'provincia', 'pais', 'codigo_postal',
                                         'numTarjeta', 'fechaTarjeta', 'numSeguridadTarjeta'];
+           
+    let address = {street1: formValues.calle, city: formValues.localidad, state: formValues.provincia, 
+                  country: formValues.pais, zipcode: formValues.codigo_postal};  
+    sessionStorage.setItem('address', JSON.stringify(address));
+    
     values.forEach(element => {
-      if(formErrors[element]!="")
+      if(formErrors[element]!=="")
         correct=false;
     });
 
-    if(correct){
-      console.log("A");
+    if(correct && isSubmit){
+      console.log(sessionStorage);
     }
   };
 
@@ -115,33 +141,41 @@ function Pago(): JSX.Element {
     const errors = {calle: "", localidad: "", provincia: "", pais: "", codigo_postal: "",
                       numTarjeta: "", fechaTarjeta: "", numSeguridadTarjeta: ""};
 
-    if(!formValues.calle)
+    if(!formValues.calle){
       errors.calle = "Calle requerida";
-    if(!formValues.localidad)
+    }
+    if(!formValues.localidad){
       errors.localidad = "Localidad requerida";
-    if(!formValues.provincia)
+    }
+    if(!formValues.provincia){
       errors.provincia = "Provincia requerida";
-    if(!formValues.pais)
+    }
+    if(!formValues.pais){
       errors.pais = "País requerido";
-    if(!formValues.codigo_postal)
+    }
+    if(!formValues.codigo_postal){
       errors.codigo_postal = "Código postal requerido";
+    }
 
-
-    if(!formValues.numTarjeta.match(numTarjetaRegex))
+    if(!formValues.numTarjeta.match(numTarjetaRegex)){
       errors.numTarjeta = "El número de tarjeta no es válido";
-    if(!formValues.fechaTarjeta.match(fechaTarjetaRegex))
+    }
+    if(!formValues.fechaTarjeta.match(fechaTarjetaRegex)){
       errors.fechaTarjeta = "La fecha de caducidad de la tarjeta no es válida";
-    if(!formValues.numSeguridadTarjeta.match(numSeguridadTarjetaRegex))
+    }
+      if(!formValues.numSeguridadTarjeta.match(numSeguridadTarjetaRegex)){
       errors.numSeguridadTarjeta = "El número de seguridad de la tarjeta no es válido";
+    }
 
-    if(!formValues.numTarjeta)
+    if(!formValues.numTarjeta){
       errors.numTarjeta = "Número de tarjeta requerido";
-    if(!formValues.fechaTarjeta)
+    }
+    if(!formValues.fechaTarjeta){
       errors.fechaTarjeta = "Fecha de caducidad de tarjeta requerida";
-    if(!formValues.numSeguridadTarjeta)
+    }
+    if(!formValues.numSeguridadTarjeta){
       errors.numSeguridadTarjeta = "Número de seguridad de tarjeta requerido";
-
-    
+    }
     return errors;
   }
   
@@ -154,27 +188,30 @@ function Pago(): JSX.Element {
   }
 
   function handleDireccionSeleccionada(index: number){
-    if(solidDirecciones!=null && solidDirecciones!=undefined)
-      setDireccionSeleccionada(solidDirecciones[index])
-      
+    if(solidDirecciones!==null && solidDirecciones!==undefined){
+      let direccion = solidDirecciones[index];
+
       let newForm = Object.assign({}, formValues);
-      newForm.calle=direccionSeleccionada.calle;
-      newForm.localidad=direccionSeleccionada.localidad;
-      newForm.provincia=direccionSeleccionada.provincia;
-      newForm.pais=direccionSeleccionada.pais;
-      newForm.codigo_postal=direccionSeleccionada.codigo_postal;
+      newForm.calle=direccion.calle;
+      newForm.localidad=direccion.localidad;
+      newForm.provincia=direccion.provincia;
+      newForm.pais=direccion.pais;
+      newForm.codigo_postal=direccion.codigo_postal;
+
+      setDireccionSeleccionada(direccion)
       setFormValues(newForm)
 
       setButtonPopup(false);
+    }
   }
 
   function PopUpSolid(){
-    return (buttonPopup && solidDirecciones!=null && solidDirecciones!=undefined) ? (
+    return (buttonPopup && solidDirecciones!==null && solidDirecciones!==undefined) ? (
         <div className="popup">
             <div className="popup-inner">
                 <h5>Seleccione la dirección</h5>
                   {Array.from(Array(solidDirecciones.length)).map((_, index) => (
-                      <Button onClick={() => handleDireccionSeleccionada(index)} fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
+                      <Button key={index} onClick={() => handleDireccionSeleccionada(index)} fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
                           {solidDirecciones[index].calle + ", " 
                             +solidDirecciones[index].localidad + ", "
                             +solidDirecciones[index].provincia + ", "
@@ -198,12 +235,12 @@ function Pago(): JSX.Element {
           container
           direction="column"
           alignItems="center"
-          style={{ minHeight: '100vh' }}
+          style={{ minHeight: '100vh'}}
         >
           <Box component="form" onSubmit={handleSubmit} noValidate sx={{
             display: 'grid',
             gap: 1,
-            gridTemplateColumns: 'repeat(2, 1fr)',
+            gridTemplateColumns: 'repeat(1, 1fr)',
           }}>
             <Grid item sx={{
               display: 'grid'
@@ -280,55 +317,8 @@ function Pago(): JSX.Element {
                 <BotonPod/>
               </Grid>
             </Grid>
-            <Grid>
-              <Typography component="h2" variant="h6">
-                Tarjeta
-              </Typography>
-              <TextField
-                margin="normal"
-                required
-                fullWidth
-                name="numTarjeta"
-                label="Número de Tarjeta"
-                type="numTarjeta"
-                id="numTarjeta"
-                autoComplete="numTarjeta"
-                placeholder="Ejemplo: 1234 1234 1234 1234"
-                value = {formValues.numTarjeta}
-                onChange={handleChange}
-              />
-              <Error error={formErrors.numTarjeta}/>
-              <TextField
-                margin="normal"
-                required
-                fullWidth
-                name="fechaTarjeta"
-                label="Fecha de caducidad"
-                type="fechaTarjeta"
-                id="fechaTarjeta"
-                autoComplete="fechaTarjeta"
-                placeholder="Ejemplo: MM/YY"
-                value = {formValues.fechaTarjeta}
-                onChange={handleChange}
-              />
-              <Error error={formErrors.fechaTarjeta}/>
-              <TextField
-                margin="normal"
-                required
-                fullWidth
-                name="numSeguridadTarjeta"
-                label="Número de seguridad"
-                type="numSeguridadTarjeta"
-                id="numSeguridadTarjeta"
-                autoComplete="numSeguridadTarjeta"
-                placeholder="Ejemplo: 111"
-                value = {formValues.numSeguridadTarjeta}
-                onChange={handleChange}
-              />
-              <Error error={formErrors.numSeguridadTarjeta}/>
-            </Grid>
-            <Button type="submit" size="large" variant="contained" sx={{ mt: 3, mb: 2 }}>
-              Pagar
+            <Button type="submit" variant="contained" sx={{ mt: 3, mb: 2 }}>
+              Siguiente
             </Button>
           </Box>
           <PopUpSolid/>
@@ -340,3 +330,4 @@ function Pago(): JSX.Element {
 }
 
 export default Pago;
+

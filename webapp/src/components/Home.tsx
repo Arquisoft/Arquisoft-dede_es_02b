@@ -11,8 +11,13 @@ import { Animator, batch, Fade, Move, MoveOut, ScrollContainer, ScrollPage, Stic
 import { useEffect, useState } from 'react';
 import { getProducts } from '../api/api';
 
+let productoTest:Product[]=[];
+export function productosHomeTest(producto:Product){
+  productoTest[0]=producto;
+}
+
 const Home: React.FC = () => {
-    const [products,setProducts] = useState<Product[]>([]);
+    const [products,setProducts] = useState<Product[]>(productoTest);
   
     const refreshProductList = async () => {
       setProducts(await getProducts());

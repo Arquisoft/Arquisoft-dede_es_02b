@@ -11,41 +11,72 @@ defineFeature(feature, test => {
   beforeAll(async () => {
     browser = process.env.GITHUB_ACTIONS
       ? await puppeteer.launch()
-      : await puppeteer.launch({ headless: true });
+      : await puppeteer.launch({ headless: true, slowMo:150 });
     page = await browser.newPage();
 
     await page
-      .goto("http://localhost:3000", {
+      .goto("http://localhost:3000/register", {
         waitUntil: "networkidle0",
       })
       .catch((error) => {console.log(error)});
+
+      jest.setTimeout(10000);
   });
 
-  test('The user is not registered in the site', ({given,when,then}) => {
-    
+  test('El usuario no esta registrado', ({given,when,then}) => {
     let email:string;
-    let username:string;
+    let nombre:string;
+    let apellidos:string;
+    let dni:string;
+    let contraseña:string;
 
-    given('An unregistered user', () => {
+    given('Un usuario no registrado', async () => {
       email = "newuser@test.com"
-      username = "newuser"
+      nombre = "new"
+      apellidos = "user"
+      dni = "12345678z"
+      contraseña = "1234"
     });
 
-    when('I fill the data in the form and press submit', async () => {
-      await expect(page).toMatch('Inicia sesión')
-      // await expect(page).toFillForm('form[name="register"]', {
-      //   username: username,
-      //   email: email,
-      // })
-      // await expect(page).toClick('button', { text: 'Accept' })
+    when('Rellenamos el formulario de registro', async () => {
+      let nombreSelector ='[id="nombre"]';
+      let apellidosSelector = '[id="apellidos"]';
+      let dniSelector = '[id="dni"]';
+      let emailSelector = '[id="email"]';
+      let contraseñaSelector = '[id="contraseña"]';
+      let botonSelector = '[id="registrarse"]';
+
+      await page.waitForSelector(nombreSelector);
+      await page.click(nombreSelector);
+      await page.keyboard.type(nombre);
+
+      await page.waitForSelector(apellidosSelector);
+      await page.click(apellidosSelector);
+      await page.keyboard.type(apellidos);
+
+      await page.waitForSelector(dniSelector);
+      await page.click(dniSelector);
+      await page.keyboard.type(dni);
+
+      await page.waitForSelector(emailSelector);
+      await page.click(emailSelector);
+      await page.keyboard.type(email);
+
+      await page.waitForSelector(contraseñaSelector);
+      await page.click(contraseñaSelector);
+      await page.keyboard.type(contraseña);
+
+      await page.waitForSelector(botonSelector);
+      await page.click(botonSelector);
     });
 
-    then('A confirmation message should be shown in the screen', async () => {
-      // await expect(page).toMatch('You have been registered in the system!')
+    then('Nos redirige correctamente a la ventana de productos', async () => {
+      await expect(page).toMatch('Productos')
     });
   })
 
   afterAll(async ()=>{
+    
     browser.close()
   })
 
