@@ -6,7 +6,7 @@ import RegisterScreen from '../components/login/RegisterScreen';
 
 test('Register', () => {
     render(<MemoryRouter><RegisterScreen/></MemoryRouter>);
-    let text = screen.getByText(/Registrarse/);
+    let text = screen.getByTestId(/h1Register/);
     expect(text).toBeInTheDocument();
     
     // formulario
@@ -26,7 +26,7 @@ test('Register', () => {
     expect(text).toBeVisible();
 
     // botones
-    text = screen.getByText(/Completar registro/);
+    text = screen.getByTestId(/registrarse/);
     expect(text).toBeInTheDocument();
     text = screen.getByText(/Iniciar Sesión/);
     expect(text).toBeInTheDocument();

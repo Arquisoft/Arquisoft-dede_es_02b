@@ -115,7 +115,7 @@ export default function Register() {
           <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
             <LockOutlinedIcon />
           </Avatar>
-          <Typography component="h1" variant="h5">
+          <Typography component="h1" variant="h5" data-testid="h1Register">
             Registrarse
           </Typography>
           <Box component="form" name='registro' onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
@@ -191,8 +191,9 @@ export default function Register() {
               variant="contained"
               id="registrarse"
               sx={{ mt: 3, mb: 2 }}
+              data-testid="registrarse"
             >
-              Completar registro
+              Registrarse
             </Button>
             <Grid container sx={{display:'flex', flexDirection:'column', alignContent:'center'}}>
               <Grid item>
