@@ -116,6 +116,7 @@ async function insertPedidos() {
         pedido.id_usuario = order.id_usuario;
         pedido.precio_total = order.precio_total;
         pedido.estado = order.estado;
+        pedido.tarjeta = order.tarjeta;
 
         await pedido.save();
     }

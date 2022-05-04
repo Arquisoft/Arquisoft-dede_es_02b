@@ -1,7 +1,7 @@
 [[section-introduction-and-goals]]
 == Introducción y objetivos.
 
-Dede es una aplicación descentralizada de compra, que almacena los datos de los usuarios que acceden a esta en pods. Estos pods están creados 
+DeDe es una aplicación descentralizada de compra, que almacena los datos de los usuarios que acceden a esta en pods. Estos pods están creados 
 para que no sea el propio sistema el que almacene la información privada de cada cliente, sino que cada cliente tenga su información y de
 permisos para acceder a ella cuando se den permisos.
 
@@ -11,19 +11,20 @@ los pods previamente explicados, solo se almacenará información imprescindible
 === Requisitos básicos.
 ****
 * Los usuarios podrán iniciar sesión en la aplicación antes de acceder a ella.
-* Los usuarios podrán acceder a su perfil privado, donde consultar sus datos y sus pedidos a la tienda.
-* Los usuarios podrán ver todos los productos de la tienda que puedan comprarse.
-* Los usuarios podrán filtrar los productos de la tienda por categorías u origen.
+* Los usuarios podrán editar sus datos en la tienda.
+* Los usuarios podrán filtrar los productos de la tienda.
+* Los usuarios podrán ver el historial de pedidos que han realizado.
 * Los usuarios podrán comprar productos de la tienda y realizar pedidos.
 ****
 
 === Objetivos de calidad.
 
+[options="header",cols="1,2,2"]
 |===
 |Prioridad|Objetivo|Descripción
-| 1 | Testeabilidad | La aplicación se debe de poder probar usando pruebas unitarias. Tiene que ser lo más importante para garantizar que los demás puntos cumplan correctamente su funcionamiento.
-| 2 | Privacidad | Al ser una aplicación descentralizada, cada usuario tendrá su espacio personal, por lo que sus datos no se verán comprometidos.
-| 3 | Usabilidad | La aplicación tiene que ser intuitiva de cara al usuario, para que no sea una mala experiencia el uso de nuestra tienda. Cosas como hacer pedidos o ver los datos personales debe ser accesible.
+| 1 | Privacidad | Al ser una aplicación descentralizada, cada usuario tendrá su espacio personal, por lo que sus datos no se verán comprometidos.
+| 2 | Usabilidad | La aplicación tiene que ser intuitiva de cara al usuario, para que no sea una mala experiencia el uso de nuestra tienda. Cosas como hacer pedidos o ver los datos personales debe ser accesible.
+| 3 | Testeabilidad | La aplicación se debe de poder probar usando pruebas unitarias. Tiene que ser lo más importante para garantizar que los demás puntos cumplan correctamente su funcionamiento.
 | 4 | Funcionalidad | Ya que la aplicación es una tienda, interesa que los clientes estén satisfechos con las funcionalidades que ofrece, no solo para que ellos sigan usando nuestra tienda sino también que la recomienden a otros posibles clientes.
 | 5 | Rendimiento | Una aplicación de tienda no puede tener muchos tiempos de espera entre las diferentes acciones que ofrece, ya que haría que los usuarios dejen de usarla.
 
@@ -35,6 +36,6 @@ los pods previamente explicados, solo se almacenará información imprescindible
 |===
 |Rol/Nombre|Descripción|Expectativas
 | Equipo de desarrollo | Adrián Fernández Alonso, Álex Caso Díaz, Diego Martínez Menéndez, Diego Villa García y Pedro Zahonero Mangas | Encargados de realizar la aplicación intentando cumplir los requisitos. Es importante la comunicación y el compromiso con el proyecto.
-| Usuarios | Usuarios finales de la aplicación | Usarán nuestra aplicación y poder realizar todas las acciones que se les ha prometido. Además es importante que el funcionamiento de la aplicación sea fluído para que estos usuarios estén contentos.
-| Profesorado | Hugo Lebrado Buján y José Emilio Labra Gallo | Encargados de supervisar el desarrollo de nuesta tienda.
+| Usuarios | Cuaquier usuario al repositorio y testeadores del proyecto utilizados para las pruebas de usabilidad. | Se podrán realizar todos requisitos básicos. Además es importante que el funcionamiento de la aplicación sea fluído para que estos usuarios estén contentos.
+| Profesorado |Pablo González González, José Emilio Labra Gayo, Irene Cid Rico y Hugo Lebrado Bujan y  | Encargados de supervisar el desarrollo de nuesta tienda.
 |===

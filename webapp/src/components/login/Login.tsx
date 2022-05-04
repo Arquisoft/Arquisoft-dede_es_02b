@@ -35,7 +35,7 @@ const Login:React.FC=()=> {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if(!await login({email, contraseña}))
+    if(await login({email, contraseña}))
       setLogueado(email);
     
     if(!logueado)
@@ -68,7 +68,7 @@ const Login:React.FC=()=> {
           <Typography component="h1" variant="h5">
             Inicia sesión
           </Typography>
-          <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+          <Box component="form" name='login' onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
             <TextField
               margin="normal"
               required

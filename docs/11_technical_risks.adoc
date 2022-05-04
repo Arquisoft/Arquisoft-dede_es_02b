@@ -27,16 +27,7 @@
 | Dependencia en Heroku para el despliegue.
 | Una caída de Heroku implicaría que nuestra aplicación dejaría de estar operativa mientras dure dicha caída.
 
-| Conexión con SOLID.
-| En este momento aún no conectamos en ningún momento con SOLID para acceder a los PODS de los usuarios.
 
-| No se pueden realizar pedidos.
-| La funcionalidad de realizar un pedido aún no está operativa.
-
-| La aplicación no carga importes por distancia.
-| Funcionalidad no realizada.
-
-| No se realizan cobros de ningún tipo.
-| La aplicación no tiene implementada dicha funcionalidad.
-
+| No realizar pruebas de gatling
+| No se podrá medir el nivel de "estrés" que puede soportar nuestro proyecto, por lo que no sabremos su tiempo de respuesta ante miles de consultas masivas.
 |===

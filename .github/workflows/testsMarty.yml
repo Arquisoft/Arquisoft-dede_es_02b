@@ -1,0 +1,28 @@
+# This is a basic workflow to help you get started with Actions
+
+name: testing for marty
+
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on push or pull request events but only for the master branch
+  push:
+    branches: [ Marty ]
+
+jobs:
+  e2e-tests:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/setup-node@v2
+      with:
+        node-version: 16
+    - name: Create env file 📝
+      run: |
+        cd restapi
+        touch .env
+        echo MONGO_URI_TEST=${{ secrets.MONGO_URI_TEST }} >> .env
+        cat .env
+    - run: npm --prefix webapp install
+    - run: npm --prefix restapi install
+    - run: npm --prefix webapp run build
+    - run: npm --prefix webapp run test:e2e

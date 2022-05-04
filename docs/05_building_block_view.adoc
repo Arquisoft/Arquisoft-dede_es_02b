@@ -7,12 +7,12 @@
 === Sistema general de caja blanca 
 
 
-image:05_diagrama_general.png["Diagrama general"]
+image:05_diagrama_general.jpg["Diagrama general"]
 
 
 === Nivel 1
 
-image:05_diagrama_nivel_1.png["Diagrama nivel 1"]
+image:05_diagrama_nivel_1.jpg["Diagrama nivel 1"]
 
 Bloques contenidos::
 * Dede: bloque que representa la aplicación.
@@ -29,7 +29,7 @@ Desarrollo de cajas negras del nivel 1:
 
 === Nivel 2
 
-image:05_diagrama_nivel_2.png["Diagrama nivel 2"]
+image:05_diagrama_nivel_2.jpg["Diagrama nivel 2"]
 
 ==== Dede
 ****
@@ -39,17 +39,15 @@ Desarrollo de cajas negras del nivel 2:
 |===
 | **Nombre** | **Responsabilidad**
 | _GUI_ | _Gestionan la comunicación visual con el usuario_
-| _Capa negocio_ | _Trata los datos obtenidos de la GUI_
-| _Persistente_ | _Trata los datos que han de mantenerse en el servidor_
-| _No persistente_ | _Trata los datos que serán utilizados únicamente mientras la sesión esté iniciada_
+| _Capa de Datos_ | _Trata los datos obtenidos de la GUI_
 |===
 ****
 
 === Nivel 3
 
-image:05_diagrama_nivel_3.png["Diagrama nivel 3"]
+image:05_diagrama_nivel_3.jpg["Diagrama nivel 3"]
 
-==== GUI
+==== GUI (Interfaz Gráfica de Usuario)
 ****
 Desarrollo de cajas negras del nivel 3:
 
@@ -57,35 +55,24 @@ Desarrollo de cajas negras del nivel 3:
 |===
 | **Nombre** | **Responsabilidad**
 | _Login_ | _Muestra al usuario una pantalla para que ingrese sus credenciales_
-| _Perfil_ | _Muestra al usuario una pantalla para que observe sus datos personales y poder editarlos_
-| _Cesta_ | _Muestra al usuario una pantalla para que observe los productos que quiere comprar_
-| _Catálogo_ | _Muestra al usuario una pantalla para que observe los productos que se pueden comprar de la tienda_
+| _Perfil_ | _Muestra al usuario una pantalla para poder editar sus datos_
+| _Pedido_ | _Muestra al usuario una pantalla para que observe los productos que quiere comprar y los que ha comprado_
+| _Productos_ | _Muestra al usuario una pantalla para que observe los productos que se pueden comprar de la tienda_
 |===
 
 ****
 
-==== Capa negocio
+==== Capa de Datos
 ****
 Desarrollo de cajas negras del nivel 3:
 
 [cols="1,2" options="header"]
 |===
 | **Nombre** | **Responsabilidad**
-| _Gestor Login_ | _Trata las credenciales introducidas por el usuario_
-| _Gestor Perfil_ | _Trata los datos del usuario para poder ser editados o simplemente observados_
-| _Gestor Cesta_ | _Trata los productos que quiere comprar un usuario durante sesión_
-| _Gestor Catálogo_ | _Trata los productos que están disponibles para ser comprados_
+| _Gestor de usuarios_ | _Trata las datos de los usuarios, y diferencia entre administrador y cliente_
+| _Gestor de pedidos_ | _Trata los pedidos que se han realizado y los que se desean realziar_
+| _Gestor de productos_ | _Trata los productos que están disponibles para ser comprados_
+| _Gestor de direcciones_ | _Trata las direcciones de los usuarios para calcu_
 |===
-
-****
-
-==== Persistente
-****
-Contiene librerías SOLID.
-****
-
-==== No persistente
-****
-Contiene librerías SOLID.
 
 ****

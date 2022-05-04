@@ -1,42 +1,45 @@
 [[section-system-scope-and-context]]
 == Alcance del sistema y contexto
 
-image:3_Diagrama_Contexto_Empresarial.PNG["Diagrama de contexto empresarial"]
-
 === Contexto empresarial
 
-En el centro del diagrama anterior encontramos a DeDe, la cual es nuestra apliación, y podemos dividirla en dos partes,
-WebApp y RestApp.
+image:3_Diagrama_Contexto_Empresarial.jpg["Diagrama de contexto empresarial"]
 
-Además, las listas que aparecen reflejadas en el diagraba, son listas que almacenadas en la bases de datos.
+Gracias an diagrama podemos entender cual es el funcionamiento de la aplicación, pues en el primer plano podemos
+encontrar a DeDe, el alma del proyecto. Es manejada por el usuario y rebibe los datos que se le proporcionan tanto de
+forma directa por el usuario, o a través de su POD. A su vez, DeDe almacena la información en una base de datos, donde
+cuando lo vé necesario, extrairá información.
 
-Los sistemas de peticiones son ejemplos de las posibles situaciones y posibilidades peticiones que puede realizar un
-usuario en la aplicación.
+También se puede ver como la aplicación tiene un flujo de unidireccional con API, pues la aplicación, si es necesario,
+puede realizar peticiones a través de recursos externos.
 
 [options="header"]
 |===
 | Entidad         | Entrada      | Salida
 | Usuario         | El usuario recibirá como entrada el servicio de la aplicación, la comunicación se establecerá con una web adaptable para distintos dispositivos.   |  El usuario proporcionará la mayor parte de la entrada de la aplicación, además de indicar su Pod.
-| Pod del usuario | El pod recibirá información personal del usuario y lo guardará. Esta información le llegará tanto del usuario como de la aplicación | El pod le enviará a la aplicación la información requerida.
-| WebApp          | La WebApp recibirá las peticiones del usuario. | La salida será la visualización al usuario del servicio de la aplicación realizados en la RestApi.
-| RestApi         | La RestApi será la que solicite a las Api la información necesaria para resolver las consultas que se le indiquen. | La API devolverá las consultas y peticiones necesarias para trabajar con ellas y mostrar por WebApp.
-| Base de datos   | La base de datos recibirá los datos que la app necesité tener almacenado. | La base de datos envía la información a la aplicación cuando este lo necesite
+| Pod             | El pod almacena información del usuario. | El pod le enviará a la aplicación la información requerida.
+| DeDe            | Recibe las peticiones del usuario y extrae de la base de datos los recursos para su funcionamiento.  | Porporcionará el servicio al usuario y almacenará el resultado en la base de datos.
+| Base de datos   | La base de datos recibirá los datos que la app necesité tener almacenado. | La base de datos envía la información a la aplicación cuando este lo necesite.
 |===
-
 
 === Contexto técnico
 
+Si queremos profundizar más en el asunto, nos encontramos con el funcionamiento más técnico de DeDe:
+
+image:3_Diagrama_Contexto_Tecnico.jpg["Diagrama de contexto empresarial"]
+
 DeDe es un sistema descentralizado que sigue la arquitectura SOLID, es decir, cada usuario posee de sus propios datos.
-Cada usuario tendrá vinculado un SOLID pod el cual sirve para guarda sus datos personales, los demás datos son guardados en la base de datos.
-El sistema será escrito en TypeScript con React, una biblioteca que facilitará la programación de la interfaz.
+Cada usuario tendrá vinculado un POD de SOLID, el cual sirve para guarda sus datos personales. Los demás datos son
+almacenados en una base de datos en MongoDB.
+
 
 [options="header"]
 |===
 | Interfaz técnica     | Descripción
-| TypeScript           | Lenguaje usado para programar la aplicación tanto el front-end como el back-end.   
+| EasyPost             | API utilizada para añadir opciones de envio a productos.
+| MongoDB              | Base de datos NoSQL orientado a documentos y de código abierto.
 | Solid                | Arquitectura que ayudará a tener un código mas limpio, mantenible y escalable.
-| React                | Librería usada para facilitar la programación.
-| Pod                  | Unidad de almaceniamiento de datos personales bajo la arquitectura Solid
+| TypeScript           | Lenguaje usado para programar la aplicación tanto el front-end como el back-end.
 |===
 
 
