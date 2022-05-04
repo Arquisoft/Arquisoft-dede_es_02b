@@ -41,10 +41,11 @@ export default function Register() {
       esAdmin: false,
       foto: foto
     }
-
-    if (await comprobarDatos(user)) {
-      if (await addUser(user)) {
-        setLogueado(user.email);
+    let datos = await comprobarDatos(user)
+    if (datos) {
+      let log = await addUser(user);
+      if (log) {
+        setLogueado(email);
       }
     }
   };

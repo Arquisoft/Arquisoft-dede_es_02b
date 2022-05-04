@@ -42,7 +42,6 @@ defineFeature(feature, test => {
     });
 
     then('The products page should be shown', async () => {
-      // await expect(page).toMatch('You have been registered in the system!')
       await new Promise((r) => setTimeout(r, 3000));
       await expect(page).toMatch('Productos')
     });
