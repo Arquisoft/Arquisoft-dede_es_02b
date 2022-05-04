@@ -86,6 +86,7 @@ defineFeature(feature, test => {
 
     then('Nos redirige correctamente a la ventana de productos', async () => {
       await new Promise((r) => setTimeout(r, 3000));
+      console.log(await page.url())
       await expect(page).toMatch('Productos')
     });
   })

@@ -144,7 +144,7 @@ const NavBar: React.FC = () => {
     if (logueado && logueado !== "deslogueado") {
       if (!esAdmin) {
         return (<Link to="/carrito">
-          <IconButton aria-label="Carrito" sx={{ p: 0, color: 'white' }}>
+          <IconButton aria-label="Carrito" id="goToCart" sx={{ p: 0, color: 'white' }}>
               <ShoppingCart />
           </IconButton>
         </Link>)

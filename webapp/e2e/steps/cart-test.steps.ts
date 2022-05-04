@@ -15,7 +15,7 @@ defineFeature(feature, test => {
     page = await browser.newPage();
 
     await page
-      .goto("http://localhost:3000/register", {
+      .goto("http://localhost:3000/login", {
         waitUntil: "networkidle0",
       })
       .catch((error) => {console.log(error)});
@@ -25,54 +25,21 @@ defineFeature(feature, test => {
   test('The shopping cart is empty', ({given,when,then}) => {
     jest.setTimeout(100000);
     let email:string;
-    let nombre:string;
-    let apellidos:string;
-    let dni:string;
     let contraseña:string;
 
     given('An empty cart', async() => {
-      email = "alextests@test.com"
-      nombre = "alex"
-      apellidos = "caso"
-      dni = "12345678n"
+      email = "adrian@email.com"
       contraseña = "1234"
       
     });
 
     when('I add some products in the cart', async () => { 
-      let nombreSelector ='[id="nombre"]';
-      let apellidosSelector = '[id="apellidos"]';
-      let dniSelector = '[id="dni"]';
-      let emailSelector = '[id="email"]';
-      let contraseñaSelector = '[id="contraseña"]';
-      let botonSelector = '[id="registrarse"]';
-
-      await page.waitForSelector(nombreSelector);
-      await page.click(nombreSelector);
-      await page.keyboard.type(nombre);
-
-      await page.waitForSelector(apellidosSelector);
-      await page.click(apellidosSelector);
-      await  page.keyboard.type(apellidos);
-
-      await page.waitForSelector(dniSelector);
-      await page.click(dniSelector);
-      await page.keyboard.type(dni);
-
-      await page.waitForSelector(emailSelector);
-      await page.click(emailSelector);
-      await page.keyboard.type(email);
-
-      await page.waitForSelector(contraseñaSelector);
-      await page.click(contraseñaSelector);
-      await page.keyboard.type(contraseña);
-
-      await page.waitForSelector(botonSelector);
-      await page.click(botonSelector);
-
-      await page.evaluate(() => {
-        window.sessionStorage.setItem("usuario",'{"email":"adrian@email.com}')
+      await expect(page).toMatch('Inicia sesión')
+      await expect(page).toFillForm('form[name="login"]', {
+        contraseña: contraseña,
+        email: email,
       })
+      await expect(page).toClick('button', { text: 'Iniciar sesión' })
     });
 
     then('The products should appear in the cart window', async () => {
@@ -80,11 +47,11 @@ defineFeature(feature, test => {
       await new Promise((r) => setTimeout(r, 3000));
       await expect(page).toMatch('Productos')
 
-      await expect(page).toMatch('Pera')
-      await expect(page).toMatch('Sandía')
+      await expect(page).toMatch('manzana reineta')
+      await expect(page).toMatch('mango')
       
       let botonSandiaSelector ='[aria-label="addunit_mango"]';
-      let botonSandiaSelector2 = '[aria-label="addunit_mango"]';
+      let botonSandiaSelector2 = '[aria-label="addtocart_mango"]';
 
       await page.waitForSelector(botonSandiaSelector);
       await page.click(botonSandiaSelector);
@@ -96,12 +63,13 @@ defineFeature(feature, test => {
       await page.click(botonSandiaSelector2);
 
 
-
+      console.log("estamos en el carrito")
       let nombreSelector ='[id="goToCart"]';
       await page.click(nombreSelector);  
-      await new Promise((r) => setTimeout(r, 3000));  
+      await new Promise((r) => setTimeout(r, 3000)); 
+      console.log(await page.url())
       await expect(page).toMatch('Carrito')
-      await expect(page).toMatch('Mango');
+      await expect(page).toMatch('mango');
 
       await expect(page).toMatch('Total: €10')
 
