@@ -11,13 +11,14 @@ Los requisitos se representarán en un diagrama de árbol, __10.1 Árbol de cali
 @startmindmap
 
 * Requisitos de calidad
-** Disponibilidad
-** Interoperabilidad
-** Mantenibilidad
-** Portabilidad
 ** Privacidad
-** Seguridad
 ** Usabilidad
+** Seguridad
+** Disponibilidad
+** Testabilidad
+** Mantenibilidad
+** Interoperabilidad
+** Portabilidad
 
 @endmindmap
 ----
@@ -53,7 +54,7 @@ Los requisitos se representarán en un diagrama de árbol, __10.1 Árbol de cali
 
 |Testabilidad
 |La aplicación debe estar probada correctamente para evitar fallos.
-|Mediante la herramienta codecov mediremos el % de código probado. Este porcentaje debe de ser igual o superior al 85%. 
+|Mediante la herramienta codecov mediremos el % de código probado.
 |Media / Alta
 
 |Mantenibilidad
