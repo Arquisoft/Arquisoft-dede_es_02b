@@ -1,12 +1,56 @@
 [[section-concepts]]
 == Conceptos Transversales
 
+=== Modelo de datos
+En el modelo de datos de nuestra aplicación, al estar usando MongoDB, tenemos 3 colecciones diferentes quue almacenan los elementos con los que interactúa la
+aplicación. Son las siguientes:
+
+==== Pedidos
+Son los pedidos que se realizan en la aplicación. Tiene los siguientes campos
+
+****
+* _id: Identificador único de cada pedido.
+* Dirección: Dirección del cliente que realizar el pedido, que incluye los campos Calle, Localidad, Provincia, País y Código Postal.
+* Lista_Productos: Lista de los productos incluídos en el pedido, mostrando su Id, su cantidad y su precio total.
+* Fecha: Fecha en la que se ha realizado el Pedido.
+* Numero_Pedido: Número de cada pedido.
+* Id_Usuario: Identificador único del cliente que ha realizado el pedido.
+* Precio_Total: Precio Total de cada pedido.
+* Estado: Estado de cada pedido. Puede tomar los valores Entregado, En reparto, Pendiente, Listo para repartir y Cancelado.
+****
+
+==== Productos
+Son los productos que se pueden comprar en la tienda.
+
+****
+* _id: Identificador único de cada producto.
+* Nombre: Nombre del prodcuto.
+* Origen: Lugar de origen del producto.
+* Precio: Precio por unidad del producto.
+* Descripción: Descripción del producto que muestra información sobre este.
+* Foto: Enlace a un repositorio Online donde se almacenan las fotos de cada producto.
+****
+
+==== Usuarios
+Son los usuarios registrados en la página, ya sean administradores o usuarios normales.
+
+****
+* _id: Identificador único de cada usuario.
+* Nombre: Nombre del usuario.
+* Apellidos: Apellidos del usuario.
+* Email: Correo electrónico del usuario.
+* Dni: Dni del usuario registrado en la página.
+* Foto: Url que proporciona un avatar al usuario
+* idSolid: Dirección para acceder al pod del usuario. (Por ejemplo: usuario.solidcommunity.net)
+* Contraseña: Contraseña de acceso del usuario, que se guarda cifrada en la base de datos.
+****
+
 === Modelo de dominio
 
 [plantuml, "DomainModel", png]
 ----
 object Usuario{
-    id : String
+    _id : String
     nombre : String
     apellidos : String
     dni : String
@@ -17,7 +61,7 @@ object Usuario{
 }
 
 object Producto{
-    id : String
+    _id : String
     nombre : String
     origen : String
     descripcion : String
@@ -33,11 +77,11 @@ object Pedido{
 }
 
 object Pedidos{
+    _id : String
     numero_pedido : int
     id_usuario : String
     direccion : Direccion
-    tarjeta : Tarjeta
-    productos: Array[Pedido]
+    Lista_Productos: Array[Pedido]
     fecha: Date
     estado : String
     precio_total : double
@@ -68,18 +112,6 @@ Usuario --> Direccion
 
 
 ----
-
-*Usuario:* Persona que utilizará la aplicación web. Será necesario guardar sus datos, especialmente 
-la dirección a la que realizar los envíos
-
-*Administrador:* Persona que administrará la web, especialmente el manejo y edición de productos de la tienda.
-
-*Producto:* Elemento básico de la tienda, el usuario podrá navegar por todos los productos de a tienda y elegir
-el que más desee.
-
-*Carro:* Los productos que vaya eligiendo el usuario irán añadiéndose a un carro, donde se agruparán para
-proceder al pago de los mismos.
-
 
 === Experiencia de usuario
 
