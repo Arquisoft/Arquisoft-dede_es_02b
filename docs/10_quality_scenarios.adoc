@@ -38,7 +38,7 @@ Los requisitos se representarán en un diagrama de árbol, __10.1 Árbol de cali
 
 |1-USA
 |Usabilidad
-|Realizaremos un cuestionario a distintas personas son capaces de resolver algún uso de la aplicación en concreto. Debemos de tener un 4 sobre 5 o más, y de 11 encuestados 9 no han tenido problemas.
+|Realizaremos un cuestionario a distintas personas son capaces de resolver algún uso de la aplicación en concreto. Debemos de tener un 4 sobre 5 o más.
 |Alta / Alta
 
 |2-USA
