@@ -26,49 +26,73 @@ Los requisitos se representarán en un diagrama de árbol, __10.1 Árbol de cali
 
 [%header, cols=4]
 |===
-
+| ID
 |Requisito de calidad
-|Descripción
 |Escenario de calidad
 |Prioridad
 
+|1-PRI
 |Privacidad
-|Los datos privados de los usuarios deben estar protegidos.
-|Para eso, nuestra aplicación solo usa los datos necesarios, y de forma descentralizada.
+|Los datos privados de los usuarios son exclusivamente de los datos necesarios, y de forma descentralizada.
 |Alta / Alta
 
+|1-USA
 |Usabilidad
-|Los usuarios deben poder navegar a través de nuestra aplicación de una manera fácil.
-|Para asegurar esto realizaremos un cuestionario a distintas personas sobre lo fácil que les ha resultado el uso de la aplicación. Debemos de tener un 4 sobre 5 o más.
+|Realizaremos un cuestionario a distintas personas son capaces de resolver algún uso de la aplicación en concreto. Debemos de tener un 4 sobre 5 o más, y de 11 encuestados 9 no han tenido problemas.
 |Alta / Alta
 
+|2-USA
+|Usabilidad
+|Las personas con daltonismo pueden usar perfectamente la aplicación al usarse tonos blancos y azules.
+|Alta / Alta
+
+|3-USA
+|Usabilidad
+|Los usuarios no tienen porque volver a poner la dirección donde quiere el pedido, con Solid lo hace de forma fácil y rápida.
+|Alta / Alta
+
+|1-SEG
 |Seguridad
-|La aplicación tiene que ser lo más segura posible. 
-|Para ello los datos del usuario no deben ser prestados a un tercero.
+|Los datos del usuario no deben ser prestados a un tercero.
 |Alta / Alta
 
+|2-SEG
+|Seguridad
+|No se trabaja con booleanos para garantizas si un usuario tiene privilegios o no, se usa por tokens.
+|Alta / Alta
+
+|1-DIS
 |Disponibilidad
-|Los usuarios deben poder acceder al sistema cuando lo deseen.
-|La aplicación está desplegada mediante Heroku, lo cuál hace que la aplicación tenga una alta disponibilidad.
+|La aplicación está desplegada mediante Heroku, lo cuál hace que se pueda entrar siempre a la aplicación.
 |Media / Alta
 
+| 1-TES
 |Testabilidad
-|La aplicación debe estar probada correctamente para evitar fallos.
-|Mediante la herramienta codecov mediremos el % de código probado.
+|La aplicación debe estar probada correctamente para evitar fallos, por lo que mediante la herramienta codecov mediremos el % de código probado.
 |Media / Alta
 
+| 1-MAN
 |Mantenibilidad
-|El código de la aplicación debe escribirse de manera que pueda modificarse y reutilizarse fácilmente. Además, es importante que los errores del sistema se puedan solucionar fácilmente.
 |Utilizaremos Sonarcloud para medir la calidad del código y debemos mantener una nota A en todos los apartados.
 |Media / Alta
 
-|Interoperabilidad
-|Nuestro sistema debería poder trabajar con los mismos datos descentralizados de los usuarios que se pueden usar en otras aplicaciones.
-|
+| 2-MAN
+|Mantenibilidad
+|El código de la aplicación debe escribirse de manera que pueda modificarse y reutilizarse fácilmente. Además, es importante que los errores del sistema se puedan solucionar fácilmente.
 |Media / Media
 
+| 1-Int
+|Interoperabilidad
+|Nuestro sistema debería poder trabajar con los mismos datos descentralizados de los usuarios que se pueden usar en otras aplicaciones.
+|Media / Media
+
+| 1-POR
 |Portabilidad
-|La aplicación debe funcionar correctamente independientemente de si se ejecuta en una computadora, teléfono móvil o tableta.
+|Debemos probar la aplicación en los distintos navegadores (Google chrome, Mozilla Firefox y Microsoft Edge) y en los distintos dispositivos.
+|Baja / Baja
+
+|1-POR
+|Portabilidad
 |Debemos probar la aplicación en los distintos navegadores (Google chrome, Mozilla Firefox y Microsoft Edge) y en los distintos dispositivos.
 |Baja / Baja
 
