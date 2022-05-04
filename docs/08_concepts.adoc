@@ -1,7 +1,73 @@
 [[section-concepts]]
 == Conceptos Transversales
 
-=== _Conceptos de dominio_
+=== Modelo de dominio
+
+[plantuml, "DomainModel", png]
+----
+object Usuario{
+    id : String
+    nombre : String
+    apellidos : String
+    dni : String
+    foto : String
+    idSolid : boolean
+    email : String
+    contraseña : String
+}
+
+object Producto{
+    id : String
+    nombre : String
+    origen : String
+    descripcion : String
+    precio : double
+    cantidad : int
+    foto : String
+}
+
+object Pedido{
+    id_producto : String
+    cantidad : int
+    precio : double
+}
+
+object Pedidos{
+    numero_pedido : int
+    id_usuario : String
+    direccion : Direccion
+    tarjeta : Tarjeta
+    productos: Array[Pedido]
+    fecha: Date
+    estado : String
+    precio_total : double
+}
+
+object Tarjeta{
+    numero_tarjeta : String
+    fecha_caducidad : Date
+    numero_seguridad : int
+}
+
+object Direccion{
+    calle : String
+    localidad : String
+    provincia : String
+    pais : String
+    codigo_postal : int
+}
+
+
+Direccion --* Pedidos
+Usuario --> Pedidos
+Usuario --> Tarjeta
+Tarjeta *-- Pedidos
+Pedido *-- Producto
+Pedido *-- Pedidos
+Usuario --> Direccion
+
+
+----
 
 *Usuario:* Persona que utilizará la aplicación web. Será necesario guardar sus datos, especialmente 
 la dirección a la que realizar los envíos
@@ -15,37 +81,30 @@ el que más desee.
 proceder al pago de los mismos.
 
 
-=== _Experiencia de usuario_
+=== Experiencia de usuario
 
 La interfaz de usuario deberá ser intuitiva, limpia y sencilla para facilitar al usuario el uso de la web,
 y que solo se preocupe en buscar los productos que quiera y pagarlos.
 La web estará, en principio, en castellano; ya que la tienda venderá productos dentro de España
 
 
-=== _Seguridad_
+=== Seguridad y consistencia
 
-La seguridad a la hora de almacenar datos privados de usuarios viene dada por el uso de SOLID, que ayuda
-a compartimentarlos y que sean almacenados de forma segura.
-Habrá que estudiar la seguridad de la web, por ejemplo con el uso de https.
+Nuestro programa está hecho de tal que garantiza la protección de los datos personales de los clientes de
+nuestra tienda online. Nos aseguramos de que ningún usuario sin permisos de administrador, pueda conseguir dichos permisos
+con relativa facilidad, siendo identificados los administradores por sus respectivos identificadores privados.
 
-
-=== _Arquitectura y patrones de diseño_
-
-En rprincipio se utilizará un patrón MVC (Modelo Vista Controlador), distinguiendo las capas de negocio
-y lógica de la aplicación; y ayudando especialmente a la hora del desarrollo de la misma.
+Esta seguridad no afecta para nada en la consistencia de la aplicación, los datos no se ven perjudicados en ningún momento.
 
 
-=== _Implementación_
+=== Implementación
 
 La aplicación web deberá ser persistente, guardanto tanto los datos de los productos como los de los
-usuarios para que se pueda acceder a ellos en cualquier momento. Para ello será clave el uso de SOLID.
-Se contará con un control de acceso, los usuarios deberán estar registrados para poder comprar. Toda la 
-parte visual de la web se hará con el framework REACT.
+usuarios para que se pueda acceder a ellos en cualquier momento. Para ello será clave el uso de MondoDB.
 
-=== _Conceptos operacionales_
+Se contará con un control de pedidos por parte de los clientes para poder registrar sus compras. Todas estás compras quedarán
+almacendas en la base de datos, tanto para el cliente que ha realizado su pedido, como para el administrador del sitio web,
+el cual tendrá control absoluto de todos los pedidos que se han solicitado en la aplicación, pudiendo modificar su estado
+en función de como se encuentre el pedido (procesando, enviado, recibido, etc.).
 
-Dos tipos de usuarios conformarán el ecosistema de la aplicación, administradores y usuarios normales
-(clientes). Los administradores podrán gestionar la lista de usuarios, pero especialmente la de productos;
-pudiendo añadir, editar o eliminar productos cuando sea necesario.
-Los clientes no podrán bajo ningún concepto acceder a las funcionalidades de la parte del administrador.
 
