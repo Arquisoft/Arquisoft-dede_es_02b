@@ -10,7 +10,7 @@ import accounting from "accounting";
 import { Product } from '../../shared/shareddtypes';
 import { Alert, Button, Modal, Snackbar, TextField, Fade, Backdrop, TextareaAutosize, Grid } from '@mui/material';
 import { Box } from '@mui/system';
-import { addToCart, editProducto, isAdmin } from '../../api/api';
+import { addToCart, deleteProduct, editProducto, isAdmin } from '../../api/api';
 import { useCallback, useEffect, useState } from "react";
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
@@ -107,7 +107,7 @@ const ProductItem: React.FC<ProductProp> = (productProp: ProductProp) => {
         return (
           <Box sx={{ display: 'flex', flexDirection: "row-reverse", alignItems: 'center' }}>
             <IconButton aria-label='delete-item'>
-              <DeleteIcon />
+              <DeleteIcon onClick={async () => { deleteProduct(productProp.product._id)}}/>
             </IconButton>
             <IconButton aria-label='edit-item' onClick={() => setOpenEdit(true)}><EditIcon /></IconButton>
           </Box>

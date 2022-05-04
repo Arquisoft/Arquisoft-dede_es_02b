@@ -230,6 +230,19 @@ export async function deleteUser(_id: string): Promise<boolean>{
     return false;
 }
 
+export async function deleteProduct(_id: string): Promise<boolean>{
+  const apiEndPoint = process.env.REACT_APP_API_URI || 'http://localhost:5000'
+  let response = await fetch(apiEndPoint + '/product/delete', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ '_id': _id })
+  });
+  if (response.status === 200) {
+    return true;
+  } else
+    return false;
+}
+
 export async function getNextNumberPedido(): Promise<number> {
   const apiEndPoint = process.env.REACT_APP_API_URI || 'http://localhost:5000'
   let response = await fetch(apiEndPoint + '/pedidos/nextNumber');
