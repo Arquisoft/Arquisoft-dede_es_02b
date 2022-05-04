@@ -16,7 +16,7 @@
 [![reuniones](https://img.shields.io/badge/Work%20meeting-Wiki-black?style=flat&logo=Docs.rs)](https://github.com/Arquisoft/dede_es2b/wiki)
 
 <p float="left">
-<img src="https://github.com/Arquisoft/dede_es2b/blob/Marty/docs/images/Portada.PNG?raw=true" >
+<img src="https://github.com/Arquisoft/dede_es2b/blob/Docs/docs/images/PortadaReadme.PNG?raw=true" >
 </p>
 
 Somos un grupo de estudiantes de [Ingeniería Informática del Software](https://ingenieriainformatica.uniovi.es) que ha realizado este sitio web para la 
