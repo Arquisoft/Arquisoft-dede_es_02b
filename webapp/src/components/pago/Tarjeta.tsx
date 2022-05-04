@@ -50,17 +50,13 @@ const Tarjeta: React.FC = () => {
         setFormErrors(validate(formValues));
         setIsSubmit(true);
 
-        let correct = true;
-        let values: (keyof FormPagos)[] = [
-            'numTarjeta', 'fechaTarjeta', 'numSeguridadTarjeta'];
-        values.forEach(element => {
-            if (formErrors[element] !== "")
-                correct = false;
-        });
-
-        if (correct && isSubmit) {
-            console.log("A");
-        }
+        // let correct = true;
+        // let values: (keyof FormPagos)[] = [
+        //     'numTarjeta', 'fechaTarjeta', 'numSeguridadTarjeta'];
+        // values.forEach(element => {
+        //     if (formErrors[element] !== "")
+        //         correct = false;
+        // });
     };
 
     const generarPedido = useCallback(async function (values: FormPagos) {
@@ -131,7 +127,7 @@ const Tarjeta: React.FC = () => {
 
 
     if (generado) {
-        return <PedidoCompletado></PedidoCompletado> //TODO Redirección a checkout
+        return <PedidoCompletado></PedidoCompletado>
     }
 
     const validate = (formValues: FormPagos) => {
@@ -141,23 +137,34 @@ const Tarjeta: React.FC = () => {
         };
 
 
-        if (!formValues.numTarjeta.match(numTarjetaRegex)) {
+        if(!numTarjetaRegex.test(formValues.numTarjeta)){
             errors.numTarjeta = "El número de tarjeta no es válido";
         }
-        if (!formValues.fechaTarjeta.match(fechaTarjetaRegex)) {
+        if(!fechaTarjetaRegex.test(formValues.fechaTarjeta)){
             errors.fechaTarjeta = "La fecha de caducidad de la tarjeta no es válida";
         }
-        if (!formValues.numSeguridadTarjeta.match(numSeguridadTarjetaRegex)) {
-            errors.numSeguridadTarjeta = "El número de seguridad de la tarjeta no es válido";
+        let mesTarjeta: number = Number.parseInt(formValues.fechaTarjeta.split("/")[0]);
+        let añoTarjeta: number = Number.parseInt(formValues.fechaTarjeta.split("/")[1]);
+
+        let diasMes: number[] = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+        let fechaTarjeta: Date = new Date("20"+añoTarjeta+"-"+mesTarjeta+"-"+diasMes[mesTarjeta-1])
+        let fechaActual: Date = new Date();
+      
+        if(!(fechaTarjeta>fechaActual)){
+            errors.fechaTarjeta = "La tarjeta está caducada";
         }
 
-        if (!formValues.numTarjeta) {
+        if(!numSeguridadTarjetaRegex.test(formValues.numSeguridadTarjeta)){
+            errors.numSeguridadTarjeta = "El número de seguridad de la tarjeta no es válido";
+        }
+    
+        if(!formValues.numTarjeta){
             errors.numTarjeta = "Número de tarjeta requerido";
         }
-        if (!formValues.fechaTarjeta) {
+        if(!formValues.fechaTarjeta){
             errors.fechaTarjeta = "Fecha de caducidad de tarjeta requerida";
         }
-        if (!formValues.numSeguridadTarjeta) {
+        if(!formValues.numSeguridadTarjeta){
             errors.numSeguridadTarjeta = "Número de seguridad de tarjeta requerido";
         }
         return errors;

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState} from "react";
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Grid from '@mui/material/Grid';
@@ -10,7 +10,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Error403 from '../error/Error403';
 import { FormPagos, SolidDireccion} from '../../shared/shareddtypes';
 import './PopUpSolid.css';
-import { getAddressesFromPod } from '../../api/api';
+import {getAddressesFromPod } from '../../api/api';
 import ResumenPedido from '../pedidos/ResumenPedido';
 import { isAdmin } from '../../api/api';
 
@@ -32,15 +32,17 @@ export function getDireccionPedido():FormPagos{
 }
 
 function Pago(): JSX.Element {
-  const numTarjetaRegex = /^([0-9]{4}){1}( [0-9]{4}){3}$/
-  const fechaTarjetaRegex = /^(0[1-9]|1[0-2])\/([0-9]{4}|[0-9]{2})$/
-  const numSeguridadTarjetaRegex = /^[0-9]{3}$/
+  // const numTarjetaRegex = /^([0-9]{4}){1}( [0-9]{4}){3}$/
+  // const fechaTarjetaRegex = /^(0[1-9]|1[0-2])\/([0-9]{4}|[0-9]{2})$/
+  // const numSeguridadTarjetaRegex = /^[0-9]{3}$/
 
   const initialValues: FormPagos = {calle: "", localidad: "", provincia: "", pais: "", codigo_postal: "", 
                                     numTarjeta: "", fechaTarjeta: "", numSeguridadTarjeta: ""};
+  const erroresIniciales =  {calle: "", localidad: "", provincia: "", pais: "", codigo_postal: "", 
+  numTarjeta: "", fechaTarjeta: "", numSeguridadTarjeta: ""};
 
   const [formValues, setFormValues] = useState(initialValues);
-  const [formErrors, setFormErrors] = useState(initialValues);
+  const [formErrors, setFormErrors] = useState(erroresIniciales);
 
   const[buttonPopup, setButtonPopup] = useState(false);
   const[solidDirecciones, setSolidDirecciones] = useState<SolidDireccion[]>();
@@ -48,7 +50,7 @@ function Pago(): JSX.Element {
   const direccionInicialSolid = {calle: "", localidad: "", provincia: "", pais: "", codigo_postal: ""};
   const[, setDireccionSeleccionada] = useState<SolidDireccion>(direccionInicialSolid);
 
-  const [isSubmit] = useState(false);
+  const [isSubmit,] = useState(false);
 
   const [generado, setGenerado] = useState(false);
   const [esAdmin, setEsAdmin] = useState(false);
@@ -58,13 +60,16 @@ function Pago(): JSX.Element {
     setFormValues({...formValues, [name]: value});
   };
 
-  const actualizarEsAdmin = useCallback(async () => {
+  const actualizarEsAdmin = useCallback(async () => { 
     setEsAdmin(await isAdmin(JSON.parse(sessionStorage.getItem("usuario")!).email))
   }, []);
 
   useEffect(() => {
     actualizarEsAdmin()
   }, [esAdmin, actualizarEsAdmin])
+
+  if(sessionStorage.length < 2)
+    return <Error403></Error403>
 
   if (!sessionStorage.getItem("usuario"))
     return <Error403></Error403>
@@ -116,66 +121,56 @@ function Pago(): JSX.Element {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setFormErrors(validate(formValues));
-
-    setGenerado(true)
     
     let correct = true;
     let values: (keyof FormPagos)[] = ['calle', 'localidad', 'provincia', 'pais', 'codigo_postal',
-                                        'numTarjeta', 'fechaTarjeta', 'numSeguridadTarjeta'];
-           
-    let address = {street1: formValues.calle, city: formValues.localidad, state: formValues.provincia, 
-                  country: formValues.pais, zipcode: formValues.codigo_postal};  
-    sessionStorage.setItem('address', JSON.stringify(address));
-    
+                                        'numTarjeta', 'fechaTarjeta', 'numSeguridadTarjeta'];                          
     values.forEach(element => {
-      if(formErrors[element]!=="")
+      if(formErrors[element].toString().length!==0)
         correct=false;
     });
+    console.log(correct)
 
+    if(correct){
+      setGenerado(true)
+      let address = {street1: formValues.calle, city: formValues.localidad, state: formValues.provincia, 
+                    country: formValues.pais, zipcode: formValues.codigo_postal};  
+      sessionStorage.setItem('address', JSON.stringify(address));
+    }
+    
     if(correct && isSubmit){
       console.log(sessionStorage);
     }
   };
 
   const validate = (formValues: FormPagos) => {
-    const errors = {calle: "", localidad: "", provincia: "", pais: "", codigo_postal: "",
-                      numTarjeta: "", fechaTarjeta: "", numSeguridadTarjeta: ""};
+    const errors = formErrors;
 
-    if(!formValues.calle){
+    if(!formValues.calle)
       errors.calle = "Calle requerida";
-    }
-    if(!formValues.localidad){
+    else
+      errors.calle = "";
+
+    if(!formValues.localidad)
       errors.localidad = "Localidad requerida";
-    }
-    if(!formValues.provincia){
+    else
+      errors.localidad = "";
+
+    if(!formValues.provincia)
       errors.provincia = "Provincia requerida";
-    }
-    if(!formValues.pais){
+    else
+      errors.provincia = "";
+
+    if(!formValues.pais)
       errors.pais = "País requerido";
-    }
-    if(!formValues.codigo_postal){
+    else
+      errors.pais = "";
+
+    if(!formValues.codigo_postal)
       errors.codigo_postal = "Código postal requerido";
-    }
+    else
+      errors.codigo_postal = "";
 
-    if(!formValues.numTarjeta.match(numTarjetaRegex)){
-      errors.numTarjeta = "El número de tarjeta no es válido";
-    }
-    if(!formValues.fechaTarjeta.match(fechaTarjetaRegex)){
-      errors.fechaTarjeta = "La fecha de caducidad de la tarjeta no es válida";
-    }
-      if(!formValues.numSeguridadTarjeta.match(numSeguridadTarjetaRegex)){
-      errors.numSeguridadTarjeta = "El número de seguridad de la tarjeta no es válido";
-    }
-
-    if(!formValues.numTarjeta){
-      errors.numTarjeta = "Número de tarjeta requerido";
-    }
-    if(!formValues.fechaTarjeta){
-      errors.fechaTarjeta = "Fecha de caducidad de tarjeta requerida";
-    }
-    if(!formValues.numSeguridadTarjeta){
-      errors.numSeguridadTarjeta = "Número de seguridad de tarjeta requerido";
-    }
     return errors;
   }
   

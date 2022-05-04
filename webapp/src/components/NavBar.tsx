@@ -12,7 +12,7 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import { ShoppingCart } from '@mui/icons-material';
-import { Avatar, Badge } from '@mui/material';
+import { Avatar } from '@mui/material';
 import { Navigate, Link } from 'react-router-dom';
 import logo from "./logo.png"
 import { isAdmin } from '../api/api';
@@ -23,12 +23,12 @@ export function setTestAdmin(admin:boolean){
       isAdminTest=admin;
 }
 
+
 const NavBar: React.FC = () => {
   const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
   const [logueado, setLogueado] = useState(sessionStorage.getItem("usuario"));
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
   const [esAdmin, setEsAdmin] = useState(isAdminTest);
-  const [c, setC] = useState(0);
  
   const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElUser(event.currentTarget);
@@ -46,20 +46,6 @@ const NavBar: React.FC = () => {
     setAnchorElNav(null);
   };
 
-  function actualizarC(){
-    let a = 0;
-    for (let i: number = 0; i < sessionStorage.length - 1; i++) {
-      let key: string = sessionStorage.key(i)!;
-      if(key.includes("prod")){
-          a++
-      }
-    }
-    setC(a);
-  }
-
-  useEffect(() => {
-    actualizarC()
-  },[])
 
   const actualizarEsAdmin = useCallback(async () => {
     setEsAdmin(await isAdmin(JSON.parse(sessionStorage.getItem("usuario")!).email))
@@ -158,10 +144,8 @@ const NavBar: React.FC = () => {
     if (logueado && logueado !== "deslogueado") {
       if (!esAdmin) {
         return (<Link to="/carrito">
-          <IconButton aria-label="Carrito" sx={{ p: 0, color: 'white' }}>
-            <Badge badgeContent={c} color="secondary">
+          <IconButton aria-label="Carrito" id="goToCart" sx={{ p: 0, color: 'white' }}>
               <ShoppingCart />
-            </Badge>
           </IconButton>
         </Link>)
       }

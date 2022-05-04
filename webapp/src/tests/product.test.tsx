@@ -28,11 +28,11 @@ test('Productos de usuarios', () => {
     expect(Element).toBeInTheDocument();
     Element = screen.getByText(accounting.formatMoney(producto.precio, "€"));
     expect(Element).toBeInTheDocument();
-    Element = screen.getByLabelText(/restar-item/);
+    Element = screen.getByTestId(/addunit_manzana reineta/);
     expect(Element).toBeInTheDocument();
-    Element = screen.getByLabelText(/sumar-item/);
+    Element = screen.getByLabelText(/addtocart_manzana reineta/);
     expect(Element).toBeInTheDocument();
-    Element = screen.getByLabelText(/add-item/);
+    Element = screen.getByLabelText(/removeUnit_manzana reineta/);
     expect(Element).toBeInTheDocument();
     Element = screen.getByText(/Cantidad:/);
     expect(Element).toBeInTheDocument();

@@ -20,26 +20,32 @@ export default function Register() {
 
   const [logueado, setLogueado] = useState("");
   const [errorMessage, setErrorMessage] = useState('');
+  const [nombre, setNombre] = useState("");
+  const [apellidos, setApellidos] = useState("");
+  const [idSolid, setIdSolid] = useState("");
+  const [contraseña, setContraseña] = useState("");
+  const [dni, setDni] = useState("");
+  const [foto, setFoto] = useState("");
+  const [email, setEmail] = useState("");
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-
     const user: User = {
       _id: "",
-      nombre: data.get('nombre') as string,
-      apellidos: data.get('apellidos') as string,
-      idSolid: data.get('idSolid') as string,
-      dni: data.get('dni') as string,
-      email: data.get('email') as string,
-      contraseña: data.get('contraseña') as string,
+      nombre: nombre,
+      apellidos: apellidos,
+      idSolid: idSolid,
+      dni: dni,
+      email: email,
+      contraseña: contraseña,
       esAdmin: false,
-      foto: data.get('foto') as string
+      foto: foto
     }
-
-    if (await comprobarDatos(user)) {
-      if (await addUser(user)) {
-        setLogueado(user.email);
+    let datos = await comprobarDatos(user)
+    if (datos) {
+      let log = await addUser(user);
+      if (log) {
+        setLogueado(email);
       }
     }
   };
@@ -115,10 +121,10 @@ export default function Register() {
           <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
             <LockOutlinedIcon />
           </Avatar>
-          <Typography component="h1" variant="h5">
+          <Typography component="h1" variant="h5" data-testid="h1Register">
             Registrarse
           </Typography>
-          <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+          <Box component="form" name='registro' onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
             <TextField
               margin="normal"
               required
@@ -127,6 +133,7 @@ export default function Register() {
               label="Nombre"
               name="nombre"
               autoFocus
+              onChange={(e: any) => setNombre(e.target.value)}
             />
             <TextField
               margin="normal"
@@ -136,6 +143,7 @@ export default function Register() {
               label="Apellidos"
               name="apellidos"
               autoFocus
+              onChange={(e: any) => setApellidos(e.target.value)}
             />
             <TextField
               margin="normal"
@@ -145,6 +153,7 @@ export default function Register() {
               label="DNI"
               name="dni"
               autoFocus
+              onChange={(e: any) => setDni(e.target.value)}
             />
             <TextField
               margin="normal"
@@ -153,6 +162,7 @@ export default function Register() {
               label="Solid WebId"
               name="idSolid"
               autoFocus
+              onChange={(e: any) => setIdSolid(e.target.value)}
             />
             <TextField
               margin="normal"
@@ -161,6 +171,7 @@ export default function Register() {
               label="Foto"
               id="foto"
               autoComplete="foto"
+              onChange={(e: any) => setFoto(e.target.value)}
             />
             <TextField
               margin="normal"
@@ -171,6 +182,7 @@ export default function Register() {
               name="email"
               autoComplete="email"
               autoFocus
+              onChange={(e: any) => setEmail(e.target.value)}
             />
             <TextField
               margin="normal"
@@ -181,6 +193,7 @@ export default function Register() {
               type="password"
               id="contraseña"
               autoComplete="current-contraseña"
+              onChange={(e: any) => setContraseña(e.target.value)}
             />
             {errorMessage && (
               <p className="error"> {errorMessage} </p>
@@ -191,10 +204,11 @@ export default function Register() {
               variant="contained"
               id="registrarse"
               sx={{ mt: 3, mb: 2 }}
+              data-testid="registrarse"
             >
-              Completar registro
+              Registrarse
             </Button>
-            <Grid container>
+            <Grid container sx={{display:'flex', flexDirection:'column', alignContent:'center'}}>
               <Grid item>
                 <Link to={"/login"}>
                   <Typography key="login" sx={{ my: 1, color: 'blue', textAlign: "center", display: 'block' }}>
@@ -202,6 +216,7 @@ export default function Register() {
                   </Typography>
                 </Link>
               </Grid>
+              <a href='https://solidcommunity.net/register'>¿No tienes cuenta en SOLID?</a>
             </Grid>
           </Box>
         </Box>

@@ -13,14 +13,11 @@ defineFeature(feature, test => {
       ? await puppeteer.launch()
       : await puppeteer.launch({ headless: true, slowMo:150 });
     page = await browser.newPage();
-
     await page
       .goto("http://localhost:3000/register", {
         waitUntil: "networkidle0",
       })
       .catch((error) => {console.log(error)});
-
-      jest.setTimeout(10000);
   });
 
   test('El usuario no esta registrado', ({given,when,then}) => {
@@ -39,39 +36,20 @@ defineFeature(feature, test => {
     });
 
     when('Rellenamos el formulario de registro', async () => {
-      let nombreSelector ='[id="nombre"]';
-      let apellidosSelector = '[id="apellidos"]';
-      let dniSelector = '[id="dni"]';
-      let emailSelector = '[id="email"]';
-      let contraseñaSelector = '[id="contraseña"]';
-      let botonSelector = '[id="registrarse"]';
+      await expect(page).toMatch('Registrarse')
 
-      await page.waitForSelector(nombreSelector);
-      await page.click(nombreSelector);
-      await page.keyboard.type(nombre);
-
-      await page.waitForSelector(apellidosSelector);
-      await page.click(apellidosSelector);
-      await page.keyboard.type(apellidos);
-
-      await page.waitForSelector(dniSelector);
-      await page.click(dniSelector);
-      await page.keyboard.type(dni);
-
-      await page.waitForSelector(emailSelector);
-      await page.click(emailSelector);
-      await page.keyboard.type(email);
-
-      await page.waitForSelector(contraseñaSelector);
-      await page.click(contraseñaSelector);
-      await page.keyboard.type(contraseña);
-
-      await page.waitForSelector(botonSelector);
-      await page.click(botonSelector);
+      await expect(page).toFillForm('form[name="registro"]', {
+        nombre: nombre,
+        email: email,
+        contraseña:contraseña,
+        dni:dni,
+        apellidos:apellidos
+      })
+      await expect(page).toClick('button', { text: 'Registrarse'  })
     });
 
     then('Nos redirige correctamente a la ventana de productos', async () => {
-      await expect(page).toMatch('Productos')
+      await new Promise((r) => setTimeout(r, 3000));
     });
   })
 
@@ -81,4 +59,3 @@ defineFeature(feature, test => {
   })
 
 });
-
