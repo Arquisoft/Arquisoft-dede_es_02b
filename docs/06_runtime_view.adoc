@@ -58,7 +58,7 @@ alt El usuario existe
     end
 else El usuario no existe
     POD --> DeDe: No vuelve nada
-    DeDe --> Usuario: Sesión iniciada como administrador
+    DeDe --> Usuario: Sesión no iniciada, avisa al usuario
 end
 ----
 
