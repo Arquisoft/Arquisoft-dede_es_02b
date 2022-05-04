@@ -1,11 +1,12 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
-import AñadirProducto from '../components/product/AñadirProducto';
+import AñadirProducto, { setTestAdminAñadirProducto } from '../components/product/AñadirProducto';
 
 test('Añadir Productos', () => {
     let email = "pedro@email.com";
     sessionStorage.setItem("usuario", JSON.stringify({ email: email, esAdmin: true, webId: "" }));
+    setTestAdminAñadirProducto(true);
     render(<MemoryRouter><AñadirProducto/></MemoryRouter>);
     let text = screen.getByText(/Añadir Producto/);
     expect(text).toBeInTheDocument();

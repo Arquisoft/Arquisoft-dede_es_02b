@@ -8,9 +8,15 @@ import { Product } from '../../shared/shareddtypes';
 import Error403 from '../error/Error403';
 
 
+let isAdminTest:boolean=false;
+
+export function setTestAdminAñadirProducto(admin:boolean){
+      isAdminTest=admin;
+}
+
 const AñadirProducto: React.FC = () => {
     const [añadido, setAñadido] = useState<Boolean>(false);
-    const [esAdmin, setEsAdmin] = useState(false);
+    const [esAdmin, setEsAdmin] = useState(isAdminTest);
 
     
 
