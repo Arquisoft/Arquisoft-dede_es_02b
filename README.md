@@ -47,4 +47,4 @@ No ha sido un camino sencillo, pero esperemos que haya merecido el esfuerzo la p
 - [Acceso a la aplicación desplegada](https://dede2b-webapp.herokuapp.com/)
 - [Documentación del proyecto](https://arquisoft.github.io/dede_es2b/) 
 - [Cuestionario de Usabilidad](https://forms.office.com/r/TNV3Fd3kG6) 
-- [Presentación del proyecto]()
+- [Presentación del proyecto](https://acortar.link/DeDe_es2b)
