@@ -69,9 +69,9 @@ Desarrollo de cajas negras del nivel 3:
 [cols="1,2" options="header"]
 |===
 | **Nombre** | **Responsabilidad**
-| _Gestor de usuarios | _Trata las datos de los usuarios, y diferencia entre administrador y cliente_
-| _Gestor de pedidos | _Trata los pedidos que se han realizado y los que se desean realziar_
-| _Gestor de productos | _Trata los productos que están disponibles para ser comprados_
+| _Gestor de usuarios_ | _Trata las datos de los usuarios, y diferencia entre administrador y cliente_
+| _Gestor de pedidos_ | _Trata los pedidos que se han realizado y los que se desean realziar_
+| _Gestor de productos_ | _Trata los productos que están disponibles para ser comprados_
 | _Gestor de direcciones_ | _Trata las direcciones de los usuarios para calcu_
 |===
 
